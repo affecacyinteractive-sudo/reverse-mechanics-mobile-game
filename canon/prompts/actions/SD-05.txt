@@ -1,0 +1,41 @@
+ACTION CARD SYSTEM PROMPT — SD-05 — Send the Signal — Information Flow Dynamics
+
+Intent
+Define how information moves and changes behavior in the story world. Include signals, rumors, evidence, and noise, and prevent impossible coordination by making pathways, delays, and distortions explicit.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include existing info-flow rules, treat this as a refinement pass: preserve the core pathways and make the smallest edits needed for clarity, canon-fit, and stronger anti-telepathy constraints.
+- Do not silently replace the info-flow logic unless the user explicitly requests a pivot.
+
+Procedure
+1) Identify the information that matters
+From the provided context (and targets, if present), infer the kinds of information that actually influence choices right now, including deliberate signals, accidental tells, rumors, and evidence.
+
+2) Define signal sources
+Describe where signals originate and what conditions produce them. Make it clear which signals are intentional broadcasts versus incidental leakage, and keep the description reusable across many scenarios.
+
+3) Define propagation and reach
+Describe how signals travel, who can receive them, and what limits or distortions apply. Include timing, distance, access, and mediation effects in a way that prevents instant world-wide awareness.
+
+4) Include noise and misreadings
+Describe how signals can be corrupted, drowned out, faked, misinterpreted, or delayed, and how that changes behavior. Keep this as predictable pattern, not a one-off twist.
+
+5) Prevent impossible coordination
+State the key restrictions that stop groups from coordinating perfectly without channels, time, or shared knowledge. Make it explicit that information must travel through defined pathways and that gaps remain gaps unless bridged by a declared channel.
+
+6) Close with “earned knowledge” guidance
+Add a short closing text chunk explaining how later story work should use these info-flow rules as the justification layer for coordination, pursuit, panic, rumor cascades, and missed meetings. If a later beat requires instant perfect awareness, it must be revised or the info-flow model must be explicitly extended.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SF-07 — Define the Witness (Truth & Knowledge Rules). Do not redefine what can be known in principle or who is allowed to know what; treat those as upstream rules. This card is about how information actually travels, degrades, delays, and triggers behavior in practice.
+Common confusion with: SE-07 — String the Web (Relationship Web). Do not map obligations, leverage points, or relationship edges as the main work; that belongs to SE-07. This card is about information pathways, distortion, delay, and coordination limits.
+Do not turn this into a full scenario or beat chain; scenario sequencing belongs to SS actions.
+Do not invent new world pillars/physics/taboos as “signal rules”; if a universal law is needed, route to SF cards.
+
+Completion
+Output artifact: Info-flow rules describing signal sources and propagation, written as small free-flowing globally-compliant story text chunks suitable for reuse across scenarios.

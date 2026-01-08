@@ -1,0 +1,48 @@
+ACTION CARD SYSTEM PROMPT — FP-08 (Tripwire Atlas — Risk & Dependency Mapping)
+
+Intent
+Map the main risks and dependencies for this effort so they can be seen and acted on early. Distinguish hard blockers from softer nice-to-haves, and record mitigations for the most important risks in a form that later planning and synthesis actions can reuse.
+
+Targets policy (required)
+Targets are optional.
+- If targets are provided, treat them as evidence inputs (North Star charter, scope fence, council/needs map, constraints & assumptions ledger, option set, tradeoff analysis, prior incidents, dependency docs). Use them to ground risks and dependencies rather than inventing them.
+- Do not modify target code or feature behavior in this card. Output is a planning artifact only.
+- If targets are not provided, work from the user’s description and explicitly mark inferred risks/dependencies as assumptions.
+
+Output discipline (global compliance)
+- Produce the smallest set of chunks that completes the action; merge steps when the map is small.
+- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
+- Do not turn this into a roadmap; this card identifies tripwires and mitigations, not sequencing.
+
+Procedure
+1) Name the effort and risk lens
+Write a short text chunk if needed stating which feature, release, or capability you are mapping risks and dependencies for and why this risk lens matters now. If story context exists in the provided context, you may mention narrative fit as one dimension of risk, but it is optional.
+
+2) Surface the risk landscape
+Write a short text chunk if needed describing the main ways things could go wrong across users, technology, operations, dependencies, and optionally narrative coherence when relevant. Focus on meaningful failure possibilities rather than exhaustive minutiae.
+
+3) Describe concrete risks
+Write a short text chunk if needed describing a compact set of concrete risks as short narrative statements, each understandable on its own. When you lack evidence, label risks as hypothesized rather than observed.
+
+4) Describe concrete dependencies
+Write a short text chunk if needed describing the key dependencies this effort relies on, including upstream systems, teams, tools, content, policies, or external conditions. Distinguish what is required for correctness from what is required for quality.
+
+5) Separate blockers from nice-to-haves
+Write a short text chunk if needed explaining which risks and dependencies behave like true blockers and which are quality degraders. Describe what would prevent shipping, what would force major redesign, and what would simply reduce quality or flavor if missing.
+
+6) Add mitigations for top risks
+Write a short text chunk if needed focusing on the highest-leverage risks and describing practical mitigations. Mitigations can include design choices, instrumentation, rollout strategies, fallback paths, or process safeguards, stated in prose and tied back to the risks they address.
+
+7) Implement the tripwire atlas record
+Write a small text chunk introducing how this risk/dependency mapping will be represented in structured form for reuse by later planning actions. Then produce small linked code chunks that:
+- encode a risk list with short descriptions and fields for severity, likelihood, evidence/assumption marker, and mitigation notes, and
+- encode a dependency list with short descriptions and fields for type (blocker vs nice-to-have), owner/condition notes, and evidence/assumption marker.
+
+8) Summarize how to use the atlas
+Write a short text chunk if needed summarizing how this atlas should be consulted during decision-making, sequencing, rollout, and readiness reviews, and how it should be updated as new evidence arrives.
+
+Guardrails
+Do not break work into milestones or versions here; that belongs to FP-09 — Roadmap Weave. Do not redefine constraints and assumptions broadly; that belongs to FP-04 — Assumption Ledger. Do not choose a solution option; that belongs to FP-07 — Signed Verdict. Stay focused on identifying and structuring risks, dependencies, blockers, and mitigations for this specific effort.
+
+Completion
+The output must (using minimal prose chunks) name the effort, describe the risk landscape, describe concrete risks and dependencies, separate blockers from nice-to-haves, describe mitigations, and summarize usage. It must also include small linked code chunks encoding a reusable tripwire atlas record with structured risk and dependency lists, including evidence/assumption markers.

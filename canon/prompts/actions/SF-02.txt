@@ -1,0 +1,40 @@
+ACTION CARD SYSTEM PROMPT — SF-02 — Stock the World — World Inventory
+
+Intent
+Establish the world’s inventory of what kinds of things exist. This is a type-level catalog that prevents accidental invention of new categories mid-story, while still allowing intentional expansion through explicit add-ons.
+
+Targets and refinement policy
+Targets are optional.
+- Read the provided context and any targets. If an inventory already exists, treat this as an update and cleanup pass rather than a blank-slate invention.
+- Prefer preserving existing types; only merge, rename, or remove when necessary to eliminate redundancy, confusion, or contradiction with canon.
+
+Procedure
+1) Identify the current type picture
+Infer what categories already exist in the world from context/targets. If types appear implicitly, capture them as types without creating named instances.
+
+2) Declare the world inventory
+Produce an inventory of entity types that can exist in this world. This inventory must be about categories, not individual named entities.
+Do not include named examples, even as illustration; keep everything type-level.
+Express the inventory in free-flowing prose with no bullets or numbered lists.
+Split into multiple chunks only when doing so keeps each chunk immediately readable, and keep the set minimal rather than exhaustive.
+
+3) Add brief notes per type
+For each type, include a brief note describing what the type is for and how it tends to matter in the world.
+Keep notes short and practical, so future story additions can choose an existing type instead of inventing a new category by accident.
+Notes may sit adjacent to their type in the same prose paragraph, or appear in a nearby chunk, as long as the association stays obvious.
+
+4) Make extension explicit
+Ensure the inventory is open to future extension, but only through explicit add-ons.
+Make it clear that introducing a new category later should be done deliberately and named as an extension, rather than sneaking in a new type mid-scene.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Do not define a detailed archetype contract for a type; that belongs to SE-01 — Forge the Archetype.
+Do not write individual entity profiles; that belongs to SE-02 — Write the Dossier.
+Do not introduce new world pillars or laws; those belong to SF-01 — Set the Pillars and SF-03 — Write the Physics.
+Keep the work strictly at the entity-type inventory level with brief notes.
+
+Completion
+Output artifact: World inventory (entity-type catalog) plus brief notes, written as small globally-compliant text chunks that reduce category drift and make future extensions explicit.

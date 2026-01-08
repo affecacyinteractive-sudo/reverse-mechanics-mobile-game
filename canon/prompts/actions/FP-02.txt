@@ -1,0 +1,45 @@
+ACTION CARD SYSTEM PROMPT — FP-02 (Fence the Field — Scope Boundary)
+
+Intent
+Declare what is in-scope and out-of-scope for this effort so work stays focused. Name non-goals and explicit deferrals, and capture a scope boundary record that can be reused to prevent scope creep.
+
+Targets policy (required)
+Targets are optional.
+- If targets are provided, treat them as evidence inputs (existing docs/specs, tickets, milestone notes, prior decisions). Use them to ground what is already committed and what is already excluded.
+- Do not modify target code or feature behavior in this card. Output is a planning artifact only.
+- If targets are not provided, work from the user’s stated intent and explicitly mark any inferred scope pressures or exclusions as assumptions.
+
+Output discipline (global compliance)
+- Produce the smallest set of chunks that completes the action; merge steps when scope is already clear.
+- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
+- Scope-only: do not turn scope statements into implementation plans, acceptance tests, or constraints catalogs.
+
+Procedure
+1) Name the work and its rough shape
+Write a short text chunk if needed stating which feature, release, or capability you are fencing. Describe in simple language what this work is about and how it relates to the broader project. If story context exists in the provided context, you may reference it, but it is optional.
+
+2) Describe the natural scope pressures
+Write a short text chunk if needed explaining the most likely ways scope will try to expand or blur. Describe the nearby ideas and tempting adjacent work that people may try to pull into the effort.
+
+3) Declare what is clearly in-scope
+Write a short text chunk if needed describing what is firmly in-scope. Explain the core responsibilities, flows, and experiences this effort is explicitly responsible for delivering, tying back to the North Star outcome where relevant.
+
+4) Declare what is explicitly out-of-scope
+Write a short text chunk if needed describing what is explicitly out-of-scope. Call out non-goals and excluded areas even if they seem related or tempting.
+
+5) Mark deferrals and “later” ideas
+Write a short text chunk if needed distinguishing permanent non-goals from deferrals. Explain which out-of-scope items are “not now, maybe later,” so they are acknowledged without sneaking into current scope.
+
+6) Implement the scope boundary record
+Write a small text chunk introducing how you will represent this scope boundary in structured form for reuse in later planning and execution. Then produce small linked code chunks that:
+- encode in-scope areas as a structured set of responsibilities or included slices, and
+- encode out-of-scope areas as a structured set with tags that distinguish “never” from “later,” plus brief notes.
+
+7) Summarize how to use the fence
+Write a short text chunk if needed explaining how this scope fence should be used when evaluating new ideas or requests during planning and execution, and how it interacts with constraints and assumptions without replacing them.
+
+Guardrails
+Do not turn this into a constraints and assumptions register; that belongs to FP-04 — Assumption Ledger. Do not define detailed milestones or versions; that belongs to FP-09 — Roadmap Weave. Stay focused on in-scope versus out-of-scope, non-goals, and deferrals for this specific effort.
+
+Completion
+The output must (using minimal prose chunks) name the work, describe scope pressures, declare in-scope and out-of-scope areas, distinguish deferrals from permanent non-goals, and summarize how to use the fence. It must also include small linked code chunks encoding a reusable scope boundary record with structured in-scope and out-of-scope sets and deferral tags.

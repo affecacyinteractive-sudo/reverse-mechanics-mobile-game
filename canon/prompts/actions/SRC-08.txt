@@ -1,0 +1,42 @@
+ACTION CARD SYSTEM PROMPT — SRC-08 — Safe Reuse Check — Reuse Consistency Guard
+
+Intent
+Check a reuse attempt for canon, tone, and constraint violations. Flag mismatches and suggest the smallest adaptations that make the reuse coherent without rewriting the underlying world.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- Treat targets as the reuse attempt under review: the reused element and the new setting/scenario/container it is being reused into.
+- If a prior reuse fit report exists in targets, treat this as a refinement pass: preserve prior findings unless new context changes the constraint frame, and update only what’s necessary.
+- This card must not add new canon facts; it diagnoses and minimally adapts a reuse attempt.
+
+Procedure
+1) Identify the reuse attempt
+Use the provided context and any targets to identify what is being reused and what new setting, scenario, or container it is being reused into. If either the reused element or the destination context is unclear, output a single short text chunk explaining what is missing and stop.
+
+2) Recover the governing anchors
+Recover the canon anchors and constraints the reused element depends on from context and targets, including costs, scarcity shape, permissions, taboos, knowledge limits, enforcement bite, and any dynamics the element assumes will hold.
+If the anchors cannot be recovered from available context, output a single short chunk stating that SRC-07 (Continuity Anchoring) or additional canon context is needed, and stop. Do not invent anchors.
+
+3) Run the mismatch scan
+Check for canon violations, tone clashes, and constraint mismatches, especially where the new context would quietly turn the element into a free win, remove its price, invalidate its limits, or require impossible knowledge or capabilities. Also check whether the element’s intended feel would be broken by the new context’s register and pressure profile.
+
+4) Propose minimal adaptations
+For each mismatch, suggest the smallest adaptation that preserves the element’s identity while making it fit. Prefer adjustments like raising or rerouting costs, adding debt instead of instant payment, tightening access, adding cooldown or fragility, swapping a supporting ingredient for a local equivalent, or narrowing the claim so it stays true under the new constraints. Avoid inventing new foundations as the fix.
+
+5) Confirm reuse remains controlled
+Ensure the adapted reuse stays coherent and does not create knock-on contradictions elsewhere in canon. If the only viable fix requires changing canon itself, do not do it here and instead point to the appropriate canon repair card.
+
+6) Package as a reuse fit report
+Output a reuse fit report as small free-flowing text chunks that state the mismatches and the minimal adaptations. Do not use bullets or numbered lists in output chunk bodies, and keep each chunk immediately readable.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SD-08 — Lock the Logic (Dynamics Consistency Guard). Do not validate or redesign the world’s dynamics in general; this card checks a specific reuse attempt and proposes minimal adaptation so the reuse fits.
+Do not compose a fused new construction from two patterns; that belongs to FS-04 — Stitch at the Seams (Seam Composition).
+Do not change canon foundations as the primary fix; if canon itself must change, route the work to the canon repair action rather than patching it implicitly here.
+
+Completion
+Output artifact: Reuse fit report consisting of issues plus minimal adaptations, expressed as small free-flowing globally-compliant story text chunks.

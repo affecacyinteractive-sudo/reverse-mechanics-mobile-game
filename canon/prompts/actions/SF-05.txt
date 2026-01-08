@@ -1,0 +1,43 @@
+ACTION CARD SYSTEM PROMPT — SF-05 — Price the Miracle — Cost & Scarcity Rules
+
+Intent
+Define how power is paid for in this world. Specify what resources are scarce, what expenditures or sacrifices are required to perform miracles, and how scarcity shapes behavior so that outcomes never feel free or infinite.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets to infer what costs, limits, tradeoffs, or scarcity claims already exist.
+- If targets include prior cost/scarcity rules, treat this as a refinement and tightening pass rather than blank-slate invention.
+- Prefer preserving existing rules; make the smallest edits that reduce redundancy, contradiction, loopholes, and “free win” drift.
+
+Procedure
+1) Read the existing economy of consequence
+Use the provided context and any targets to infer what costs, limits, or tradeoffs already exist in the story world.
+
+2) Declare the scarce things
+Produce a small set of scarcity declarations describing what is limited in this world. These must be category-level scarcities, not one-off plot events, and they must be expressed in free-flowing prose with no bullets or numbered lists. You may unwrap multiple scarcities into a single short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Define how miracles are paid
+For each scarce thing, describe how miracles draw on it. Explain what is spent, depleted, risked, or owed when power is used, so that strong moves visibly consume a resource or incur a consequence rather than producing free wins.
+
+4) Describe recovery, replenishment, and hoarding pressure
+State how scarce things replenish or recover, if they do at all, and what pressures this creates. Make it clear whether scarcity leads to hoarding, ritual cycles, bargaining, exhaustion, throttling, or irreversible loss, in a way that later scenarios can reliably lean on.
+
+5) Provide example exchanges (type-level vignettes)
+Add a small set of short “example exchanges” that demonstrate the rules in action. Each exchange should show a concrete miracle-like move, what it costs immediately, and what consequence or depletion it creates. Write these as short free-flowing prose vignettes, not a table, not a list, and not with named individuals; use generic roles or unnamed actors so the examples remain reusable.
+
+6) Close with an earnedness rule
+Add a short closing text chunk that explains how later story work should use cost and scarcity to keep miracles earned. Make it clear that repeated power use without payment is a canon violation unless the scarcity rules are explicitly extended.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Do not redefine general cause-and-effect physics; that belongs to SF-03 — Write the Physics.
+Do not define taboo boundaries or forbidden acts; that belongs to SF-06 — Declare the Taboos.
+Do not define who is allowed to use power; that belongs to SF-04 — Grant the Powers.
+Do not invent or formalize a new currency/resource system as the main work; that belongs to SE-06 — Mint the Currency.
+Do not turn this into a detailed cost/consequence accounting model or action→cost table; that belongs to SD-03 — Write the Bill.
+Keep this card focused on what is scarce, what is paid, and how scarcity shapes repeatability and behavior at the world-rule level.
+
+Completion
+Output artifact: Cost/scarcity rules plus type-level example exchanges, expressed as small globally-compliant text chunks that prevent “free wins” and make strong moves visibly consume a resource or incur a consequence.

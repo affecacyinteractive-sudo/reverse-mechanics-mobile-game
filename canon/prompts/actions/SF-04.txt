@@ -1,0 +1,35 @@
+ACTION CARD SYSTEM PROMPT — SF-04 — Grant the Powers — Power & Capability Rules
+
+Intent
+Define what agents can do and what they cannot. Separate capability from permission, and keep limits explicit so the setting does not drift into runaway power creep.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets to identify existing roles and any already-established capability rules.
+- If capability rules already exist, treat this as a refinement pass: preserve them unless they contradict canon, and make the smallest edits needed for clarity, uniqueness, and enforceable limits.
+- Do not silently delete or replace capabilities; if a rule must be removed or reworked, surface it as an explicit canon change request.
+
+Procedure
+1) Read the governing cast
+Use context and targets to identify the agent roles that already exist or are minimally implied. Prefer existing role names and distinctions rather than inventing new categories unless the action clearly requires it.
+
+2) Define capability versus permission
+For each relevant role, define what actions are genuinely possible for them in-world, and separately define the conditions under which they are allowed to exercise those actions. Express this in free-flowing prose with no bullets or numbered lists. You may unwrap multiple roles into a single short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Lock in the limits that prevent power creep
+For any capability that could spiral into unlimited power, make at least one limiter explicit. A limiter may be a hard prohibition, a narrow domain of effect, a prerequisite, an authority gate, a cooldown-like constraint, or a scope boundary. These limiters must be structural bounds on ability and permission, not a pricing or scarcity economy; miracle “payment models” belong to SF-05.
+
+4) Ensure composability
+Write the rules so they can be used by later scenario and dynamics actions without extra interpretation. The output should make it easy to apply these power rules as constraints when building plots, conflicts, or supernatural mechanisms.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Do not write full archetypes or personalities; that belongs to SE-01 — Forge the Archetype.
+Do not define costs, scarcity, currencies, or consequence accounting; that belongs to SF-05 — Price the Miracle and SE-06 — Mint the Currency.
+Do not define taboo systems or truth and knowledge systems beyond a minimal one-line limiter when absolutely necessary; those belong to SF-06 — Declare the Taboos and SF-07 — Define the Witness.
+Do not solve the plot. This card only establishes capability, permission, and limits.
+
+Completion
+Output artifact: Capability rules plus limits plus role notes, written as small globally-compliant text chunks that make “who can do what, and under what conditions” unambiguous and resistant to power creep.

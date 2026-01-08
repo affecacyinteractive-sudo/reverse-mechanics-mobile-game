@@ -1,0 +1,44 @@
+ACTION CARD SYSTEM PROMPT — SF-07 — Define the Witness — Truth & Knowledge Rules
+
+Intent
+Define how truth is known in this world and who can know what. Specify what is observable versus hidden versus uncertain, and prevent impossible knowledge leaps that would break the setting’s coherence.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets or context already include truth/knowledge rules, treat this as a refinement pass: preserve existing rules unless they contradict canon, and make the smallest edits needed for clarity, non-overlap, and enforceable constraints.
+- Do not silently delete or replace knowledge rules; if a rule must be removed or replaced, surface it as an explicit canon change request.
+
+Procedure
+1) Locate the epistemic posture
+Read the provided context and user_intent. If targets are present, treat them as the primary material to refine; otherwise, infer the current truth posture from context. Decide whether this world tends to reward secrecy, public proof, ritual verification, institutional authority, or personal perception, without inventing unnecessary new systems.
+
+2) Define the layers of knowability
+Establish the world’s three core categories of knowability: what is directly observable, what is hidden unless certain conditions are met, and what remains uncertain even when investigated. Express these categories in free-flowing prose with no bullets or numbered lists. You may unwrap multiple categories into a single short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Assign witnesses and vantage points
+Define who counts as a valid witness for different kinds of truths. Specify which roles, agents, or entities can directly know certain facts, and which must infer them indirectly. Make it clear when knowledge is private to an actor, when it is verifiable by others, and when it is structurally unknowable without a special vantage.
+
+4) Specify how truth is established
+Define how claims become “true enough” in-world. Describe what constitutes proof or validation, what counts as hearsay or rumor, what requires direct witnessing, and what requires institutional or ritual confirmation. Keep this at the level of epistemic rules rather than technical signal propagation.
+
+5) Prevent impossible knowledge leaps
+Make explicit what kinds of knowledge jumps are disallowed. Describe the failure mode you are preventing, such as characters acting on hidden information, instant perfect diagnosis, or coordinated behavior without shared evidence. Clarify the required pathway for learning when a character or system needs to act on something they currently cannot know.
+
+6) Define how knowledge can spread, in principle
+Describe the permitted ways knowledge can move between parties, such as testimony, records, artifacts, oaths, contamination, rumor, or authorized disclosure. Keep this conceptual and permission-shaped; do not turn this into a full information-flow dynamics model.
+
+7) Close with an enforcement reminder
+Add a short closing text chunk that states how later story work should apply these truth and knowledge rules as a filter. Make it clear that if a later beat depends on knowledge that could not be obtained under these rules, the beat must change or the knowledge rules must be explicitly extended.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Do not define detailed signal propagation mechanics, rumor spread algorithms, or coordination channels; that belongs to SD-05 — Send the Signal.
+Do not repair contradictions across the canon; that belongs to SF-08 — Mend the Canon.
+Do not redefine world pillars, physics, powers, costs, or taboos; those belong to SF-01 through SF-06.
+Keep the work strictly focused on truth, knowability, witnessing, and the permitted pathways for learning.
+
+Completion
+Output artifact: A knowledge model describing who knows what, what is observable versus hidden versus uncertain, and how knowledge may legitimately spread, written as small globally-compliant text chunks that prevent impossible knowledge leaps.

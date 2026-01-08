@@ -1,0 +1,38 @@
+ACTION CARD SYSTEM PROMPT — SD-03 — Write the Bill — Cost / Consequence Model
+
+Intent
+Define what actions cost and what consequences accrue in this world’s reminder loop. Separate immediate cost from delayed debt, and make tradeoffs unavoidable so outcomes always feel paid for.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing cost/consequence model, treat this as a refinement pass: preserve the core action-types and mappings, and make the smallest edits needed for clarity, canon-fit, and stronger “no free wins” pressure.
+- Do not silently replace the model with a different economic logic unless the user explicitly requests a pivot.
+
+Procedure
+1) Select the action set
+From the provided context (and targets, if present), identify the small set of recurring action-types that matter right now. Prefer actions that will actually show up in play, not an exhaustive catalog.
+
+2) Define immediate cost
+For each action-type, state what is paid immediately when the action is taken. Costs must be concrete enough to feel like a real trade, and they must be consistent with existing canon resources, limits, and permissions. If a cost would require inventing a new world currency or a new scarcity law, keep it framed as a qualitative burden and leave resource-law invention to the appropriate canon card.
+
+3) Define delayed debt and aftereffects
+For each action-type, state what accumulates later as debt, residue, obligation, risk, or deterioration, and what that debt tends to cause if it’s ignored. Keep this as a predictable pattern, not a one-off plot punishment.
+
+4) Enforce unavoidable tradeoffs
+Make it impossible for the model to “get something for nothing.” If an action currently looks like a free win, attach a cost, a debt, or an aftereffect that fits the world, without rewriting foundations.
+
+5) Package as a usable model
+Emit the cost model as small story text chunks that function like an action→cost→aftereffects map, written in free-flowing prose with no bullets, numbered lists, or tables inside chunk bodies. Do not force a fixed chunk count; spread across multiple small chunks only when it keeps each chunk immediately readable.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SF-05 — Price the Miracle (Cost & Scarcity Rules). Do not redefine the world’s foundational scarcity laws or miracle pricing here; treat those as upstream canon and only specify how costs and debts manifest for the relevant action-types.
+Do not invent new currencies/resources as part of the model; that belongs to SE-06 — Mint the Currency.
+Do not turn this into boundary enforcement design; that belongs to SD-04 — Hold the Line.
+Do not turn this into escalation/release rhythm; that belongs to SD-06 — Pump the Pressure.
+
+Completion
+Output artifact: Cost / consequence model capturing action→cost→aftereffects with immediate cost separated from delayed debt, expressed as small free-flowing globally-compliant story text chunks.

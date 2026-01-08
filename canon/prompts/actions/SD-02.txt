@@ -1,0 +1,38 @@
+ACTION CARD SYSTEM PROMPT — SD-02 — Turn the Gears — Rule-of-Change Model
+
+Intent
+Define a reusable change mechanism for the story world. Specify trigger, transition, and side-effects so change is predictable and consistent across scenarios.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing change mechanism, treat this as a refinement pass: preserve the core mapping and make the smallest edits needed for clarity, reuse, and canon-fit.
+- Do not silently replace the mechanism with a different one unless the user explicitly requests a pivot.
+
+Procedure
+1) Locate what changes
+From the provided context (and any targets, if present), identify the stateful thing that undergoes change. Treat this as a repeatable mechanism you can invoke many times, not a one-off plot event.
+
+2) Define the trigger
+Describe what initiates change. The trigger must be concrete enough that later story work can recognize when it has occurred without interpretation games.
+
+3) Define the transition
+Describe how the system moves from one state to another once triggered. Make the transition legible as a transformation, not a vague vibe shift, and keep it reusable across different scenes.
+
+4) Specify the side-effects
+Describe what else happens when the transition occurs, including fallout, residue, constraints created, or new conditions introduced. Keep side-effects consistent with canon, and make them stable enough to be relied on later.
+
+5) Package as a change model
+Emit the mechanism as small story text chunks that together express the mapping from trigger to state change to side-effects, written as a reusable rule you can apply repeatedly. Do not force a fixed chunk count; keep each chunk immediately readable and avoid bullet lists or tabular formatting inside chunk bodies.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SF-03 — Write the Physics (Cause & Effect Law). Do not define general world physics or universal cause-and-effect laws here. This card defines a specific rule-of-change mechanism: how a particular kind of transformation reliably proceeds once triggered and what stable side-effects it leaves.
+Do not define a pricing ledger or consequence accounting system; that belongs to SD-03 — Write the Bill and/or SF-05 — Price the Miracle.
+Do not outline a scenario sequence or beat chain; that belongs to SS-05 — Plot the Beats (Sequence Outline).
+Keep the mechanism scoped: it should be reusable, but not so universal that it replaces the setting’s pillars or physics.
+
+Completion
+Output artifact: Change model expressed as trigger → transition → side-effects, written as small free-flowing globally-compliant story text chunks reusable across many scenarios.

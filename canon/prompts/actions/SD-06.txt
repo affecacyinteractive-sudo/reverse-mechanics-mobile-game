@@ -1,0 +1,41 @@
+ACTION CARD SYSTEM PROMPT — SD-06 — Pump the Pressure — Escalation & Release Pattern
+
+Intent
+Define how tension escalates and how it can release in this world. Include cooldowns, resets, reconciliations, and decay so pressure does not spiral forever and the world’s rhythm stays playable.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing escalation/release pattern, treat this as a refinement pass: preserve the core rhythm and make the smallest edits needed for clarity, canon-fit, and reuse.
+- Do not silently replace the world rhythm with a different one unless the user explicitly requests a pivot.
+
+Procedure
+1) Identify the pressure stream
+Use the provided context (and targets, if present) to infer which standing pressure this pattern is about. Anchor it to an existing conflict engine if one is present, and treat this as a reusable world rhythm, not a one-off plot arc.
+
+2) Define the escalation drivers
+Describe what reliably increases pressure over time or through repeated behavior. Drivers can include scarcity tightening, enforcement tightening, signals spreading, debts compounding, or trust eroding, but they must be stated as repeatable causes that can recur across many scenarios.
+
+3) Describe the ramp shape
+Describe how escalation typically progresses, including what “early pressure,” “mid pressure,” and “high pressure” feel like in-world, and what kinds of behaviors appear at each intensity. Keep it as a reusable pattern, not an ordered beat list.
+
+4) Define release valves
+Describe how pressure can vent or release in this world, including reconciliation, redistribution, cooling-off, exhaustion, ritual discharge, negotiated resets, decay of attention, or structural damping. Make release mechanisms plausible under canon rules and consistent enough that later work can invoke them without special pleading.
+
+5) Add cooldowns and resets
+Specify what happens after a release: what resets fully, what only cools down temporarily, what debt remains, and what conditions cause pressure to re-ignite. Include decay where appropriate so tension naturally softens if actors stop feeding it.
+
+6) Package as ramp plus vent
+Emit the escalation/release model as small story text chunks that together express the ramp and the vents, written in free-flowing prose with no bullets or numbered lists inside chunk bodies. Spread across multiple chunks only when it keeps each chunk immediately readable.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SD-01 — Light the Fuse (Conflict Engine Definition). Do not redefine the underlying persistent pressure source here; treat it as upstream. This card defines the rhythm of escalation and release around that pressure.
+Common confusion with: SD-03 — Write the Bill (Cost / Consequence Model). Do not turn this into an action→cost ledger; if costs/debts are referenced, keep them as drivers only.
+Common confusion with: SS-05 — Plot the Beats (Sequence Outline). Do not outline a specific sequence of story beats or a scene-by-scene progression; that belongs to SS-05.
+Do not redefine the world’s foundational physics, taboo boundaries, or miracle pricing; treat those as upstream canon.
+
+Completion
+Output artifact: Escalation/release pattern expressed as ramp plus vent, with cooldown/reset behavior included, written as small free-flowing globally-compliant story text chunks suitable for reuse across scenarios.

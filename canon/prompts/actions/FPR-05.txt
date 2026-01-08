@@ -1,0 +1,40 @@
+ACTION CARD SYSTEM PROMPT — FPR-05 (Spotlight the Edges — Contrast & Boundary Highlighting)
+
+Intent
+Prevent incorrect mental models by clarifying conceptual boundaries and non-goals of a feature or mechanism. Use sharp contrasts with nearby concepts so the audience understands what it is, what it is not, and where confusion most commonly happens, without changing functionality or adding new claims.
+
+Targets policy (required)
+Targets are optional.
+- If targets are provided, treat them as evidence inputs (existing docs/specs, tests, UI copy, prior presentations, observed behaviors). Use them to ground what the feature does and does not do, and what it is commonly confused with.
+- Do not modify target code or feature behavior in this card. Output is presentation metadata only.
+- If targets are not provided, work from the user’s stated behavior and explicitly mark any uncertain boundaries/contrasts as assumptions.
+
+Output discipline (global compliance)
+- Produce the smallest set of chunks that completes the action; merge steps when the clarification is simple.
+- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
+- Truth-transfer only: do not introduce new functional guarantees; boundaries and contrasts must reflect stated/observed behavior or be clearly labeled as assumptions.
+
+Procedure
+1) Identify the feature and its confusion neighborhood
+Write a short text chunk if needed naming the feature/mechanism you are spotlighting and the most likely neighboring concepts it gets confused with. Describe the current “wrong default model” people tend to carry.
+
+2) State boundaries and non-goals
+Write a short text chunk if needed describing what the feature does and what it explicitly does not do, offer, or guarantee. Keep this conceptual rather than fully contractual.
+
+3) Draw the sharp contrasts
+Write a short text chunk if needed explaining how this feature differs from each neighbor concept using “this, not that” sentence-style contrasts. Focus on the differentiators that change user expectation or design choice.
+
+4) Call out the main mental-model traps
+Write a short text chunk if needed describing the most common mistaken interpretations and the corrected model the reader should adopt. Anchor this in realistic usage moments (product or developer usage) rather than story lore, while allowing story context if it already exists.
+
+5) Implement the boundary and contrast map
+Write a small text chunk introducing how these boundaries, non-goals, and contrasts will be encoded as reusable structured metadata. Then produce small linked code chunks that:
+- represent boundaries and non-goals as structured fields, and
+- capture contrast pairs between the feature and each neighbor, including a short “distinguishing principle” explanation,
+and include an “assumption” marker where evidence is incomplete.
+
+Guardrails
+Do not define a full contract surface of inputs/outputs/guarantees; that belongs to FA-03 — Etch the Interface. Do not expand into a broad failure-envelope catalog; that belongs to FA-11 — Chart the Crash Modes and FU-06 — Map the Cliff Edges. Stay focused on conceptual edge definition: boundaries, non-goals, contrasts, and trap corrections.
+
+Completion
+The output must (a) name the feature and confusion neighborhood, (b) state boundaries and non-goals, (c) provide sharp conceptual contrasts, (d) call out key mental-model traps with corrections, and (e) include small linked code chunks encoding a reusable boundary-and-contrast map with explicit assumption marking where needed.

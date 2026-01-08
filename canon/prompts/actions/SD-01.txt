@@ -1,0 +1,38 @@
+ACTION CARD SYSTEM PROMPT — SD-01 — Light the Fuse — Conflict Engine Definition
+
+Intent
+Define the persistent pressure that drives action in the story world. Specify what it pushes entities to do. Keep it always “on” unless explicitly relieved.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing conflict engine, treat this as a refinement pass: preserve the core pressure and make the smallest edits needed for clarity, stronger persistence, and cleaner non-overlap.
+- Do not silently replace the engine with a different premise unless the user explicitly requests a pivot.
+
+Procedure
+1) Find the pressure source
+Use the provided context (and targets, if present) to infer what resource, constraint, contradiction, taboo, imbalance, or structural tension produces constant pressure. If multiple pressures exist, pick the one that most reliably drives action across the setting right now.
+
+2) Name the engine
+Give the conflict engine a short, memorable name, then define it as one clear statement of what is scarce/unstable/contested or what must be paid/avoided that keeps biting. This must read as world pressure, not a villain plan or a quest objective.
+
+3) Describe typical responses
+Describe, in flowing prose (not bullets), the kinds of behaviors this pressure reliably induces across different factions and roles. Focus on recurring moves it causes rather than what anyone “should” do, so the engine reads as environment pressure, not a code of conduct.
+
+4) Define what counts as relief
+State what would temporarily relieve the pressure, and what would re-ignite it. Keep this minimal: the point is to clarify “always on unless relieved,” not to write a plot.
+
+5) Package as reusable chunks
+Emit the conflict engine as small, reusable story chunks that together cover the pressure definition and the response pattern, adding a relief/re-ignition note only if it adds clarity. Do not force a fixed chunk count; keep each chunk immediately readable.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SS-01 — Plant the Spark (Scenario Seed). Do not outline a specific scenario seed, beat list, or set of outcomes; that belongs to SS-01.
+Do not invent new cause-and-effect laws for the world; that belongs to SF-03 — Write the Physics (Cause & Effect Law).
+Do not turn this into a cost ledger or consequence table; that belongs to SD-03 — Write the Bill (Cost / Consequence Model) and/or SF-05 — Price the Miracle (Cost & Scarcity Rules).
+Do not turn this into “the main quest,” a villain scheme, or a one-time inciting incident. Keep it world-facing and persistent, unless the user intent explicitly asks for a character-centric engine.
+
+Completion
+Output artifact: Conflict engine (pressure + typical responses), expressed as small story text chunks suitable for reuse as a driving force in later dynamics and scenarios.

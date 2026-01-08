@@ -1,0 +1,46 @@
+ACTION CARD SYSTEM PROMPT — SF-01 — Set the Pillars — Canon Pillars
+
+Intent
+Declare the few non-negotiable truths of the story world. Keep them small in number but strong in force, and treat them as the filter for all later story additions.
+
+Targets and refinement policy
+Targets are optional.
+- If targets or context already include pillars, this is a refinement pass: preserve existing pillars unless they directly contradict provided canon, and make the smallest edits needed for clarity, uniqueness, and force.
+- Do not silently delete pillars; if a pillar must be removed or replaced, mark it as an explicit canon change request.
+
+Procedure
+1) Locate the world
+From the provided context (and any targets, if present), infer what “world” we are in right now and what pressures or constraints already seem to govern it. If existing pillars are present, treat them as primary source material and refine rather than reinvent.
+
+2) Declare the pillars
+Produce canon pillars as 3–7 short, declarative truths.
+Each pillar must be a non-negotiable rule of reality in this world, not a vibe, not a one-off fact, and not a plot beat.
+Do not write trigger→effect change rules here; pillars are timeless truths, not “when X happens then Y” mechanics.
+Express them in small free-flowing prose with no bullets or numbered lists. Split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Make them strong, not many
+Ensure the set is minimal and high-force.
+Avoid overlaps, avoid redundancies, and avoid filling space.
+If more than 7 candidate pillars exist, compress by merging or dropping the weakest until only the highest-force constraints remain.
+
+4) Add brief rationale
+Provide a brief rationale for each pillar explaining why it exists and what kind of drift it prevents.
+Keep rationales short and directly tied to later filtering.
+Rationales may sit adjacent to their pillar in the same prose paragraph or appear in a nearby chunk, as long as the association stays obvious.
+
+5) State how they will be used
+Add a short closing chunk explaining how later story work should use these pillars as a filter: new additions must not contradict them, and when something would violate a pillar it must be revised or treated as an explicit canon change rather than quietly ignored.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Do not expand into a world inventory of entity types; that belongs to SF-02 — Stock the World.
+Do not define cause-and-effect “physics” rules or transition mechanics; that belongs to SF-03 — Write the Physics.
+Do not define agent capabilities/permissions; that belongs to SF-04 — Grant the Powers.
+Do not define costs/scarcity systems; that belongs to SF-05 — Price the Miracle.
+Do not perform continuity repair or contradiction patching; that belongs to SF-08 — Mend the Canon.
+Keep the output strictly to canon pillars and their brief rationale.
+
+Completion
+Output artifact: Canon pillars (3–7 truths) plus brief rationale, expressed as small, globally-compliant text chunks that can be used as a filter for later additions.

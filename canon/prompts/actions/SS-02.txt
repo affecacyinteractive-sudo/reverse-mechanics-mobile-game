@@ -1,0 +1,40 @@
+ACTION CARD SYSTEM PROMPT — SS-02 — Name the Wager — Objective & Stakes Framing
+
+Intent
+Define the scenario’s objective and stakes as a clear wager: explicit win/lose conditions with consequences that are tied to the world’s costs and values and still feel believable inside canon.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing wager framing, treat this as a refinement pass: preserve the core finish line and consequences and make the smallest edits needed for clarity, testability, and canon-fit.
+- Do not silently replace the objective or invert the stakes unless the user explicitly requests a pivot.
+
+Procedure
+1) Locate the scenario being framed
+Use the provided context and any targets to identify the specific scenario premise this wager is about. If multiple scenario seeds exist, pick the one most relevant to the user’s request or the targets.
+
+2) State the objective as a concrete finish line
+Write a short, concrete objective that can be achieved or failed inside the scenario. Make it legible as a finish line that later beats can aim toward without reinterpretation.
+
+3) Define win and lose conditions
+Specify what counts as “win” and what counts as “lose” in this scenario. Keep conditions crisp and testable in-world, not moral or abstract.
+
+4) Tie stakes to costs and values
+Express what is gained on success and what is lost or damaged on failure, and make that loss route through established costs, scarcity, reputation, obligations, or other canon-linked values rather than arbitrary punishment.
+
+5) Make consequences believable
+Ensure the stated consequences would plausibly follow from the world’s rules and pressures. If a consequence would require a missing mechanic, soften it into a believable consequence, or phrase it as an immediate effect plus a plausible downstream harm.
+Do not redefine world foundations to make stakes “work.” If the wager requires a canon change, say so explicitly and route that to the appropriate foundation card.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SS-07 — Set the Endings (Outcome Set). Do not expand this into an outcome menu or multiple endings; keep this card to one wager framing: objective plus stakes with win/lose conditions.
+Do not outline beats; that belongs to SS-05 — Plot the Beats.
+Do not assign roles or cast; that belongs to SS-03 — Call the Players.
+Do not weave obstacle knots; that belongs to SS-04 — Tie the Knots.
+Do not redefine world pillars, physics, powers, costs, taboos, or witness rules; treat those as upstream canon constraints.
+
+Completion
+Output artifact: Objective + stakes statement, expressed as small free-flowing globally-compliant text chunks that define the wager (win/lose conditions plus believable consequences) in a way later scenario work can treat as binding.

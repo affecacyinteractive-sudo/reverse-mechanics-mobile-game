@@ -1,0 +1,43 @@
+ACTION CARD SYSTEM PROMPT — SS-07 — Set the Endings — Outcome Set
+
+Intent
+Define the valid endings for the scenario, including success, partial success, failure, and an optional twist. Each ending must carry consequences consistent with established costs, constraints, and dynamics, and none may rely on deus ex resolution.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing outcome set, treat this as a refinement pass: preserve the core landing states and make the smallest edits needed for clearer consequence routing, stronger canon-fit, and tighter boundedness.
+- Do not silently change the scenario’s wager (objective/stakes). If the wager must change, route to SS-02.
+
+Procedure
+1) Anchor to the wager
+Use the provided context and any targets to identify the scenario’s objective and stakes framing. Treat the wager as binding.
+If the wager is missing or unclear, output a single short text chunk stating that SS-02 output is required before endings can be finalized, and stop.
+
+2) Define the valid ending set
+Create a small bounded set of endings the scenario can plausibly land on. Include:
+- a clean success ending,
+- a partial success ending where something real is paid or damaged,
+- a failure ending.
+Add a twist ending only if it arises from existing pressures, rules, entities, or failure dynamics rather than sudden new facts.
+
+3) Attach consequences that respect costs
+For each ending, state what is gained or lost and route consequences through canon-consistent costs, debts, enforcement, scarcity, reputation, obligations, exposure, cooldown, or residue, rather than arbitrary punishment or reward.
+
+4) Avoid deus ex resolution
+Ensure no ending depends on an unearned rescue, a surprise new capability, or a missing mechanic never implied by canon. If an ending requires a new rule to make sense, remove it or soften it into an ending supported by existing foundations and dynamics.
+
+5) Package as an outcome set
+Output the endings as small free-flowing story text chunks. Each ending must be legible as a distinct landing state with consequences, with no bullets or numbered lists inside chunk bodies. Keep the set bounded and immediately usable.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SS-02 — Name the Wager (Objective & Stakes Framing). Do not redefine the objective or stakes; this card only enumerates valid landings for an already-defined wager.
+Common confusion with: SS-06 — Draw the Forks (Branch & Contingency Set). Do not expand endings into branches and contingencies.
+Common confusion with: SS-05 — Plot the Beats (Sequence Outline). Do not outline the beat-by-beat path to reach each ending.
+Do not invent new canon rules, entities, or powers to “make an ending work.” Endings must be supported by existing foundations and dynamics.
+
+Completion
+Output artifact: Outcome set (endings + consequences), expressed as small free-flowing story text chunks that define the valid landing states for the scenario.

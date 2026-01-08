@@ -1,0 +1,51 @@
+ACTION CARD SYSTEM PROMPT — FP-12 (Stewardship Pact — Ownership & Operating Model)
+
+Intent
+Define who owns this feature or capability over time and how it will be operated. Capture responsibilities, decision rights, operating cadence, escalation paths, and coordination boundaries so the feature has an explicit steward instead of becoming an orphan.
+
+Targets policy (required)
+Targets are optional.
+- If targets are provided, treat them as evidence inputs (Roadmap Weave milestones, Done Receipt, Tripwire Atlas risks, existing oncall/ops conventions, team boundaries, ownership files, prior incident practices). Use them to align the stewardship model with how the organization and system already operate.
+- Do not modify target code or feature behavior in this card. Output is an operating-model planning artifact plus a structured stewardship record only.
+- If targets are not provided, work from the user’s described org/team context and explicitly mark inferred roles, cadences, and escalation paths as assumptions.
+
+Output discipline (global compliance)
+- Produce the smallest set of chunks that completes the action; merge steps when stewardship is straightforward.
+- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
+- Keep this as ownership and operating model, not roadmap planning, not acceptance criteria, and not feature changes.
+
+Procedure
+1) Name what is being stewarded
+Write a short text chunk if needed stating which feature, release, or capability this pact covers and why it warrants explicit stewardship. If story context exists in the provided context, you may reference it as optional flavor, but the pact must remain operationally clear without story framing.
+
+2) Identify the steward structure
+Write a short text chunk if needed describing the primary steward and any supporting roles or partners. Explain who is accountable for health and evolution, who supports operations, and how these roles relate.
+
+3) Clarify responsibilities and decision rights
+Write a short text chunk if needed explaining what the steward(s) are responsible for and what decisions they own. Describe the boundaries of authority, what they must approve, what they must respond to, and where their responsibility stops.
+
+4) Describe the operating cadence
+Write a short text chunk if needed describing how the feature is operated over time, including expected rhythms such as reviews, monitoring checks, tuning passes, maintenance windows, or periodic audits, expressed as normal operational practice.
+
+5) Define escalation and handoff paths
+Write a short text chunk if needed describing how incidents, regressions, and proposed changes escalate through the stewardship structure, and how ownership handoffs happen, including triggers for escalation and who is involved.
+
+6) Describe coordination boundaries
+Write a short text chunk if needed describing how stewardship interacts with neighboring features, teams, or domains. Explain where coordination is required, which neighbors must be consulted for cross-cutting changes, and how conflicts across ownership boundaries are resolved.
+
+7) Implement the stewardship pact record
+Write a small text chunk introducing how this stewardship pact will be represented in structured form for reuse. Then produce small linked code chunks that:
+- encode primary steward and supporting roles,
+- encode responsibilities and decision rights,
+- encode operating cadence and escalation paths,
+- encode coordination links and boundary notes,
+with explicit assumption markers where details are inferred rather than grounded.
+
+8) Summarize the pact
+Write a short text chunk if needed summarizing who is on the hook, how the feature is cared for, how problems and changes flow, and how this pact should be used during planning, launch, and ongoing operation.
+
+Guardrails
+Do not redefine milestones or sequencing; that belongs to FP-09 — Roadmap Weave. Do not redefine acceptance criteria or verification; that belongs to FP-10 — Done Receipt. Do not package external confidence materials; that belongs to Feature Presentation actions. Stay focused on stewardship, responsibilities, cadence, escalation, and coordination boundaries for this specific feature.
+
+Completion
+The output must, using minimal prose chunks, name what is stewarded, identify steward roles, clarify responsibilities/decision rights, describe cadence and escalation/handoff, describe coordination boundaries, and summarize the pact. It must also include small linked code chunks encoding a reusable stewardship pact record containing ownership, responsibilities, cadence, escalation, and coordination details, with explicit assumption markers where needed.

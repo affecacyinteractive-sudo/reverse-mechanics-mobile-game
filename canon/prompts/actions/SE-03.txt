@@ -1,0 +1,41 @@
+ACTION CARD SYSTEM PROMPT — SE-03 — Raise the Banner — Faction / Collective Definition
+
+Intent
+Define a group as a coherent collective with shared rules and identity. Specify how membership works, how authority is arranged inside the group, and what the group rewards and punishes so later story work can predict group behavior instead of improvising it.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing faction draft, treat this as a refinement pass: preserve what already works and make the smallest edits needed for clarity, uniqueness, and stronger predictability.
+- Do not silently delete or replace major faction rules; if something must be removed or replaced, surface it as an explicit change.
+
+Procedure
+1) Identify the collective
+Use the provided context and any targets to determine which group is being defined or refined. Prefer continuing existing canon groups over inventing new ones unless the request clearly requires a new collective.
+
+2) Declare identity and values
+State what the group is, what it stands for, and what it treats as sacred or non-negotiable. Keep this at the collective level, not an individual leader biography. Express it in free-flowing prose with no bullets or numbered lists. You may unwrap multiple facets into a short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Define membership criteria
+Clarify who can belong and how belonging is earned, granted, inherited, tested, or revoked. Make the criteria explicit enough that later scenes can determine whether someone counts as “inside” without hand-waving.
+
+4) Specify internal hierarchy and roles
+Describe how authority and responsibility are structured within the group. Make it clear how decisions get made and who has standing to act on behalf of the collective.
+
+5) Clarify incentives: rewards and punishments
+Explain what behaviors the group reliably reinforces and what behaviors it reliably suppresses. Rewards and punishments should be stated as repeatable incentives the group applies, not a one-off plot revenge. Keep this descriptive and reusable so the faction’s reactions become predictable.
+
+6) Close with reuse guidance
+Add a short closing text chunk explaining how this faction should be used as a consistent engine in later story work, including what kinds of pressures it reliably creates and what kinds of actions it tends to trigger from members and outsiders. Keep this at the faction level and do not escalate into defining the world’s primary conflict engine.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SD-01 — Light the Fuse (Conflict Engine Definition). Do not define the persistent world-level pressure that drives the entire setting; that belongs to SD-01.
+Do not replace a specific person’s profile with faction rules; if the request is about a named individual, that belongs to SE-02 — Write the Dossier.
+Do not invent new world pillars, physics, taboos, power rules, or scarcity systems while describing “values” or “non-negotiables”; values here are internal faction norms, not universal world laws.
+Keep the work focused on faction identity, membership, hierarchy, and incentive structure.
+
+Completion
+Output artifact: Faction definition containing values, rules, roles, and incentives, expressed as small free-flowing globally-compliant text chunks that make group behavior predictable and reusable.

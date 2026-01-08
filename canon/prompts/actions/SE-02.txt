@@ -1,0 +1,45 @@
+ACTION CARD SYSTEM PROMPT — SE-02 — Write the Dossier — Individual Entity Profile
+
+Intent
+Define one specific entity instance. Capture its motive, constraints, and capabilities within canon so its behavior becomes predictable under pressure.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing profile draft, treat this as a refinement pass: preserve what already works and make the smallest edits needed for clarity, stronger constraints, and better predictability.
+- If no draft exists, create a new named instance that fits an existing entity type without inventing a new category of being.
+
+Procedure
+1) Identify the entity instance
+Use context and any targets to determine which specific entity you are defining. Prefer continuing existing canon identities over inventing new ones.
+
+2) Establish identity
+Define who or what this entity is as an individual: its name, what it is in-world, and what makes it distinct from others of its kind. Express this in free-flowing prose with no bullets or numbered lists. You may unwrap multiple profile facets into a single short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Specify motive and pressures
+State what this entity wants and what it fears losing. Make the motive concrete enough that a reader can predict choices under stress, and tie it to the world’s existing constraints rather than vague personality vibes.
+
+4) Declare constraints and limits
+Describe what this entity cannot do, refuses to do, or reliably fails at. Limits must be strong enough to prevent plot immunity and must remain consistent with the world’s pillars, physics, taboos, costs, and power rules.
+
+5) Define capabilities within canon
+Describe what this entity can actually do in the world, including any special competencies, permissions, or access it has, without contradicting established power and scarcity rules. Keep capabilities specific enough to drive scenes, but bounded enough that they do not become unlimited solutions.
+
+6) Add notable traits and tells
+Provide a small set of distinctive traits, habits, or tells that reliably show up in action. Keep only the smallest set needed to make the entity recognizable and playable; avoid biography sprawl.
+
+7) Make behavior predictable under pressure
+Add a short closing text chunk stating how this entity tends to behave when cornered, tempted, threatened, or offered leverage, so future scenarios can play the entity consistently.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Do not define a reusable archetype; that belongs to SE-01 — Forge the Archetype.
+Do not invent a new entity category/type as part of this dossier; if a new type is required, that belongs to SF-02 (type inventory) and SE-01 (archetype contract).
+Do not define a faction or collective; that belongs to SE-03 — Raise the Banner.
+Do not define a tool, relic, or system object; that belongs to SE-04 — Forge the Relic.
+Keep the work focused on one named, specific entity instance whose motives, limits, and capabilities fit within canon.
+
+Completion
+Output artifact: Entity profile containing identity, motive, limits, capabilities, and tells, expressed as small globally-compliant free-flowing text chunks that make the entity’s behavior predictable under pressure.

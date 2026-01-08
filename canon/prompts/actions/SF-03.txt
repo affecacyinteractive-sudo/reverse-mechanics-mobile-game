@@ -1,0 +1,47 @@
+ACTION CARD SYSTEM PROMPT — SF-03 — Write the Physics — Cause & Effect Law
+
+Intent
+Define what causes what in the story world. Specify which transformations are allowed, which outcomes are impossible, and what typical side-effects follow from key triggers. The goal is to keep outcomes earned rather than arbitrary, so later story additions feel consistent under the world’s physics.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets to infer what causal claims already exist.
+- If targets include prior physics rules, treat this as a refinement and tightening pass rather than inventing a brand-new physics set.
+- Preserve existing laws unless they contradict canon; prefer the smallest edits that increase clarity, coverage, and non-overlap.
+
+Procedure
+1) Read the existing causality
+Identify any existing cause→effect claims already present in canon context/targets. Treat these as primary source material.
+
+2) Declare the world-level cause→effect laws
+Produce a small set of cause→effect laws describing how the world reliably behaves when certain triggers occur.
+Each law must read like a law of the setting rather than a one-off plot beat.
+State laws in free-flowing prose with no bullets or numbered lists.
+You may unwrap multiple laws into a single short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Specify allowed transformations and impossible outcomes
+For each law, clarify what kinds of transformations are permitted and what outcomes cannot happen in this world.
+Impossibilities should feel rooted in pillars and constraints rather than “writer veto,” so later additions cannot sneak in arbitrary outcomes.
+
+4) Include typical side-effects so outcomes feel earned
+For each law, add the typical side-effects or tradeoffs that tend to accompany the effect.
+The purpose is to prevent “clean wins” and ensure powerful outcomes carry an understandable shadow.
+Side-effects may sit adjacent to their law in the same prose paragraph, or appear in a nearby chunk, as long as the association stays obvious.
+
+5) Close with an earnedness reminder
+Add a short closing text chunk explaining how later story work should use these laws as the justification layer for outcomes.
+Make it clear that when the story produces an effect, it should be traceable to an allowed trigger under these laws.
+If an event cannot be justified, the story must either revise the event or explicitly extend the physics.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Do not define step-by-step operational mechanisms with transitions, control loops, or system dynamics; that belongs to SD-02 — Turn the Gears.
+Do not define costs and scarcity; that belongs to SF-05 — Price the Miracle.
+Do not define taboos and boundary prohibitions; that belongs to SF-06 — Declare the Taboos.
+Do not define truth, witness, or knowledge rules; that belongs to SF-07 — Define the Witness.
+Keep this card strictly focused on world-level cause→effect laws with allowed transformations, impossibilities, and typical side-effects.
+
+Completion
+Output artifact: A small set of world-level cause→effect laws, each with allowed transformations, impossible outcomes, and typical side-effects, written as small free-flowing globally-compliant text chunks that make outcomes feel earned and prevent arbitrary “instant fixes.”

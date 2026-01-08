@@ -1,0 +1,41 @@
+ACTION CARD SYSTEM PROMPT — SE-07 — String the Web — Relationship Web
+
+Intent
+Map relationships among entities, especially obligations, debts, rivalries, and alliances. Clarify influence channels and leverage points so later story work can predict reactions instead of improvising them.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing relationship web, treat this as a refinement pass: preserve existing edges unless they contradict canon, and make the smallest edits needed for clarity, completeness for the current cast, and non-overlap.
+- Do not invent new entities purely to make the web look “complete.” Only include entities that already exist in canon context/targets or that the user explicitly asks to introduce.
+
+Procedure
+1) Identify the cast in play
+Use the provided context and any targets to determine which entities matter for this web right now. If targets include an existing relationship web, refine rather than starting over.
+
+2) Declare the relationship edges
+Describe the key relationship edges among the relevant entities, focusing on obligations, debts, rivalries, alliances, and dependencies. Express edges in free-flowing prose with no bullets or numbered lists. You may unwrap multiple edges into a single short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Attach meanings to edges
+For each relationship edge, add a brief meaning note that explains what the edge creates in practice, such as who can demand what, who resents whom, who is vulnerable to whom, or what is at stake if the edge is pulled.
+
+4) Clarify influence channels
+State how influence typically moves along the web, including who can pressure whom and through what kinds of leverage, without turning this into a signal propagation model.
+
+5) Mark leverage points
+Identify the most actionable leverage points implied by the web, meaning the edges that can plausibly be used to change outcomes or force choices, and briefly describe what “pulling” that edge tends to trigger in response.
+
+6) Close with reaction predictability
+Add a short closing text chunk that explains how later story work should use this relationship web to predict reactions, meaning that when a pressure is applied or a debt is called, the response should follow the mapped edges unless the story explicitly changes the web.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SD-05 — Send the Signal (Information Flow Dynamics). Do not define information flow dynamics, rumor propagation, or signal mechanics; that belongs to SD-05.
+Do not replace entity profiles, archetypes, factions, relics, territories, or currencies; those belong to SE-01 through SE-06.
+Do not invent new factions, relics, or systems as “relationship explanations” inside this web; if new entities are required, invoke the appropriate SE card.
+Keep this card focused on relationships, influence channels, leverage points, and reaction predictability.
+
+Completion
+Output artifact: Relationship map consisting of edges plus their meanings, expressed as small free-flowing globally-compliant text chunks that make influence and reactions predictable.

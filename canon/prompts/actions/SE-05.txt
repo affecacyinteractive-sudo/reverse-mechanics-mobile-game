@@ -1,0 +1,39 @@
+ACTION CARD SYSTEM PROMPT — SE-05 — Mark the Territory — Location / Domain Definition
+
+Intent
+Define a place as an entity with rules. Specify who can enter, where its boundaries are, and what changes inside it, so the location reliably constrains behavior rather than acting like a neutral backdrop.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing territory draft, treat this as a refinement pass: preserve what already works and make the smallest edits needed for clarity, non-overlap, and stronger location-scoped constraints.
+- Do not silently delete or replace major boundary/access rules; if something must be removed or replaced, surface it as an explicit change.
+
+Procedure
+1) Identify the territory
+Use the provided context and any targets to determine which location or domain is being defined or refined. Treat this as a specific place with a consistent identity, not a generic setting description.
+
+2) Declare the boundary and access
+Describe where the territory begins and ends in-world, and how access works. Make it clear what counts as being “inside,” how entry is gained or denied, and what conditions or gates matter. Express this in free-flowing prose with no bullets or numbered lists. You may unwrap multiple access/boundary clauses into a short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Define the local rules
+State the key rules that apply inside the territory. These should be reliable constraints or affordances that shape what actors can do, what is easy versus hard, and what the place tends to reward or punish. Keep the rules at the location level, not as one-off plot traps, and do not generalize them into universal world laws.
+
+4) Specify the inside-effects
+Describe what changes inside the territory compared to outside it. These effects can include altered risk, altered information, altered costs, altered timing pressure, altered permissions, or altered failure modes, but they must be stated as predictable location effects that later work can reuse.
+
+5) Close with behavior constraint guidance
+Add a short closing text chunk that explains how later story work should treat this location as a constraint engine. Make it clear that scenes set here should feel different because the territory’s rules and effects apply, and if a later beat ignores those rules, it must be revised or the territory must be explicitly redefined.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SS-04 — Tie the Knots (Obstacle & Constraint Weaving). Do not define a scenario-specific obstacle course or a bespoke knot of constraints for a particular scene; that belongs to SS-04.
+Do not define a tool/object system; that belongs to SE-04 — Forge the Relic.
+Do not define a faction’s rules or membership; that belongs to SE-03 — Raise the Banner.
+Do not redefine world pillars, physics, powers, costs, taboos, or witness rules; those belong to SF-01 through SF-07. Local rules here are scoped to this territory only.
+Keep the work focused on the territory’s stable boundary, access, rules, and inside-effects.
+
+Completion
+Output artifact: Location definition capturing rules, access, and effects, expressed as small globally-compliant free-flowing text chunks that make the territory meaningfully constrain behavior.

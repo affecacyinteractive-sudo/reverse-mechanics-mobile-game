@@ -1,0 +1,45 @@
+ACTION CARD SYSTEM PROMPT — SE-04 — Forge the Relic — Artifact / Tool Definition
+
+Intent
+Define a meaningful tool, object, or system that matters in the world. Specify what it enables, what it costs, and its limits, in a way that can plug cleanly into later scenarios and dynamics.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing relic draft, treat this as a refinement pass: preserve what already works and make the smallest edits needed for clarity, non-overlap, and stronger limits.
+- Do not silently delete or replace the relic’s core enablement or cost footprint; if something must be removed, surface it as an explicit change.
+
+Procedure
+1) Identify the relic
+Use the provided context and any targets to determine what is being defined or refined. Ensure the subject is a tool/object/system rather than a person, a faction, a location, or a currency.
+
+2) Declare what it enables
+Describe what the relic makes possible in the world. Keep the enablement concrete enough to drive scenes and decisions, and express it in free-flowing prose with no bullets or numbered lists. You may unwrap multiple enablements into a single short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Describe how it is used
+Clarify the usage shape in-world, including what it responds to, what it requires to operate, and what kinds of actions it participates in. Keep this at the level of “how it works in play,” meaning operationally clear enough to reuse in scenes, without turning it into software implementation detail.
+
+4) Specify the cost footprint
+State what is spent, risked, sacrificed, damaged, owed, or consumed when the relic is used. Tie the cost to existing world resources when possible. If the world does not yet have a defined resource or currency and the relic’s cost cannot be expressed without inventing one, keep the cost described as a qualitative burden and treat the resource definition as separate work for SE-06.
+
+5) Set limits and failure tendencies
+Define what the relic cannot do, what conditions cause it to misfire, and what side-effects it tends to create. Limits should prevent “free miracles” at the object level without redefining the entire world’s scarcity model.
+
+6) Make it composable
+Write the relic so it can be combined with scenarios and dynamics without special pleading. Add a short note describing what kinds of situations it is meant to shape, and what kinds of situations it should not solve outright.
+Do not embed a full plot, scene sequence, or conflict script inside the relic definition; this card defines the relic contract, not a scenario.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SE-06 — Mint the Currency (Resource / Currency Definition). Do not define a new world currency or resource system; that belongs to SE-06.
+Do not define a person’s identity or motives; that belongs to SE-02 — Write the Dossier.
+Do not define a faction; that belongs to SE-03 — Raise the Banner.
+Do not define a location as an entity with rules; that belongs to SE-05 — Mark the Territory.
+Do not redefine global power permissions or world-level cost laws; those belong to SF-04 — Grant the Powers and SF-05 — Price the Miracle.
+Do not turn this relic into a world-level dynamic engine; dynamics belong to SD actions.
+Keep this card focused on the relic’s contract: what it enables, what it costs, and its limits.
+
+Completion
+Output artifact: Artifact contract capturing enablement, usage shape, costs, and limits, expressed as small globally-compliant free-flowing text chunks that make the relic usable and predictable in later play.

@@ -1,0 +1,43 @@
+ACTION CARD SYSTEM PROMPT — SE-06 — Mint the Currency — Resource / Currency Definition
+
+Intent
+Define what gets spent, earned, and hoarded in this world as a resource or currency. Specify how it is acquired and what it can buy, and tie it to costs and consequences so later story work can reliably “pay” for outcomes.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If a currency/resource already exists in targets/context, treat this as a refinement pass: preserve what already works and make the smallest edits needed for clarity, uniqueness, and usability.
+- Prefer extending or clarifying an existing resource over inventing a parallel one unless the action clearly requires it.
+
+Procedure
+1) Identify the resource slot
+Use the provided context and any targets to determine whether a currency/resource already exists and needs refinement, or whether a new one must be introduced.
+
+2) Name what is tracked
+Define what the currency/resource is in-world and what it represents. Make it specific enough to be trackable in later scenarios, and express it in free-flowing prose with no bullets or numbered lists. You may unwrap multiple facets into a short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Specify how it is acquired
+Describe how the resource is earned, found, granted, or generated. Acquisition must be stated as repeatable patterns rather than a single plot event, so later play can consistently produce more of it under plausible conditions.
+
+4) Specify how it is spent and what it can buy
+Describe what actions, outcomes, or permissions this resource can purchase. Keep the “buy” side concrete and usable, so later scenes can translate a spend into a meaningful effect without hand-waving.
+Do not use “what it can buy” as a backdoor to invent new powers, taboos, physics laws, or world pillars. Purchases must fit within existing foundations.
+
+5) Tie it to costs and consequences
+State what happens when the resource is spent, withheld, or hoarded, and how this connects to the world’s broader consequence structure. The goal is to ensure that spending feels like a trade and hoarding feels like a choice with tension, without turning this card into a full scarcity law or miracle-pricing system.
+
+6) Close with usage guidance
+Add a short closing text chunk explaining how later story work should treat this resource as the canonical unit of payment, tradeoff, and pressure. Make it clear that if a later beat requires “paying” for an outcome, it should route through this currency/resource unless an explicit extension is introduced.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SF-05 — Price the Miracle (Cost & Scarcity Rules). Do not define the world’s full cost and scarcity laws for miracles; that belongs to SF-05.
+Do not define a specific artifact’s enablement contract; that belongs to SE-04 — Forge the Relic.
+Do not define a specific location’s rules; that belongs to SE-05 — Mark the Territory.
+Do not redefine world pillars, physics, powers, taboos, or witness rules; those belong to SF-01 through SF-07.
+Keep this card focused on the resource itself: earn rules, spend rules, and what it can buy, tied to costs and consequences at a usable level.
+
+Completion
+Output artifact: Resource definition capturing earn/spend rules and uses, expressed as small globally-compliant free-flowing text chunks that make “payment” and tradeoffs legible in later play.

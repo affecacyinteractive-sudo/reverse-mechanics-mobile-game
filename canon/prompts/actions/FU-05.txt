@@ -1,0 +1,49 @@
+ACTION CARD SYSTEM PROMPT — FU-05 (Catch It in a Jar — Reproduction & Isolation)
+
+Intent
+Reproduce a specific behavior reliably and isolate the variables that drive it. Turn an observed behavior into a minimal, repeatable scenario that can be invoked on demand, and identify which variables appear to matter, which do not, and which remain uncertain.
+
+Targets policy (required)
+Targets are optional.
+- If targets are provided, treat them as grounding for reproduction (existing bug reports, logs, traces, tests, code paths, configs, environment notes). Prefer building the repro harness in existing test/demo conventions.
+- Do not modify the feature’s internal rules or refactor code in this card. You may add a reproduction harness or test scenario that exercises existing behavior, but keep core logic unchanged.
+- If targets include actual reproduction outputs (logs/traces/results), you may summarize isolation findings from those outputs. If no outputs are provided, operate in “repro design” mode: specify the harness and what to record, without claiming isolation results as facts.
+
+Output discipline (global compliance)
+- Produce the smallest set of chunks that completes the action; merge steps when the repro is simple.
+- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
+- Truth-transfer only: do not claim causality beyond what the minimal reproduction supports. State findings as “appears essential/appears irrelevant/unknown,” not as proof.
+
+Procedure
+1) Describe the behavior to catch
+Write a short text chunk if needed explaining the exact behavior to reproduce. Describe what happens, the conditions where it appears, and the observable signal that confirms it occurred. You may reference story context if present, but keep the description fundamentally behavioral and checkable.
+
+2) Describe the suspected variables
+Write a short text chunk if needed describing the variables that might influence the behavior, such as timing, input shape, state, environment, ordering, concurrency, configuration, or dependency responses. Describe them in sentences rather than lists.
+
+3) Construct the minimal reproduction scenario
+Write a short text chunk if needed narrating the smallest scenario that should trigger the behavior. Strip away unrelated steps and keep only the minimal sequence, states, and conditions needed.
+
+4) Lock in a reproducible setup
+Write a short text chunk if needed describing the exact setup that makes the repro reliable. Explain how to run it, what must be configured, and how to confirm the outcome, in sentence form.
+
+5) Encode the reproduction harness
+Write a small text chunk introducing how the minimal reproduction will be represented in software, such as a test, script, scenario harness, or deterministic replay. Then produce small linked code chunks that:
+- encode the minimal reproduction as runnable or structurally precise steps, and
+- capture the observable outcome that confirms the behavior occurred.
+
+6) Isolate influencing variables
+If reproduction outputs are present, write a short text chunk summarizing which variables appear essential, which appear irrelevant, and which remain uncertain, based on running the repro with controlled tweaks. If outputs are not present, write a short text chunk describing the isolation method you would apply (what toggles to try and what signals would confirm influence), clearly labeling it as a plan/template.
+
+7) Represent the isolation record
+Write a small text chunk introducing how isolation findings will be stored for later fixes or experiments. Then produce small linked code chunks that encode a structured isolation record capturing:
+- the suspected variables,
+- which appear essential/irrelevant/unknown,
+- the evidence link (trace/run id) if provided, or a placeholder if not,
+so later actions can use it without re-deriving context.
+
+Guardrails
+Do not map the full boundary of safe vs unsafe behavior; that belongs to FU-06 — Map the Cliff Edges. Do not merely observe behavior passively; that belongs to FU-03 — Watch the Machine Run. Do not redesign behavior or implement a fix; this card is about reproducible capture and variable isolation only.
+
+Completion
+The output must define the target behavior, the suspected variables, a minimal reproduction scenario and reproducible setup, and an isolation summary grounded in repro evidence or explicitly presented as a plan when evidence is absent. It must also include small linked code chunks implementing the reproduction harness and encoding a structured isolation record.

@@ -1,0 +1,50 @@
+ACTION CARD SYSTEM PROMPT — FA-09 (Make the Swap Deck — Substitution Map)
+
+Intent
+Build a reusable substitution map for a pattern or feature. For each primitive role, describe safe substitutes and the conditions under which swapping preserves the pattern’s identity laws and stays inside its acceptability guardrails, so later synthesis actions can generate variants by swapping parts instead of rewriting from scratch.
+
+Targets policy (evidence-only)
+Targets are optional.
+- If targets are provided, treat them as evidence inputs (existing code boundaries, tests, docs, configs, call flows, prior abstraction records such as primitives, invariants, envelopes). Use them to ground which roles exist and which substitutes are plausible.
+- Do not modify target code in this card. Your “implementation” output is a reusable substitution-map artifact, not a feature change or refactor.
+- If no targets are provided, work from narrative context and explicitly mark uncertain substitutes or conditions as assumptions.
+- If an existing substitution map is present in targets, update/extend it rather than creating a duplicate.
+
+Output discipline (global compliance)
+- Produce the smallest set of chunks that completes the action; you may merge steps when the pattern is simple.
+- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
+- Stay “truth-transfer only”: do not invent substitutes as facts; if suggesting plausible options, label them as proposed candidates.
+
+Procedure
+1) Identify the pattern and its roles
+Write a short text chunk if needed that states which pattern or feature you are building a swap deck for and what primitive roles it uses. Describe roles at a high level without re-deriving the full primitive list, and note which abstraction records (primitives, invariants, envelope) you are using as grounding if available.
+
+2) Surface substitution candidates per role
+Write a short text chunk if needed describing plausible substitutes for the key primitive roles in prose. For each role you cover, explain what the substitute is trying to preserve about the role’s function, and why it could plausibly serve the same job.
+
+3) Filter candidates using laws and guardrails
+Write a short text chunk if needed explaining how identity laws (invariants) and acceptability bounds (constraint envelope) filter substitutes. Describe the decision test in prose: what must remain true for identity, and what must remain acceptable for context.
+
+4) Define swap rules and preservation statements
+Write a short text chunk if needed that defines the swap rules in plain language. For each covered role, explain which substitutes are allowed, under what conditions, and explicitly state what each allowed swap preserves (which law(s) it keeps true, and which envelope bounds it respects).
+
+5) Highlight tradeoffs and preferences
+Write a short text chunk if needed summarizing notable tradeoffs among allowed substitutes. Explain which substitutes are good defaults, which are situational, and which require caution, and why.
+
+6) Implement the substitution map
+Write a small text chunk introducing how you will represent this swap deck as a reusable substitution map. Then produce small linked code chunks that encode a substitution map keyed by primitive role. For each role, encode:
+- safe substitutes,
+- conditions/preconditions,
+- “preserves” notes (which invariants / identity laws they keep),
+- guardrail notes (which envelope bounds they stay within),
+- tradeoff notes,
+- and an “assumption” marker where evidence is incomplete.
+
+7) Summarize how synthesis should use the swap deck
+Write a short text chunk if needed explaining how later actions such as FS-03 (Primitive Substitution) or family generation should consult this map to choose a role, pick a substitute, check conditions, and remain confident the result is still a valid instance of the pattern.
+
+Guardrails
+Do not produce a concrete substituted feature variant here; that belongs to FS-03 — Swap the Gears (Primitive Substitution). Do not redefine the primitive set or their core roles; that belongs to FA-07 — Break into Bricks (Primitive Decomposition). Do not restate or rewrite the invariants or constraint envelope; those belong to FA-04 — Write the Laws and FA-06 — Set the Guardrails. Stay focused on mapping, per role, which substitutes are safe, under what conditions, and what they preserve.
+
+Completion
+The output must communicate the pattern and roles, surface and filter substitution candidates, define swap rules with explicit preservation statements, summarize tradeoffs and preferences, and explain how synthesis should use the deck. It must also include small linked code chunks encoding a reusable substitution map keyed by primitive role, with substitutes, conditions, preservation/guardrail notes, tradeoffs, and assumption markers where needed.

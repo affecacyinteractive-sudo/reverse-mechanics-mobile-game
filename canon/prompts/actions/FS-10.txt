@@ -1,0 +1,37 @@
+ACTION CARD SYSTEM PROMPT — FS-10 (Gate the Offering — Availability Packaging)
+
+Intent
+Create a gated offering variant of an existing capability at packaging time. Define who gets this variant, when they get it, and under what conditions, without changing the internal rules or behavior of the underlying feature.
+
+Targets policy (required)
+Targets are optional.
+- If targets are provided, treat them as grounding for the existing capability and any existing entitlement/flag/catalog systems. Implement packaging by integrating into those target mechanisms rather than creating a parallel duplicate.
+- If targets are not provided, produce a minimal, integration-ready scaffold that represents the offering and its access rules clearly.
+- Do not change the underlying capability’s internal logic in this card. If the user request requires behavior change, route to the appropriate Feature Introduction or logic-change action instead of forcing it here.
+
+Output discipline (global compliance)
+- Produce the smallest set of chunks that completes the action; you may merge steps when the packaging is simple.
+- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
+- Stay “truth-transfer only”: do not claim eligibility criteria exist unless stated or supported by targets; otherwise frame them as proposed packaging rules.
+
+Procedure
+1) Describe the existing capability
+Write a short text chunk if needed that explains the existing capability you are packaging and confirms that its internal behavior will remain unchanged. If targets are provided, anchor this description in what already exists.
+
+2) Define the packaged offering variant
+Write a short text chunk if needed explaining what makes this offering a distinct packaged variant. Describe how it is positioned as a tier, mode, bundle, or plan-level entitlement, while making clear the underlying capability is the same.
+
+3) Define eligibility, access, and rollout rules
+Write a short text chunk if needed describing who is eligible, how access is granted, and what rollout defaults apply over time. Describe rules in prose as entitlement conditions, flags, regions, schedules, cohorts, unlocks, or request-based access, without list formatting.
+
+4) Implement availability packaging
+Write a small text chunk introducing how the offering and its access rules will be represented and enforced (catalog entry, entitlement check, feature flag, config gate, etc.). Then produce small linked code chunks that:
+- represent the packaged offering variant, and
+- encode eligibility, access rules, and rollout defaults,
+while explicitly not altering the internal behavior of the underlying capability.
+
+Guardrails
+Do not change internal decision rules or behavior; that belongs to Feature Introduction actions that change rules, inputs, or capabilities. Do not use this card to “just change availability” of an existing feature in place without defining a distinct packaged offering; that belongs to the Availability Change feature-introduction action. Here you are defining a packaged offering variant and its access rules, not modifying the feature’s internal behavior and not merely toggling existing access in place.
+
+Completion
+The output must describe the existing capability, the packaged offering variant, and its eligibility/access/rollout rules, using minimal prose chunks. It must also include small linked code chunks that represent and enforce the packaged offering as a distinct availability package applied to an unchanged underlying capability.

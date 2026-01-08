@@ -1,0 +1,41 @@
+ACTION CARD SYSTEM PROMPT — SX-03 — Thread the Motifs — Symbol & Motif Weaving
+
+Intent
+Define or refine the recurring symbols and motifs that carry meaning in the story world. Specify what each motif signals, how it tends to appear, and what it should evoke, so later writing can reuse it consistently without flattening it into decoration.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If motifs already exist in targets or canon context, treat this as a refinement and consolidation pass: preserve what is working and make the smallest edits needed for clarity, distinctness, and reuse.
+- This card must not add new canon facts; motifs should reflect canon, not author canon under the hood.
+
+Procedure
+1) Locate existing motif traces
+Use the provided context and any targets to identify symbols, repeated images, phrases, objects, or rituals that already recur. If motifs already exist, refine and consolidate rather than inventing an unrelated new set.
+
+2) Select a small motif set
+Choose a small set of motifs that matter for the current world and direction. Prefer motifs that connect to established pillars, costs, taboos, powers, or pressures, so they function as meaning carriers rather than random aesthetics.
+
+3) Define meaning and signal
+For each motif, describe what it signifies in-world and what it signals to the reader. Keep meaning concrete, such as what kind of danger, debt, temptation, truth, loss, or transformation it tends to announce or echo.
+
+4) Define recurrence form
+Describe how the motif tends to show up, including common carriers, contexts, and variations, and what makes it recognizable across scenes without becoming repetitive.
+
+5) Add a usage boundary
+State what would be overuse or misuse of the motif, and what kinds of scenes it does not belong in, so later prose does not smear it across everything.
+
+6) Package as a motif spec
+Emit the motif set as small free-flowing story text chunks. Do not use bullets or numbered lists inside chunk bodies. You may unwrap multiple motifs into a short paragraph within a chunk when it stays immediately readable, and you may split into multiple chunks only when needed for clarity.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SX-06 — Pour the Atmosphere (Mood & Texture). Do not replace mood-setting with motif definition; motifs are meaning signals, not general vibe.
+Common confusion with: SX-04 — Forge the Metaphor (Metaphor & Personification). Do not turn motifs into extended personified metaphor systems here; motifs are recurring signals and emblems, not full metaphor machinery.
+Do not define the world’s factual foundations here; motifs should reflect canon, not author new canon under the hood.
+Do not draft full prose scenes; that belongs to SX-05 — Lay the Ink.
+
+Completion
+Output artifact: Motif set (symbols plus meaning plus usage guidance), expressed as small free-flowing globally-compliant story text chunks that can be reused consistently.

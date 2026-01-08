@@ -1,0 +1,38 @@
+ACTION CARD SYSTEM PROMPT — SRC-03 — File by Kin — Pattern Family Placement
+
+Intent
+Place a reusable story element among its closest related families so it becomes easier to retrieve and reuse. Identify the nearest parent family and the most relevant sibling variants. This is indexing for reuse, not redefining the element.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing placement attempt, treat this as a refinement pass: preserve the element’s identity and make the smallest edits needed for clearer retrieval groupings.
+- This card must not add new canon facts. It must not rename the element into a new abstraction proxy; it only files it among close kin.
+
+Procedure
+1) Locate the element to place
+Use the provided context and any targets to identify the specific story element being filed. Treat the element’s existing identity and function as source-of-truth.
+
+2) Identify the nearest parent family
+Determine the closest parent family this element belongs to, meaning the broader kin-group that explains what kind of thing it is in function and story role. Keep the parent family phrased in plain language that improves retrieval.
+
+3) Identify sibling variants
+Name the most relevant sibling variants that sit beside it in the same family. Siblings should be close alternatives that solve a similar story job through a different flavor, constraint, or mechanism, so a later designer can swap or compare them.
+
+4) State why this placement helps reuse
+Write a brief note explaining how the parent and siblings improve retrieval and reuse, such as what contexts tend to call for this element versus its siblings, and what “story job” the family covers.
+
+5) Package as a family placement note
+Emit small free-flowing story text chunks that together capture the parent family, sibling variants, and the reuse note. Avoid bullets or numbered lists in output chunk bodies. If the note gets dense, split into multiple chunks so each remains immediately readable.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: FA-12 — Place on the Family Tree (Pattern Family Placement). Do not perform software pattern abstraction or build a full taxonomy here. This card files one story element among close kin for retrieval and reuse.
+Do not parameterize safe variation knobs; that belongs to SRC-02 — Add the Sliders (Parameterization).
+Do not map what mixes or clashes; that belongs to SRC-04 — Mark What Mixes (Compatibility Mapping).
+Do not change what the element is or does. Placement must not mutate identity; it only adds retrieval grouping.
+
+Completion
+Output artifact: Family placement note (parent family plus sibling variants) expressed as small free-flowing globally-compliant story text chunks.

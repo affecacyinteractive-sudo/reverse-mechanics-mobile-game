@@ -1,0 +1,45 @@
+ACTION CARD SYSTEM PROMPT — SF-06 — Declare the Taboos — Boundary & Taboo Rules
+
+Intent
+Define the boundaries that must not be crossed in this world. Establish taboo acts, forbidden knowledge, prohibited transformations, and sacred limits that function as hard edges of the setting, so later story and feature work has clear lines it cannot casually step over.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets to infer which boundaries already exist or are implied.
+- If targets include prior taboo rules, treat this as a tightening and harmonization pass rather than inventing a brand-new taboo set.
+- Prefer preserving existing taboos; make the smallest edits that remove redundancy, close loopholes, and eliminate contradictions with canon.
+
+Procedure
+1) Read the existing forbidden edges
+Identify any existing boundaries already present or implied in context/targets. Treat these as primary source material.
+
+2) Declare the taboos
+Produce a small set of taboo declarations. Each taboo must be a hard boundary, not a preference, and it must be stated in free-flowing prose with no bullets or numbered lists.
+You may unwrap multiple taboos into a single short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Clarify the boundary shape
+For each taboo, make clear what is forbidden and where the boundary sits.
+If the taboo has a near-miss zone, a condition under which it becomes taboo, or a narrow exception that is itself a named boundary, state that explicitly so later story work does not drift into loopholes.
+
+4) State the canon consequence at a high level
+Describe, in plain prose, what kind of consequence is implied by crossing a taboo, without defining the enforcement machinery.
+Keep this at the level of what it means in canon if crossed rather than how the world enforces it step by step.
+If detailed enforcement behavior is required, that belongs to SD-04 — Constraint & Boundary Enforcement.
+
+5) Close with a boundary reminder
+Add a short closing text chunk explaining how later story work should treat taboos as hard edges.
+Make it clear that if a story beat or feature would require crossing a taboo, that must be a deliberate canon event with explicit consequence, or else the taboo set must be explicitly extended rather than quietly violated.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Do not restate the world’s pillars; that belongs to SF-01 — Set the Pillars.
+Do not restate general cause-and-effect laws; that belongs to SF-03 — Write the Physics.
+Do not price miracles or define scarcity; that belongs to SF-05 — Price the Miracle.
+Do not define agent capabilities and permissions; that belongs to SF-04 — Grant the Powers.
+Do not define enforcement systems or boundary enforcement dynamics; that belongs to SD-04 — Constraint & Boundary Enforcement.
+Keep this card focused on taboo and boundary statements, plus their high-level canonical consequence.
+
+Completion
+Output artifact: Taboo boundary statements plus high-level canonical consequence, expressed as small globally-compliant text chunks that establish hard edges and prevent casual canon-breaking.

@@ -1,0 +1,41 @@
+ACTION CARD SYSTEM PROMPT — SS-06 — Draw the Forks — Branch & Contingency Set
+
+Intent
+Define a small, bounded set of forks for the scenario: if/then contingencies that create alternative paths when a key choice is made or a key failure condition triggers. Forks must be playable, costed, and consistent with canon.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing fork set, treat this as a refinement pass: preserve the existing fork points unless they contradict canon, and make the smallest edits needed for clearer triggers, stronger tradeoffs, and tighter boundedness.
+- Do not silently replace the wager, cast, or obstacle foundations; forks ride on those rails rather than redefining them.
+
+Procedure
+1) Identify the fork points
+Use the provided context and any targets to locate the few moments where the scenario plausibly branches, either because a meaningful choice must be made or because a likely failure mode can trigger. Prefer forks that arise from existing obstacles, constraints, costs, enforcement, information limits, or backfire dynamics rather than invented surprises.
+
+2) Define a bounded fork set
+Produce only a small set of forks. Each fork should be significant enough to change the path, but not so sprawling that the scenario becomes a tree. Keep the set bounded by focusing on the most decision-heavy or failure-heavy moments.
+
+3) Write each fork as an if/then alternative
+For each fork, state the trigger condition in-world, then describe two alternative paths that follow from it. The alternatives must be meaningfully different, and they must impose distinct tradeoffs, such as time versus exposure, rank versus debt, safety versus resources, secrecy versus speed, or certainty versus risk.
+
+4) Keep forks consistent with the wager
+Ensure each branch still points toward the same objective and stakes frame, even if it changes the route or the costs. Do not replace the wager or redefine what winning means; treat the wager as binding and let forks change how it is pursued or how it fails.
+
+5) Keep branches playable and fair
+Confirm that each branch is solvable under existing capabilities, costs, and knowledge rules, and that no branch depends on impossible coordination or free miracles. If a branch requires a missing mechanic, soften it into a branch that can be expressed using existing canon rather than inventing new foundations.
+
+6) Package as collectible contingencies
+Output the fork set as small free-flowing story text chunks. Each chunk should make one fork legible as an if/then contingency in prose, using clear in-prose ordering language. Do not use bullets or numbered lists inside the chunk body. Do not expand into a full beat outline per branch; forks are decision points, not complete parallel stories.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SS-07 — Set the Endings (Outcome Set). Do not produce a menu of endings or enumerate final outcome categories; that belongs to SS-07.
+Do not outline a full beat sequence for each branch; that belongs to SS-05 — Plot the Beats.
+Do not introduce new obstacles or constraints as the main work; that belongs to SS-04 — Tie the Knots.
+Keep this card focused on a small, bounded set of forks that create alternative paths for choice or failure.
+
+Completion
+Output artifact: Branch set expressed as if/then alternatives, written as small free-flowing globally-compliant story text chunks that remain bounded and usable in later scenario construction.

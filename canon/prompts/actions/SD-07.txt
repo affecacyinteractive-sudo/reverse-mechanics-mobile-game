@@ -1,0 +1,43 @@
+ACTION CARD SYSTEM PROMPT — SD-07 — Trigger the Backfire — Failure & Backfire Dynamics
+
+Intent
+Define generic failure and backfire patterns for the world’s dynamics. Include unintended side effects and reversals, and make failure feel systemic rather than random, so later scenarios can rely on “how things go wrong” as a predictable layer.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing failure/backfire catalog, treat this as a refinement pass: preserve what already works and make the smallest edits needed for clarity, canon-fit, and stronger predictability.
+- Do not silently replace the failure families unless the user explicitly requests a pivot.
+
+Procedure
+1) Choose the backfire surface
+Use the provided context (and targets, if present) to identify which kind of actions, mechanisms, powers, or pressures most need reliable backfire behavior right now. Treat this as a reusable dynamics layer, not a one-off twist designed for a single scene.
+
+2) Define failure families
+Describe a small set of repeatable backfire families that can occur when the relevant actions are attempted or pushed too far. Each family should read as a stable pattern the world produces under certain conditions, and it should be expressed in free-flowing prose with no bullet or numbered list formatting inside chunk bodies.
+
+3) Include reversals and unintended side effects
+For each failure family, clarify how it can reverse the intended benefit or create collateral harm. Make the reversal feel like a consequence of the mechanism being strained, misused, rushed, or stacked, rather than a moralistic punishment or a coin-flip.
+
+4) Specify triggers and conditions
+State what reliably triggers each backfire family. Triggers should be concrete enough that later story work can recognize when risk is being invited, such as overuse, stacking, shortcuts, taboo-adjacent behavior, missing prerequisites, conflicting signals, or pressure levels that exceed safe ranges.
+
+5) Describe warning signals and near-misses
+Describe what tends to show up right before the backfire, such as tells, instability cues, partial failures, or escalating friction. The goal is to make failure legible and playable rather than sudden and arbitrary.
+
+6) Define aftermath shape
+Describe what tends to remain after the backfire: residue, debt, damage, distrust, exposure, cooldown, scarcity tightening, or new constraints. Keep aftermath consistent with existing costs and enforcement, and ensure it creates follow-on pressure without requiring scenario-specific scripting.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SS-07 — Set the Endings (Outcome Set). Do not define endings or outcome sets for a specific scenario; that belongs to SS-07.
+Do not write a beat sequence, branch plan, or scenario seed; those belong to SS-01 through SS-06.
+Do not rewrite canon foundations; treat pillars, physics, powers, costs, taboos, and witness rules as upstream constraints.
+Do not turn backfire into a full action→cost accounting ledger; that belongs to SD-03 — Write the Bill.
+Do not invent or redefine taboo boundaries or their enforcement as the main work; taboo definition belongs to SF-06 and enforcement belongs to SD-04.
+Keep this card focused on reusable failure and backfire dynamics: predictable “how it goes wrong” families with triggers, warning signals, and aftermath.
+
+Completion
+Output artifact: Failure and backfire catalog expressed as small free-flowing globally-compliant story text chunks that define predictable backfire families, their triggers, warning signals, and aftermath.

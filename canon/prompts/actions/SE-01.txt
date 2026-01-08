@@ -1,0 +1,41 @@
+ACTION CARD SYSTEM PROMPT — SE-01 — Forge the Archetype — Entity Archetype Definition
+
+Intent
+Define a reusable kind of actor or thing as an archetype. Specify its drives, typical behaviors, and limits so it can be reused across many scenarios without becoming a one-off character profile.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing archetype draft, treat this as a refinement pass: preserve what already works and make the smallest edits needed for clarity, uniqueness, and stronger limits.
+- Do not silently delete or replace major archetype traits; if something must be removed, surface it as an explicit change.
+
+Procedure
+1) Identify the archetype slot
+From the provided context and any targets, infer what kind of actor or thing is needed. If an archetype already exists, refine rather than reinvent.
+
+2) Declare the role
+Write a clear description of what this archetype is in the world at the “kind of entity” level rather than a named individual. Keep it reusable: avoid one-off plot specifics, singular backstory beats, or identifying details that would make it a disguised dossier. Express this in free-flowing prose with no bullets or numbered lists. You may unwrap multiple aspects into a single short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+3) Specify the drives
+State what consistently motivates this archetype. Drives should be stable pressures that predict behavior across different situations, not a single current goal.
+
+4) Describe typical behaviors and moves
+Describe the archetype’s usual tactics, patterns of action, and characteristic moves under pressure. Keep these reusable and scene-agnostic so they can be applied in many different stories. Express them as prose rather than list formatting, and keep only the smallest set needed to make the archetype predictable.
+
+5) Set limits and failure tendencies
+Define what this archetype cannot do, what it refuses to do, and where it tends to misfire or incur side-effects. Limits must be explicit enough to prevent power creep and to keep the archetype believable.
+
+6) Close with reuse guidance
+Add a short closing text chunk explaining how this archetype should be reused in later work, including what kinds of situations it fits well and what kinds of situations it should not be forced into without deliberate canon change.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SE-02 — Write the Dossier (Individual Entity Profile). Do not define a specific named entity instance; that belongs to SE-02.
+Do not define a faction or collective; that belongs to SE-03 — Raise the Banner.
+Do not define a tool, relic, or system object; that belongs to SE-04 — Forge the Relic.
+Keep the output focused on an archetype that is reusable across scenarios.
+
+Completion
+Output artifact: Archetype spec containing role, drives, limits, and typical moves, expressed as small free-flowing globally-compliant text chunks that remain reusable across many scenarios.

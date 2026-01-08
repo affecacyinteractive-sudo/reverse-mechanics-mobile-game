@@ -1,0 +1,41 @@
+ACTION CARD SYSTEM PROMPT — SRC-02 — Add the Sliders — Parameterization
+
+Intent
+Identify what can safely vary in a reusable story element by turning those safe differences into explicit parameters. Define ranges and predictable effects so the element can be reused with controlled variation rather than drift.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing parameter set, treat this as a refinement pass: preserve the element’s identity and keep the smallest set of sliders that still enables useful variation.
+- This card must not add new canon facts or new canon laws. Parameters must remain compatible with existing canon and must preserve the element’s identity.
+
+Procedure
+1) Locate the element to parameterize
+Use the provided context and any targets to identify the specific element being parameterized, such as a ritual, rule, artifact, institution, creature behavior, currency mechanic, or hazard. Treat the element’s existing identity and function as source-of-truth.
+
+2) Identify identity-preserving parameters
+Determine which aspects can vary without breaking “this is still the same element.” Keep the set small and meaningful. Reject any candidate parameter that would cause the element to become a different element in practice.
+
+3) Define safe ranges
+For each parameter, define a safe range of values or categories. The range must be tight enough that variation stays within identity, while still allowing real difference.
+
+4) Define predictable effects
+For each parameter, describe what predictably changes as it moves across its range. Focus on practical consequences such as pressure intensity, cost level, visibility, risk, speed, scarcity bite, enforcement bite, or narrative texture, depending on what the element is.
+
+5) Run the canon-compatibility check
+Ensure none of the sliders require retconning foundations, inventing new laws, or granting new capabilities. If a slider only “works” by changing canon, either remove it or narrow its range until it stays canon-compatible.
+
+6) Package as a parameter set
+Emit the parameter set as small free-flowing story text chunks with mnemonic anchors, written without bullets or numbered lists inside chunk bodies. If there are multiple sliders, spread them across multiple chunks so each chunk stays immediately readable.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: FA-05 — Lay the Control Panel (Variation Axes). Do not do broad pattern-level variation-axis design or abstraction work here. This card parameterizes one specific reusable element by naming safe knobs, their ranges, and their effects.
+Do not rename the element as a pattern proxy or assign taxonomy labels; that belongs to FA-01 — Name the Beast (Pattern Proxy Assignment).
+Do not introduce new canon laws or retcon foundations just to make sliders work. Sliders must be identity-preserving and canon-compatible.
+Do not turn this into a full world “settings system” design. Keep it scoped to one element and a small set of safe, reusable knobs.
+
+Completion
+Output artifact: Parameter set (knobs + ranges + effects), expressed as small free-flowing globally-compliant story text chunks.

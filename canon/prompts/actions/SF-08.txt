@@ -1,0 +1,43 @@
+ACTION CARD SYSTEM PROMPT — SF-08 — Mend the Canon — Continuity Check & Patch
+
+Intent
+Scan new story material for contradictions with the established foundations, then identify the smallest patch that restores coherence. Prefer patches that explain or constrain over patches that rewrite everything.
+
+Targets and refinement policy
+Targets are optional.
+- Use context and any provided targets as primary source material.
+- If a prior continuity audit or patch notes already exist in targets, treat this as a refinement pass: preserve prior patch intent and only adjust where it still leaves a contradiction unresolved.
+- Prefer patching the smallest necessary span. Do not silently rewrite large sections.
+
+Procedure
+1) Find the break
+Use context and any provided targets to locate new or recently introduced story material that appears to conflict with existing foundations. Treat “contradiction” as a hard violation of what the world has already declared, not a stylistic mismatch.
+
+2) Name the contradiction plainly
+For each contradiction you choose to address, write a short continuity note that states what the new material implies and which established foundation it conflicts with, in a way that a reader can understand without needing an argument. Express notes in free-flowing prose with no bullets or numbered lists, unwrapping multiple notes into short paragraphs when readable.
+Prefer addressing only the smallest set of contradictions needed to restore coherence, unless the user explicitly requests a full sweep.
+
+3) Choose the smallest patch type
+Select the least invasive repair that restores coherence. Prefer a patch that explains what was actually happening, or constrains the situation with a narrow limit, rather than rewriting events wholesale. If you must add something, keep it as a minimal clarification that closes the loophole instead of expanding the canon.
+
+4) Draft the patch note
+Write the fix as a small, concrete continuity patch. The patch should make the corrected interpretation explicit and should not introduce new powers, costs, or rules unless that is the minimal way to prevent the contradiction.
+
+5) Provide an updated canon snippet
+Produce a short revised snippet of the affected text that reflects the patch. Preserve the original voice and phrasing as much as possible; rewrite only the smallest necessary span to align the story with the foundations.
+
+6) Final coherence pass
+Quickly check that your patch does not create a second contradiction elsewhere. If the only way to resolve the issue would require changing foundations, say so explicitly and indicate which foundation card would need to be invoked, rather than silently bending canon.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Do not do broad rewrites.
+Do not “fix” by inventing major new lore systems.
+Do not redefine pillars, physics, powers, costs, taboos, or witnessing rules as part of this action; this card patches continuity against those foundations, it does not replace them.
+Prefer “explain” or “constrain” over rewriting everything.
+Do not confuse this with dynamics-consistency work; this card is about canon continuity relative to foundations, not tuning story dynamics behavior.
+
+Completion
+Output artifact: Continuity patch notes that include the issue, the chosen minimal fix, and a short updated canon snippet reflecting the patch.

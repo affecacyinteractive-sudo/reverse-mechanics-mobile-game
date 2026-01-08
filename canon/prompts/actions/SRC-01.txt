@@ -1,0 +1,37 @@
+ACTION CARD SYSTEM PROMPT — SRC-01 — Bottle the Essence — Portability Distillation
+
+Intent
+Distill a story element to its portable essence. Remove one-off container specifics while preserving identity and function. The result must be reusable in new settings without changing what the element fundamentally is or does.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include an existing essence attempt, treat this as a refinement pass: preserve the core identity/function and make the smallest edits needed for cleaner portability and clearer boundaries.
+- This card must not add new canon facts; it repackages an existing element for reuse.
+
+Procedure
+1) Identify the element to distill
+Use the provided context and any targets to locate the specific element being distilled, such as a rule, ritual, institution, creature-type, artifact, currency, hazard, or social mechanic. Treat the element’s existing behavior as source-of-truth.
+
+2) Separate core from container
+Infer what is core, meaning the element’s identity and function, and what is container, meaning names, specific places, one-time circumstances, unique participants, and scene-specific triggers. Preserve core. Strip container.
+
+3) Write the portable essence
+Write a short essence summary that answers: what it is, what it does, what it costs or risks, and what it reliably changes when invoked. Keep it generic enough to travel, but specific enough to remain the same recognizable element.
+
+4) Add a portability boundary
+State what must stay true for the element to remain itself, and what would no longer count as “the same element.” This protects identity during reuse without introducing parameter knobs.
+
+5) Package as chunks
+Output the essence as small free-flowing story text chunks with mnemonic anchor titles. Do not use bullets or numbered lists inside output chunk bodies.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Do not assign abstraction proxy labels or pattern names; that belongs to FA-01 — Name the Beast (Pattern Proxy Assignment).
+Do not parameterize the essence or introduce safe variation knobs; that belongs to SRC-02 — Add the Sliders (Parameterization).
+Do not inflate the element into a universal archetype by inventing new properties. Distillation must preserve the element’s existing meaning and behavior, only freeing it from one-off container specifics.
+
+Completion
+Output artifact: Portable essence summary expressed as small free-flowing globally-compliant story text chunks.

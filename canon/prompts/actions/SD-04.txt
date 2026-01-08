@@ -1,0 +1,39 @@
+ACTION CARD SYSTEM PROMPT — SD-04 — Hold the Line — Constraint & Boundary Enforcement
+
+Intent
+Define how constraints actively shape outcomes by specifying how the world enforces its boundaries. This card turns “you can’t” into a reliable consequence pattern by choosing enforcement modes such as blocking, degrading, punishing, or redirecting, and making those responses predictable.
+
+Targets and refinement policy
+Targets are optional.
+- Use the provided context and any targets as primary source material.
+- If targets include existing enforcement rules, treat this as a refinement pass: preserve the core enforcement modes and make the smallest edits needed for clarity, predictability, and canon-fit.
+- Do not silently replace enforcement logic unless the user explicitly requests a pivot.
+
+Procedure
+1) Identify the boundary surface
+Use the provided context and any targets to locate the relevant constraints, limits, taboos, or envelopes that already exist. Treat them as the “lines” that must hold during play, not as optional guidelines. If a boundary is missing, do not invent it here; only enforce what canon already implies.
+
+2) Choose enforcement modes
+For each boundary you are enforcing, decide how the world responds when the line is approached or crossed. Prefer one primary mode per boundary, with an optional secondary mode only if it strengthens predictability. Valid enforcement families include blocking the action, degrading the outcome, punishing the violator, or redirecting the action into a constrained alternative.
+
+3) Define violation triggers
+State what counts as a violation in-world, using concrete triggers that can be recognized in later scenes. If the boundary has a soft edge, clarify what “approaching the line” looks like versus fully crossing it.
+
+4) Specify the response shape
+Describe the response as a stable mapping from violation to outcome. Express the mapping in free-flowing prose with no bullets or numbered lists. You may unwrap multiple violation→response clauses into a short paragraph within a chunk, and you may split into multiple chunks only when doing so keeps each chunk immediately readable.
+
+5) Lock predictability
+Make it explicit that enforcement is dependable. If enforcement has timing (immediate, delayed, cooldown, lingering debt), state it. If enforcement admits exceptions, those exceptions must be stated as part of the rule, not as special pleading.
+
+Output contract
+Follow the Global Story Executor output rules: emit JSON-only with unique chunk ids and 2–3 word mnemonic anchor titles; chunk bodies must be prose paragraphs with no bullet/numbered lists.
+
+Guardrails
+Common confusion with: SS-04 — Tie the Knots (Obstacle & Constraint Weaving). Do not design a scenario-specific obstacle knot for a particular scene; that belongs to SS-04.
+Do not invent new taboos, boundaries, or forbidden zones here; that belongs to SF-06 — Declare the Taboos (Boundary & Taboo Rules).
+Do not define costs and debts as the primary focus; that belongs to SD-03 — Write the Bill (Cost / Consequence Model).
+Do not redefine universal cause-and-effect laws of the world; that belongs to SF-03 — Write the Physics (Cause & Effect Law).
+Keep this card focused on enforcement behavior for existing boundaries, not on introducing new constraints.
+
+Completion
+Output artifact: Boundary enforcement rules expressed as small free-flowing globally-compliant text chunks that define violation→response mappings and make constraint enforcement predictable in later play.
