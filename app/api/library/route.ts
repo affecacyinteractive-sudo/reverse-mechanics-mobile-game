@@ -28,12 +28,17 @@ export async function GET(req: Request) {
 
     const { sessionId } = parsed.data;
 
-    // Global Actions always included
     const globalActionsWhere = and(
         isNull(cards.sessionId),
         eq(cards.zone, "LIBRARY"),
         eq(cards.kind, "ACTION"),
         notInArray(cards.canonId, ["GSE-SW", "GSE-ST"])
+    );
+
+    const globalPromptsWhere = and(
+        isNull(cards.sessionId),
+        eq(cards.zone, "LIBRARY"),
+        eq(cards.kind, "PROMPT")
     );
 
     // Session-scoped prompts (optional)
@@ -42,7 +47,8 @@ export async function GET(req: Request) {
             ? and(eq(cards.sessionId, sessionId), eq(cards.zone, "LIBRARY"), eq(cards.kind, "PROMPT"))
             : null;
 
-    const whereClause = sessionPromptsWhere ? or(globalActionsWhere, sessionPromptsWhere) : globalActionsWhere;
+    // If you still want session prompts later, keep them, but not required for now.
+    const whereClause = or(globalActionsWhere, globalPromptsWhere);
 
     const rows = await db
         .select({

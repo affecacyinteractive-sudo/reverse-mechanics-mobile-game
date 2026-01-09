@@ -11,7 +11,9 @@
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx scripts/seed.ts",
     "db:seed:actions": "tsx scripts/seed-actions.ts",
-    "db:check": "tsx scripts/check-data.ts"
+    "db:check": "tsx scripts/check-data.ts",
+    "db:seed:prompts": "tsx scripts/seed-prompts.ts",
+    "db:seed:generated": "tsx scripts/seed-generated.ts"
   },
   "dependencies": {
     "@ai-sdk/google": "^3.0.6",
