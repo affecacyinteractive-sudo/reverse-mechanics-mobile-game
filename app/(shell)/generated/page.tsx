@@ -64,7 +64,8 @@ export default function GeneratedPage() {
     const selectedCard = useMemo(() => {
         if (!selectedId) return null;
         const c = allCards.get(selectedId);
-        return c ? { id: c.id, anchor: c.anchor, body: c.body } : null;
+        // Generated cards are never drafts
+        return c ? { id: c.id, anchor: c.anchor, body: c.body, isDraft: false } : null;
     }, [selectedId, allCards]);
 
     return (
@@ -96,6 +97,7 @@ export default function GeneratedPage() {
                                         id={c.id}
                                         anchor={c.anchor}
                                         bodyPreview={preview(c.body)}
+                                        isDraft={false}
                                         onOpenDetails={(cardId) => {
                                             setSelectedId(cardId);
                                             setOpen(true);
@@ -112,5 +114,3 @@ export default function GeneratedPage() {
         </MobileContainer>
     );
 }
-
-

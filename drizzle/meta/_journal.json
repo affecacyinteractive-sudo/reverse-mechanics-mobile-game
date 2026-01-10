@@ -8,6 +8,13 @@
       "when": 1767850638866,
       "tag": "0000_nasty_paladin",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1768024913955,
+      "tag": "0001_add_is_draft_to_cards",
+      "breakpoints": true
     }
   ]
 }

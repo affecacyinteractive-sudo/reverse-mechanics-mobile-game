@@ -68,6 +68,8 @@ export const cards = pgTable(
         anchor: text("anchor").notNull(),
         body: text("body").notNull(),
 
+        isDraft: boolean("is_draft").notNull().default(false),
+
         isCommitted: boolean("is_committed").notNull().default(false),
 
         // actions are immutable

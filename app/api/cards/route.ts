@@ -13,7 +13,7 @@ const QuerySchema = z.object({
 
 export async function GET(req: Request) {
     const url = new URL(req.url);
-    const parsed = QuerySchema.safeParse({
+    const parsed = QuerySchema.safeParse.call(QuerySchema,{
         ids: url.searchParams.get("ids") ?? "",
     });
 
@@ -39,6 +39,7 @@ export async function GET(req: Request) {
             domain: cards.domain,
             canonId: cards.canonId,
             meta: cards.meta,
+            isDraft: cards.isDraft,
         })
         .from(cards)
         .where(inArray(cards.id, uuids.data));

@@ -1,14 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
 import { useHandStore } from "@/store/handStore";
 import { Button } from "@/components/ui/button";
-import {
-    Sheet,
-    SheetContent,
-    SheetHeader,
-    SheetTitle,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 
 export default function CardDetailsSheet(props: {
     open: boolean;
@@ -18,6 +12,8 @@ export default function CardDetailsSheet(props: {
         id: string;
         anchor: string;
         body: string;
+        // NEW
+        isDraft?: boolean;
     } | null;
 }) {
     const toggle = useHandStore((s) => s.toggle);
@@ -25,6 +21,8 @@ export default function CardDetailsSheet(props: {
     const inHand = useHandStore((s) =>
         props.card ? s.items.some((x) => x.kind === "card" && x.id === props.card!.id) : false
     );
+
+    const disabled = Boolean(props.card?.isDraft);
 
     return (
         <Sheet open={props.open} onOpenChange={props.onOpenChange}>
@@ -39,16 +37,19 @@ export default function CardDetailsSheet(props: {
                             <Button
                                 variant={inHand ? "secondary" : "default"}
                                 size="sm"
-                                onClick={() => toggle({ kind: "card", id: props.card!.id })}
+                                disabled={disabled}
+                                onClick={() => {
+                                    if (disabled) return;
+                                    toggle({ kind: "card", id: props.card!.id });
+                                }}
+                                title={disabled ? "Draft cards can’t be added to Hand. Remove Draft first." : undefined}
                             >
-                                {inHand ? "In Hand" : "+ Hand"}
+                                {disabled ? "Draft" : inHand ? "In Hand" : "+ Hand"}
                             </Button>
                         </div>
 
                         <div className="rounded-lg border p-3">
-                            <div className="whitespace-pre-wrap text-sm leading-relaxed">
-                                {props.card.body}
-                            </div>
+                            <div className="whitespace-pre-wrap text-sm leading-relaxed">{props.card.body}</div>
                         </div>
 
                         <div className="text-xs opacity-60">ID: {props.card.id}</div>

@@ -27,7 +27,7 @@ async function resolveSessionId(sessionId?: string) {
 
 export async function GET(req: Request) {
     const url = new URL(req.url);
-    const parsed = QuerySchema.safeParse({
+    const parsed = QuerySchema.safeParse.call(QuerySchema,{
         sessionId: url.searchParams.get("sessionId") ?? undefined,
     });
 

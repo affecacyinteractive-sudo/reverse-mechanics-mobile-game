@@ -5,6 +5,7 @@ export type CardMeta = {
     domain: "SOFTWARE" | "STORY" | "NONE";
     canonId: string | null;
     meta: any;
+    isDraft: boolean;
 };
 
 export async function fetchCardMeta(ids: string[]): Promise<Record<string, CardMeta>> {
