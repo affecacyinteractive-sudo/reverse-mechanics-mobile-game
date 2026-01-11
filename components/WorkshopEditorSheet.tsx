@@ -1,83 +1,69 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useMutation } from "@tanstack/react-query";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 
-export type EditorDraft = {
-    kind: "OUTPUT" | "PROMPT";
-    anchor: string;
-    body: string;
-    domain: "SOFTWARE" | "STORY" | "NONE";
-    meta: any;
-};
+type Kind = "OUTPUT" | "PROMPT";
 
-type WorkshopCard = {
+type EditingCard = {
     id: string;
-    kind: "PROMPT" | "OUTPUT";
+    kind: Kind;
     domain: "SOFTWARE" | "STORY" | "NONE";
     anchor: string;
     body: string;
     meta: any;
+    isDraft: boolean;
 };
 
-function defaultDraft(kind: "OUTPUT" | "PROMPT"): EditorDraft {
+function isPlainObject(v: unknown): v is Record<string, any> {
+    return !!v && typeof v === "object" && !Array.isArray(v);
+}
+
+function defaultDraft(kind: Kind) {
     if (kind === "PROMPT") {
         return {
-            kind,
-            anchor: "New Prompt",
-            body: "Describe what to build next, grounded in the evolving story and targets.",
-            domain: "NONE",
+            domain: "NONE" as const,
+            anchor: "Execution Prompt",
+            body: "",
             meta: { prompt_type: "EXECUTION" },
         };
     }
     return {
-        kind,
-        anchor: "New Output",
-        body: "A small chunk of story/software output.",
-        domain: "NONE",
-        meta: { chunk_type: "text", tag: "story" },
+        domain: "NONE" as const,
+        anchor: "Output Card",
+        body: "",
+        meta: { chunk_type: "text" },
     };
 }
 
 export default function WorkshopEditorSheet(props: {
     open: boolean;
-    onOpenChange: (v: boolean) => void;
-    kind: "OUTPUT" | "PROMPT";
-    editing: WorkshopCard | null;
+    onOpenChange: (open: boolean) => void;
+    kind: Kind;
+    editing: EditingCard | null;
     onSaved: () => Promise<void> | void;
 }) {
-    const isEdit = Boolean(props.editing);
+    const [draft, setDraft] = useState(() => defaultDraft(props.kind));
+    const [saving, setSaving] = useState(false);
+    const [msg, setMsg] = useState<string | null>(null);
 
-    const initial = useMemo(() => {
-        if (props.editing) {
-            return {
-                kind: props.editing.kind,
-                anchor: props.editing.anchor,
-                body: props.editing.body,
-                domain: props.editing.domain,
-                meta: props.editing.meta ?? {},
-            } satisfies EditorDraft;
-        }
-        return defaultDraft(props.kind);
-    }, [props.editing, props.kind]);
+    const title = useMemo(() => {
+        if (props.kind === "PROMPT") return props.editing ? "Edit Prompt Draft" : "New Prompt (Gatekeeper)";
+        return props.editing ? "Edit Output Draft" : "New Output";
+    }, [props.kind, props.editing]);
 
-    const [draft, setDraft] = useState<EditorDraft>(initial);
-
-    // useEffect(() => {
-    //     setDraft(initial);
-    // }, [initial, props.open]);
-
+    // stable reset on open / id change
     useEffect(() => {
         if (!props.open) return;
 
+        setMsg(null);
+
         if (props.editing) {
             setDraft({
-                kind: props.editing.kind,
+                domain: props.editing.domain,
                 anchor: props.editing.anchor,
                 body: props.editing.body,
-                domain: props.editing.domain,
                 meta: props.editing.meta ?? {},
             });
         } else {
@@ -85,153 +71,159 @@ export default function WorkshopEditorSheet(props: {
         }
     }, [props.open, props.editing?.id, props.kind]);
 
+    async function save() {
+        setMsg(null);
 
-    const saveMutation = useMutation({
-        mutationFn: async () => {
-            if (isEdit && props.editing) {
-                const res = await fetch(`/api/workshop/cards/${props.editing.id}`, {
-                    method: "PATCH",
-                    headers: { "content-type": "application/json" },
-                    body: JSON.stringify({
-                        anchor: draft.anchor,
-                        body: draft.body,
-                        domain: draft.domain,
-                        meta: draft.kind === "PROMPT" ? { prompt_type: "EXECUTION", ...draft.meta } : draft.meta,
-                    }),
-                });
-                if (!res.ok) throw new Error("Update failed");
+        const anchor = draft.anchor?.trim?.() ?? "";
+        const body = draft.body ?? "";
+
+        if (!anchor) return setMsg("Anchor is required.");
+        if (!body.trim()) return setMsg("Body is required.");
+
+        setSaving(true);
+        try {
+            if (props.kind === "OUTPUT") {
+                if (props.editing) {
+                    const res = await fetch(`/api/workshop/cards/${props.editing.id}`, {
+                        method: "PATCH",
+                        headers: { "content-type": "application/json" },
+                        body: JSON.stringify({
+                            anchor,
+                            body,
+                            domain: draft.domain,
+                            meta: isPlainObject(draft.meta) ? draft.meta : {},
+                        }),
+                    });
+                    if (!res.ok) throw new Error("Failed to update output draft");
+                } else {
+                    const res = await fetch("/api/workshop/cards", {
+                        method: "POST",
+                        headers: { "content-type": "application/json" },
+                        body: JSON.stringify({
+                            kind: "OUTPUT",
+                            anchor,
+                            body,
+                            domain: draft.domain,
+                            meta: isPlainObject(draft.meta) ? draft.meta : {},
+                        }),
+                    });
+                    if (!res.ok) throw new Error("Failed to create output draft");
+                }
+
+                await props.onSaved();
+                props.onOpenChange(false);
                 return;
             }
 
-            const res = await fetch(`/api/workshop/cards`, {
+            // PROMPT gatekeeper path
+            if (!props.editing) {
+                // Create candidate: accept => insert draft, reject => create nothing
+                const res = await fetch("/api/workshop/prompts/gatekeeper", {
+                    method: "POST",
+                    headers: { "content-type": "application/json" },
+                    body: JSON.stringify({
+                        mode: "create",
+                        anchor,
+                        body,
+                        domain: draft.domain,
+                        meta: isPlainObject(draft.meta) ? draft.meta : {},
+                    }),
+                });
+
+                if (!res.ok) throw new Error("Gatekeeper failed");
+                const data = await res.json();
+
+                if (!data.accepted) {
+                    setMsg(`${data.reason ?? "Rejected."} (score ${data.score ?? "?"})`);
+                    return;
+                }
+
+                setMsg(`Accepted (score ${data.score}). Draft prompt created.`);
+                await props.onSaved();
+                props.onOpenChange(false);
+                return;
+            }
+
+            // Revalidate an existing draft prompt; reject => delete candidate
+            const res = await fetch("/api/workshop/prompts/gatekeeper", {
                 method: "POST",
                 headers: { "content-type": "application/json" },
                 body: JSON.stringify({
-                    kind: draft.kind,
-                    anchor: draft.anchor,
-                    body: draft.body,
+                    mode: "revalidate",
+                    id: props.editing.id,
+                    anchor,
+                    body,
                     domain: draft.domain,
-                    meta: draft.kind === "PROMPT" ? { prompt_type: "EXECUTION", ...draft.meta } : draft.meta,
+                    meta: isPlainObject(draft.meta) ? draft.meta : {},
                 }),
             });
-            if (!res.ok) throw new Error("Create failed");
-        },
-        onSuccess: async() => {
-           await props.onSaved();
-            props.onOpenChange(false);
-        },
-    });
 
-    const isOutput = draft.kind === "OUTPUT";
+            if (!res.ok) throw new Error("Gatekeeper failed");
+            const data = await res.json();
+
+            if (!data.accepted) {
+                // draft candidate deleted on server
+                setMsg(`${data.reason ?? "Rejected."} Draft was discarded. (score ${data.score ?? "?"})`);
+                await props.onSaved();
+                props.onOpenChange(false);
+                return;
+            }
+
+            setMsg(`Accepted (score ${data.score}). Draft updated.`);
+            await props.onSaved();
+            props.onOpenChange(false);
+        } catch (e: any) {
+            setMsg(e?.message ?? "Save failed");
+        } finally {
+            setSaving(false);
+        }
+    }
 
     return (
         <Sheet open={props.open} onOpenChange={props.onOpenChange}>
-            <SheetContent side="bottom" className="max-w-md mx-auto flex max-h-[85dvh] flex-col">
+            <SheetContent side="bottom" className="max-w-md mx-auto">
                 <SheetHeader>
-                    <SheetTitle>{isEdit ? "Edit Card" : "Create Card"}</SheetTitle>
+                    <SheetTitle>{title}</SheetTitle>
                 </SheetHeader>
 
-                <div className="mt-4 flex-1 overflow-y-auto space-y-3 pb-2">
-                    <label className="block">
+                <div className="mt-4 space-y-3">
+                    <div className="space-y-1">
                         <div className="text-xs opacity-70">Anchor</div>
                         <input
                             value={draft.anchor}
                             onChange={(e) => setDraft((d) => ({ ...d, anchor: e.target.value }))}
-                            className="mt-1 w-full rounded-lg border px-3 py-2 text-sm"
+                            className="w-full rounded-lg border px-3 py-2 text-sm"
                             maxLength={80}
                         />
-                    </label>
+                    </div>
 
-                    <label className="block">
-                        <div className="text-xs opacity-70">Domain</div>
-                        <select
-                            value={draft.domain}
-                            onChange={(e) => setDraft((d) => ({ ...d, domain: e.target.value as any }))}
-                            className="mt-1 w-full rounded-lg border px-3 py-2 text-sm"
-                        >
-                            <option value="NONE">None</option>
-                            <option value="STORY">Story</option>
-                            <option value="SOFTWARE">Software</option>
-                        </select>
-                    </label>
-
-                    {isOutput ? (
-                        <>
-                            <label className="block">
-                                <div className="text-xs opacity-70">Chunk Type</div>
-                                <select
-                                    value={draft.meta?.chunk_type ?? "text"}
-                                    onChange={(e) =>
-                                        setDraft((d) => ({
-                                            ...d,
-                                            meta: { ...(d.meta ?? {}), chunk_type: e.target.value },
-                                        }))
-                                    }
-                                    className="mt-1 w-full rounded-lg border px-3 py-2 text-sm"
-                                >
-                                    <option value="text">text</option>
-                                    <option value="code">code</option>
-                                </select>
-                            </label>
-
-                            <label className="block">
-                                <div className="text-xs opacity-70">Tag</div>
-                                <select
-                                    value={draft.meta?.tag ?? "story"}
-                                    onChange={(e) =>
-                                        setDraft((d) => ({
-                                            ...d,
-                                            meta: { ...(d.meta ?? {}), tag: e.target.value },
-                                        }))
-                                    }
-                                    className="mt-1 w-full rounded-lg border px-3 py-2 text-sm"
-                                >
-                                    <option value="story">story</option>
-                                    <option value="software">software</option>
-                                    <option value="none">none</option>
-                                </select>
-                            </label>
-
-                            {draft.meta?.chunk_type === "code" ? (
-                                <label className="block">
-                                    <div className="text-xs opacity-70">Language (optional)</div>
-                                    <input
-                                        value={draft.meta?.language ?? ""}
-                                        onChange={(e) =>
-                                            setDraft((d) => ({
-                                                ...d,
-                                                meta: { ...(d.meta ?? {}), language: e.target.value },
-                                            }))
-                                        }
-                                        className="mt-1 w-full rounded-lg border px-3 py-2 text-sm"
-                                        placeholder="ts, tsx, sql…"
-                                    />
-                                </label>
-                            ) : null}
-                        </>
-                    ) : (
+                    <div className="space-y-1">
                         <div className="text-xs opacity-70">
-                            Prompt type is fixed to <b>EXECUTION</b> in v1.
+                            {props.kind === "PROMPT" ? "Prompt Text" : "Body"}
                         </div>
-                    )}
-
-                    <label className="block">
-                        <div className="text-xs opacity-70">Body</div>
                         <textarea
                             value={draft.body}
                             onChange={(e) => setDraft((d) => ({ ...d, body: e.target.value }))}
-                            className="mt-1 w-full rounded-lg border px-3 py-2 text-sm min-h-[160px]"
+                            className="min-h-[180px] w-full rounded-lg border px-3 py-2 text-sm"
                         />
-                    </label>
-                </div>
+                    </div>
 
-                <div className="mt-2 flex gap-2">
-                    <Button variant="secondary" className="flex-1" onClick={() => props.onOpenChange(false)}>
-                        Cancel
-                    </Button>
-                    <Button className="flex-1" onClick={() => saveMutation.mutate()} disabled={saveMutation.isPending}>
-                        Save
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button onClick={save} disabled={saving}>
+                            {props.kind === "PROMPT" ? "Submit to Gatekeeper" : "Save Draft"}
+                        </Button>
+                        <Button variant="secondary" onClick={() => props.onOpenChange(false)} disabled={saving}>
+                            Cancel
+                        </Button>
+                    </div>
+
+                    {msg ? <div className="text-sm opacity-80">{msg}</div> : null}
+
+                    {props.kind === "PROMPT" ? (
+                        <div className="text-xs opacity-60">
+                            Gatekeeper is simulated. Rephrase to change the score.
+                        </div>
+                    ) : null}
                 </div>
             </SheetContent>
         </Sheet>
