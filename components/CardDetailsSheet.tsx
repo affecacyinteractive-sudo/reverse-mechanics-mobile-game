@@ -8,12 +8,15 @@ export default function CardDetailsSheet(props: {
     open: boolean;
     onOpenChange: (open: boolean) => void;
 
+    showCommit?: boolean;
+    onCommitToggle?: (nextCommitted: boolean, cardId: string) => Promise<void> | void;
+
     card: {
         id: string;
         anchor: string;
         body: string;
-        // NEW
         isDraft?: boolean;
+        isCommitted?: boolean;
     } | null;
 }) {
     const toggle = useHandStore((s) => s.toggle);
@@ -22,7 +25,7 @@ export default function CardDetailsSheet(props: {
         props.card ? s.items.some((x) => x.kind === "card" && x.id === props.card!.id) : false
     );
 
-    const disabled = Boolean(props.card?.isDraft);
+    const isDraft = Boolean(props.card?.isDraft);
 
     return (
         <Sheet open={props.open} onOpenChange={props.onOpenChange}>
@@ -37,15 +40,30 @@ export default function CardDetailsSheet(props: {
                             <Button
                                 variant={inHand ? "secondary" : "default"}
                                 size="sm"
-                                disabled={disabled}
+                                disabled={isDraft}
                                 onClick={() => {
-                                    if (disabled) return;
+                                    if (isDraft) return;
                                     toggle({ kind: "card", id: props.card!.id });
                                 }}
-                                title={disabled ? "Draft cards can’t be added to Hand. Remove Draft first." : undefined}
+                                title={isDraft ? "Draft cards can’t be added to Hand. Remove Draft first." : undefined}
                             >
-                                {disabled ? "Draft" : inHand ? "In Hand" : "+ Hand"}
+                                {isDraft ? "Draft" : inHand ? "In Hand" : "+ Hand"}
                             </Button>
+
+                            {props.showCommit ? (
+                                <Button
+                                    size="sm"
+                                    variant="secondary"
+                                    disabled={isDraft}
+                                    onClick={async () => {
+                                        const next = !Boolean(props.card?.isCommitted);
+                                        await props.onCommitToggle?.(next, props.card!.id);
+                                    }}
+                                    title={isDraft ? "Draft cards can’t be committed." : undefined}
+                                >
+                                    {props.card?.isCommitted ? "Uncommit" : "Commit"}
+                                </Button>
+                            ) : null}
                         </div>
 
                         <div className="rounded-lg border p-3">

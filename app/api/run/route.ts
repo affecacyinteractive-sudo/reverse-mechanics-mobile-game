@@ -9,6 +9,8 @@ import { getModel } from "@/lib/ai/model";
 import { GLOBAL_SOFTWARE_EXECUTOR } from "@/lib/prompts/globalSoftwareExecutor";
 import { GLOBAL_STORY_EXECUTOR } from "@/lib/prompts/globalStoryExecutor";
 import { parseExecutorOutput } from "@/lib/run/parseExecutorOutput";
+import { normalizeExecutorChunks } from "@/lib/run/normalizeExecutorChunks";
+
 
 export const runtime = "nodejs";
 
@@ -199,8 +201,15 @@ export async function POST(req: Request) {
 
         const parsed = parseExecutorOutput(result.text);
 
-        // If parse fails, create a single OUTPUT error card
-        const chunks = parsed.ok
+        console.log(`[run:${requestId}] parsed`, {
+            ok: parsed.ok,
+            chunks: parsed.ok ? parsed.chunks.length : 0,
+            error: parsed.ok ? null : parsed.error,
+        });
+
+        const executorMode = action.domain === "STORY" ? "STORY" : "SOFTWARE";
+
+        const rawChunks = parsed.ok
             ? parsed.chunks
             : [
                 {
@@ -211,12 +220,41 @@ export async function POST(req: Request) {
                 },
             ];
 
-        console.log(`[run:${requestId}] parsed`, {
-            ok: parsed.ok,
-            chunks: parsed.ok ? parsed.chunks.length : 0,
-            error: parsed.ok ? null : parsed.error,
+        const normalized = normalizeExecutorChunks({
+            chunks: rawChunks,
+            opts: {
+                mode: executorMode,
+                maxChunks: 16,
+                maxTotalChars: 14_000,
+                maxTextChars: 1200,
+                maxCodeChars: 3000,
+            },
         });
 
+// If the model output becomes empty after normalization, force one error chunk.
+        const finalChunks =
+            normalized.chunks.length > 0
+                ? normalized.chunks
+                : [
+                    {
+                        id: "t1",
+                        type: "text" as const,
+                        anchor: "Empty Output",
+                        body: "Model output was empty after normalization.",
+                    },
+                ];
+
+        // If parse fails, create a single OUTPUT error card
+        // const chunks = parsed.ok
+        //     ? parsed.chunks
+        //     : [
+        //         {
+        //             id: "t1",
+        //             type: "text" as const,
+        //             anchor: "Parse Error",
+        //             body: `Executor output invalid.\n\nReason: ${parsed.error}\n\nRaw:\n${result.text.slice(0, 2000)}`,
+        //         },
+        //     ];
 
         // Create a Generated deck + cards
         const deckTitle = `Run: ${action.anchor}`;
@@ -237,6 +275,8 @@ export async function POST(req: Request) {
                         actionId: action.id,
                         promptId: prompt.id,
                         targetIds: targets.map((t) => t.id),
+                        parseOk: parsed.ok,
+                        normalizerWarnings: normalized.warnings.length,
                     },
                 })
                 .returning({ id: decks.id });
@@ -244,7 +284,7 @@ export async function POST(req: Request) {
             const insertedCards = await tx
                 .insert(cards)
                 .values(
-                    chunks.map((c) => ({
+                    finalChunks.map((c) => ({
                         sessionId: sid,
                         kind: "OUTPUT",
                         zone: "GENERATED",
@@ -261,6 +301,9 @@ export async function POST(req: Request) {
                             chunk_id: c.id,
                             chunk_type: c.type,
                             link: c.type === "code" ? (c as any).link : null,
+                            normalizer: {
+                                warnings: normalized.warnings.slice(0, 30), // keep it small
+                            },
                         },
                     }))
                 )
@@ -287,7 +330,7 @@ export async function POST(req: Request) {
             cardIds: created.cardIds,
             durationMs,
             contextUsedChars: ctx.usedChars,
-            chunksOut: chunks.length,
+            chunksOut: finalChunks.length,
             parseOk: parsed.ok,
         });
 
