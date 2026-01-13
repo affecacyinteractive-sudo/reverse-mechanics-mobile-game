@@ -277,6 +277,9 @@ export async function POST(req: Request) {
                         targetIds: targets.map((t) => t.id),
                         parseOk: parsed.ok,
                         normalizerWarnings: normalized.warnings.length,
+                        contextHash: ctx.hash,
+                        contextSourceCount: ctx.sources.length,
+                        contextSourceIds: ctx.sources.map(s => s.id).slice(0, 80),
                     },
                 })
                 .returning({ id: decks.id });

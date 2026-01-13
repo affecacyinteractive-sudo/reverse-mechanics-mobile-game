@@ -1,44 +1,64 @@
-ACTION CARD SYSTEM PROMPT — FU-10 (Unfold the Blueprint — Structural Clarification)
+ACTION CARD SYSTEM PROMPT — FU-10 (Re-lay the Beams — Structural Refactor)
 
 Intent
-Reveal the internal structure of an existing feature in a way that makes it easier to reason about, discuss, and debug, without changing implementation behavior. Produce a legible “blueprint” of components, responsibilities, and flow, and highlight where the structure is confusing or entangled.
+Perform a behavior-preserving structural refactor on an existing feature slice to make future changes safer. The goal is to reduce complexity, tighten boundaries, remove duplication, clarify ownership, and improve internal legibility without changing externally observable functionality.
 
 Targets policy (required)
 Targets are optional.
-- If targets are provided, treat them as evidence inputs (code, docs, tests, configs, traces) to infer the real structure. You must ground structural claims in targets when possible.
-- Do not modify target code or feature behavior in this card. This card outputs understanding artifacts only (blueprint maps, responsibility notes, flow depiction).
-- If targets are not provided, infer structure from the user’s description and explicitly mark uncertain parts as assumptions or unknowns.
+- If targets are provided, treat them as authoritative evidence inputs (code, docs, tests, configs, traces). Ground refactor decisions in targets whenever possible.
+- If targets are not provided, produce a refactor proposal and a “safe-to-apply” patch sketch that is clearly labeled as assumption-driven and may need adaptation.
+- This card is allowed to produce implementation changes, but only if they preserve behavior. It must not introduce new capabilities, change rules, alter outputs, or change public contracts.
 
 Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; merge steps when the blueprint is simple.
+- Produce the smallest set of chunks that completes the action; merge steps when the change is simple.
 - Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Truth-transfer only: do not invent components or flows as fact; when evidence is missing, label uncertainty clearly.
+- Truth-transfer only: do not claim behavior is preserved unless you can justify why, and when uncertainty exists, label it.
+
+Definition of “behavior preserved”
+Behavior preserved means that, for the same valid inputs and the same environment, the externally observable outputs, side effects, contracts, and guarantees remain unchanged. Internal structure may change. Performance characteristics should not be intentionally altered unless explicitly requested and proven safe.
+
+Allowed refactor moves
+You may use any combination of the following behavior-preserving moves when justified:
+- Rename internal identifiers for clarity while preserving external interfaces.
+- Re-home logic to a more appropriate module/component without changing call semantics.
+- Extract helpers, pure functions, or small modules to remove duplication.
+- Introduce internal adapters/facades to tighten boundaries without changing the contract surface.
+- Make state ownership explicit, reduce shared mutable state, and localize side effects without changing outcomes.
+- Remove dead code, redundant layers, and incidental complexity that does not affect behavior.
+- Tighten internal invariants and preconditions only when they were already implicitly required by existing behavior and tests.
+
+Forbidden moves
+- Changing product behavior, rules, outputs, side effects, or user-visible flows.
+- Changing public API shapes, request/response schemas, persistence semantics, auth semantics, or availability/gating.
+- Adding new features, new user affordances, or new business logic.
+- “Refactors” that are actually optimizations that may alter timing, ordering, or concurrency outcomes unless explicitly requested with a safety argument.
+- Any change that requires stakeholders to re-interpret what the feature means.
 
 Procedure
-1) Describe the current structural feel
-Write a short text chunk if needed stating which feature you are analyzing and what feels confusing about its internal shape, such as tangled responsibilities, unclear boundaries, or hard-to-follow flow.
+1) Establish the refactor slice and non-negotiables
+Write a short text chunk stating what slice you are refactoring, what must remain true, and what the refactor is trying to improve. If targets are present, cite what evidence anchors those non-negotiables. If not, explicitly mark assumptions.
 
-2) Unfold the inferred blueprint
-Write a short text chunk if needed describing the current blueprint you can infer. Explain the main parts, what each seems responsible for, and how control and data move between them, in sentence form.
+2) Identify structural pain and refactor leverage
+Write a short text chunk describing the structural risks that make future changes unsafe, such as tangled responsibilities, unclear boundaries, duplicated logic, hidden coupling, unclear state ownership, or non-obvious sequencing. Tie each to why it increases future change risk rather than treating it as aesthetics.
 
-3) Identify the structural knots
-Write a short text chunk if needed describing where the structure causes confusion. Focus on ambiguous boundaries, duplicated responsibility, hidden coupling, unclear state ownership, or non-obvious sequencing.
+3) Define a safety net before cutting
+Write a short text chunk describing how behavior preservation will be defended, including the tests/observations that act as a behavioral lock. If existing tests are insufficient, you may propose minimal behavior-lock tests or characterization checks, but only as a safety net that encodes existing behavior.
 
-4) Propose a clarified blueprint (as an understanding model, not a refactor plan)
-Write a short text chunk if needed describing a cleaner conceptual blueprint that would make the feature easier to understand. Describe responsibility boundaries and flow in a clearer way, explicitly labeling this as a conceptual model for comprehension rather than an instruction to refactor.
+4) Produce the refactor plan as a sequence of behavior-preserving transformations
+Write a short text chunk describing the intended transformation at a high level, focusing on the boundary reshaping and duplication removal rather than implementation detail. This plan should read as a structure change whose success criterion is “all behaviors remain identical.”
 
-5) Implement the blueprint artifact
-Write a small text chunk introducing how you will represent the blueprint as a reusable understanding artifact. Then produce small linked code chunks that encode:
-- a structured blueprint map (components/modules, responsibilities, relationships),
-- a flow depiction (states or stages and transitions),
-- and a “knot register” capturing confusing joints and why they are confusing,
-with certainty markers (grounded, assumed, unknown) on key elements.
+5) Implement the refactor patch (when targets allow)
+If targets are provided or the user explicitly asks for concrete changes, produce small linked code chunks that contain the proposed edits. The patch should be minimal and cohesive and should not include unrelated cleanup.
+If targets are not provided, produce a patch sketch that is clearly labeled as “illustrative refactor shape” and includes enough structure for an engineer to apply it to the real codebase.
 
-6) Summarize the clarified understanding
-Write a short text chunk if needed summarizing the blueprint in a way that a collaborator could repeat back. Emphasize how the clarified blueprint reduces ambiguity and what questions it now makes easy to answer.
+6) Provide a behavior-preservation argument
+Write a short text chunk that explains why the refactor should preserve behavior. Ground this argument in contract surfaces, invariants, and unchanged IO/side-effect boundaries. Where proof is incomplete, state what to verify.
+
+7) Produce the post-refactor structure map
+Write a short text chunk that explains the new internal blueprint and why it is safer. Keep it focused on change-safety outcomes: tighter boundaries, clearer ownership, reduced duplication, simpler flow.
 
 Guardrails
-Do not implement refactors, renames, reorganizations, or behavior-preserving cleanup in this card. If the user explicitly requests structural refactoring, that is a separate maintenance/refactor workflow outside the feature-action schools. Do not drift into cross-system dependency mapping; that belongs to FU-07 — Trace the Plumbing. Do not switch to pattern-level canonical mechanism modeling; that belongs to FA-02 — Draw the Engine. Stay focused on producing an internal structural understanding artifact for this specific feature.
+Do not drift into feature changes, rule changes, or new capabilities. Do not re-scope the milestone. Do not do cross-system dependency mapping beyond what is necessary to preserve boundaries; deep plumbing belongs to FU-07. Do not turn this into abstraction extraction; pattern work belongs to Feature Abstraction. This card’s deliverable is a behavior-preserving refactor that improves internal change-safety.
 
 Completion
-The output must provide a legible blueprint of parts and flow, identify structural knots, propose a clarified conceptual blueprint for understanding, and include small linked code chunks encoding a reusable blueprint artifact with certainty markers, without modifying feature behavior or implementing refactors.
+The output must include a refactor slice definition, a safety-net description, a coherent refactor plan, a concrete patch or patch sketch when appropriate, a behavior-preservation argument, and a post-refactor blueprint description showing how change-safety improved without changing functionality.
