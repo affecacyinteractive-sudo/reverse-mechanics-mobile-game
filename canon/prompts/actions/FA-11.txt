@@ -1,52 +1,62 @@
-ACTION CARD SYSTEM PROMPT — FA-11 (Chart the Crash Modes — Failure Envelope)
+ACTION CARD SYSTEM PROMPT — FA-11 (Mark the Breaking Point — Failure Envelope)
 
 Intent
-Catalog the generic failure shapes for this pattern or feature family and group them into a reusable failure envelope. Include both degrade modes and misfire modes, and describe how each crash mode shows up so later synthesis actions can use this envelope as a risk filter when generating or modifying features.
+Extract and express the failure envelope as a portable, pattern-family artifact: the characteristic ways this mechanism fails, degrades, or produces invalid outcomes, and the boundary-visible signals that indicate those breaks. The deliverable is synthesis-ready: it helps new instantiations anticipate risk, choose safer variants, and design guardrails without importing implementation detail.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (tests, docs, known behaviors, prior abstraction records, incident notes if present). Use them to ground what you claim as plausible crash modes and to avoid inventing “facts.”
-- Do not modify target code in this card. Your “implementation” output is a reusable failure-envelope record, not runtime enforcement, refactoring, or a feature change.
-- If no targets are provided, work from the narrative context and explicitly mark uncertain crash modes, triggers, or signals as assumptions.
-- If an existing failure-envelope record exists among targets, update/extend it rather than creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (docs, tests, traces, configs, incidents, postmortems) to ground realistic failure modes and signals. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the pattern/family is simple.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not fabricate incident history or pretend you observed failures you did not; describe reusable failure shapes and clearly label any speculative parts.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. Failure modes and signals must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate with specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+You must attach the failure envelope to a pattern_proxy_id / pattern_proxy_label. If one is provided, use it. If none exists, propose a provisional proxy id and label (explicitly marked provisional) and recommend running FA-01 to canonize naming. If contract surface, invariants, or envelope artifacts exist (FA-03/FA-04/FA-06), treat them as authoritative constraints on what “failure” means.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “failure envelope” means here
+The failure envelope is the portability-oriented map of breakpoints: when the mechanism stops behaving acceptably, how it degrades, what goes wrong in outcomes, and what signals appear at the boundary. It is not an incident response playbook and not a monitoring implementation guide; it is a pattern-level failure taxonomy plus boundary-visible indicators.
 
 Procedure
-1) Describe the pattern and its risk surface
-Write a short text chunk if needed explaining which pattern or feature family you are charting crash modes for. Describe what it does at a high level and where the main risks seem to live in its behavior, such as getting stuck, overacting, underacting, misfiring, or becoming unclear to the user.
 
-2) Surface candidate crash modes
-Write a short text chunk if needed describing the range of failure shapes for this pattern. Explain, in prose, the ways it can go wrong, including degrade modes (where it still works but badly) and misfire modes (where it fires at the wrong time, in the wrong way, or not at all). Use behavior-shape language rather than implementation details (for example: “stuck high,” “accidental trigger,” “never triggers,” “unstable over time,” “unclear state,” “oscillates,” “fails silently,” “overreacts,” “underreacts”).
+1. Define “failure” relative to the pattern’s promises
+   Write a short text chunk stating what counts as failure for this mechanism in portable terms, tied to contract guarantees, invariants, and intended outcomes. Clarify that failure includes silent semantic drift, not just errors.
 
-3) Cluster and name the crash modes
-Write a short text chunk if needed that groups the candidate failures into a small set of named crash modes. Explain which symptoms belong together under each mode and what each mode’s name means, keeping names tied to recognizable behavior shapes rather than internal architecture.
+2. Identify the characteristic failure modes
+   Write a short text chunk proposing the canonical failure modes for this pattern family, such as false positives/false negatives, unstable oscillation, runaway feedback, stale decisions, overload collapse, adversarial exploitation, inconsistency-induced contradictions, and degraded arbitration. Keep them abstract and mechanism-shaped.
 
-4) Describe how each mode behaves and escalates
-Write a short text chunk if needed that walks through each crash mode and describes how it evolves over time. Explain how it starts, how it presents to an observer (user-facing or externally observable), and how it escalates or degrades, including whether it tends to be silent, noisy, reversible, or sticky once it appears.
+3. Describe degradation paths (how it fails)
+   Write a short text chunk describing how the mechanism degrades as conditions worsen. Distinguish abrupt failure from graceful degradation. Link degradation to operating regimes without specifying system metrics.
 
-5) Map modes to triggers and early signals
-Write a short text chunk if needed explaining, at a conceptual level, what tends to trigger each crash mode and what early signals might reveal it. Describe the conditions, usage patterns, or operating contexts that commonly lead into each mode, and the warning signs that show up before full failure.
+4. Identify boundary-visible signals and symptoms
+   Write a short text chunk describing what an observer would notice at the boundary when each failure mode is occurring, such as increased reversals, contradictory outcomes, latency spikes, churn, excessive fallbacks, unexpected denials/approvals, or integrity violations. Keep signals portable and observable, not tool-specific.
 
-6) Implement the failure envelope structure
-Write a small text chunk introducing how you will represent this failure envelope in structured form. Then produce small linked code chunks that encode a reusable failure envelope record containing, for each crash mode:
-- mode name,
-- type (degrade or misfire),
-- short description of the behavior shape,
-- typical symptoms,
-- typical triggers,
-- early signals,
-- and a simple risk/severity tag suitable for synthesis-time filtering.
-Mark any entries that are not fully supported by evidence as assumptions.
+5. Identify root-cause families without implementation
+   Write a short text chunk describing root-cause families in portable terms, such as input quality collapse, dependency reliability collapse, state corruption, concurrency conflict, mis-specified policy overlays, or mis-tuned axes. Do not drift into implementation-level causes.
 
-7) Summarize how the envelope guides synthesis
-Write a short text chunk if needed summarizing how this failure envelope should guide future design and synthesis. Describe how pattern users or automated actions can consult these crash modes to avoid risky combinations, watch for known failure shapes, and plan mitigations, without needing to rediscover the same crashes from scratch.
+6. Tie failure modes to mitigation levers (portable)
+   Write a short text chunk describing portable levers that mitigate or contain failures, such as tighter invariants, safer substitution options, stricter envelope bounds, added validation, damping feedback, or conservative fallback posture. This is not a redesign; it is a synthesis aid and should reference other abstraction artifacts when available.
+
+7. Emit the portable Failure Envelope Record (required)
+   Produce a single structured “Failure Envelope Record” suitable for synthesis and risk-aware reuse. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* failure_modes (portable list of canonical failure types)
+* degradation_paths (portable description of how failure emerges)
+* boundary_signals (portable symptoms/signals per failure mode)
+* root_cause_families (portable causal categories)
+* invariant_violations (which identity laws are typically broken, if applicable)
+* envelope_breaches (which operating constraints are exceeded, if applicable)
+* mitigation_levers (portable containment/mitigation options, linked to axes/substitutions/envelope)
+* portability_statement (explicitly asserts the record is context-free)
+
+8. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete incidents, metrics, error codes, or logs that help illustrate failures, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and must not contaminate the portable failure record.
 
 Guardrails
-Do not turn this into a detailed, feature-specific boundary map of safe versus unsafe parameter ranges; that belongs to FU-06 — Map the Cliff Edges (Boundary & Failure-Mode Characterization). Here you are capturing generic failure shapes for the pattern or family, not charting one implementation’s numeric thresholds. Do not rewrite core identity laws or constraints; those belong to FA-04 — Write the Laws and FA-06 — Set the Guardrails, which this envelope may rely on but not replace. Do not drift into full incident postmortems or narrative logs; stay focused on reusable crash-mode types, their triggers, and early signals.
+Do not redefine contract surface; that belongs to FA-03. Do not redefine invariants; that belongs to FA-04. Do not redefine axes or envelope; those belong to FA-05 and FA-06. Do not output an operational runbook or monitoring configuration. Do not propose new product behavior. Do not output code or implementation steps.
 
 Completion
-The output must communicate the pattern’s risk surface, surface and cluster failure shapes, name and characterize each crash mode, map triggers and early signals to modes, and summarize how the envelope guides future work, using minimal prose chunks. It must also include small linked code chunks encoding a reusable failure envelope record of crash modes with types, descriptions, triggers, early signals, risk tags, and assumption markers where needed.
+The output must include a clear definition of failure relative to promises, canonical failure modes and degradation paths, boundary-visible signals, portable root-cause families, mitigation levers, and one portable Failure Envelope Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
+

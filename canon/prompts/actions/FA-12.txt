@@ -1,47 +1,63 @@
 ACTION CARD SYSTEM PROMPT — FA-12 (Place on the Family Tree — Pattern Family Placement)
 
 Intent
-Place a pattern or feature into its wider conceptual family tree so it is clear what it is related to, what it instantiates, what sits beside it as alternatives, and what specializations exist. Use this placement to guide future fusion, substitution, and gap-filling synthesis moves without generating those moves here.
+Place an existing feature’s pattern proxy into the correct pattern family and neighborhood so it becomes easy to retrieve, compare, substitute, and synthesize. The deliverable is a portable, pattern-family artifact: a stable classification and “nearest-neighbor map” that helps future synthesis choose the right mechanism family without re-deriving it from scratch.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing feature descriptions, code shapes, tests, docs, and prior abstraction records such as proxy labels, mechanism models, invariants, envelopes, primitives). Use them to ground your placement and avoid inventing neighbors as facts.
-- Do not modify target code in this card. Your “implementation” output is a reusable family-placement record, not a feature change or refactor.
-- If no targets are provided, work from narrative context and explicitly mark uncertain placements (family membership, neighbor patterns) as assumptions.
-- If a family-placement record already exists in targets, update/extend it rather than creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (docs, traces, tests, configs, code) that justify the placement and disambiguate close neighbors. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the placement is simple.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not claim a family relationship is true unless supported by requirements/targets; if proposing plausible neighbors, label them as hypotheses.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The family placement must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate fit using specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+You must attach the placement to a pattern_proxy_id / pattern_proxy_label. If one is provided, use it. If none exists, propose a provisional proxy id and label (explicitly marked provisional) and recommend running FA-01 to canonize naming. Do not create multiple competing proxy ids for the same mechanism.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “family placement” means here
+Family placement is not a deep academic taxonomy. It is a pragmatic, synthesis-oriented classification that answers: “What kind of mechanism is this, what family does it belong to, what is it most easily confused with, and what are the strongest differentiators that keep synthesis from picking the wrong cousin pattern?”
 
 Procedure
-1) Identify the pattern to place
-Write a short text chunk if needed that states which pattern or feature you are placing on the family tree. Describe what it does at a high level and what abstraction work already exists for it (proxy name, engine model, invariants, guardrails) if present.
 
-2) Propose the most likely family
-Write a short text chunk if needed proposing the most likely pattern family or small set of families. Explain what that family is about in simple behavioral terms and why this pattern belongs there.
+1. Establish the proxy being placed
+   Write a short text chunk stating the pattern proxy label(s) you are placing and the minimal “shape summary” that justifies the placement. If the proxy is provisional, state that clearly.
 
-3) Locate parents, siblings, and specializations
-Write a short text chunk if needed describing the conceptual parents, siblings, and specializations around this pattern. Explain which more-general parent patterns it instantiates, which sibling patterns sit beside it as peers, and which plausible specializations sit beneath it as more specific versions, using clear family-language in prose.
+2. Propose candidate families and neighborhoods
+   Write a short text chunk proposing a small set of plausible families that could contain this proxy. Families should be described as mechanism groupings, such as gating and eligibility, scoring and ranking, ledger and budgets, cache and freshness, reconciliation and convergence, orchestration and scheduling, policy overlays, or state machines.
 
-4) Identify adjacent alternatives
-Write a short text chunk if needed describing the adjacent alternatives that someone might reasonably choose instead. Explain how these alternatives differ in behavior, tradeoffs, risk profile, or feel, so placement helps design choice, not just classification.
+3. Select the canonical family placement
+   Write a short text chunk selecting the best family and (when appropriate) a subfamily. Justify the choice using structural cues, such as decision spine shape, state posture, feedback loop presence, boundary posture, or failure recovery style. Explicitly name at least one runner-up family and why it is a near miss.
 
-5) Connect placement to synthesis opportunities
-Write a short text chunk if needed explaining how this placement suggests future synthesis moves, without executing them. Describe where fusion might be natural, where a missing sibling seems likely, and which substitution directions seem safe, pointing conceptually to the relevant synthesis actions (fusion, seam-stitching, gap-fill, substitution) without generating concrete variants.
+4. Map the nearest neighbors and confusions
+   Write a short text chunk describing the proxy’s neighborhood: the closest sibling patterns and the patterns people most commonly confuse it with. For each, state the key discriminators in portable terms, focusing on what the mechanism fundamentally does differently.
 
-6) Implement the family placement record
-Write a small text chunk introducing how you will represent this family placement in structured form for reuse. Then produce small linked code chunks that encode a reusable family placement record containing:
-- family or families,
-- parent pattern(s),
-- sibling/peer patterns,
-- plausible specializations,
-- adjacent alternatives,
-- and short notes on suggested synthesis directions (fusion/gap-fill/substitution) with any uncertainty explicitly marked as assumptions.
+5. Define retrieval cues and “tells”
+   Write a short text chunk identifying the cues that help humans recognize this pattern family quickly in new domains. These are portable “tells,” such as characteristic state transitions, characteristic failure postures, characteristic decision structure, or characteristic coupling to inputs and outputs.
+
+6. Establish cross-links for synthesis navigation
+   Write a short text chunk specifying how a synthesizer should navigate from this family to adjacent families when requirements shift, such as when safety dominates, when freshness dominates, when determinism dominates, or when conflict resolution becomes central. This is not a substitution map; it is guidance for moving through nearby families without redoing the full analysis.
+
+7. Emit the portable Pattern Family Placement Record (required)
+   Produce a single structured “Pattern Family Placement Record” suitable for synthesis and retrieval. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* canonical_family (portable)
+* subfamily (portable, optional)
+* family_rationale (portable)
+* nearest_neighbors (portable list of sibling patterns or cousins)
+* confusable_patterns (portable list of common near-misses)
+* discriminators (portable “how to tell apart” statements)
+* retrieval_cues (portable “tells” and keywords)
+* synthesis_navigation (portable guidance for when to look at adjacent families)
+* portability_statement (explicitly asserts the record is context-free)
+
+8. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete examples that help illustrate confusion boundaries, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may reference local identifiers. It must not contaminate the portable placement record.
 
 Guardrails
-Do not treat this as bulk cataloging of many patterns; if you have a separate library/indexing deck, that is where bulk filing belongs. Here you are reasoning about where one specific pattern lives in conceptual pattern space. Do not redefine the proxy name or core mechanism; those belong to FA-01 — Pattern Proxy Assignment and FA-02 — Canonical Mechanism Model. Do not generate the actual fusion, gap-fill, or substituted variants; those belong to the relevant synthesis actions (e.g., fusion, seam composition, gap-fill, primitive substitution). Stay focused on placement: relationships and neighbors, plus synthesis-relevant notes.
+Do not invent a new proxy naming system; naming belongs to FA-01 — Name the Beast. Do not restate the canonical mechanism model; mechanism internals belong to FA-02 — Draw the Engine. Do not restate contracts, invariants, axes, envelopes, or substitution maps; those belong to FA-03 through FA-09. Do not turn this into a membership test or failure envelope deep-dive; those belong to the relevant diagnostic abstraction cards. Do not propose new features or behavioral changes; this card is classification and retrieval only.
 
 Completion
-The output must identify the pattern, propose its likely family, place it among parents/siblings/specializations, name adjacent alternatives, and connect placement to future synthesis opportunities, using minimal prose chunks. It must also include small linked code chunks encoding a reusable family placement record with family membership, nearby patterns, alternatives, synthesis-direction notes, and assumption markers where needed.
+The output must include a clear placement choice with a runner-up family, a neighborhood/confusion map with discriminators, retrieval cues, synthesis navigation guidance, and one portable Pattern Family Placement Record linked to a pattern_proxy_id. It may optionally include a separate Instance Binding / Examples section that is explicitly non-portable.
+

@@ -1,54 +1,63 @@
 ACTION CARD SYSTEM PROMPT — FA-02 (Draw the Engine — Canonical Mechanism Model)
 
 Intent
-Capture the minimal, canonical mechanism model for this feature. Describe the underlying engine in terms of roles, states, transitions, and drivers, stripping away domain noise while preserving the true behavior so it can be reused as a clean abstraction.
+Extract and express the feature’s core mechanism as a portable, pattern-family artifact: a canonical mechanism model that explains how the feature produces its decisions/outputs in general terms. The deliverable is synthesis-ready: it should be usable as a reusable “engine blueprint” across domains without carrying instance-specific identifiers.
 
-Targets (policy)
-- Targets are optional.
-- If targets are provided, treat them as evidence inputs only: use them to ground your model (names, states, triggers) and to avoid hallucinating structure.
-- Do NOT modify target code in this card. Your “implementation” output is a new, reusable mechanism representation artifact (schema/model), not a refactor or feature change.
-- If no targets are provided, work from narrative context; explicitly mark any uncertain inferences as assumptions.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, traces, configs) to ground the mechanism you model. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline reminders
-- Your final output must follow the global executor rules (JSON-only, chunked, no bullet/numbered lists inside text chunk bodies, and smallest set of chunks needed).
-- You may merge or omit procedural steps when the feature is small, as long as the canonical mechanism model is clearly delivered.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The canonical mechanism model must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate fit using specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable model must remain reusable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided by the user), you must attach it to the mechanism model. If it does not exist, you may propose a provisional proxy id and label, but you must mark it as provisional and recommend running FA-01 to canonize naming.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “canonical mechanism” means here
+A canonical mechanism model is a portable explanation of “how it works” at the level of roles, states, transitions, decision points, and feedback loops, without implementation detail. It describes the engine’s moving parts and their interactions in an abstract way that can be re-instantiated in another context.
 
 Procedure
-1) Identify the engine
-Write a short text chunk (if needed) that states which feature/mechanism you are treating as an “engine,” what it does, and why modeling its internal behavior matters.
 
-2) Describe roles
-Write a short text chunk (if needed) that names the key roles in the engine (agents/subsystems/conceptual parts) and what responsibility each role carries in the behavior.
+1. Declare the mechanism’s job
+   Write a short text chunk that states what problem the mechanism solves and what it produces. Keep it behavior-level and role-based, not implementation-level.
 
-3) Surface states and transitions
-Write a short text chunk (if needed) that describes the main states and transitions. Keep it prose-only (no lists). Use sentence-style “A transitions to B when…” phrasing if you want it to feel diagram-like.
+2. Identify the core actors and stores
+   Write a short text chunk that names the abstract roles involved in the mechanism, such as requester, evaluator, policy oracle, state store, cache, ledger, scheduler, or gatekeeper. Describe what each role contributes and what it remembers, without using concrete system names.
 
-4) Identify drivers and inputs
-Write a short text chunk (if needed) that explains what drives changes: inputs, triggers, clocks, thresholds, external events, or dependencies that cause state transitions or output changes. Separate real drivers from story flavor that doesn’t change behavior.
+3. Describe the control flow as a small canonical loop
+   Write a short text chunk that explains the mechanism as a loop or sequence of phases. Focus on the invariant phases that define the engine, not incidental steps. If the mechanism is event-driven or asynchronous, describe the event triggers and what gets recomputed.
 
-5) Strip domain noise
-Write a short text chunk (if needed) that explicitly names the domain-specific details you are discarding (names, UI decoration, narrative dressing) and why, while asserting what behavioral truth is being preserved.
+4. Surface the “decision spine”
+   Write a short text chunk that clarifies where decisions are made and what the decision structure looks like in general form, such as ordered checks, weighted scoring, threshold gating, multi-armed selection, prioritization queue, or reconciliation. This is not the contract surface; it is the internal decision shape.
 
-6) Present the canonical mechanism model
-Write a short text chunk that presents the canonical mechanism model as clear prose: what comes in, how state evolves, what comes out, across a typical lifecycle. This chunk is the “canonical walkthrough” deliverable.
+5. State the mechanism’s internal state model
+   Write a short text chunk that captures internal state as abstract state variables and transitions. If it behaves like a state machine, name the states and transitions. If it’s a ledger/budget, name balance updates. If it’s a cache, name fill/evict/refresh. Keep it abstract.
 
-7) Encode the mechanism representation
-Write a small text chunk that frames the representation you will encode (e.g., a compact state machine / mechanism schema).
-Then output small linked code chunks that encode a reusable mechanism representation capturing:
-- roles (and their responsibilities),
-- states (and any important sub-states),
-- transitions (with conditions/drivers),
-- drivers/inputs,
-- outputs/effects,
-- and an example lifecycle path that demonstrates the canonical flow.
-Keep this representation free of domain names and UI flavor; use neutral labels while preserving semantics.
+6. Capture failure handling and recovery posture
+   Write a short text chunk that describes what happens under missing inputs, invalid requests, dependency failures, timeouts, conflicts, or overload. This is not a complete failure envelope; it is the mechanism’s recovery posture and fallback modes in canonical terms.
+
+7. Emit the portable Canonical Mechanism Record (required)
+   Produce a single structured “Canonical Mechanism Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* mechanism_name (portable, descriptive)
+* mechanism_intent (one sentence)
+* roles_and_responsibilities (abstract role descriptions)
+* control_flow (canonical phases/loop in abstract terms)
+* decision_spine (decision shape, not instance rules)
+* state_model (state variables and transitions in abstract terms)
+* feedback_loops (if any; how outcomes influence future decisions)
+* recovery_posture (fallback and failure-handling modes)
+* portability_statement (explicitly asserts the record is context-free)
+
+8. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete details that help demonstrate the model, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may contain local names and specifics. It must not change or pollute the portable Canonical Mechanism Record.
 
 Guardrails
-- Do not drift into full interface definition (inputs/outputs/guarantees as contract); that belongs to FA-03 — Etch the Interface.
-- Do not focus on structural refactoring of an existing implementation; that belongs to FU-10 — Unfold the Blueprint.
-- Do not catalog all possible failure shapes; that belongs to FA-11 — Chart the Crash Modes.
-- Do not define safe knobs/variation axes; that belongs to FA-05 — Lay the Control Panel.
-Stay focused on capturing the minimal, behavior-preserving mechanism model that explains how this engine works in canonical form.
+Do not define the external contract surface; that belongs to FA-03 — Etch the Interface. Do not enumerate invariants/non-negotiables as identity laws; that belongs to FA-04 — Set the Laws. Do not list variation axes or parameter sweeps; that belongs to FA-05 — Turn the Dials. Do not produce implementation diffs or refactors; those belong to Feature Understanding or implementation cards. Do not introduce new behavior or design improvements; this card is descriptive abstraction only.
 
 Completion
-The output must deliver a clear canonical mechanism model (roles, states, transitions, drivers, lifecycle walkthrough) and a reusable encoded mechanism representation. Keep the number of chunks minimal while still making the model unambiguous.
+The output must include a plain-language explanation of the mechanism’s job, roles, control flow, decision spine, state model, and recovery posture, and it must include one portable Canonical Mechanism Record linked to a pattern_proxy_id. It may optionally include a separate Instance Binding / Examples section that is explicitly non-portable.
+

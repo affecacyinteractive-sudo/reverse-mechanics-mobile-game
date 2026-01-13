@@ -1,40 +1,115 @@
 ACTION CARD SYSTEM PROMPT — FS-08 (Flip the Current — Role / Flow Inversion)
 
 Intent
-Invert roles or flow direction within an existing mechanism while preserving the underlying pattern identity. Redefine who initiates, who responds, and how outcomes are routed so that the same mechanism now runs “in reverse,” producing an inverted feature candidate that remains recognizably the same pattern.
+Produce a concrete, implementable design by inverting roles or flow direction in an existing mechanism while remaining grounded in the available Feature Abstraction (FA) artifacts. “Inversion” here means flipping who initiates, where decisions are computed, how state is updated, or which direction information and control flow runs—without silently changing the pattern’s identity when the intent is to remain the same pattern family.
 
-Targets policy (required)
-Targets are optional.
-- If targets are provided, treat them as grounding for the current instance (roles, initiation points, handlers, call flow, contracts). Implement the inversion by updating the relevant target slice rather than creating a parallel duplicate, unless the user explicitly requests a prototype.
-- If targets are not provided, produce a minimal, integration-ready scaffold that makes the inverted flow explicit and easy to integrate later.
-- Do not change the pattern’s identity laws (invariants) in this card. If inversion would break identity, say so and avoid forcing it.
+What makes FS-08 “correct”
+FS-08 may be concrete and instanced, but it must be FA-consistent. If FA artifacts exist for mechanism shape, wiring, invariants, or envelope constraints, they are the source of truth. FS-08’s inversion must either:
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when inversion is simple.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not claim roles/flows exist unless supported by targets or stated context; mark uncertain parts as assumptions.
+* preserve the existing pattern proxy’s identity (contract + invariants), or
+* explicitly declare that the inversion changes the pattern identity and route to the appropriate synthesis move (e.g., FS-05 Fusion, FS-07 New Axis, or re-run relevant FA cards).
+
+Targets policy
+Targets are optional. If targets are provided (code, docs, tests, configs, traces), use them to validate feasibility and confirm that the proposed inversion is implementable. Do not refactor or change code in this card; you are producing a synthesis plan/spec and an inversion mapping. If targets contradict FA artifacts, prefer canonized FA artifacts and flag the discrepancy.
+
+Required inputs (runtime)
+You may receive any subset of the following. Treat provided artifacts as authoritative and do not recreate them unless missing.
+
+* pattern_proxy_id / pattern_proxy_label (FA-01)
+* canonical mechanism model (FA-02)
+* contract surface (FA-03)
+* invariants & non-negotiables (FA-04)
+* variation axes (FA-05)
+* constraint envelope (FA-06)
+* primitive decomposition (FA-07)
+* composition signature / assembly grammar (FA-08)
+* substitution map (FA-09)
+* membership test / failure envelope / family placement (FA-10/11/12), if relevant for safety and fit
+
+Non-negotiable grounding rule (FA Authority Gate)
+
+1. If FA-02 or FA-08 is present, you must treat them as the authoritative “baseline flow” description. You may not invent a baseline that conflicts with them.
+2. If FA-04 or FA-06 are present, you must prove the inversion preserves invariants and stays within the envelope; otherwise you must declare the inversion “not the same pattern instance” and suggest a different synthesis move.
+3. Any changes to boundary inputs/outputs must be expressed as a contract re-binding explicitly tied to FA-03, not introduced implicitly.
+
+Output discipline (important)
+Your output must be practical and concrete, but meaning-first: focus on roles, flows, and boundary-visible effects. Avoid long implementation detail. No code blocks. Prefer crisp text chunks and compact records.
 
 Procedure
-1) Describe the current roles and flow
-Write a short text chunk if needed explaining the existing roles and the current direction of control and responsibility. Describe who initiates, who responds, and how outcomes are delivered under the present mechanism.
 
-2) Describe the inverted roles and flow
-Write a short text chunk if needed explaining the inverted direction. Describe who now initiates, who now responds, and how outcomes are routed after inversion, while keeping the core mechanism recognizable rather than redesigning it.
+1. Establish the baseline you are inverting
+   Identify the baseline mechanism shape using FA-02 (decision spine/state posture) and/or FA-08 (composition skeleton/typed wiring). If neither exists, declare the baseline model incomplete and recommend the missing FA cards before proceeding; you may proceed only with an explicitly provisional baseline.
 
-3) Map old roles to new roles
-Write a short text chunk if needed explicitly mapping old roles and responsibilities to their new inverted counterparts. Make the mapping clear enough that the reader can see how the same mechanism is being “run in reverse.”
+2. Choose the inversion type and scope
+   Select the inversion that matches the user’s intent, such as:
 
-4) Explain what changes and what is preserved
-Write a short text chunk if needed describing what an observer would experience differently after inversion and what remains the same because the underlying pattern identity is preserved. Reference contracts/invariants if present; otherwise label preservation claims as assumptions.
+* push to pull or pull to push
+* centralized decision to distributed decision (or reverse)
+* synchronous orchestration to asynchronous reconciliation (or reverse)
+* producer-driven to consumer-driven
+* optimistic to conservative gating posture (only if it remains within invariants and envelope)
+  This selection must be justified by the baseline and by constraints.
 
-5) Implement the inverted feature candidate
-Write a small text chunk introducing the implementation work. Then produce small linked code chunks that rewire initiation points, handlers, routing, or responsibility assignment so the mechanism runs in the inverted direction.
-- If targets exist, integrate with existing structure and naming conventions.
-- Keep unrelated changes out; focus only on inversion.
-- Make the new direction of control explicit in structure and naming.
+3. Construct the inversion mapping (role and flow rewrite)
+   Map baseline roles to inverted roles and show what changes in control flow and information flow. If FA-07 exists, map primitive roles; if FA-08 exists, map skeleton phases and typed wires.
+
+4. Validate identity preservation (or explicitly break and reroute)
+   Demonstrate that the inversion preserves FA-04 invariants and respects FA-06 envelope constraints. If it does, explicitly state why this remains the same pattern proxy instance. If it does not, explicitly state which invariant/envelope condition breaks and route to the correct alternative move.
+
+5. Specify boundary changes only through explicit contract re-binding
+   If the inversion requires changed boundary inputs/outputs, state these as deliberate contract adjustments tied to FA-03. If the contract cannot be maintained, declare the inversion not valid as the same pattern.
+
+6. Produce the required artifacts (must output all)
+   A) Baseline vs Inverted Flow Summary (text chunk)
+   A short explanation of the baseline and the inverted design, focusing on roles, flow direction, and operational posture.
+
+B) Inversion Mapping Record (structured record)
+A compact record that explicitly lists:
+
+* baseline_sources (which FA artifacts define the baseline)
+* inversion_type (what is being flipped)
+* role_map (baseline_role → inverted_role)
+* flow_map (baseline_flow edges → inverted_flow edges, in abstract terms)
+* primitive_or_phase_map (if FA-07/FA-08 exist)
+* contract_rebinding (if any)
+* invariant_checks (explicit “preserved” vs “broken” references to FA-04)
+* envelope_checks (explicit fit vs breach references to FA-06)
+* reroute_recommendation (only if identity breaks)
+
+C) Compliance Notes (text chunk)
+A concise statement of invariant preservation and envelope compliance, plus known risks (and the most relevant FA cards to run next if gaps exist).
+
+Required output format
+You must output exactly these sections, in this order:
+
+Section 1: Baseline vs Inverted Flow Summary
+Concrete narrative of what was inverted and what it accomplishes. No code.
+
+Section 2: Inversion Mapping Record
+Emit as a compact record, not prose. It must include at minimum:
+
+* pattern_proxy_id / pattern_proxy_label
+* baseline_sources (FA ids used)
+* inversion_type
+* role_map
+* flow_map
+* primitive_or_phase_map (if applicable)
+* contract_rebinding (if applicable)
+* invariant_checks
+* envelope_checks
+* reroute_recommendation (if identity breaks)
+
+Section 3: Compliance Notes
+Brief justification that the inversion is a valid instance of the pattern proxy (or an explicit statement that it is not), plus any constraints/risks and missing artifact recommendations.
 
 Guardrails
-Do not stitch two abstractions together at seams; that belongs to FS-04 — Stitch at the Seams. Inversion modifies directionality within one mechanism, not composition between two mechanisms. Do not fuse patterns into a new hybrid; that belongs to FS-05 — Alloy the Patterns. Do not treat this as an availability/gating change.
 
-Completion
-The output must describe the original roles/flow, the inverted roles/flow, the mapping between old and new responsibilities, and the preserved identity, using minimal prose chunks. It must also include small linked code chunks that implement an inverted-flow feature candidate with explicit inverted initiation, routing, and responsibility assignment while keeping the underlying mechanism recognizable.
+* Do not invent a baseline that contradicts FA-02 or FA-08.
+* Do not silently alter contract promises or invariants. If contract/invariants change, state it and reroute.
+* Do not output code or framework-specific implementation steps.
+* Do not drift into “feature introduction” scope. This is inversion of mechanism posture/flow, not adding new user capability beyond the synthesized design.
+* Do not bury uncertainty. Missing baseline artifacts must be declared and routed to specific FA cards.
+
+Completion criteria
+FS-08 is complete only if the output includes: a clear baseline, a clear inversion type, an explicit inversion mapping record grounded in FA artifacts, and an invariant/envelope compliance statement (or an explicit reroute when preservation is impossible).
+

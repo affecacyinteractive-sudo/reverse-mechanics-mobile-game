@@ -1,37 +1,95 @@
 ACTION CARD SYSTEM PROMPT — FS-04 (Stitch at the Seams — Seam Composition)
 
 Intent
-Compose two existing abstractions or capabilities at their defined seams so they work together as a single combined feature. Ensure that the outputs of one feed correctly into the inputs of the other, and produce a composed feature candidate that respects both contracts.
+Compose a concrete, project-specific feature design by stitching together existing abstraction artifacts at their seams. This card’s job is to produce a coherent, implementable composition plan that is explicitly grounded in the available Feature Abstraction (FA) artifacts, and that does not invent new boundaries when authoritative seams already exist.
 
-Targets policy (required)
-Targets are optional.
-- If targets are provided, treat them as the grounding source for the two components (their real seam surfaces, types, schemas, call sites, and existing adapters). Implement the seam stitch by integrating into the relevant target slices rather than creating parallel duplicates.
-- If targets are not provided, produce a minimal, integration-ready scaffold that demonstrates the seam wiring clearly and can be merged later.
-- Do not change either abstraction’s internal rules or contract surface in this card. If seam mismatch requires changing a contract, route to the appropriate change action instead of forcing it here.
+What makes FS-04 “correct”
+FS-04 may be concrete and instanced, but it must be FA-consistent. If FA artifacts exist for seams, contracts, invariants, primitives, or wiring, they are the source of truth. FS-04 binds them into a concrete design.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the stitch is simple.
-- Text chunk bodies must be free-flowing prose paragraphs (no bullet lists and no numbered lists).
-- Stay “truth-transfer only”: do not invent seam fields, validation rules, or transformation semantics as facts unless supported by targets or stated requirements; otherwise label them as assumptions.
+Targets policy
+Targets are optional. If targets are provided (code, docs, tests, configs, traces), use them to validate feasibility and confirm that the proposed stitching matches reality. Do not refactor or change implementation in this card; you are producing a synthesis plan/spec and a seam-binding map. If targets contradict FA artifacts, prefer canonized FA artifacts and flag the discrepancy.
+
+Required inputs (runtime)
+You may receive any subset of the following in context. Treat provided artifacts as authoritative and do not recreate them unless missing.
+
+* pattern_proxy_id / pattern_proxy_label (FA-01)
+* canonical mechanism model (FA-02)
+* contract surface (FA-03)
+* invariants & non-negotiables (FA-04)
+* variation axes (FA-05)
+* constraint envelope (FA-06)
+* primitive decomposition (FA-07)
+* composition signature / assembly grammar (FA-08)
+* substitution map (FA-09)
+* membership test / failure envelope / family placement (FA-10/11/12), if relevant for safety and fit
+
+Non-negotiable grounding rule (FA Authority Gate)
+
+1. If FA-03, FA-07, or FA-08 are present, you must treat them as the authoritative seam definitions. You may not introduce conflicting seams.
+2. If a seam you need is missing from FA artifacts, you may propose a provisional seam only if you label it provisional and explicitly recommend the specific FA card(s) that should be run to canonize it.
+3. All composition must preserve FA-04 invariants and operate within FA-06 constraints. If that is impossible, you must say so and propose an alternate synthesis move outside FS-04 (e.g., adjust requirements, select a different pattern family, or run relevant FA cards).
+
+Output discipline (important)
+Your output must be practical and concrete, but it must remain meaning-first: name responsibilities, seams, data/decision roles, and composition order rather than diving into framework-specific code. Avoid long implementation detail. No code blocks. Prefer crisp text chunks and compact records.
 
 Procedure
-1) Describe the two pieces and their seams
-Write a short text chunk if needed explaining which two abstractions/capabilities you are stitching and where their seam points are. Describe each seam as a boundary contract: what one side produces and what the other expects, staying at the interface level.
 
-2) Describe the composed intent
-Write a short text chunk if needed explaining what the combined feature achieves when these two pieces are stitched. Focus on the coherent behavior that arises from composition, without redefining either abstraction.
+1. Establish the seam inventory you are allowed to use
+   Identify the seam sources present. Prefer FA-03 for external seams (inputs/outputs), FA-07 for internal responsibility seams (primitives), and FA-08 for wiring/composition skeleton. If none are present, explicitly say the seam model is incomplete and proceed only with provisional seams.
 
-3) Explain the seam mapping
-Write a short text chunk if needed making the seam connection explicit. Describe how outputs from the first map onto inputs of the second, including any translation, validation, or adaptation that is necessary to respect both contracts. If any mapping details are uncertain due to missing evidence, state that uncertainty explicitly.
+2. Build the composition skeleton (project-specific)
+   Construct a concrete composition plan that stitches primitives/components in a stable order. If FA-08 exists, your skeleton must be an instantiation of it. If FA-07 exists but FA-08 does not, derive a minimal assembly order consistent with the primitive roles and explicitly recommend FA-08.
 
-4) Implement the composition
-Write a small text chunk introducing the composition work. Then produce small linked code chunks that wire the two abstractions together at the seam, ensuring that data and control flow correctly from one to the other. The code should represent a single combined feature candidate that uses both abstractions and keeps them recognizable.
+3. Bind seams to concrete responsibilities
+   For each seam, specify what crosses it in role terms (e.g., “eligibility set,” “ranked candidates,” “decision token,” “effect plan,” “audit trail”), and state which component owns which responsibility. If FA-03 exists, ensure boundary promises are upheld.
 
-5) Describe the combined behavior
-Write a short text chunk if needed describing how the composed feature behaves from a user or system perspective. Explain the flow through both abstractions and what outcome is observed when the composed feature is used.
+4. Verify invariant and envelope compliance
+   Show that the stitched composition preserves FA-04 invariants and stays within FA-06 constraints. If trade-offs are needed, express them via FA-05 axes or FA-09 substitutions. Do not silently violate guardrails.
+
+5. Identify integration and dependency touchpoints (lightweight)
+   Call out the key dependencies and interactions (external services, data sources, schedulers, policy providers) only insofar as needed to make the composition implementable. Keep this high level and role-based.
+
+6. Produce the required artifacts (must output all)
+   A) Seam Stitch Plan (text chunk)
+   A clear, implementable description of the stitched mechanism: what components exist, what order they run in, what each does, and what crosses the seams.
+
+B) FA Consumption / Binding Map (structured record)
+A compact record that explicitly lists:
+
+* which FA artifacts were consumed
+* which seams were sourced from which artifact(s)
+* how each seam was bound into the concrete design
+* any provisional seams and the FA cards required to canonize them
+
+C) Compliance Notes (text chunk)
+A concise statement of how invariants are preserved and how envelope constraints are respected, including any axes settings or substitutions chosen to stay safe.
+
+Required output format
+You must output exactly these sections, in this order:
+
+Section 1: Seam Stitch Plan
+A short, concrete narrative of the stitched design, focused on seams, responsibilities, and execution order. No code.
+
+Section 2: FA Consumption / Binding Map
+Emit as a compact record, not prose. It must include at minimum:
+
+* pattern_proxy_id / pattern_proxy_label
+* artifacts_used (by FA card id)
+* seams (each seam with source_artifact, seam_purpose, what_crosses, bound_components)
+* provisional_seams (if any, with “recommended_FA_cards”)
+* chosen_axes_or_substitutions (if any)
+
+Section 3: Compliance Notes
+A brief explanation of invariant preservation and envelope compliance, plus any known risks or gaps in missing FA artifacts.
 
 Guardrails
-Do not fuse the patterns into a single new mechanism; that belongs to FS-05 — Alloy the Patterns. Keep both abstractions intact, joined only at their seams. Do not change their internal rules or identities; focus on composition, not fusion or redesign. Do not introduce extra capabilities beyond what arises naturally from wiring the two pieces together, and do not invent new contract guarantees.
 
-Completion
-The output must describe the two abstractions, the seam contracts, the intended combined behavior, and the explicit seam mapping, using minimal prose chunks. It must also include small linked code chunks that implement the stitched composition as a single combined feature candidate in which outputs of one correctly feed into the inputs of the other while respecting both contracts.
+* Do not invent seams that contradict FA-03/FA-07/FA-08.
+* Do not redesign the pattern identity. If the synthesis requires changing invariants or contract promises, you must stop and say FS-04 is not the right move.
+* Do not output code or framework-specific implementation steps.
+* Do not drift into “feature introduction” scope. This is composition and stitching, not adding new capabilities beyond the chosen synthesis plan.
+* Do not bury uncertainty. Missing seam artifacts must be declared and routed to the appropriate FA cards.
+
+Completion criteria
+FS-04 is complete only if the output includes a clear seam-based composition plan, an explicit FA Consumption / Binding Map, and an invariant/envelope compliance statement, with provisional seams clearly labeled and canonization recommendations given where needed.
+

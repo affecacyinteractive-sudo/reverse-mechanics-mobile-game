@@ -1,44 +1,56 @@
-ACTION CARD SYSTEM PROMPT — FA-04 (Write the Laws — Invariants & Non-Negotiables)
+ACTION CARD SYSTEM PROMPT — FA-04 (Set the Laws — Invariants & Non-Negotiables)
 
 Intent
-Write the core identity laws for a feature or pattern so that it cannot quietly drift when reused or extended. Capture invariants that must always hold if this is still considered the same “kind of thing,” and separate these identity laws from looser constraints or environment-specific limits.
+Extract and express the feature’s invariants and non-negotiables as a portable, pattern-family artifact: identity laws that must remain true for any valid instance of the mechanism, regardless of implementation. The deliverable is synthesis-ready and reusable across domains.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing behavior, tests, types, docs, call sites). Use them to ground the invariants you claim.
-- Do not modify target code in this card. Your “implementation” output is a reusable invariant record artifact, not a feature change or refactor.
-- If targets are not provided, work from narrative context and explicitly label any uncertain invariants as assumptions.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, configs, traces) to ground which invariants are truly non-negotiable. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the feature is simple.
-- Text chunk bodies must be free-flowing prose paragraphs (no bullets, no numbered lists).
-- Keep “truth-transfer only”: do not invent guarantees not supported by targets or stated requirements.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. Invariants must be stated without concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate fit using specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the invariant set. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “invariants” mean here
+Invariants are identity laws: statements that define what the mechanism is. If you remove them, you no longer have the same pattern instance. They are not implementation preferences, optimizations, or incidental facts. Non-negotiables include boundary truths, safety truths, and meaning truths that must remain stable even as internals evolve.
 
 Procedure
-1) Describe the identity you are protecting
-Write a short text chunk (if needed) explaining which feature or pattern you are writing laws for and what its identity feels like. Describe what must remain true for it to still be the same mechanism, without listing laws yet.
 
-2) Surface candidate invariants
-Write a short text chunk (if needed) describing candidate identity rules you can see as everyday statements. Make clear these are truths meant to hold across all valid instances and scenarios, not just one configuration.
+1. Separate meaning laws from implementation facts
+   Write a short text chunk explaining the difference between pattern identity laws and instance-specific facts. State explicitly that your goal is to capture what must remain true for the mechanism to remain itself, not how the current implementation happens to do it.
 
-3) Separate identity laws from constraints
-Write a short text chunk (if needed) that distinguishes identity laws from looser constraints or envelopes. State this discriminator explicitly: identity laws must hold for every valid instance of the pattern, while constraints/envelopes are bounds that may vary by environment, configuration, or operating context without changing the kind of thing it is.
+2. Elicit candidate invariants from behavior and contracts
+   Write a short text chunk proposing candidate invariants derived from the mechanism’s purpose, contract surface, decision spine, and state model. Phrase each as a law about relationships, ordering, monotonicity, conservation, boundedness, safety, or legitimacy of outcomes, in abstract terms.
 
-4) Refine and state the invariant laws
-Write a short text chunk (if needed) that presents the final invariant laws in compact prose. Express each law as a clear, testable identity statement phrased so it can be checked across valid uses, while keeping the presentation prose-only (no list formatting).
+3. Stress-test each candidate with “removal would change the pattern”
+   Write a short text chunk that tests whether each candidate is truly non-negotiable by asking: if this were violated, would we still call it the same mechanism? Use reasoning grounded in roles, guarantees, and failure posture rather than taste.
 
-5) Note derived or secondary invariants
-Write a short text chunk (if helpful) noting any derived or secondary invariants that follow from the core laws. Explain how they follow and how they help catch subtle drift, while keeping the main set focused on non-negotiables.
+4. Classify invariants into a small, portable structure
+   Write a short text chunk grouping invariants conceptually in a way that supports synthesis, such as identity/semantic invariants, safety invariants, ordering/consistency invariants, and boundary invariants. Do not use list formatting; explain the grouping in prose.
 
-6) Implement the invariant record
-Write a small text chunk introducing how you will represent these invariants in structured form so they can guide future synthesis and checks. Then produce small linked code chunks that encode a reusable invariant record containing:
-- the core identity laws (as structured entries),
-- optional rationale/intent notes,
-- optional scope tags,
-- and an “assumption” marker for any law not fully supported by targets/requirements.
+5. State the invariants with explicit scope
+   Write a short text chunk stating the finalized invariants and clarifying their scope: what part of the mechanism they constrain, what counts as a violation, and what a compliant instance must guarantee. Keep the statements portable and free of local identifiers.
+
+6. Emit the portable Invariants Record (required)
+   Produce a single structured “Invariants & Non-Negotiables Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* invariant_set (portable invariant statements expressed as identity laws)
+* invariant_scopes (what each law constrains in abstract role terms)
+* violation_signals (how a violation would manifest at the boundary or in outcomes, abstractly)
+* rationale (why each law is identity-defining, not incidental)
+* negotiables_boundary (what is explicitly allowed to vary without breaking identity)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete details that help demonstrate the invariants, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may reference local names, concrete metrics, or specific failure symptoms. It must not contaminate the portable invariants record.
 
 Guardrails
-Do not collapse this work into a general contract surface of inputs/outputs/guarantees; that belongs to FA-03 — Etch the Interface. Do not drift into broad constraint envelopes or acceptable ranges for particular instances; that belongs to FA-06 — Set the Guardrails. Do not merely restate the narrative intent/promise of the feature; that belongs to FU-09 — Write the Promise. Stay focused on identity-defining laws that must hold if this is still the same pattern or feature across valid uses.
+Do not define the external contract surface; that belongs to FA-03 — Etch the Interface. Do not enumerate variation axes; that belongs to FA-05 — Turn the Dials. Do not propose new features, new constraints, or design improvements; you are describing identity laws of what exists or what must remain true for the pattern instance as understood. Do not output implementation diffs or refactors.
 
 Completion
-The output must communicate the identity being protected, surface and refine candidate laws, clearly separate invariants from constraints, and present the final invariant laws (plus any helpful derived rules). It must also include small linked code chunks encoding a reusable invariant record suitable for guiding synthesis and drift detection.
+The output must include a clear separation of identity laws from implementation facts, a stress-test rationale for why the chosen invariants are non-negotiable, and one portable Invariants & Non-Negotiables Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.

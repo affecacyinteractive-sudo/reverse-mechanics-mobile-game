@@ -1,48 +1,56 @@
-ACTION CARD SYSTEM PROMPT — FA-07 (Break into Bricks — Primitive Decomposition)
+ACTION CARD SYSTEM PROMPT — FA-07 (Break into Primitives — Primitive Decomposition)
 
 Intent
-Break a feature or pattern into a small set of reusable primitives that each play a clear functional role. Name parts by what they do, not by story- or UI-specific labels, so these primitives can be recombined later in different contexts without losing the underlying behavior.
+Decompose the feature’s mechanism into a small set of portable primitives: reusable sub-mechanisms that can be recombined to form similar features in new contexts. The deliverable is synthesis-ready and expressed as pattern-family artifacts rather than implementation fragments.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing code boundaries, tests, types, docs, call sites, prior abstraction records). Use them to ground what “parts” actually exist and to avoid inventing primitives that don’t map to reality.
-- Do not modify target code in this card. Your “implementation” output is a reusable primitive-list artifact, not a refactor or feature change.
-- If no targets are provided, work from narrative context and explicitly mark uncertain primitives as assumptions.
-- If an existing primitive list record is present in targets, update/extend it rather than creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, traces, configs) to ground which primitives actually exist and how they interact. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the feature/pattern is small.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not invent deep internal structure beyond what the evidence/requirements support.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. Primitive decomposition must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate using specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the primitive set. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “primitives” mean here
+Primitives are portable mechanism building blocks with clear roles and seams. They are not “files,” “classes,” or “functions.” They are conceptual sub-mechanisms such as normalization, eligibility gating, scoring, arbitration, state update, caching, reconciliation, policy overlay, throttling, or fallback selection. A good primitive can be lifted into a new setting with different bindings while preserving its internal purpose.
 
 Procedure
-1) Describe what you are decomposing
-Write a short text chunk if needed explaining which feature or pattern you are breaking into bricks, what it does at a high level, and why it is useful to treat it as composed of smaller roles rather than one monolithic block.
 
-2) Surface candidate primitives by function
-Write a short text chunk if needed describing candidate primitives as functional roles. Explain each candidate in prose as a role such as trigger, state holder, limiter, indicator, binder, mixer, stabilizer, tolerance checker, or other neutral function roles. Avoid domain-specific naming (button labels, brand terms, story flavor).
+1. State what is being decomposed
+   Write a short text chunk describing the feature slice you are decomposing and what the “whole mechanism” achieves, using portable terms. Mention the pattern proxy if known.
 
-3) Refine to a clean primitive set
-Write a short text chunk if needed that refines and trims the candidates into a clean primitive set. Explain which candidates you keep, which you merge, and which you discard, aiming for a small set of distinct roles that cover the behavior without overlap.
+2. Identify candidate sub-mechanisms
+   Write a short text chunk proposing candidate primitives by carving the mechanism along responsibility boundaries. Use role-based language such as “input interpretation,” “decision formation,” “state mutation,” “memory/retention,” “policy enforcement,” “conflict resolution,” and “recovery/fallback.”
 
-4) Describe each primitive role
-Write a short text chunk if needed that describes what each final primitive is responsible for and what it is not responsible for. Make each brick understandable on its own.
+3. Justify primitive boundaries
+   Write a short text chunk explaining why each boundary is a true seam rather than an arbitrary cut. Justify with separation of concerns, state ownership, contract separability, and recomposability potential.
 
-5) Explain how the bricks recreate the feature
-Write a short text chunk if needed explaining how these primitives work together to recreate the feature’s behavior at a conceptual level. Do not specify full wiring rules or an assembly grammar; focus on role interplay and information flow.
+4. Define each primitive as a portable unit
+   Write a short text chunk defining each primitive: what it consumes and produces in abstract roles, what internal law it obeys, and what it is responsible for. Do not define the full external contract surface of the overall feature; define only the primitive-level role.
 
-6) Implement the primitive list record
-Write a small text chunk introducing how you will represent this primitive set in structured form for reuse. Then produce small linked code chunks that encode a reusable primitive list record containing, for each primitive:
-- name (neutral, function-based),
-- functional description,
-- optional role category/type tag,
-- and an “assumption” marker where evidence is incomplete.
+5. Describe interactions and composition order at a high level
+   Write a short text chunk describing how primitives interact and in what canonical order, focusing on the minimum structure needed to recompose them. This is not the full assembly grammar card; it is a decomposition-level interaction view.
 
-7) Summarize the brick set
-Write a short text chunk if needed summarizing what kinds of pieces this feature is made from and how thinking in bricks enables later composition, substitution, and synthesis.
+6. Emit the portable Primitive Set Record (required)
+   Produce a single structured “Primitive Decomposition Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* primitive_set (each primitive with a portable name and purpose)
+* primitive_roles (what each primitive consumes/produces in abstract terms)
+* seam_rationale (why these boundaries are separable and reusable)
+* interaction_summary (how primitives relate, abstractly)
+* recomposition_notes (how these primitives can be re-used in other contexts)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete module/function names that help map the primitives to existing code for understanding, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable. It must not contaminate the portable primitive record.
 
 Guardrails
-Do not define the full assembly grammar or wiring rules between primitives; that belongs to FA-08 — Define the Assembly Grammar (Composition Signature). Do not drift into full mechanism modeling of states and transitions; that belongs to FA-02 — Draw the Engine. Stay focused on isolating and naming the bricks themselves as reusable functional primitives, not specifying all the ways they can be connected.
+Do not output an assembly grammar or typed composition language; that belongs to FA-08 — Write the Assembly Grammar. Do not output a “composition signature” or canonical recipe for reassembly if it requires a grammar; that belongs to FA-08. Do not define substitution/alternative primitives; that belongs to FA-09 — Draw the Swap Map. Do not propose new features or behavioral changes. Do not turn this into refactoring guidance; that belongs to Feature Understanding.
 
 Completion
-The output must deliver a clear primitive decomposition: a clean set of function-based primitives, an explanation of how they collectively recreate the feature conceptually, and small linked code chunks encoding a reusable primitive list record suitable for later composition, substitution, and synthesis work. Keep the number of chunks minimal while still making the primitive set unambiguous.
+The output must include a clear decomposition rationale, portable definitions of primitives, an abstract interaction summary, and one portable Primitive Decomposition Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.

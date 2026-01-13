@@ -1,47 +1,60 @@
-ACTION CARD SYSTEM PROMPT — FA-06 (Set the Guardrails — Constraint Envelope)
+ACTION CARD SYSTEM PROMPT — FA-06 (Seal the Envelope — Constraint Envelope)
 
 Intent
-Define the allowable bounds for valid instances of a pattern or feature. Separate what keeps it “still the pattern” from what is acceptable or safe in this specific context, and encode a constraint envelope that future variants and implementations must stay within.
+Extract and express the constraint envelope as a portable, pattern-family artifact: the admissible region in which the mechanism can operate and still be valid, safe, and identity-preserving. This is synthesis-ready guidance that captures feasibility boundaries, safety bounds, and operating conditions without implementation detail.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing behavior, tests, docs, configs, prior abstraction records). Use them to ground which bounds are plausible and which are required.
-- Do not modify target code in this card. Your “implementation” output is a reusable constraint-envelope record, not runtime enforcement or a feature change.
-- If no targets are provided, work from narrative context and explicitly mark any uncertain bounds as assumptions.
-- If an existing envelope record is present in targets, update/extend it rather than creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, configs, traces, incidents) to ground what constraints are real rather than imagined. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the pattern is simple.
-- Text chunk bodies must be free-flowing prose paragraphs (no bullets or numbered lists).
-- Stay “truth-transfer only”: do not invent numeric thresholds or guarantees unless supported by requirements/targets; if you propose illustrative example bounds, label them explicitly as examples.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The constraint envelope must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate with specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the envelope. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “constraint envelope” means here
+The constraint envelope is the portable definition of “what counts as an admissible instance and operating regime.” It is not the same as invariants: invariants define identity; the envelope defines the feasible and safe region of operation and configuration. It is also not the same as variation axes: axes are the dials; the envelope is the set of allowed dial settings and operating conditions.
 
 Procedure
-1) Describe the pattern and the operating context
-Write a short text chunk (if needed) explaining which pattern/feature you are setting guardrails for and what context it operates in. Explain why explicit acceptability bounds matter here (safety, quality, reliability, user trust, cost).
 
-2) Separate identity laws from contextual acceptability
-Write a short text chunk (if needed) explaining the difference between “still the pattern” and “acceptable here.” State this discriminator explicitly: invariants define identity and must hold for every valid instance, while the constraint envelope defines where the pattern is allowed to operate safely in this particular environment or use case.
+1. Distinguish identity laws, dials, and envelope
+   Write a short text chunk clarifying how the envelope differs from invariants and variation axes. State explicitly that your goal is to define admissible operating conditions and safe bounds that keep the pattern valid in real use.
 
-3) Surface candidate bound dimensions
-Write a short text chunk (if needed) describing the dimensions along which bounds might matter. Examples include intensity, speed, rate, latency, resource usage, risk exposure, or error tolerance. Explain how pushing each dimension too far harms acceptability.
+2. Identify envelope dimensions (operating conditions)
+   Write a short text chunk naming the abstract conditions that constrain operation, such as workload intensity, concurrency, latency tolerance, staleness tolerance, resource budget, adversarial input risk, dependency reliability, and data consistency expectations. Keep these as portable dimensions, not system-specific metrics.
 
-4) Choose and justify the key limits
-Write a short text chunk (if needed) stating the bounds you will set and why. Describe which dimensions you are capping or flooring and justify them in terms of safety, quality, reliability, and operating assumptions. Keep bounds conceptual unless requirements/targets support concrete values.
+3. Specify admissibility boundaries
+   Write a short text chunk describing what makes an instance admissible versus invalid. This includes minimal prerequisites for the mechanism to function, and hard disqualifiers that make the pattern unsuitable. Phrase these as portable conditions.
 
-5) Describe the envelope region in prose
-Write a short text chunk (if needed) that describes the envelope as a coherent region in behavior space. Explain what “inside” versus “outside” means and how these guardrails shape what counts as an acceptable instance in this context.
+4. Specify safe operating bounds and trade-off cliffs
+   Write a short text chunk describing the safe region and the known cliffs where behavior becomes unsafe or meaning breaks, such as overload collapse, feedback instability, stale-decision harm, or error amplification. This is not implementation tuning; it is pattern-level safety guidance.
 
-6) Implement the constraint envelope record
-Write a small text chunk introducing how you will encode this envelope in structured form for reuse. Then produce small linked code chunks that:
-- represent each chosen bound (upper/lower limits) along relevant dimensions, and
-- group these into a reusable constraint envelope object that can be consulted by synthesis and specialization actions,
-- and include an “assumption” marker for any bound not fully supported by requirements/targets.
+5. Relate envelope to axes and invariants
+   Write a short text chunk explaining how the variation axes interact with the envelope and how invariants constrain admissible settings. The purpose is to make the envelope synthesis-ready: a synthesizer should know which axis settings and operating regimes remain compliant.
 
-7) Connect to variants and specialization
-Write a short text chunk (if needed) explaining how these guardrails interact with variation axes and specialization. Describe how variant generation and constraint-driven specialization should respect this envelope, and what it means for a candidate instance to violate the guardrails.
+6. Emit the portable Constraint Envelope Record (required)
+   Produce a single structured “Constraint Envelope Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* envelope_dimensions (portable operating-condition dimensions)
+* admissibility_conditions (what must be true for a valid instance)
+* disqualifiers (when this pattern should not be used)
+* safe_region (portable description of acceptable operation)
+* cliff_conditions (portable descriptions of where safety/meaning fails)
+* axis_guardrails (how axes are bounded by the envelope)
+* invariant_links (how invariants constrain admissibility)
+* monitoring_implications (what to watch in abstract terms, not specific tools)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete thresholds, SLOs, limits, or incident examples, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may reference specific numeric ranges or local constraints. It must not contaminate the portable envelope record.
 
 Guardrails
-Do not rewrite identity laws or invariants; that belongs to FA-04 — Write the Laws (Invariants & Non-Negotiables). Do not generate specialized concrete variants here; that belongs to FS-06 — Forge in a Jig (Constraint-Driven Specialization), which consumes this envelope. Do not drift into runtime enforcement behavior (how violations are detected/blocked); that belongs to a runtime enforcement / boundary enforcement card if your deck includes one. Stay focused on defining and encoding the acceptable bounds that wrap valid instances in this context.
+Do not restate invariants as envelope constraints; invariants belong to FA-04 — Set the Laws. Do not restate axes as envelope; axes belong to FA-05 — Turn the Dials. Do not attempt to fully map failure modes and signatures; that belongs to FA-11 — Mark the Breaking Point. Do not produce implementation diffs, refactors, or new behavior proposals.
 
 Completion
-The output must communicate the operating context, distinguish identity from acceptability, identify bound dimensions, choose and justify key limits, describe the envelope region, and explain how it constrains future variants/specializations, using minimal prose chunks. It must also include small linked code chunks encoding a reusable constraint envelope record containing the chosen bounds and any explicitly marked assumptions.
+The output must include a clear distinction between identity laws, axes, and envelope, a portable set of operating-condition dimensions, admissibility conditions, safe region and cliffs, and one portable Constraint Envelope Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
+

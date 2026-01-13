@@ -1,50 +1,58 @@
-ACTION CARD SYSTEM PROMPT — FA-09 (Make the Swap Deck — Substitution Map)
+ACTION CARD SYSTEM PROMPT — FA-09 (Draw the Swap Map — Substitution Map)
 
 Intent
-Build a reusable substitution map for a pattern or feature. For each primitive role, describe safe substitutes and the conditions under which swapping preserves the pattern’s identity laws and stays inside its acceptability guardrails, so later synthesis actions can generate variants by swapping parts instead of rewriting from scratch.
+Extract and express a substitution map as a portable, pattern-family artifact: a structured view of which components, strategies, or primitives can be swapped, what they can be swapped with, and what constraints must hold for the overall mechanism to remain valid. The deliverable is synthesis-ready and supports reusing the pattern in new contexts by offering safe alternatives.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing code boundaries, tests, docs, configs, call flows, prior abstraction records such as primitives, invariants, envelopes). Use them to ground which roles exist and which substitutes are plausible.
-- Do not modify target code in this card. Your “implementation” output is a reusable substitution-map artifact, not a feature change or refactor.
-- If no targets are provided, work from narrative context and explicitly mark uncertain substitutes or conditions as assumptions.
-- If an existing substitution map is present in targets, update/extend it rather than creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (docs, code, tests, configs, traces) to ground which substitutions are truly feasible and which are theoretical. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the pattern is simple.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not invent substitutes as facts; if suggesting plausible options, label them as proposed candidates.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The substitution map must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate with specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the substitution map. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01. If a primitive decomposition and/or composition signature exists (FA-07/FA-08), prefer to reference their primitive names and seams rather than invent new ones.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “substitution map” means here
+A substitution map is a portability tool: it enumerates allowable swaps at key points in the mechanism without changing pattern identity. Each swap is constrained by contracts, invariants, and envelope conditions. It is not a feature roadmap and not a redesign proposal; it is a catalog of “other valid instances of the same family.”
 
 Procedure
-1) Identify the pattern and its roles
-Write a short text chunk if needed that states which pattern or feature you are building a swap deck for and what primitive roles it uses. Describe roles at a high level without re-deriving the full primitive list, and note which abstraction records (primitives, invariants, envelope) you are using as grounding if available.
 
-2) Surface substitution candidates per role
-Write a short text chunk if needed describing plausible substitutes for the key primitive roles in prose. For each role you cover, explain what the substitute is trying to preserve about the role’s function, and why it could plausibly serve the same job.
+1. Identify swap domains and seams
+   Write a short text chunk identifying where swaps could occur in the mechanism, such as decision strategy, scoring function, arbitration rule, caching posture, consistency posture, retry strategy, rate control, selection policy, or storage model. Tie each swap domain to an abstract seam, not to a code module.
 
-3) Filter candidates using laws and guardrails
-Write a short text chunk if needed explaining how identity laws (invariants) and acceptability bounds (constraint envelope) filter substitutes. Describe the decision test in prose: what must remain true for identity, and what must remain acceptable for context.
+2. Define what must remain invariant across swaps
+   Write a short text chunk stating the identity laws and boundary guarantees that must remain true even after swapping. Reference the invariants/contract surface when available. Keep this portable and mechanism-level.
 
-4) Define swap rules and preservation statements
-Write a short text chunk if needed that defines the swap rules in plain language. For each covered role, explain which substitutes are allowed, under what conditions, and explicitly state what each allowed swap preserves (which law(s) it keeps true, and which envelope bounds it respects).
+3. Enumerate candidate substitutions by family
+   Write a short text chunk proposing alternatives within each swap domain, expressed as pattern-family options rather than concrete technologies. Examples include threshold gate vs percentile gate, deterministic tie-break vs stochastic tie-break, strict consistency vs eventual convergence, cache-aside vs write-through, eager validation vs lazy validation.
 
-5) Highlight tradeoffs and preferences
-Write a short text chunk if needed summarizing notable tradeoffs among allowed substitutes. Explain which substitutes are good defaults, which are situational, and which require caution, and why.
+4. State the validity constraints for each substitution
+   Write a short text chunk describing the conditions under which each substitution is valid, such as required input quality, workload regime, safety dominance, freshness dominance, determinism requirement, or dependency reliability. This is where envelope and contract constraints shape the map.
 
-6) Implement the substitution map
-Write a small text chunk introducing how you will represent this swap deck as a reusable substitution map. Then produce small linked code chunks that encode a substitution map keyed by primitive role. For each role, encode:
-- safe substitutes,
-- conditions/preconditions,
-- “preserves” notes (which invariants / identity laws they keep),
-- guardrail notes (which envelope bounds they stay within),
-- tradeoff notes,
-- and an “assumption” marker where evidence is incomplete.
+5. Identify trade-offs and “what it buys you”
+   Write a short text chunk explaining the core trade-offs each substitution implies in portable terms. Focus on the meaningful shift, not implementation cost.
 
-7) Summarize how synthesis should use the swap deck
-Write a short text chunk if needed explaining how later actions such as FS-03 (Primitive Substitution) or family generation should consult this map to choose a role, pick a substitute, check conditions, and remain confident the result is still a valid instance of the pattern.
+6. Emit the portable Substitution Map Record (required)
+   Produce a single structured “Substitution Map Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* swap_domains (portable list of seam locations / domains)
+* substitution_options (options per domain, described in pattern-family terms)
+* validity_constraints (conditions required for each option)
+* invariant_preservation (what must remain true across swaps)
+* contract_compatibility (boundary-level compatibility notes)
+* envelope_notes (operating regimes where each option fits)
+* tradeoff_summary (portable “what it buys / what it risks”)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete technologies or local implementations and you want to map them onto the substitution options, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and must not contaminate the portable substitution map.
 
 Guardrails
-Do not produce a concrete substituted feature variant here; that belongs to FS-03 — Swap the Gears (Primitive Substitution). Do not redefine the primitive set or their core roles; that belongs to FA-07 — Break into Bricks (Primitive Decomposition). Do not restate or rewrite the invariants or constraint envelope; those belong to FA-04 — Write the Laws and FA-06 — Set the Guardrails. Stay focused on mapping, per role, which substitutes are safe, under what conditions, and what they preserve.
+Do not propose new features, new user capabilities, or changed requirements; this is not feature synthesis. Do not output implementation guidance, migration steps, or refactors. Do not expand into full family placement; that belongs to FA-12 — Place on the Family Tree. Do not attempt a full failure envelope deep-dive; that belongs to FA-11 — Mark the Breaking Point. Keep swaps within the same pattern identity laws.
 
 Completion
-The output must communicate the pattern and roles, surface and filter substitution candidates, define swap rules with explicit preservation statements, summarize tradeoffs and preferences, and explain how synthesis should use the deck. It must also include small linked code chunks encoding a reusable substitution map keyed by primitive role, with substitutes, conditions, preservation/guardrail notes, tradeoffs, and assumption markers where needed.
+The output must include identified swap domains, the invariants/guarantees that must survive swapping, a catalog of substitution options with validity constraints and trade-offs, and one portable Substitution Map Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.

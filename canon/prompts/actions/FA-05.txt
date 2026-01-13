@@ -1,50 +1,57 @@
-ACTION CARD SYSTEM PROMPT — FA-05 (Lay the Control Panel — Variation Axes)
+ACTION CARD SYSTEM PROMPT — FA-05 (Turn the Dials — Variation Axes)
 
 Intent
-Identify the safe knobs that can vary this pattern or feature without breaking its identity. Define each variation axis and its qualitative range of effects so future synthesis can systematically generate variants by turning these knobs.
+Extract and express the feature’s variation axes as a portable, pattern-family artifact: the abstract parameters and degrees of freedom that can change across instances while the mechanism remains the same pattern. The deliverable is synthesis-ready and reusable across domains.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing behavior notes, docs, tests, types, configs, prior abstraction records). Use them to ground what you claim can vary safely.
-- Do not modify target code in this card. Your “implementation” output is a reusable variation-axes artifact (a control panel record), not a refactor or feature change.
-- If no targets are provided, work from narrative context and explicitly mark uncertainty as assumptions.
-- If an existing variation-axes record is present in targets, update/extend it instead of creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, configs, traces) to ground which dimensions truly vary in practice and which are fixed by invariants. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the feature/pattern is small.
-- Text chunk bodies must be free-flowing prose paragraphs (no bullet lists or numbered lists inside the chunks).
-- Stay “truth-transfer only”: do not invent knobs or effects that aren’t supported by requirements/targets or clearly flagged as assumptions.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. Variation axes must be stated without concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate with specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the variation model. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “variation axes” mean here
+Variation axes are the controllable degrees of freedom of the mechanism family: parameters that can differ across instances without changing the pattern’s identity laws. They are not implementation knobs for a single codebase; they are family-level parameters that a synthesizer can tune when instantiating the pattern in a new context.
 
 Procedure
-1) Describe the pattern and why knobs matter
-Write a short text chunk if needed that states which pattern/feature you are laying a control panel for. Explain why it’s useful to treat it as something adjustable rather than a single frozen configuration.
 
-2) Surface candidate knobs
-Write a short text chunk if needed describing plausible ways the pattern could vary while remaining the same kind of thing. Tie each candidate knob to a concrete behavioral effect someone would observe.
+1. Separate axes from invariants
+   Write a short text chunk explaining what cannot vary (invariants) versus what can (axes). State explicitly that your outputs must define axes that preserve identity and do not break the mechanism’s non-negotiables.
 
-3) Filter to safe variation axes
-Write a short text chunk if needed explaining which candidates count as safe axes and which are excluded. Use the pattern’s identity laws (invariants) and contextual bounds (constraints/envelope) to justify the filter. Include this discriminator explicitly: axes describe how it can vary; envelopes describe where variation becomes unacceptable.
+2. Identify candidate axes from mechanism structure
+   Write a short text chunk proposing candidate axes derived from contract surface, decision spine, state model, and recovery posture. Examples of abstract axes include thresholds, scoring weights, cooldown duration, retry budget, arbitration priority, consistency strictness, freshness window, quota budget, dispute resolution policy, or selection strategy class.
 
-4) Define each axis and its effects
-Write a short text chunk if needed that defines each chosen axis in prose. For each axis, explain what it controls, how turning it up or down changes behavior, and what differences a user would notice.
+3. Define each axis as a typed abstract parameter
+   Write a short text chunk that defines each axis as a parameter with an abstract type and a semantic meaning. Use family-level types such as boolean flag, numeric scalar, bounded range, categorical strategy, ordered preference, policy table, or cost function. Avoid concrete units unless they are inherently part of the family concept; if needed, express units abstractly as “time horizon” or “budget unit.”
 
-5) Sketch qualitative ranges and typical settings
-Write a short text chunk if needed describing the qualitative range of each axis and any typical defaults or named tiers. Keep it conceptual; do not generate a full variant family here.
+4. Describe axis interactions and coupling
+   Write a short text chunk describing how axes interact, such as one axis constraining another, trade-offs, monotonic relationships, or stability conditions. Focus on the structure of interactions, not specific tuned values.
 
-6) Implement the variation axes record
-Write a small text chunk introducing how you will represent the control panel in structured form. Then produce small linked code chunks that encode a reusable variation-axes record containing:
-- axis name / label,
-- what it controls,
-- qualitative range (and optional tiers/default),
-- behavioral effects summary,
-- any “unsafe past this point” notes that reference the envelope conceptually (without rewriting the envelope),
-- and an “assumption” marker where evidence is incomplete.
+5. Bound the safe region using invariants
+   Write a short text chunk describing what combinations of axes remain compliant with the invariants and what combinations would violate identity. This is not a full constraint envelope card; it is a portability-oriented mapping from axes to invariant compliance.
 
-7) Summarize how to turn the knobs
-Write a short text chunk if needed summarizing how to use these axes when shaping variants, including which axes are primary versus secondary and how combinations change the feel while preserving identity.
+6. Emit the portable Variation Axes Record (required)
+   Produce a single structured “Variation Axes Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* axes (each axis with name, abstract type, semantic meaning)
+* default_stance (a neutral default posture, described abstractly)
+* interaction_rules (how axes couple or trade off)
+* invariant_guardrails (how invariants constrain axes)
+* tuning_objectives (what outcomes these axes usually trade, abstractly)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete axis values or configuration examples, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may reference specific values, concrete thresholds, or real configuration keys. It must not contaminate the portable axes record.
 
 Guardrails
-Do not generate a full set of concrete variants or presets; that belongs to FS-02 — Turn the Dialbank (Variant Family Generation), which uses these axes. Avoid drifting into library/catalog parameterization for cross-story reuse; if a separate Story Reuse/Parameterization deck is active (e.g., SRC-02), that is where catalog-wide sliders belong. Stay focused on identifying and encoding safe variation axes for this specific pattern/feature.
+Do not restate invariants as axes; invariants belong to FA-04 — Set the Laws. Do not define the external contract surface; that belongs to FA-03 — Etch the Interface. Do not enumerate a full constraint envelope; that belongs to FA-06 — Seal the Envelope. Do not produce implementation diffs or refactors. Do not introduce new behavior; you are describing family-level degrees of freedom that preserve identity.
 
 Completion
-The output must convey what can vary safely, why those axes are safe, what changes when each axis moves, and what the qualitative range looks like, using minimal prose chunks. It must also include small linked code chunks encoding a reusable variation-axes (control panel) record suitable for later synthesis.
+The output must include a clear distinction between invariants and axes, a set of typed abstract parameters with semantic meaning, a description of interactions and guardrails, and one portable Variation Axes Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
+

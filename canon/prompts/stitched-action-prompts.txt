@@ -33,14 +33,14 @@ INDEX (in file order)
 029. [SOFTWARE] FA — Abstraction — FA-01 — ACTION CARD SYSTEM PROMPT — FA-01 (Name the Beast — Pattern Proxy Assignment)
 030. [SOFTWARE] FA — Abstraction — FA-02 — ACTION CARD SYSTEM PROMPT — FA-02 (Draw the Engine — Canonical Mechanism Model)
 031. [SOFTWARE] FA — Abstraction — FA-03 — ACTION CARD SYSTEM PROMPT — FA-03 (Etch the Interface — Contract Surface)
-032. [SOFTWARE] FA — Abstraction — FA-04 — ACTION CARD SYSTEM PROMPT — FA-04 (Write the Laws — Invariants & Non-Negotiables)
-033. [SOFTWARE] FA — Abstraction — FA-05 — ACTION CARD SYSTEM PROMPT — FA-05 (Lay the Control Panel — Variation Axes)
-034. [SOFTWARE] FA — Abstraction — FA-06 — ACTION CARD SYSTEM PROMPT — FA-06 (Set the Guardrails — Constraint Envelope)
-035. [SOFTWARE] FA — Abstraction — FA-07 — ACTION CARD SYSTEM PROMPT — FA-07 (Break into Bricks — Primitive Decomposition)
-036. [SOFTWARE] FA — Abstraction — FA-08 — ACTION CARD SYSTEM PROMPT — FA-08 (Define the Assembly Grammar — Composition Signature)
-037. [SOFTWARE] FA — Abstraction — FA-09 — ACTION CARD SYSTEM PROMPT — FA-09 (Make the Swap Deck — Substitution Map)
-038. [SOFTWARE] FA — Abstraction — FA-10 — ACTION CARD SYSTEM PROMPT — FA-10 (Check the Fit — Membership Test)
-039. [SOFTWARE] FA — Abstraction — FA-11 — ACTION CARD SYSTEM PROMPT — FA-11 (Chart the Crash Modes — Failure Envelope)
+032. [SOFTWARE] FA — Abstraction — FA-04 — ACTION CARD SYSTEM PROMPT — FA-04 (Set the Laws — Invariants & Non-Negotiables)
+033. [SOFTWARE] FA — Abstraction — FA-05 — ACTION CARD SYSTEM PROMPT — FA-05 (Turn the Dials — Variation Axes)
+034. [SOFTWARE] FA — Abstraction — FA-06 — ACTION CARD SYSTEM PROMPT — FA-06 (Seal the Envelope — Constraint Envelope)
+035. [SOFTWARE] FA — Abstraction — FA-07 — ACTION CARD SYSTEM PROMPT — FA-07 (Break into Primitives — Primitive Decomposition)
+036. [SOFTWARE] FA — Abstraction — FA-08 — ACTION CARD SYSTEM PROMPT — FA-08 (Write the Assembly Grammar — Composition Signature)
+037. [SOFTWARE] FA — Abstraction — FA-09 — ACTION CARD SYSTEM PROMPT — FA-09 (Draw the Swap Map — Substitution Map)
+038. [SOFTWARE] FA — Abstraction — FA-10 — ACTION CARD SYSTEM PROMPT — FA-10 (Prove the Kind — Membership Test)
+039. [SOFTWARE] FA — Abstraction — FA-11 — ACTION CARD SYSTEM PROMPT — FA-11 (Mark the Breaking Point — Failure Envelope)
 040. [SOFTWARE] FA — Abstraction — FA-12 — ACTION CARD SYSTEM PROMPT — FA-12 (Place on the Family Tree — Pattern Family Placement)
 041. [SOFTWARE] FS — Synthesis — FS-01 — ACTION CARD SYSTEM PROMPT — FS-01 (Cast the Pattern — Pattern Instantiation)
 042. [SOFTWARE] FS — Synthesis — FS-02 — ACTION CARD SYSTEM PROMPT — FS-02 (Turn the Dialbank — Variant Family Generation)
@@ -1527,41 +1527,45 @@ The output must include a feature/confidence goal, evidence sources with type, s
 ACTION CARD SYSTEM PROMPT — FA-01 (Name the Beast — Pattern Proxy Assignment)
 
 Intent
-Assign one or more pattern proxy labels that best describe how this feature works. Choose the most useful abstraction name or names so the feature can be talked about as an instance of a reusable pattern family, rather than as a one-off tangle of behavior.
+Assign one or more pattern proxy labels that best describe how this feature works. The output of this card is a portable, synthesis-ready naming artifact: a reusable “pattern family handle” that lets future work refer to the feature as an instance of a general mechanism rather than as a one-off implementation.
 
 Targets policy
-Targets are optional. If targets are provided, treat them as evidence inputs: use them to ground what you are naming (what exists, how it behaves, and what surrounds it). Do not modify existing feature code as part of this card unless the user intent explicitly asks you to record/update the pattern proxy record. If no targets are provided, work from the narrative context only and clearly mark uncertain inferences as assumptions.
+Targets are optional. If targets are provided, treat them as evidence inputs to ground what you are naming (what exists, how it behaves, and what surrounds it). Do not modify the feature’s behavior or implementation as part of this card. This card may create or update a pattern-proxy record artifact if requested or if the workflow requires recording the assignment. If no targets are provided, work from narrative context only and clearly mark uncertain inferences as assumptions.
+
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The pattern proxy record must avoid concrete identifiers such as real endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate fit using specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
 
 Output discipline (important)
-Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Remember: text chunk bodies must be free-flowing prose (no bullets or numbered lists).
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a single compact record, not as prose.
 
 Procedure
-1) Describe what needs a name
-Write a short text chunk if needed that explains which feature, mechanism, or capability you are naming. Describe what it does at a high level and what makes its structure or behavior feel like a candidate for a recognizable pattern, without yet choosing any labels.
 
-2) Surface candidate pattern shapes
-Write a short text chunk if needed that describes a small set of plausible pattern shapes this feature resembles. Explain these shapes in plain language, such as being like a state machine with a cooldown, a threshold gate, a budget counter, or an emulsion-style process, tying them to how the feature actually behaves.
+1. Describe what needs a name
+   Write a short text chunk that explains which feature, mechanism, or capability you are naming. Describe what it does at a high level and what structural “shape” it seems to have, without choosing labels yet.
 
-3) Compare and narrow the candidates
-Write a short text chunk if needed that compares the candidate pattern shapes and explains which ones fit best and which ones are misleading. Describe, in prose, why certain patterns match the roles, state changes, or flows you see, and why others should be discarded as poor fits. You must explicitly name at least one “runner-up” label and say why it loses.
+2. Surface candidate pattern shapes
+   Write a short text chunk that proposes a small set of plausible pattern shapes this feature resembles, expressed in general mechanism terms. Use proxy-style phrasing such as threshold gate, state machine with cooldown, budget ledger, two-phase commit, cache-aside, policy overlay, backpressure valve, or reconciliation loop, and tie each candidate to observable behavior.
 
-4) Assign the pattern proxy label(s)
-Write a short text chunk if needed that chooses the final pattern proxy label or small set of labels. State the chosen name or name pair and explain how it should be read, for example as a core pattern plus a modifier, or as two complementary pattern facets that together describe this feature’s behavior.
+3. Compare and narrow the candidates
+   Write a short text chunk that compares the candidates and narrows them. You must explicitly name at least one runner-up label and explain why it loses, focusing on mismatched roles, incorrect state transitions, wrong failure posture, or misleading boundary assumptions.
 
-5) Place the proxy in pattern space
-Write a short text chunk if needed that explains, at a conceptual level, how this proxy label relates to the broader pattern space. Describe which general family this label belongs to, such as gating patterns, state-machine patterns, or resource-accounting patterns, and how that family context helps others reason about this feature.
+4. Assign the pattern proxy label(s)
+   Write a short text chunk that assigns the final proxy label or small label-set. If using multiple labels, state the combination logic in plain terms, such as a core mechanism plus a modifier, or two facets that together capture the behavior. Also assign a stable proxy identifier suitable for indexing and reuse.
 
-6) Implement the pattern proxy record
-Write a small text chunk that introduces how you will represent this pattern proxy assignment in structured form so it can be reused later. Then produce small linked code chunks that:
-- encode the chosen pattern proxy label or labels, and
-- encode supporting fields such as a brief description, the associated pattern family, a short explanation of fit, and the runner-up label with the reason it was rejected.
-If targets are provided and an existing proxy record already exists among them, update that record rather than creating a parallel duplicate.
+5. Place the proxy in pattern space
+   Write a short text chunk that places the chosen label within a broader pattern family. This is not deep taxonomy work; it is a practical placement that helps future retrieval, comparison, and synthesis by clarifying which family it belongs to and what neighboring patterns it might be confused with.
+
+6. Emit the portable pattern proxy artifact (required)
+   Produce a single structured “Pattern Proxy Record” as a portable artifact. It must include, at minimum, a stable pattern_proxy_id, a human-readable pattern_proxy_label, a pattern_family label, a brief fit rationale, the runner-up label and its rejection rationale, and a short set of retrieval keywords. The record must also include an explicit portability statement indicating that the core is context-free. If targets include an existing proxy record, update that record rather than creating a parallel duplicate.
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete details and you believe they will help future humans apply the proxy, you may include a separate “Instance Binding / Examples” record. This section is explicitly non-portable and must be clearly labeled as such. It may mention local names, concrete signals, or specific artifacts, but it must not contaminate the portable core.
 
 Guardrails
-Do not attempt to capture the full internal mechanism model; that belongs to FA-02 — Draw the Engine. Do not define complete interface contracts or parameter surfaces; that belongs to FA-03 — Etch the Interface. Do not drift into broad pattern family placement work; that belongs to FA-12 — Place on the Family Tree. Do not generate new feature variants or redesign behavior; this is naming and recording only. Stay focused on choosing and encoding the best abstraction name or names that act as a pattern proxy for this specific feature.
+Do not attempt to capture the full canonical mechanism model; that belongs to FA-02 — Draw the Engine. Do not define interface contracts, IO shapes, or parameter surfaces; that belongs to FA-03 — Etch the Interface. Do not drift into broad pattern family placement work; that belongs to FA-12 — Place on the Family Tree. Do not redesign behavior, propose variants, or introduce new functionality; this card is naming and recording only. Do not output concrete identifiers in the portable core.
 
 Completion
-The output must include text chunks that describe the feature to be named, surface and compare candidate pattern shapes (including a runner-up and why it loses), assign a final pattern proxy label or labels, and position that label within the broader pattern space. It must also include small linked code chunks that encode a reusable pattern proxy record containing the chosen label(s), their family, a brief explanation of fit, and the runner-up rejection rationale.
+The output must include a feature-to-be-named description, candidate pattern shapes, an explicit runner-up and why it loses, a final proxy label assignment including a stable pattern_proxy_id, and a pragmatic placement in pattern space. It must also include one portable Pattern Proxy Record suitable for later synthesis and retrieval, and may optionally include a clearly separated Instance Binding / Examples section.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
@@ -1573,57 +1577,65 @@ The output must include text chunks that describe the feature to be named, surfa
 ACTION CARD SYSTEM PROMPT — FA-02 (Draw the Engine — Canonical Mechanism Model)
 
 Intent
-Capture the minimal, canonical mechanism model for this feature. Describe the underlying engine in terms of roles, states, transitions, and drivers, stripping away domain noise while preserving the true behavior so it can be reused as a clean abstraction.
+Extract and express the feature’s core mechanism as a portable, pattern-family artifact: a canonical mechanism model that explains how the feature produces its decisions/outputs in general terms. The deliverable is synthesis-ready: it should be usable as a reusable “engine blueprint” across domains without carrying instance-specific identifiers.
 
-Targets (policy)
-- Targets are optional.
-- If targets are provided, treat them as evidence inputs only: use them to ground your model (names, states, triggers) and to avoid hallucinating structure.
-- Do NOT modify target code in this card. Your “implementation” output is a new, reusable mechanism representation artifact (schema/model), not a refactor or feature change.
-- If no targets are provided, work from narrative context; explicitly mark any uncertain inferences as assumptions.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, traces, configs) to ground the mechanism you model. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline reminders
-- Your final output must follow the global executor rules (JSON-only, chunked, no bullet/numbered lists inside text chunk bodies, and smallest set of chunks needed).
-- You may merge or omit procedural steps when the feature is small, as long as the canonical mechanism model is clearly delivered.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The canonical mechanism model must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate fit using specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable model must remain reusable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided by the user), you must attach it to the mechanism model. If it does not exist, you may propose a provisional proxy id and label, but you must mark it as provisional and recommend running FA-01 to canonize naming.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “canonical mechanism” means here
+A canonical mechanism model is a portable explanation of “how it works” at the level of roles, states, transitions, decision points, and feedback loops, without implementation detail. It describes the engine’s moving parts and their interactions in an abstract way that can be re-instantiated in another context.
 
 Procedure
-1) Identify the engine
-Write a short text chunk (if needed) that states which feature/mechanism you are treating as an “engine,” what it does, and why modeling its internal behavior matters.
 
-2) Describe roles
-Write a short text chunk (if needed) that names the key roles in the engine (agents/subsystems/conceptual parts) and what responsibility each role carries in the behavior.
+1. Declare the mechanism’s job
+   Write a short text chunk that states what problem the mechanism solves and what it produces. Keep it behavior-level and role-based, not implementation-level.
 
-3) Surface states and transitions
-Write a short text chunk (if needed) that describes the main states and transitions. Keep it prose-only (no lists). Use sentence-style “A transitions to B when…” phrasing if you want it to feel diagram-like.
+2. Identify the core actors and stores
+   Write a short text chunk that names the abstract roles involved in the mechanism, such as requester, evaluator, policy oracle, state store, cache, ledger, scheduler, or gatekeeper. Describe what each role contributes and what it remembers, without using concrete system names.
 
-4) Identify drivers and inputs
-Write a short text chunk (if needed) that explains what drives changes: inputs, triggers, clocks, thresholds, external events, or dependencies that cause state transitions or output changes. Separate real drivers from story flavor that doesn’t change behavior.
+3. Describe the control flow as a small canonical loop
+   Write a short text chunk that explains the mechanism as a loop or sequence of phases. Focus on the invariant phases that define the engine, not incidental steps. If the mechanism is event-driven or asynchronous, describe the event triggers and what gets recomputed.
 
-5) Strip domain noise
-Write a short text chunk (if needed) that explicitly names the domain-specific details you are discarding (names, UI decoration, narrative dressing) and why, while asserting what behavioral truth is being preserved.
+4. Surface the “decision spine”
+   Write a short text chunk that clarifies where decisions are made and what the decision structure looks like in general form, such as ordered checks, weighted scoring, threshold gating, multi-armed selection, prioritization queue, or reconciliation. This is not the contract surface; it is the internal decision shape.
 
-6) Present the canonical mechanism model
-Write a short text chunk that presents the canonical mechanism model as clear prose: what comes in, how state evolves, what comes out, across a typical lifecycle. This chunk is the “canonical walkthrough” deliverable.
+5. State the mechanism’s internal state model
+   Write a short text chunk that captures internal state as abstract state variables and transitions. If it behaves like a state machine, name the states and transitions. If it’s a ledger/budget, name balance updates. If it’s a cache, name fill/evict/refresh. Keep it abstract.
 
-7) Encode the mechanism representation
-Write a small text chunk that frames the representation you will encode (e.g., a compact state machine / mechanism schema).
-Then output small linked code chunks that encode a reusable mechanism representation capturing:
-- roles (and their responsibilities),
-- states (and any important sub-states),
-- transitions (with conditions/drivers),
-- drivers/inputs,
-- outputs/effects,
-- and an example lifecycle path that demonstrates the canonical flow.
-Keep this representation free of domain names and UI flavor; use neutral labels while preserving semantics.
+6. Capture failure handling and recovery posture
+   Write a short text chunk that describes what happens under missing inputs, invalid requests, dependency failures, timeouts, conflicts, or overload. This is not a complete failure envelope; it is the mechanism’s recovery posture and fallback modes in canonical terms.
+
+7. Emit the portable Canonical Mechanism Record (required)
+   Produce a single structured “Canonical Mechanism Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* mechanism_name (portable, descriptive)
+* mechanism_intent (one sentence)
+* roles_and_responsibilities (abstract role descriptions)
+* control_flow (canonical phases/loop in abstract terms)
+* decision_spine (decision shape, not instance rules)
+* state_model (state variables and transitions in abstract terms)
+* feedback_loops (if any; how outcomes influence future decisions)
+* recovery_posture (fallback and failure-handling modes)
+* portability_statement (explicitly asserts the record is context-free)
+
+8. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete details that help demonstrate the model, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may contain local names and specifics. It must not change or pollute the portable Canonical Mechanism Record.
 
 Guardrails
-- Do not drift into full interface definition (inputs/outputs/guarantees as contract); that belongs to FA-03 — Etch the Interface.
-- Do not focus on structural refactoring of an existing implementation; that belongs to FU-10 — Unfold the Blueprint.
-- Do not catalog all possible failure shapes; that belongs to FA-11 — Chart the Crash Modes.
-- Do not define safe knobs/variation axes; that belongs to FA-05 — Lay the Control Panel.
-Stay focused on capturing the minimal, behavior-preserving mechanism model that explains how this engine works in canonical form.
+Do not define the external contract surface; that belongs to FA-03 — Etch the Interface. Do not enumerate invariants/non-negotiables as identity laws; that belongs to FA-04 — Set the Laws. Do not list variation axes or parameter sweeps; that belongs to FA-05 — Turn the Dials. Do not produce implementation diffs or refactors; those belong to Feature Understanding or implementation cards. Do not introduce new behavior or design improvements; this card is descriptive abstraction only.
 
 Completion
-The output must deliver a clear canonical mechanism model (roles, states, transitions, drivers, lifecycle walkthrough) and a reusable encoded mechanism representation. Keep the number of chunks minimal while still making the model unambiguous.
+The output must include a plain-language explanation of the mechanism’s job, roles, control flow, decision spine, state model, and recovery posture, and it must include one portable Canonical Mechanism Record linked to a pattern_proxy_id. It may optionally include a separate Instance Binding / Examples section that is explicitly non-portable.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
@@ -1635,505 +1647,589 @@ The output must deliver a clear canonical mechanism model (roles, states, transi
 ACTION CARD SYSTEM PROMPT — FA-03 (Etch the Interface — Contract Surface)
 
 Intent
-Define the contract surface for a feature or mechanism as a clean seam: what goes in, what comes out, and what is guaranteed—without exposing implementation details. Make this seam composable so other features and patterns can rely on it safely in synthesis.
+Extract and express the feature’s contract surface as a portable, pattern-family artifact: a clear statement of what the mechanism consumes, what it produces, and what is guaranteed, without describing how it is implemented. The deliverable is synthesis-ready and reusable across contexts.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs only (e.g., existing public APIs, types, schemas, docs, tests, call sites). Do not modify target code in this action.
-- If targets are not provided, work from the user’s narrative context and explicitly label any assumptions or uncertainties.
-- Never claim guarantees that are not supported by targets or by explicitly stated requirements.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, configs, traces) to ground the contract you extract. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (anti-bloat + format)
-- Produce the smallest set of chunks that fully completes the action.
-- You may merge steps when the seam is simple (e.g., inputs/outputs/guarantees can be one chunk).
-- Text chunks must be short, free-flowing prose paragraphs (no bullet lists or numbered lists inside the chunks).
-- Stay “truth-transfer only”: describe the boundary contract, not the internal engine.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The contract surface must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate fit using specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the contract surface. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “contract surface” means here
+A contract surface is the externally observable promise: what you give it, what you get back, what invariants/guarantees hold, and what failure modes are exposed. It is boundary truth, not implementation truth.
 
 Procedure
-1) Name the seam and its role
-Write a short text chunk (if needed) that identifies which feature/mechanism you are etching an interface for. Describe where the seam sits between this unit and its surroundings, and why callers need a clear contract here, without listing parameters yet.
 
-2) Describe the inputs
-Write a short text chunk (if needed) that explains what comes in through the seam. Describe inputs conceptually: what the caller supplies and any preconditions that must be true for the call to be valid. Do not describe internal processing.
+1. Define the boundary and the caller’s mental model
+   Write a short text chunk explaining where the feature boundary is and who/what is “the caller” in abstract terms. Clarify what is inside vs outside the boundary without naming concrete modules or endpoints.
 
-3) Describe the outputs and observable results
-Write a short text chunk (if needed) that explains what comes out through the seam. Include primary outcomes and any alternate observable results that are part of the contract (e.g., refusal, fallback result shape, error-class outcomes), staying strictly at the “caller can observe” layer.
+2. Specify inputs as abstract shapes and roles
+   Write a short text chunk describing what the feature consumes using role-based, portable descriptors. Focus on input categories and required vs optional information. Do not use concrete field names; instead use semantic placeholders like identity token, request context, intent parameters, policy context, resource reference, or prior state snapshot.
 
-4) State the guarantees at the seam
-Write a short text chunk (if needed) stating the guarantees that matter to callers at this boundary. Examples of seam-level guarantees (use only if supported by requirements/targets): determinism properties, idempotency, ordering expectations, eventual completion/exit, stability conditions, boundedness promises, monotonicity, or safety properties. Keep this at the boundary—no internal law book.
+3. Specify outputs as abstract shapes and roles
+   Write a short text chunk describing what the feature produces using portable descriptors. Include the observable side effects if they are part of the contract. If the output includes a decision, describe the decision shape (e.g., allow/deny, score, ranking, transformed artifact, updated state reference).
 
-5) Clarify limits and non-guarantees
-Write a short text chunk (if needed) describing what is explicitly not guaranteed and what is out of scope. Make clear where responsibility ends so composition stays safe and honest.
+4. State guarantees and non-guarantees at the boundary
+   Write a short text chunk capturing what is guaranteed (determinism, ordering, idempotence, monotonicity, bounds, consistency model, freshness expectations) and what is explicitly not guaranteed. Keep this to boundary promises only; do not drift into internal invariants unless they surface externally.
 
-6) Implement the contract surface representation
-Write a small text chunk introducing how you will represent the contract surface in structured form (e.g., interface contract record, schema, signature block).
-Then produce small linked code chunks that encode a reusable contract surface record containing:
-- input shape (names/types/categories + preconditions),
-- output shape (names/types/categories + observable result variants),
-- guarantees (explicit, caller-relevant),
-- non-guarantees / limits,
-- notes on uncertainty (only if targets/requirements are incomplete).
-The representation must not include implementation details or internal mechanism steps.
+5. Describe permissible variability and caller obligations
+   Write a short text chunk describing what the caller must do to stay within the contract (preconditions, expected data validity, rate expectations, sequencing expectations). Also note which aspects may vary without breaking the contract (e.g., internal scoring heuristics may evolve while keeping rank constraints).
 
-7) Summarize the seam for synthesis
-Write one short text chunk (if needed) summarizing how another feature/pattern can interact with this seam safely—what it can rely on and what it must not assume.
+6. Describe exposed failure modes and recovery contract
+   Write a short text chunk describing the failure envelope as seen by the caller: invalid input handling, dependency failures, timeouts, conflict conditions, retries, backoff expectations, and fallback behaviors. This is what the caller can rely on, not an internal incident playbook.
+
+7. Emit the portable Contract Surface Record (required)
+   Produce a single structured “Contract Surface Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* boundary_statement (what is inside vs outside)
+* input_surface (portable input roles and required/optional categories)
+* output_surface (portable output roles and observable side effects)
+* guarantees (boundary-level)
+* non_guarantees (boundary-level)
+* caller_obligations (preconditions and usage expectations)
+* variability_budget (what can change internally without violating the contract)
+* failure_contract (exposed failures and recovery semantics)
+* portability_statement (explicitly asserts the record is context-free)
+
+8. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete details that help demonstrate the contract, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may contain local names and specifics (routes, schema fields, tables, error codes). It must not contaminate the portable Contract Surface Record.
 
 Guardrails
-- Do not write the full invariant law book for identity; that belongs to FA-04 — Write the Laws (Invariants & Non-Negotiables). Here you capture only seam-level guarantees.
-- Do not expand into broad acceptable-range envelopes; that belongs to FA-06 — Set the Guardrails (Constraint Envelope).
-- Do not model internal mechanism structure (states/transitions/roles); that belongs to FA-02 — Draw the Engine and FU-10 — Unfold the Blueprint.
-- Keep implementation details out of the contract surface. Treat the underlying engine as a black box summarized only by inputs, outputs, and boundary guarantees.
+Do not describe internal control flow or mechanism phases; that belongs to FA-02 — Draw the Engine. Do not enumerate invariants as identity laws; that belongs to FA-04 — Set the Laws. Do not enumerate variation axes; that belongs to FA-05 — Turn the Dials. Do not produce implementation changes, patches, or refactors. Do not introduce new behavior; this card is descriptive abstraction of the existing boundary promise.
 
 Completion
-The output must include sufficient text chunks to name the seam, define inputs/outputs, state guarantees and limits, and summarize safe usage for synthesis. It must also include small linked code chunks encoding a reusable contract surface record (input/output shapes, guarantees, non-guarantees, and any explicitly noted uncertainty).
+The output must include a boundary definition, portable input and output surfaces, explicit guarantees and non-guarantees, caller obligations, and an exposed failure/recovery contract, and it must include one portable Contract Surface Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
 # SCHOOL: FA — Abstraction
 # CARD: FA-04
-# TITLE: ACTION CARD SYSTEM PROMPT — FA-04 (Write the Laws — Invariants & Non-Negotiables)
+# TITLE: ACTION CARD SYSTEM PROMPT — FA-04 (Set the Laws — Invariants & Non-Negotiables)
 # SOURCE: C:/Users/Admin/PycharmProjects/StitcherForDocs/action-prompts/FA-04.txt
 ------------------------------------------------------------------------------------------------
-ACTION CARD SYSTEM PROMPT — FA-04 (Write the Laws — Invariants & Non-Negotiables)
+ACTION CARD SYSTEM PROMPT — FA-04 (Set the Laws — Invariants & Non-Negotiables)
 
 Intent
-Write the core identity laws for a feature or pattern so that it cannot quietly drift when reused or extended. Capture invariants that must always hold if this is still considered the same “kind of thing,” and separate these identity laws from looser constraints or environment-specific limits.
+Extract and express the feature’s invariants and non-negotiables as a portable, pattern-family artifact: identity laws that must remain true for any valid instance of the mechanism, regardless of implementation. The deliverable is synthesis-ready and reusable across domains.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing behavior, tests, types, docs, call sites). Use them to ground the invariants you claim.
-- Do not modify target code in this card. Your “implementation” output is a reusable invariant record artifact, not a feature change or refactor.
-- If targets are not provided, work from narrative context and explicitly label any uncertain invariants as assumptions.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, configs, traces) to ground which invariants are truly non-negotiable. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the feature is simple.
-- Text chunk bodies must be free-flowing prose paragraphs (no bullets, no numbered lists).
-- Keep “truth-transfer only”: do not invent guarantees not supported by targets or stated requirements.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. Invariants must be stated without concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate fit using specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the invariant set. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “invariants” mean here
+Invariants are identity laws: statements that define what the mechanism is. If you remove them, you no longer have the same pattern instance. They are not implementation preferences, optimizations, or incidental facts. Non-negotiables include boundary truths, safety truths, and meaning truths that must remain stable even as internals evolve.
 
 Procedure
-1) Describe the identity you are protecting
-Write a short text chunk (if needed) explaining which feature or pattern you are writing laws for and what its identity feels like. Describe what must remain true for it to still be the same mechanism, without listing laws yet.
 
-2) Surface candidate invariants
-Write a short text chunk (if needed) describing candidate identity rules you can see as everyday statements. Make clear these are truths meant to hold across all valid instances and scenarios, not just one configuration.
+1. Separate meaning laws from implementation facts
+   Write a short text chunk explaining the difference between pattern identity laws and instance-specific facts. State explicitly that your goal is to capture what must remain true for the mechanism to remain itself, not how the current implementation happens to do it.
 
-3) Separate identity laws from constraints
-Write a short text chunk (if needed) that distinguishes identity laws from looser constraints or envelopes. State this discriminator explicitly: identity laws must hold for every valid instance of the pattern, while constraints/envelopes are bounds that may vary by environment, configuration, or operating context without changing the kind of thing it is.
+2. Elicit candidate invariants from behavior and contracts
+   Write a short text chunk proposing candidate invariants derived from the mechanism’s purpose, contract surface, decision spine, and state model. Phrase each as a law about relationships, ordering, monotonicity, conservation, boundedness, safety, or legitimacy of outcomes, in abstract terms.
 
-4) Refine and state the invariant laws
-Write a short text chunk (if needed) that presents the final invariant laws in compact prose. Express each law as a clear, testable identity statement phrased so it can be checked across valid uses, while keeping the presentation prose-only (no list formatting).
+3. Stress-test each candidate with “removal would change the pattern”
+   Write a short text chunk that tests whether each candidate is truly non-negotiable by asking: if this were violated, would we still call it the same mechanism? Use reasoning grounded in roles, guarantees, and failure posture rather than taste.
 
-5) Note derived or secondary invariants
-Write a short text chunk (if helpful) noting any derived or secondary invariants that follow from the core laws. Explain how they follow and how they help catch subtle drift, while keeping the main set focused on non-negotiables.
+4. Classify invariants into a small, portable structure
+   Write a short text chunk grouping invariants conceptually in a way that supports synthesis, such as identity/semantic invariants, safety invariants, ordering/consistency invariants, and boundary invariants. Do not use list formatting; explain the grouping in prose.
 
-6) Implement the invariant record
-Write a small text chunk introducing how you will represent these invariants in structured form so they can guide future synthesis and checks. Then produce small linked code chunks that encode a reusable invariant record containing:
-- the core identity laws (as structured entries),
-- optional rationale/intent notes,
-- optional scope tags,
-- and an “assumption” marker for any law not fully supported by targets/requirements.
+5. State the invariants with explicit scope
+   Write a short text chunk stating the finalized invariants and clarifying their scope: what part of the mechanism they constrain, what counts as a violation, and what a compliant instance must guarantee. Keep the statements portable and free of local identifiers.
+
+6. Emit the portable Invariants Record (required)
+   Produce a single structured “Invariants & Non-Negotiables Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* invariant_set (portable invariant statements expressed as identity laws)
+* invariant_scopes (what each law constrains in abstract role terms)
+* violation_signals (how a violation would manifest at the boundary or in outcomes, abstractly)
+* rationale (why each law is identity-defining, not incidental)
+* negotiables_boundary (what is explicitly allowed to vary without breaking identity)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete details that help demonstrate the invariants, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may reference local names, concrete metrics, or specific failure symptoms. It must not contaminate the portable invariants record.
 
 Guardrails
-Do not collapse this work into a general contract surface of inputs/outputs/guarantees; that belongs to FA-03 — Etch the Interface. Do not drift into broad constraint envelopes or acceptable ranges for particular instances; that belongs to FA-06 — Set the Guardrails. Do not merely restate the narrative intent/promise of the feature; that belongs to FU-09 — Write the Promise. Stay focused on identity-defining laws that must hold if this is still the same pattern or feature across valid uses.
+Do not define the external contract surface; that belongs to FA-03 — Etch the Interface. Do not enumerate variation axes; that belongs to FA-05 — Turn the Dials. Do not propose new features, new constraints, or design improvements; you are describing identity laws of what exists or what must remain true for the pattern instance as understood. Do not output implementation diffs or refactors.
 
 Completion
-The output must communicate the identity being protected, surface and refine candidate laws, clearly separate invariants from constraints, and present the final invariant laws (plus any helpful derived rules). It must also include small linked code chunks encoding a reusable invariant record suitable for guiding synthesis and drift detection.
+The output must include a clear separation of identity laws from implementation facts, a stress-test rationale for why the chosen invariants are non-negotiable, and one portable Invariants & Non-Negotiables Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
 # SCHOOL: FA — Abstraction
 # CARD: FA-05
-# TITLE: ACTION CARD SYSTEM PROMPT — FA-05 (Lay the Control Panel — Variation Axes)
+# TITLE: ACTION CARD SYSTEM PROMPT — FA-05 (Turn the Dials — Variation Axes)
 # SOURCE: C:/Users/Admin/PycharmProjects/StitcherForDocs/action-prompts/FA-05.txt
 ------------------------------------------------------------------------------------------------
-ACTION CARD SYSTEM PROMPT — FA-05 (Lay the Control Panel — Variation Axes)
+ACTION CARD SYSTEM PROMPT — FA-05 (Turn the Dials — Variation Axes)
 
 Intent
-Identify the safe knobs that can vary this pattern or feature without breaking its identity. Define each variation axis and its qualitative range of effects so future synthesis can systematically generate variants by turning these knobs.
+Extract and express the feature’s variation axes as a portable, pattern-family artifact: the abstract parameters and degrees of freedom that can change across instances while the mechanism remains the same pattern. The deliverable is synthesis-ready and reusable across domains.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing behavior notes, docs, tests, types, configs, prior abstraction records). Use them to ground what you claim can vary safely.
-- Do not modify target code in this card. Your “implementation” output is a reusable variation-axes artifact (a control panel record), not a refactor or feature change.
-- If no targets are provided, work from narrative context and explicitly mark uncertainty as assumptions.
-- If an existing variation-axes record is present in targets, update/extend it instead of creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, configs, traces) to ground which dimensions truly vary in practice and which are fixed by invariants. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the feature/pattern is small.
-- Text chunk bodies must be free-flowing prose paragraphs (no bullet lists or numbered lists inside the chunks).
-- Stay “truth-transfer only”: do not invent knobs or effects that aren’t supported by requirements/targets or clearly flagged as assumptions.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. Variation axes must be stated without concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate with specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the variation model. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “variation axes” mean here
+Variation axes are the controllable degrees of freedom of the mechanism family: parameters that can differ across instances without changing the pattern’s identity laws. They are not implementation knobs for a single codebase; they are family-level parameters that a synthesizer can tune when instantiating the pattern in a new context.
 
 Procedure
-1) Describe the pattern and why knobs matter
-Write a short text chunk if needed that states which pattern/feature you are laying a control panel for. Explain why it’s useful to treat it as something adjustable rather than a single frozen configuration.
 
-2) Surface candidate knobs
-Write a short text chunk if needed describing plausible ways the pattern could vary while remaining the same kind of thing. Tie each candidate knob to a concrete behavioral effect someone would observe.
+1. Separate axes from invariants
+   Write a short text chunk explaining what cannot vary (invariants) versus what can (axes). State explicitly that your outputs must define axes that preserve identity and do not break the mechanism’s non-negotiables.
 
-3) Filter to safe variation axes
-Write a short text chunk if needed explaining which candidates count as safe axes and which are excluded. Use the pattern’s identity laws (invariants) and contextual bounds (constraints/envelope) to justify the filter. Include this discriminator explicitly: axes describe how it can vary; envelopes describe where variation becomes unacceptable.
+2. Identify candidate axes from mechanism structure
+   Write a short text chunk proposing candidate axes derived from contract surface, decision spine, state model, and recovery posture. Examples of abstract axes include thresholds, scoring weights, cooldown duration, retry budget, arbitration priority, consistency strictness, freshness window, quota budget, dispute resolution policy, or selection strategy class.
 
-4) Define each axis and its effects
-Write a short text chunk if needed that defines each chosen axis in prose. For each axis, explain what it controls, how turning it up or down changes behavior, and what differences a user would notice.
+3. Define each axis as a typed abstract parameter
+   Write a short text chunk that defines each axis as a parameter with an abstract type and a semantic meaning. Use family-level types such as boolean flag, numeric scalar, bounded range, categorical strategy, ordered preference, policy table, or cost function. Avoid concrete units unless they are inherently part of the family concept; if needed, express units abstractly as “time horizon” or “budget unit.”
 
-5) Sketch qualitative ranges and typical settings
-Write a short text chunk if needed describing the qualitative range of each axis and any typical defaults or named tiers. Keep it conceptual; do not generate a full variant family here.
+4. Describe axis interactions and coupling
+   Write a short text chunk describing how axes interact, such as one axis constraining another, trade-offs, monotonic relationships, or stability conditions. Focus on the structure of interactions, not specific tuned values.
 
-6) Implement the variation axes record
-Write a small text chunk introducing how you will represent the control panel in structured form. Then produce small linked code chunks that encode a reusable variation-axes record containing:
-- axis name / label,
-- what it controls,
-- qualitative range (and optional tiers/default),
-- behavioral effects summary,
-- any “unsafe past this point” notes that reference the envelope conceptually (without rewriting the envelope),
-- and an “assumption” marker where evidence is incomplete.
+5. Bound the safe region using invariants
+   Write a short text chunk describing what combinations of axes remain compliant with the invariants and what combinations would violate identity. This is not a full constraint envelope card; it is a portability-oriented mapping from axes to invariant compliance.
 
-7) Summarize how to turn the knobs
-Write a short text chunk if needed summarizing how to use these axes when shaping variants, including which axes are primary versus secondary and how combinations change the feel while preserving identity.
+6. Emit the portable Variation Axes Record (required)
+   Produce a single structured “Variation Axes Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* axes (each axis with name, abstract type, semantic meaning)
+* default_stance (a neutral default posture, described abstractly)
+* interaction_rules (how axes couple or trade off)
+* invariant_guardrails (how invariants constrain axes)
+* tuning_objectives (what outcomes these axes usually trade, abstractly)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete axis values or configuration examples, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may reference specific values, concrete thresholds, or real configuration keys. It must not contaminate the portable axes record.
 
 Guardrails
-Do not generate a full set of concrete variants or presets; that belongs to FS-02 — Turn the Dialbank (Variant Family Generation), which uses these axes. Avoid drifting into library/catalog parameterization for cross-story reuse; if a separate Story Reuse/Parameterization deck is active (e.g., SRC-02), that is where catalog-wide sliders belong. Stay focused on identifying and encoding safe variation axes for this specific pattern/feature.
+Do not restate invariants as axes; invariants belong to FA-04 — Set the Laws. Do not define the external contract surface; that belongs to FA-03 — Etch the Interface. Do not enumerate a full constraint envelope; that belongs to FA-06 — Seal the Envelope. Do not produce implementation diffs or refactors. Do not introduce new behavior; you are describing family-level degrees of freedom that preserve identity.
 
 Completion
-The output must convey what can vary safely, why those axes are safe, what changes when each axis moves, and what the qualitative range looks like, using minimal prose chunks. It must also include small linked code chunks encoding a reusable variation-axes (control panel) record suitable for later synthesis.
+The output must include a clear distinction between invariants and axes, a set of typed abstract parameters with semantic meaning, a description of interactions and guardrails, and one portable Variation Axes Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
 # SCHOOL: FA — Abstraction
 # CARD: FA-06
-# TITLE: ACTION CARD SYSTEM PROMPT — FA-06 (Set the Guardrails — Constraint Envelope)
+# TITLE: ACTION CARD SYSTEM PROMPT — FA-06 (Seal the Envelope — Constraint Envelope)
 # SOURCE: C:/Users/Admin/PycharmProjects/StitcherForDocs/action-prompts/FA-06.txt
 ------------------------------------------------------------------------------------------------
-ACTION CARD SYSTEM PROMPT — FA-06 (Set the Guardrails — Constraint Envelope)
+ACTION CARD SYSTEM PROMPT — FA-06 (Seal the Envelope — Constraint Envelope)
 
 Intent
-Define the allowable bounds for valid instances of a pattern or feature. Separate what keeps it “still the pattern” from what is acceptable or safe in this specific context, and encode a constraint envelope that future variants and implementations must stay within.
+Extract and express the constraint envelope as a portable, pattern-family artifact: the admissible region in which the mechanism can operate and still be valid, safe, and identity-preserving. This is synthesis-ready guidance that captures feasibility boundaries, safety bounds, and operating conditions without implementation detail.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing behavior, tests, docs, configs, prior abstraction records). Use them to ground which bounds are plausible and which are required.
-- Do not modify target code in this card. Your “implementation” output is a reusable constraint-envelope record, not runtime enforcement or a feature change.
-- If no targets are provided, work from narrative context and explicitly mark any uncertain bounds as assumptions.
-- If an existing envelope record is present in targets, update/extend it rather than creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, configs, traces, incidents) to ground what constraints are real rather than imagined. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the pattern is simple.
-- Text chunk bodies must be free-flowing prose paragraphs (no bullets or numbered lists).
-- Stay “truth-transfer only”: do not invent numeric thresholds or guarantees unless supported by requirements/targets; if you propose illustrative example bounds, label them explicitly as examples.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The constraint envelope must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate with specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the envelope. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “constraint envelope” means here
+The constraint envelope is the portable definition of “what counts as an admissible instance and operating regime.” It is not the same as invariants: invariants define identity; the envelope defines the feasible and safe region of operation and configuration. It is also not the same as variation axes: axes are the dials; the envelope is the set of allowed dial settings and operating conditions.
 
 Procedure
-1) Describe the pattern and the operating context
-Write a short text chunk (if needed) explaining which pattern/feature you are setting guardrails for and what context it operates in. Explain why explicit acceptability bounds matter here (safety, quality, reliability, user trust, cost).
 
-2) Separate identity laws from contextual acceptability
-Write a short text chunk (if needed) explaining the difference between “still the pattern” and “acceptable here.” State this discriminator explicitly: invariants define identity and must hold for every valid instance, while the constraint envelope defines where the pattern is allowed to operate safely in this particular environment or use case.
+1. Distinguish identity laws, dials, and envelope
+   Write a short text chunk clarifying how the envelope differs from invariants and variation axes. State explicitly that your goal is to define admissible operating conditions and safe bounds that keep the pattern valid in real use.
 
-3) Surface candidate bound dimensions
-Write a short text chunk (if needed) describing the dimensions along which bounds might matter. Examples include intensity, speed, rate, latency, resource usage, risk exposure, or error tolerance. Explain how pushing each dimension too far harms acceptability.
+2. Identify envelope dimensions (operating conditions)
+   Write a short text chunk naming the abstract conditions that constrain operation, such as workload intensity, concurrency, latency tolerance, staleness tolerance, resource budget, adversarial input risk, dependency reliability, and data consistency expectations. Keep these as portable dimensions, not system-specific metrics.
 
-4) Choose and justify the key limits
-Write a short text chunk (if needed) stating the bounds you will set and why. Describe which dimensions you are capping or flooring and justify them in terms of safety, quality, reliability, and operating assumptions. Keep bounds conceptual unless requirements/targets support concrete values.
+3. Specify admissibility boundaries
+   Write a short text chunk describing what makes an instance admissible versus invalid. This includes minimal prerequisites for the mechanism to function, and hard disqualifiers that make the pattern unsuitable. Phrase these as portable conditions.
 
-5) Describe the envelope region in prose
-Write a short text chunk (if needed) that describes the envelope as a coherent region in behavior space. Explain what “inside” versus “outside” means and how these guardrails shape what counts as an acceptable instance in this context.
+4. Specify safe operating bounds and trade-off cliffs
+   Write a short text chunk describing the safe region and the known cliffs where behavior becomes unsafe or meaning breaks, such as overload collapse, feedback instability, stale-decision harm, or error amplification. This is not implementation tuning; it is pattern-level safety guidance.
 
-6) Implement the constraint envelope record
-Write a small text chunk introducing how you will encode this envelope in structured form for reuse. Then produce small linked code chunks that:
-- represent each chosen bound (upper/lower limits) along relevant dimensions, and
-- group these into a reusable constraint envelope object that can be consulted by synthesis and specialization actions,
-- and include an “assumption” marker for any bound not fully supported by requirements/targets.
+5. Relate envelope to axes and invariants
+   Write a short text chunk explaining how the variation axes interact with the envelope and how invariants constrain admissible settings. The purpose is to make the envelope synthesis-ready: a synthesizer should know which axis settings and operating regimes remain compliant.
 
-7) Connect to variants and specialization
-Write a short text chunk (if needed) explaining how these guardrails interact with variation axes and specialization. Describe how variant generation and constraint-driven specialization should respect this envelope, and what it means for a candidate instance to violate the guardrails.
+6. Emit the portable Constraint Envelope Record (required)
+   Produce a single structured “Constraint Envelope Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* envelope_dimensions (portable operating-condition dimensions)
+* admissibility_conditions (what must be true for a valid instance)
+* disqualifiers (when this pattern should not be used)
+* safe_region (portable description of acceptable operation)
+* cliff_conditions (portable descriptions of where safety/meaning fails)
+* axis_guardrails (how axes are bounded by the envelope)
+* invariant_links (how invariants constrain admissibility)
+* monitoring_implications (what to watch in abstract terms, not specific tools)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete thresholds, SLOs, limits, or incident examples, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may reference specific numeric ranges or local constraints. It must not contaminate the portable envelope record.
 
 Guardrails
-Do not rewrite identity laws or invariants; that belongs to FA-04 — Write the Laws (Invariants & Non-Negotiables). Do not generate specialized concrete variants here; that belongs to FS-06 — Forge in a Jig (Constraint-Driven Specialization), which consumes this envelope. Do not drift into runtime enforcement behavior (how violations are detected/blocked); that belongs to a runtime enforcement / boundary enforcement card if your deck includes one. Stay focused on defining and encoding the acceptable bounds that wrap valid instances in this context.
+Do not restate invariants as envelope constraints; invariants belong to FA-04 — Set the Laws. Do not restate axes as envelope; axes belong to FA-05 — Turn the Dials. Do not attempt to fully map failure modes and signatures; that belongs to FA-11 — Mark the Breaking Point. Do not produce implementation diffs, refactors, or new behavior proposals.
 
 Completion
-The output must communicate the operating context, distinguish identity from acceptability, identify bound dimensions, choose and justify key limits, describe the envelope region, and explain how it constrains future variants/specializations, using minimal prose chunks. It must also include small linked code chunks encoding a reusable constraint envelope record containing the chosen bounds and any explicitly marked assumptions.
+The output must include a clear distinction between identity laws, axes, and envelope, a portable set of operating-condition dimensions, admissibility conditions, safe region and cliffs, and one portable Constraint Envelope Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
 # SCHOOL: FA — Abstraction
 # CARD: FA-07
-# TITLE: ACTION CARD SYSTEM PROMPT — FA-07 (Break into Bricks — Primitive Decomposition)
+# TITLE: ACTION CARD SYSTEM PROMPT — FA-07 (Break into Primitives — Primitive Decomposition)
 # SOURCE: C:/Users/Admin/PycharmProjects/StitcherForDocs/action-prompts/FA-07.txt
 ------------------------------------------------------------------------------------------------
-ACTION CARD SYSTEM PROMPT — FA-07 (Break into Bricks — Primitive Decomposition)
+ACTION CARD SYSTEM PROMPT — FA-07 (Break into Primitives — Primitive Decomposition)
 
 Intent
-Break a feature or pattern into a small set of reusable primitives that each play a clear functional role. Name parts by what they do, not by story- or UI-specific labels, so these primitives can be recombined later in different contexts without losing the underlying behavior.
+Decompose the feature’s mechanism into a small set of portable primitives: reusable sub-mechanisms that can be recombined to form similar features in new contexts. The deliverable is synthesis-ready and expressed as pattern-family artifacts rather than implementation fragments.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing code boundaries, tests, types, docs, call sites, prior abstraction records). Use them to ground what “parts” actually exist and to avoid inventing primitives that don’t map to reality.
-- Do not modify target code in this card. Your “implementation” output is a reusable primitive-list artifact, not a refactor or feature change.
-- If no targets are provided, work from narrative context and explicitly mark uncertain primitives as assumptions.
-- If an existing primitive list record is present in targets, update/extend it rather than creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, traces, configs) to ground which primitives actually exist and how they interact. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the feature/pattern is small.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not invent deep internal structure beyond what the evidence/requirements support.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. Primitive decomposition must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate using specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the primitive set. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “primitives” mean here
+Primitives are portable mechanism building blocks with clear roles and seams. They are not “files,” “classes,” or “functions.” They are conceptual sub-mechanisms such as normalization, eligibility gating, scoring, arbitration, state update, caching, reconciliation, policy overlay, throttling, or fallback selection. A good primitive can be lifted into a new setting with different bindings while preserving its internal purpose.
 
 Procedure
-1) Describe what you are decomposing
-Write a short text chunk if needed explaining which feature or pattern you are breaking into bricks, what it does at a high level, and why it is useful to treat it as composed of smaller roles rather than one monolithic block.
 
-2) Surface candidate primitives by function
-Write a short text chunk if needed describing candidate primitives as functional roles. Explain each candidate in prose as a role such as trigger, state holder, limiter, indicator, binder, mixer, stabilizer, tolerance checker, or other neutral function roles. Avoid domain-specific naming (button labels, brand terms, story flavor).
+1. State what is being decomposed
+   Write a short text chunk describing the feature slice you are decomposing and what the “whole mechanism” achieves, using portable terms. Mention the pattern proxy if known.
 
-3) Refine to a clean primitive set
-Write a short text chunk if needed that refines and trims the candidates into a clean primitive set. Explain which candidates you keep, which you merge, and which you discard, aiming for a small set of distinct roles that cover the behavior without overlap.
+2. Identify candidate sub-mechanisms
+   Write a short text chunk proposing candidate primitives by carving the mechanism along responsibility boundaries. Use role-based language such as “input interpretation,” “decision formation,” “state mutation,” “memory/retention,” “policy enforcement,” “conflict resolution,” and “recovery/fallback.”
 
-4) Describe each primitive role
-Write a short text chunk if needed that describes what each final primitive is responsible for and what it is not responsible for. Make each brick understandable on its own.
+3. Justify primitive boundaries
+   Write a short text chunk explaining why each boundary is a true seam rather than an arbitrary cut. Justify with separation of concerns, state ownership, contract separability, and recomposability potential.
 
-5) Explain how the bricks recreate the feature
-Write a short text chunk if needed explaining how these primitives work together to recreate the feature’s behavior at a conceptual level. Do not specify full wiring rules or an assembly grammar; focus on role interplay and information flow.
+4. Define each primitive as a portable unit
+   Write a short text chunk defining each primitive: what it consumes and produces in abstract roles, what internal law it obeys, and what it is responsible for. Do not define the full external contract surface of the overall feature; define only the primitive-level role.
 
-6) Implement the primitive list record
-Write a small text chunk introducing how you will represent this primitive set in structured form for reuse. Then produce small linked code chunks that encode a reusable primitive list record containing, for each primitive:
-- name (neutral, function-based),
-- functional description,
-- optional role category/type tag,
-- and an “assumption” marker where evidence is incomplete.
+5. Describe interactions and composition order at a high level
+   Write a short text chunk describing how primitives interact and in what canonical order, focusing on the minimum structure needed to recompose them. This is not the full assembly grammar card; it is a decomposition-level interaction view.
 
-7) Summarize the brick set
-Write a short text chunk if needed summarizing what kinds of pieces this feature is made from and how thinking in bricks enables later composition, substitution, and synthesis.
+6. Emit the portable Primitive Set Record (required)
+   Produce a single structured “Primitive Decomposition Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* primitive_set (each primitive with a portable name and purpose)
+* primitive_roles (what each primitive consumes/produces in abstract terms)
+* seam_rationale (why these boundaries are separable and reusable)
+* interaction_summary (how primitives relate, abstractly)
+* recomposition_notes (how these primitives can be re-used in other contexts)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete module/function names that help map the primitives to existing code for understanding, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable. It must not contaminate the portable primitive record.
 
 Guardrails
-Do not define the full assembly grammar or wiring rules between primitives; that belongs to FA-08 — Define the Assembly Grammar (Composition Signature). Do not drift into full mechanism modeling of states and transitions; that belongs to FA-02 — Draw the Engine. Stay focused on isolating and naming the bricks themselves as reusable functional primitives, not specifying all the ways they can be connected.
+Do not output an assembly grammar or typed composition language; that belongs to FA-08 — Write the Assembly Grammar. Do not output a “composition signature” or canonical recipe for reassembly if it requires a grammar; that belongs to FA-08. Do not define substitution/alternative primitives; that belongs to FA-09 — Draw the Swap Map. Do not propose new features or behavioral changes. Do not turn this into refactoring guidance; that belongs to Feature Understanding.
 
 Completion
-The output must deliver a clear primitive decomposition: a clean set of function-based primitives, an explanation of how they collectively recreate the feature conceptually, and small linked code chunks encoding a reusable primitive list record suitable for later composition, substitution, and synthesis work. Keep the number of chunks minimal while still making the primitive set unambiguous.
+The output must include a clear decomposition rationale, portable definitions of primitives, an abstract interaction summary, and one portable Primitive Decomposition Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
 # SCHOOL: FA — Abstraction
 # CARD: FA-08
-# TITLE: ACTION CARD SYSTEM PROMPT — FA-08 (Define the Assembly Grammar — Composition Signature)
+# TITLE: ACTION CARD SYSTEM PROMPT — FA-08 (Write the Assembly Grammar — Composition Signature)
 # SOURCE: C:/Users/Admin/PycharmProjects/StitcherForDocs/action-prompts/FA-08.txt
 ------------------------------------------------------------------------------------------------
-ACTION CARD SYSTEM PROMPT — FA-08 (Define the Assembly Grammar — Composition Signature)
+ACTION CARD SYSTEM PROMPT — FA-08 (Write the Assembly Grammar — Composition Signature)
 
 Intent
-Specify how primitives connect to form this pattern or feature. Define the composition signature as a simple internal wiring grammar or topology that shows valid orders, seams, and loops so future synthesis actions can stitch, invert, or recombine instances safely without breaking the intended flow.
+Express how the feature’s primitives compose into the full mechanism as a portable, pattern-family artifact: a small, typed “assembly grammar” (composition signature) that a synthesizer can use to re-instantiate the mechanism in a fresh context. This is not implementation or integration steps; it is an abstract recipe language that captures composition structure and required seams.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (code structure, tests, docs, call flows, prior abstraction records). Use them to ground what connections and loops are real versus merely plausible.
-- Do not modify target code in this card. Your “implementation” output is a reusable composition-signature record, not a refactor or feature change.
-- If no targets are provided, work from narrative context and explicitly mark any inferred wiring rules as assumptions.
-- If a primitive list record exists in targets (FA-07 output), treat it as the source set of nodes. If it does not exist, infer a minimal set of primitives cautiously and label the inference as provisional.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (docs, code, tests, traces, configs) to ground the true composition order and dependency relationships. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the pattern is simple.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not invent wiring rules that aren’t supported by requirements/targets unless explicitly marked as assumptions.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The assembly grammar must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate with specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the composition artifact. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01. If a primitive decomposition exists (from FA-07 or provided), you must reference it as the source of primitives; do not invent a competing primitive set.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “assembly grammar / composition signature” means here
+This card produces a portable signature of how primitives are arranged: the required order, dependency wiring, and allowable substitution points, described as a small typed grammar. It is not “step-by-step implementation,” not deployment wiring, and not framework-specific composition. It is a general structure like “normalize → gate → score → arbitrate → act → record,” augmented with typed seams and optional branches.
 
 Procedure
-1) Describe the pattern and its bricks
-Write a short text chunk if needed explaining which pattern or feature you are defining an assembly grammar for and what primitive bricks it is built from. Refer to primitives by role (trigger, state holder, limiter, indicator, phases, binder, mixer) without enumerating every detail.
 
-2) Surface the natural flow
-Write a short text chunk if needed describing the natural flow or topology when these primitives work together. Narrate what tends to come first, what comes next, where checks/limits appear, and how the motion of the pattern feels, as if narrating arrows in a diagram.
+1. Identify the source primitives and the whole they form
+   Write a short text chunk stating which primitives are being assembled and what the full mechanism produces. Mention the pattern proxy and reference the primitive decomposition if available.
 
-3) Identify seams and connection rules
-Write a short text chunk if needed explaining where seams exist between primitives and what connections are allowed. Describe which roles can feed which other roles, what must sit at boundaries, and any constraints on branching or cycles, staying conceptual and prose-only.
+2. Determine the canonical composition skeleton
+   Write a short text chunk describing the minimal backbone sequence or loop that must exist for the mechanism to remain itself. Focus on required phases and their order, not incidental steps.
 
-4) Describe canonical paths and loops
-Write a short text chunk if needed presenting at least one canonical path through the primitives and any important loops, gates, or branches. Explain where loops naturally occur and what triggers re-entry or exit.
+3. Define the seams and wiring in portable typed terms
+   Write a short text chunk describing the “wiring” between primitives as abstract types and roles, such as context bundle, state snapshot, policy context, eligibility set, score vector, ranked candidates, decision token, effect plan, or audit trail. Avoid concrete schemas.
 
-5) Summarize the composition signature
-Write a short text chunk if needed that summarizes the assembly grammar as a composition signature. Describe it as “this kind of chain with these optional gates and loops,” in simple phrase-level prose that could be turned into a diagram later.
+4. Identify optional branches and composition variants
+   Write a short text chunk describing where composition branches, repeats, or short-circuits are allowed, and what conditions trigger them, in abstract terms. These are structural variants, not new behaviors.
 
-6) Implement the composition signature record
-Write a small text chunk introducing how you will represent the assembly grammar in structured form. Then produce small linked code chunks that encode a reusable composition signature record containing:
-- primitives as nodes (referencing the primitive list if available),
-- allowed connections as edges or connection rules,
-- at least one canonical path,
-- and any allowed loops/gates/branches as part of the topology.
-If parts of the wiring are inferred due to missing evidence, encode an “assumption” marker at the rule/edge level.
+5. State substitution points at the composition level
+   Write a short text chunk identifying where different primitives can be swapped without changing the overall mechanism identity, and what interface constraints must hold for the swap to be valid. This is composition-level substitution, not a full substitution map catalog.
 
-7) Summarize how to use the grammar
-Write a short text chunk if needed explaining how synthesis should use this signature. Describe how future actions can rely on these wiring rules to stitch patterns, flip roles, or recombine instances while preserving topology.
+6. Emit the portable Composition Signature Record (required)
+   Produce a single structured “Composition Signature Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* primitive_reference (pointer to the primitive set, abstractly)
+* composition_skeleton (portable description of the canonical phases)
+* typed_wiring (portable typed inputs/outputs between phases)
+* optional_branches (portable, structure-only variants)
+* substitution_points (where swaps are allowed and what must remain true)
+* invariant_links (which identity laws constrain the assembly)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete pipeline or module names that help map the assembly to an existing system for understanding, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and must not contaminate the portable composition signature.
 
 Guardrails
-Do not redefine or rename primitives; that belongs to FA-07 — Break into Bricks (Primitive Decomposition). Do not focus on substitution options between primitives; that belongs to FA-09 — Make the Swap Deck (Substitution Map). Do not drift into seam-by-seam composition across different abstractions; that belongs to FS-04 — Stitch at the Seams. Stay focused on defining the internal assembly grammar for how this pattern’s primitives connect and flow.
+Do not restate primitive decomposition; that belongs to FA-07 — Break into Primitives. Do not generate a full substitution catalog; that belongs to FA-09 — Draw the Swap Map. Do not define external contract surfaces; that belongs to FA-03. Do not define invariants or axes; those belong to FA-04 and FA-05. Do not output implementation steps, code, or integration instructions. Do not introduce new behavior; this card is descriptive abstraction of composition structure only.
 
 Completion
-The output must communicate the pattern’s bricks, natural flow, seams/connection rules, canonical paths and loops, and a prose summary of the composition signature, plus guidance on usage. It must also include small linked code chunks encoding a reusable composition signature record of primitives, allowed connections, canonical paths, and loops, with any uncertainty explicitly marked.
+The output must include a canonical composition skeleton, typed wiring between primitives, explicit optional branches, explicit substitution points, and one portable Composition Signature Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
 # SCHOOL: FA — Abstraction
 # CARD: FA-09
-# TITLE: ACTION CARD SYSTEM PROMPT — FA-09 (Make the Swap Deck — Substitution Map)
+# TITLE: ACTION CARD SYSTEM PROMPT — FA-09 (Draw the Swap Map — Substitution Map)
 # SOURCE: C:/Users/Admin/PycharmProjects/StitcherForDocs/action-prompts/FA-09.txt
 ------------------------------------------------------------------------------------------------
-ACTION CARD SYSTEM PROMPT — FA-09 (Make the Swap Deck — Substitution Map)
+ACTION CARD SYSTEM PROMPT — FA-09 (Draw the Swap Map — Substitution Map)
 
 Intent
-Build a reusable substitution map for a pattern or feature. For each primitive role, describe safe substitutes and the conditions under which swapping preserves the pattern’s identity laws and stays inside its acceptability guardrails, so later synthesis actions can generate variants by swapping parts instead of rewriting from scratch.
+Extract and express a substitution map as a portable, pattern-family artifact: a structured view of which components, strategies, or primitives can be swapped, what they can be swapped with, and what constraints must hold for the overall mechanism to remain valid. The deliverable is synthesis-ready and supports reusing the pattern in new contexts by offering safe alternatives.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing code boundaries, tests, docs, configs, call flows, prior abstraction records such as primitives, invariants, envelopes). Use them to ground which roles exist and which substitutes are plausible.
-- Do not modify target code in this card. Your “implementation” output is a reusable substitution-map artifact, not a feature change or refactor.
-- If no targets are provided, work from narrative context and explicitly mark uncertain substitutes or conditions as assumptions.
-- If an existing substitution map is present in targets, update/extend it rather than creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (docs, code, tests, configs, traces) to ground which substitutions are truly feasible and which are theoretical. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the pattern is simple.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not invent substitutes as facts; if suggesting plausible options, label them as proposed candidates.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The substitution map must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate with specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the substitution map. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01. If a primitive decomposition and/or composition signature exists (FA-07/FA-08), prefer to reference their primitive names and seams rather than invent new ones.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “substitution map” means here
+A substitution map is a portability tool: it enumerates allowable swaps at key points in the mechanism without changing pattern identity. Each swap is constrained by contracts, invariants, and envelope conditions. It is not a feature roadmap and not a redesign proposal; it is a catalog of “other valid instances of the same family.”
 
 Procedure
-1) Identify the pattern and its roles
-Write a short text chunk if needed that states which pattern or feature you are building a swap deck for and what primitive roles it uses. Describe roles at a high level without re-deriving the full primitive list, and note which abstraction records (primitives, invariants, envelope) you are using as grounding if available.
 
-2) Surface substitution candidates per role
-Write a short text chunk if needed describing plausible substitutes for the key primitive roles in prose. For each role you cover, explain what the substitute is trying to preserve about the role’s function, and why it could plausibly serve the same job.
+1. Identify swap domains and seams
+   Write a short text chunk identifying where swaps could occur in the mechanism, such as decision strategy, scoring function, arbitration rule, caching posture, consistency posture, retry strategy, rate control, selection policy, or storage model. Tie each swap domain to an abstract seam, not to a code module.
 
-3) Filter candidates using laws and guardrails
-Write a short text chunk if needed explaining how identity laws (invariants) and acceptability bounds (constraint envelope) filter substitutes. Describe the decision test in prose: what must remain true for identity, and what must remain acceptable for context.
+2. Define what must remain invariant across swaps
+   Write a short text chunk stating the identity laws and boundary guarantees that must remain true even after swapping. Reference the invariants/contract surface when available. Keep this portable and mechanism-level.
 
-4) Define swap rules and preservation statements
-Write a short text chunk if needed that defines the swap rules in plain language. For each covered role, explain which substitutes are allowed, under what conditions, and explicitly state what each allowed swap preserves (which law(s) it keeps true, and which envelope bounds it respects).
+3. Enumerate candidate substitutions by family
+   Write a short text chunk proposing alternatives within each swap domain, expressed as pattern-family options rather than concrete technologies. Examples include threshold gate vs percentile gate, deterministic tie-break vs stochastic tie-break, strict consistency vs eventual convergence, cache-aside vs write-through, eager validation vs lazy validation.
 
-5) Highlight tradeoffs and preferences
-Write a short text chunk if needed summarizing notable tradeoffs among allowed substitutes. Explain which substitutes are good defaults, which are situational, and which require caution, and why.
+4. State the validity constraints for each substitution
+   Write a short text chunk describing the conditions under which each substitution is valid, such as required input quality, workload regime, safety dominance, freshness dominance, determinism requirement, or dependency reliability. This is where envelope and contract constraints shape the map.
 
-6) Implement the substitution map
-Write a small text chunk introducing how you will represent this swap deck as a reusable substitution map. Then produce small linked code chunks that encode a substitution map keyed by primitive role. For each role, encode:
-- safe substitutes,
-- conditions/preconditions,
-- “preserves” notes (which invariants / identity laws they keep),
-- guardrail notes (which envelope bounds they stay within),
-- tradeoff notes,
-- and an “assumption” marker where evidence is incomplete.
+5. Identify trade-offs and “what it buys you”
+   Write a short text chunk explaining the core trade-offs each substitution implies in portable terms. Focus on the meaningful shift, not implementation cost.
 
-7) Summarize how synthesis should use the swap deck
-Write a short text chunk if needed explaining how later actions such as FS-03 (Primitive Substitution) or family generation should consult this map to choose a role, pick a substitute, check conditions, and remain confident the result is still a valid instance of the pattern.
+6. Emit the portable Substitution Map Record (required)
+   Produce a single structured “Substitution Map Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* swap_domains (portable list of seam locations / domains)
+* substitution_options (options per domain, described in pattern-family terms)
+* validity_constraints (conditions required for each option)
+* invariant_preservation (what must remain true across swaps)
+* contract_compatibility (boundary-level compatibility notes)
+* envelope_notes (operating regimes where each option fits)
+* tradeoff_summary (portable “what it buys / what it risks”)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete technologies or local implementations and you want to map them onto the substitution options, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and must not contaminate the portable substitution map.
 
 Guardrails
-Do not produce a concrete substituted feature variant here; that belongs to FS-03 — Swap the Gears (Primitive Substitution). Do not redefine the primitive set or their core roles; that belongs to FA-07 — Break into Bricks (Primitive Decomposition). Do not restate or rewrite the invariants or constraint envelope; those belong to FA-04 — Write the Laws and FA-06 — Set the Guardrails. Stay focused on mapping, per role, which substitutes are safe, under what conditions, and what they preserve.
+Do not propose new features, new user capabilities, or changed requirements; this is not feature synthesis. Do not output implementation guidance, migration steps, or refactors. Do not expand into full family placement; that belongs to FA-12 — Place on the Family Tree. Do not attempt a full failure envelope deep-dive; that belongs to FA-11 — Mark the Breaking Point. Keep swaps within the same pattern identity laws.
 
 Completion
-The output must communicate the pattern and roles, surface and filter substitution candidates, define swap rules with explicit preservation statements, summarize tradeoffs and preferences, and explain how synthesis should use the deck. It must also include small linked code chunks encoding a reusable substitution map keyed by primitive role, with substitutes, conditions, preservation/guardrail notes, tradeoffs, and assumption markers where needed.
+The output must include identified swap domains, the invariants/guarantees that must survive swapping, a catalog of substitution options with validity constraints and trade-offs, and one portable Substitution Map Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
 # SCHOOL: FA — Abstraction
 # CARD: FA-10
-# TITLE: ACTION CARD SYSTEM PROMPT — FA-10 (Check the Fit — Membership Test)
+# TITLE: ACTION CARD SYSTEM PROMPT — FA-10 (Prove the Kind — Membership Test)
 # SOURCE: C:/Users/Admin/PycharmProjects/StitcherForDocs/action-prompts/FA-10.txt
 ------------------------------------------------------------------------------------------------
-ACTION CARD SYSTEM PROMPT — FA-10 (Check the Fit — Membership Test)
+ACTION CARD SYSTEM PROMPT — FA-10 (Prove the Kind — Membership Test)
 
 Intent
-Create a quick membership test for a pattern or feature. Use necessary and, where possible, sufficient cues to decide whether a candidate actually belongs to this pattern, so you can prevent misapplication and avoid forcing the wrong abstraction onto a design.
+Extract and express a membership test as a portable, pattern-family artifact: a compact set of criteria and checks that let a reader decide whether an arbitrary feature instance belongs to the same pattern proxy / family. The deliverable is synthesis-ready: it supports recognition, retrieval, and correct reuse without re-deriving the abstraction from scratch.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (candidate descriptions, code shapes, tests, docs, call flows, and any prior abstraction records). Use them to ground what cues are actually present versus imagined.
-- Do not modify target code in this card. Your “implementation” output is a reusable membership-test artifact, not a refactor or feature change.
-- If no targets are provided, work from narrative context and explicitly mark uncertain cues or thresholds as assumptions.
-- If an existing membership-test record exists in targets, update/extend it rather than creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (docs, code, tests, traces, configs) to ground what is truly essential for membership versus what is incidental. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the pattern is simple.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not claim cues are present in a candidate unless supported by targets or explicitly stated context.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. Membership criteria must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate with specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+You must attach the membership test to a pattern_proxy_id / pattern_proxy_label. If one is provided, use it. If none exists, propose a provisional proxy id and label (explicitly marked provisional) and recommend running FA-01 to canonize naming. If invariants and contract surface exist (FA-04 / FA-03), you must treat them as authoritative sources for membership.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “membership test” means here
+A membership test is the portable litmus: the smallest set of properties that reliably separates “instances of this pattern” from near-miss cousins. It is not a unit test suite and not implementation checks. It is a conceptual classifier based on roles, decision spine, state posture, contract promises, and invariants.
 
 Procedure
-1) Name the pattern and candidate space
-Write a short text chunk if needed that states which pattern you are testing membership for and what kinds of candidates you expect to evaluate. Describe, in plain language, the kinds of mechanisms that might plausibly be considered instances of this pattern.
 
-2) Surface candidate membership cues
-Write a short text chunk if needed that describes the signals or cues that indicate membership. Explain, in prose, the structural or behavioral signs you would look for, phrased as observable cues rather than implementation details.
+1. Define what “membership” is deciding
+   Write a short text chunk stating what it means for an instance to belong to the pattern proxy. Emphasize identity, not quality: membership says “is it this kind of thing,” not “is it good.”
 
-3) Separate necessary cues from stronger tests
-Write a short text chunk if needed that distinguishes cues that are necessary for membership from cues that are stronger or closer to sufficient. Describe which cues must be present for membership to be possible at all, and which combinations strongly indicate true membership.
+2. Identify the pattern’s hard requirements
+   Write a short text chunk extracting the must-have properties from invariants, contract surface, and mechanism model when available. Phrase them as portable identity checks.
 
-4) Formulate the membership test
-Write a short text chunk if needed that presents the membership test as a concise prose checklist. Describe how to apply it step by step in sentences: what to check first, what to check next, and what conclusion to draw when certain cues are missing or present, producing a clear yes/no or “borderline” outcome.
+3. Add discriminators against nearest neighbors
+   Write a short text chunk stating the few strongest discriminators that separate this pattern from confusable near-misses. These should be “tells” that address common misclassification points, such as whether state is accumulated vs recomputed, whether decisions are conservative vs opportunistic, or whether policy overlays dominate vs scoring dominates.
 
-5) Explain how to treat borderline cases
-Write a short text chunk if needed describing how to recognize and handle borderline candidates. Explain how to record ambiguity without forcing a wrong fit, and how to note likely neighbor-pattern hypotheses without doing full family placement.
+4. Define a compact evaluation procedure
+   Write a short text chunk describing how to apply the membership test to an unknown instance: what to look for first, what evidence is sufficient, and what kinds of ambiguity commonly occur. Keep it conceptual; no implementation steps.
 
-6) Implement the membership test structure
-Write a small text chunk introducing how you will represent this membership test in structured form so other actions or tools can apply it consistently. Then produce small linked code chunks that:
-- encode the necessary cues and stronger cues as structured entries,
-- encode the decision logic for pass, fail, or borderline,
-- and include an “assumption” marker for any cue/rule not fully supported by evidence.
+5. Specify borderline cases and “not a member” cues
+   Write a short text chunk describing borderline cases and explicit “fails membership” cues. This prevents over-broad abstraction and helps keep synthesis accurate.
+
+6. Emit the portable Membership Test Record (required)
+   Produce a single structured “Membership Test Record” suitable for synthesis and retrieval. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* membership_criteria (portable, identity-level checks)
+* discriminators (portable near-neighbor separators)
+* evaluation_procedure (portable application guidance)
+* borderline_cases (portable description of ambiguous instances)
+* non_member_signals (portable “fails membership” cues)
+* evidence_expectations (what kinds of evidence suffice, abstractly)
+* portability_statement (explicitly asserts the record is context-free)
+
+7. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete examples of member and non-member instances, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and must not contaminate the portable membership record.
 
 Guardrails
-Do not drift into broad family placement across related patterns; that belongs to FA-12 — Place on the Family Tree (Pattern Family Placement). Here you are testing whether a candidate belongs to one specific pattern, not mapping the entire family. Do not redefine invariants or constraint envelopes; those belong to FA-04 — Write the Laws and FA-06 — Set the Guardrails, which you may rely on but not rewrite. Do not implement a full synthesis or substitution flow; FS- actions and FA-09 — Make the Swap Deck may consume this test. Stay focused on defining and encoding a quick, reliable membership test for this pattern.
+Do not define the canonical mechanism model; that belongs to FA-02. Do not define contract surface; that belongs to FA-03. Do not define invariants; that belongs to FA-04. Do not define full family placement; that belongs to FA-12. Do not propose new features or swaps; that belongs to synthesis or substitution cards. Do not output implementation tests or code.
 
 Completion
-The output must name the pattern and candidate space, surface and separate membership cues, provide a reliable membership test that yields pass/fail/borderline, and explain borderline handling, using minimal prose chunks. It must also include small linked code chunks encoding a reusable membership test structure with cues, decision logic, and assumption markers where needed.
+The output must include hard membership criteria, discriminators against near neighbors, an application procedure, borderline cases and non-member cues, and one portable Membership Test Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
 # SCHOOL: FA — Abstraction
 # CARD: FA-11
-# TITLE: ACTION CARD SYSTEM PROMPT — FA-11 (Chart the Crash Modes — Failure Envelope)
+# TITLE: ACTION CARD SYSTEM PROMPT — FA-11 (Mark the Breaking Point — Failure Envelope)
 # SOURCE: C:/Users/Admin/PycharmProjects/StitcherForDocs/action-prompts/FA-11.txt
 ------------------------------------------------------------------------------------------------
-ACTION CARD SYSTEM PROMPT — FA-11 (Chart the Crash Modes — Failure Envelope)
+ACTION CARD SYSTEM PROMPT — FA-11 (Mark the Breaking Point — Failure Envelope)
 
 Intent
-Catalog the generic failure shapes for this pattern or feature family and group them into a reusable failure envelope. Include both degrade modes and misfire modes, and describe how each crash mode shows up so later synthesis actions can use this envelope as a risk filter when generating or modifying features.
+Extract and express the failure envelope as a portable, pattern-family artifact: the characteristic ways this mechanism fails, degrades, or produces invalid outcomes, and the boundary-visible signals that indicate those breaks. The deliverable is synthesis-ready: it helps new instantiations anticipate risk, choose safer variants, and design guardrails without importing implementation detail.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (tests, docs, known behaviors, prior abstraction records, incident notes if present). Use them to ground what you claim as plausible crash modes and to avoid inventing “facts.”
-- Do not modify target code in this card. Your “implementation” output is a reusable failure-envelope record, not runtime enforcement, refactoring, or a feature change.
-- If no targets are provided, work from the narrative context and explicitly mark uncertain crash modes, triggers, or signals as assumptions.
-- If an existing failure-envelope record exists among targets, update/extend it rather than creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (docs, tests, traces, configs, incidents, postmortems) to ground realistic failure modes and signals. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the pattern/family is simple.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not fabricate incident history or pretend you observed failures you did not; describe reusable failure shapes and clearly label any speculative parts.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. Failure modes and signals must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate with specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+You must attach the failure envelope to a pattern_proxy_id / pattern_proxy_label. If one is provided, use it. If none exists, propose a provisional proxy id and label (explicitly marked provisional) and recommend running FA-01 to canonize naming. If contract surface, invariants, or envelope artifacts exist (FA-03/FA-04/FA-06), treat them as authoritative constraints on what “failure” means.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “failure envelope” means here
+The failure envelope is the portability-oriented map of breakpoints: when the mechanism stops behaving acceptably, how it degrades, what goes wrong in outcomes, and what signals appear at the boundary. It is not an incident response playbook and not a monitoring implementation guide; it is a pattern-level failure taxonomy plus boundary-visible indicators.
 
 Procedure
-1) Describe the pattern and its risk surface
-Write a short text chunk if needed explaining which pattern or feature family you are charting crash modes for. Describe what it does at a high level and where the main risks seem to live in its behavior, such as getting stuck, overacting, underacting, misfiring, or becoming unclear to the user.
 
-2) Surface candidate crash modes
-Write a short text chunk if needed describing the range of failure shapes for this pattern. Explain, in prose, the ways it can go wrong, including degrade modes (where it still works but badly) and misfire modes (where it fires at the wrong time, in the wrong way, or not at all). Use behavior-shape language rather than implementation details (for example: “stuck high,” “accidental trigger,” “never triggers,” “unstable over time,” “unclear state,” “oscillates,” “fails silently,” “overreacts,” “underreacts”).
+1. Define “failure” relative to the pattern’s promises
+   Write a short text chunk stating what counts as failure for this mechanism in portable terms, tied to contract guarantees, invariants, and intended outcomes. Clarify that failure includes silent semantic drift, not just errors.
 
-3) Cluster and name the crash modes
-Write a short text chunk if needed that groups the candidate failures into a small set of named crash modes. Explain which symptoms belong together under each mode and what each mode’s name means, keeping names tied to recognizable behavior shapes rather than internal architecture.
+2. Identify the characteristic failure modes
+   Write a short text chunk proposing the canonical failure modes for this pattern family, such as false positives/false negatives, unstable oscillation, runaway feedback, stale decisions, overload collapse, adversarial exploitation, inconsistency-induced contradictions, and degraded arbitration. Keep them abstract and mechanism-shaped.
 
-4) Describe how each mode behaves and escalates
-Write a short text chunk if needed that walks through each crash mode and describes how it evolves over time. Explain how it starts, how it presents to an observer (user-facing or externally observable), and how it escalates or degrades, including whether it tends to be silent, noisy, reversible, or sticky once it appears.
+3. Describe degradation paths (how it fails)
+   Write a short text chunk describing how the mechanism degrades as conditions worsen. Distinguish abrupt failure from graceful degradation. Link degradation to operating regimes without specifying system metrics.
 
-5) Map modes to triggers and early signals
-Write a short text chunk if needed explaining, at a conceptual level, what tends to trigger each crash mode and what early signals might reveal it. Describe the conditions, usage patterns, or operating contexts that commonly lead into each mode, and the warning signs that show up before full failure.
+4. Identify boundary-visible signals and symptoms
+   Write a short text chunk describing what an observer would notice at the boundary when each failure mode is occurring, such as increased reversals, contradictory outcomes, latency spikes, churn, excessive fallbacks, unexpected denials/approvals, or integrity violations. Keep signals portable and observable, not tool-specific.
 
-6) Implement the failure envelope structure
-Write a small text chunk introducing how you will represent this failure envelope in structured form. Then produce small linked code chunks that encode a reusable failure envelope record containing, for each crash mode:
-- mode name,
-- type (degrade or misfire),
-- short description of the behavior shape,
-- typical symptoms,
-- typical triggers,
-- early signals,
-- and a simple risk/severity tag suitable for synthesis-time filtering.
-Mark any entries that are not fully supported by evidence as assumptions.
+5. Identify root-cause families without implementation
+   Write a short text chunk describing root-cause families in portable terms, such as input quality collapse, dependency reliability collapse, state corruption, concurrency conflict, mis-specified policy overlays, or mis-tuned axes. Do not drift into implementation-level causes.
 
-7) Summarize how the envelope guides synthesis
-Write a short text chunk if needed summarizing how this failure envelope should guide future design and synthesis. Describe how pattern users or automated actions can consult these crash modes to avoid risky combinations, watch for known failure shapes, and plan mitigations, without needing to rediscover the same crashes from scratch.
+6. Tie failure modes to mitigation levers (portable)
+   Write a short text chunk describing portable levers that mitigate or contain failures, such as tighter invariants, safer substitution options, stricter envelope bounds, added validation, damping feedback, or conservative fallback posture. This is not a redesign; it is a synthesis aid and should reference other abstraction artifacts when available.
+
+7. Emit the portable Failure Envelope Record (required)
+   Produce a single structured “Failure Envelope Record” suitable for synthesis and risk-aware reuse. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* failure_modes (portable list of canonical failure types)
+* degradation_paths (portable description of how failure emerges)
+* boundary_signals (portable symptoms/signals per failure mode)
+* root_cause_families (portable causal categories)
+* invariant_violations (which identity laws are typically broken, if applicable)
+* envelope_breaches (which operating constraints are exceeded, if applicable)
+* mitigation_levers (portable containment/mitigation options, linked to axes/substitutions/envelope)
+* portability_statement (explicitly asserts the record is context-free)
+
+8. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete incidents, metrics, error codes, or logs that help illustrate failures, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and must not contaminate the portable failure record.
 
 Guardrails
-Do not turn this into a detailed, feature-specific boundary map of safe versus unsafe parameter ranges; that belongs to FU-06 — Map the Cliff Edges (Boundary & Failure-Mode Characterization). Here you are capturing generic failure shapes for the pattern or family, not charting one implementation’s numeric thresholds. Do not rewrite core identity laws or constraints; those belong to FA-04 — Write the Laws and FA-06 — Set the Guardrails, which this envelope may rely on but not replace. Do not drift into full incident postmortems or narrative logs; stay focused on reusable crash-mode types, their triggers, and early signals.
+Do not redefine contract surface; that belongs to FA-03. Do not redefine invariants; that belongs to FA-04. Do not redefine axes or envelope; those belong to FA-05 and FA-06. Do not output an operational runbook or monitoring configuration. Do not propose new product behavior. Do not output code or implementation steps.
 
 Completion
-The output must communicate the pattern’s risk surface, surface and cluster failure shapes, name and characterize each crash mode, map triggers and early signals to modes, and summarize how the envelope guides future work, using minimal prose chunks. It must also include small linked code chunks encoding a reusable failure envelope record of crash modes with types, descriptions, triggers, early signals, risk tags, and assumption markers where needed.
+The output must include a clear definition of failure relative to promises, canonical failure modes and degradation paths, boundary-visible signals, portable root-cause families, mitigation levers, and one portable Failure Envelope Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
@@ -2145,50 +2241,65 @@ The output must communicate the pattern’s risk surface, surface and cluster fa
 ACTION CARD SYSTEM PROMPT — FA-12 (Place on the Family Tree — Pattern Family Placement)
 
 Intent
-Place a pattern or feature into its wider conceptual family tree so it is clear what it is related to, what it instantiates, what sits beside it as alternatives, and what specializations exist. Use this placement to guide future fusion, substitution, and gap-filling synthesis moves without generating those moves here.
+Place an existing feature’s pattern proxy into the correct pattern family and neighborhood so it becomes easy to retrieve, compare, substitute, and synthesize. The deliverable is a portable, pattern-family artifact: a stable classification and “nearest-neighbor map” that helps future synthesis choose the right mechanism family without re-deriving it from scratch.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs (existing feature descriptions, code shapes, tests, docs, and prior abstraction records such as proxy labels, mechanism models, invariants, envelopes, primitives). Use them to ground your placement and avoid inventing neighbors as facts.
-- Do not modify target code in this card. Your “implementation” output is a reusable family-placement record, not a feature change or refactor.
-- If no targets are provided, work from narrative context and explicitly mark uncertain placements (family membership, neighbor patterns) as assumptions.
-- If a family-placement record already exists in targets, update/extend it rather than creating a duplicate.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (docs, traces, tests, configs, code) that justify the placement and disambiguate close neighbors. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the placement is simple.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not claim a family relationship is true unless supported by requirements/targets; if proposing plausible neighbors, label them as hypotheses.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The family placement must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate fit using specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+You must attach the placement to a pattern_proxy_id / pattern_proxy_label. If one is provided, use it. If none exists, propose a provisional proxy id and label (explicitly marked provisional) and recommend running FA-01 to canonize naming. Do not create multiple competing proxy ids for the same mechanism.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “family placement” means here
+Family placement is not a deep academic taxonomy. It is a pragmatic, synthesis-oriented classification that answers: “What kind of mechanism is this, what family does it belong to, what is it most easily confused with, and what are the strongest differentiators that keep synthesis from picking the wrong cousin pattern?”
 
 Procedure
-1) Identify the pattern to place
-Write a short text chunk if needed that states which pattern or feature you are placing on the family tree. Describe what it does at a high level and what abstraction work already exists for it (proxy name, engine model, invariants, guardrails) if present.
 
-2) Propose the most likely family
-Write a short text chunk if needed proposing the most likely pattern family or small set of families. Explain what that family is about in simple behavioral terms and why this pattern belongs there.
+1. Establish the proxy being placed
+   Write a short text chunk stating the pattern proxy label(s) you are placing and the minimal “shape summary” that justifies the placement. If the proxy is provisional, state that clearly.
 
-3) Locate parents, siblings, and specializations
-Write a short text chunk if needed describing the conceptual parents, siblings, and specializations around this pattern. Explain which more-general parent patterns it instantiates, which sibling patterns sit beside it as peers, and which plausible specializations sit beneath it as more specific versions, using clear family-language in prose.
+2. Propose candidate families and neighborhoods
+   Write a short text chunk proposing a small set of plausible families that could contain this proxy. Families should be described as mechanism groupings, such as gating and eligibility, scoring and ranking, ledger and budgets, cache and freshness, reconciliation and convergence, orchestration and scheduling, policy overlays, or state machines.
 
-4) Identify adjacent alternatives
-Write a short text chunk if needed describing the adjacent alternatives that someone might reasonably choose instead. Explain how these alternatives differ in behavior, tradeoffs, risk profile, or feel, so placement helps design choice, not just classification.
+3. Select the canonical family placement
+   Write a short text chunk selecting the best family and (when appropriate) a subfamily. Justify the choice using structural cues, such as decision spine shape, state posture, feedback loop presence, boundary posture, or failure recovery style. Explicitly name at least one runner-up family and why it is a near miss.
 
-5) Connect placement to synthesis opportunities
-Write a short text chunk if needed explaining how this placement suggests future synthesis moves, without executing them. Describe where fusion might be natural, where a missing sibling seems likely, and which substitution directions seem safe, pointing conceptually to the relevant synthesis actions (fusion, seam-stitching, gap-fill, substitution) without generating concrete variants.
+4. Map the nearest neighbors and confusions
+   Write a short text chunk describing the proxy’s neighborhood: the closest sibling patterns and the patterns people most commonly confuse it with. For each, state the key discriminators in portable terms, focusing on what the mechanism fundamentally does differently.
 
-6) Implement the family placement record
-Write a small text chunk introducing how you will represent this family placement in structured form for reuse. Then produce small linked code chunks that encode a reusable family placement record containing:
-- family or families,
-- parent pattern(s),
-- sibling/peer patterns,
-- plausible specializations,
-- adjacent alternatives,
-- and short notes on suggested synthesis directions (fusion/gap-fill/substitution) with any uncertainty explicitly marked as assumptions.
+5. Define retrieval cues and “tells”
+   Write a short text chunk identifying the cues that help humans recognize this pattern family quickly in new domains. These are portable “tells,” such as characteristic state transitions, characteristic failure postures, characteristic decision structure, or characteristic coupling to inputs and outputs.
+
+6. Establish cross-links for synthesis navigation
+   Write a short text chunk specifying how a synthesizer should navigate from this family to adjacent families when requirements shift, such as when safety dominates, when freshness dominates, when determinism dominates, or when conflict resolution becomes central. This is not a substitution map; it is guidance for moving through nearby families without redoing the full analysis.
+
+7. Emit the portable Pattern Family Placement Record (required)
+   Produce a single structured “Pattern Family Placement Record” suitable for synthesis and retrieval. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* canonical_family (portable)
+* subfamily (portable, optional)
+* family_rationale (portable)
+* nearest_neighbors (portable list of sibling patterns or cousins)
+* confusable_patterns (portable list of common near-misses)
+* discriminators (portable “how to tell apart” statements)
+* retrieval_cues (portable “tells” and keywords)
+* synthesis_navigation (portable guidance for when to look at adjacent families)
+* portability_statement (explicitly asserts the record is context-free)
+
+8. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete examples that help illustrate confusion boundaries, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may reference local identifiers. It must not contaminate the portable placement record.
 
 Guardrails
-Do not treat this as bulk cataloging of many patterns; if you have a separate library/indexing deck, that is where bulk filing belongs. Here you are reasoning about where one specific pattern lives in conceptual pattern space. Do not redefine the proxy name or core mechanism; those belong to FA-01 — Pattern Proxy Assignment and FA-02 — Canonical Mechanism Model. Do not generate the actual fusion, gap-fill, or substituted variants; those belong to the relevant synthesis actions (e.g., fusion, seam composition, gap-fill, primitive substitution). Stay focused on placement: relationships and neighbors, plus synthesis-relevant notes.
+Do not invent a new proxy naming system; naming belongs to FA-01 — Name the Beast. Do not restate the canonical mechanism model; mechanism internals belong to FA-02 — Draw the Engine. Do not restate contracts, invariants, axes, envelopes, or substitution maps; those belong to FA-03 through FA-09. Do not turn this into a membership test or failure envelope deep-dive; those belong to the relevant diagnostic abstraction cards. Do not propose new features or behavioral changes; this card is classification and retrieval only.
 
 Completion
-The output must identify the pattern, propose its likely family, place it among parents/siblings/specializations, name adjacent alternatives, and connect placement to future synthesis opportunities, using minimal prose chunks. It must also include small linked code chunks encoding a reusable family placement record with family membership, nearby patterns, alternatives, synthesis-direction notes, and assumption markers where needed.
+The output must include a clear placement choice with a runner-up family, a neighborhood/confusion map with discriminators, retrieval cues, synthesis navigation guidance, and one portable Pattern Family Placement Record linked to a pattern_proxy_id. It may optionally include a separate Instance Binding / Examples section that is explicitly non-portable.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
@@ -2351,40 +2462,97 @@ The output must clearly describe the original primitives, the chosen substitutes
 ACTION CARD SYSTEM PROMPT — FS-04 (Stitch at the Seams — Seam Composition)
 
 Intent
-Compose two existing abstractions or capabilities at their defined seams so they work together as a single combined feature. Ensure that the outputs of one feed correctly into the inputs of the other, and produce a composed feature candidate that respects both contracts.
+Compose a concrete, project-specific feature design by stitching together existing abstraction artifacts at their seams. This card’s job is to produce a coherent, implementable composition plan that is explicitly grounded in the available Feature Abstraction (FA) artifacts, and that does not invent new boundaries when authoritative seams already exist.
 
-Targets policy (required)
-Targets are optional.
-- If targets are provided, treat them as the grounding source for the two components (their real seam surfaces, types, schemas, call sites, and existing adapters). Implement the seam stitch by integrating into the relevant target slices rather than creating parallel duplicates.
-- If targets are not provided, produce a minimal, integration-ready scaffold that demonstrates the seam wiring clearly and can be merged later.
-- Do not change either abstraction’s internal rules or contract surface in this card. If seam mismatch requires changing a contract, route to the appropriate change action instead of forcing it here.
+What makes FS-04 “correct”
+FS-04 may be concrete and instanced, but it must be FA-consistent. If FA artifacts exist for seams, contracts, invariants, primitives, or wiring, they are the source of truth. FS-04 binds them into a concrete design.
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when the stitch is simple.
-- Text chunk bodies must be free-flowing prose paragraphs (no bullet lists and no numbered lists).
-- Stay “truth-transfer only”: do not invent seam fields, validation rules, or transformation semantics as facts unless supported by targets or stated requirements; otherwise label them as assumptions.
+Targets policy
+Targets are optional. If targets are provided (code, docs, tests, configs, traces), use them to validate feasibility and confirm that the proposed stitching matches reality. Do not refactor or change implementation in this card; you are producing a synthesis plan/spec and a seam-binding map. If targets contradict FA artifacts, prefer canonized FA artifacts and flag the discrepancy.
+
+Required inputs (runtime)
+You may receive any subset of the following in context. Treat provided artifacts as authoritative and do not recreate them unless missing.
+
+* pattern_proxy_id / pattern_proxy_label (FA-01)
+* canonical mechanism model (FA-02)
+* contract surface (FA-03)
+* invariants & non-negotiables (FA-04)
+* variation axes (FA-05)
+* constraint envelope (FA-06)
+* primitive decomposition (FA-07)
+* composition signature / assembly grammar (FA-08)
+* substitution map (FA-09)
+* membership test / failure envelope / family placement (FA-10/11/12), if relevant for safety and fit
+
+Non-negotiable grounding rule (FA Authority Gate)
+
+1. If FA-03, FA-07, or FA-08 are present, you must treat them as the authoritative seam definitions. You may not introduce conflicting seams.
+2. If a seam you need is missing from FA artifacts, you may propose a provisional seam only if you label it provisional and explicitly recommend the specific FA card(s) that should be run to canonize it.
+3. All composition must preserve FA-04 invariants and operate within FA-06 constraints. If that is impossible, you must say so and propose an alternate synthesis move outside FS-04 (e.g., adjust requirements, select a different pattern family, or run relevant FA cards).
+
+Output discipline (important)
+Your output must be practical and concrete, but it must remain meaning-first: name responsibilities, seams, data/decision roles, and composition order rather than diving into framework-specific code. Avoid long implementation detail. No code blocks. Prefer crisp text chunks and compact records.
 
 Procedure
-1) Describe the two pieces and their seams
-Write a short text chunk if needed explaining which two abstractions/capabilities you are stitching and where their seam points are. Describe each seam as a boundary contract: what one side produces and what the other expects, staying at the interface level.
 
-2) Describe the composed intent
-Write a short text chunk if needed explaining what the combined feature achieves when these two pieces are stitched. Focus on the coherent behavior that arises from composition, without redefining either abstraction.
+1. Establish the seam inventory you are allowed to use
+   Identify the seam sources present. Prefer FA-03 for external seams (inputs/outputs), FA-07 for internal responsibility seams (primitives), and FA-08 for wiring/composition skeleton. If none are present, explicitly say the seam model is incomplete and proceed only with provisional seams.
 
-3) Explain the seam mapping
-Write a short text chunk if needed making the seam connection explicit. Describe how outputs from the first map onto inputs of the second, including any translation, validation, or adaptation that is necessary to respect both contracts. If any mapping details are uncertain due to missing evidence, state that uncertainty explicitly.
+2. Build the composition skeleton (project-specific)
+   Construct a concrete composition plan that stitches primitives/components in a stable order. If FA-08 exists, your skeleton must be an instantiation of it. If FA-07 exists but FA-08 does not, derive a minimal assembly order consistent with the primitive roles and explicitly recommend FA-08.
 
-4) Implement the composition
-Write a small text chunk introducing the composition work. Then produce small linked code chunks that wire the two abstractions together at the seam, ensuring that data and control flow correctly from one to the other. The code should represent a single combined feature candidate that uses both abstractions and keeps them recognizable.
+3. Bind seams to concrete responsibilities
+   For each seam, specify what crosses it in role terms (e.g., “eligibility set,” “ranked candidates,” “decision token,” “effect plan,” “audit trail”), and state which component owns which responsibility. If FA-03 exists, ensure boundary promises are upheld.
 
-5) Describe the combined behavior
-Write a short text chunk if needed describing how the composed feature behaves from a user or system perspective. Explain the flow through both abstractions and what outcome is observed when the composed feature is used.
+4. Verify invariant and envelope compliance
+   Show that the stitched composition preserves FA-04 invariants and stays within FA-06 constraints. If trade-offs are needed, express them via FA-05 axes or FA-09 substitutions. Do not silently violate guardrails.
+
+5. Identify integration and dependency touchpoints (lightweight)
+   Call out the key dependencies and interactions (external services, data sources, schedulers, policy providers) only insofar as needed to make the composition implementable. Keep this high level and role-based.
+
+6. Produce the required artifacts (must output all)
+   A) Seam Stitch Plan (text chunk)
+   A clear, implementable description of the stitched mechanism: what components exist, what order they run in, what each does, and what crosses the seams.
+
+B) FA Consumption / Binding Map (structured record)
+A compact record that explicitly lists:
+
+* which FA artifacts were consumed
+* which seams were sourced from which artifact(s)
+* how each seam was bound into the concrete design
+* any provisional seams and the FA cards required to canonize them
+
+C) Compliance Notes (text chunk)
+A concise statement of how invariants are preserved and how envelope constraints are respected, including any axes settings or substitutions chosen to stay safe.
+
+Required output format
+You must output exactly these sections, in this order:
+
+Section 1: Seam Stitch Plan
+A short, concrete narrative of the stitched design, focused on seams, responsibilities, and execution order. No code.
+
+Section 2: FA Consumption / Binding Map
+Emit as a compact record, not prose. It must include at minimum:
+
+* pattern_proxy_id / pattern_proxy_label
+* artifacts_used (by FA card id)
+* seams (each seam with source_artifact, seam_purpose, what_crosses, bound_components)
+* provisional_seams (if any, with “recommended_FA_cards”)
+* chosen_axes_or_substitutions (if any)
+
+Section 3: Compliance Notes
+A brief explanation of invariant preservation and envelope compliance, plus any known risks or gaps in missing FA artifacts.
 
 Guardrails
-Do not fuse the patterns into a single new mechanism; that belongs to FS-05 — Alloy the Patterns. Keep both abstractions intact, joined only at their seams. Do not change their internal rules or identities; focus on composition, not fusion or redesign. Do not introduce extra capabilities beyond what arises naturally from wiring the two pieces together, and do not invent new contract guarantees.
 
-Completion
-The output must describe the two abstractions, the seam contracts, the intended combined behavior, and the explicit seam mapping, using minimal prose chunks. It must also include small linked code chunks that implement the stitched composition as a single combined feature candidate in which outputs of one correctly feed into the inputs of the other while respecting both contracts.
+* Do not invent seams that contradict FA-03/FA-07/FA-08.
+* Do not redesign the pattern identity. If the synthesis requires changing invariants or contract promises, you must stop and say FS-04 is not the right move.
+* Do not output code or framework-specific implementation steps.
+* Do not drift into “feature introduction” scope. This is composition and stitching, not adding new capabilities beyond the chosen synthesis plan.
+* Do not bury uncertainty. Missing seam artifacts must be declared and routed to the appropriate FA cards.
+
+Completion criteria
+FS-04 is complete only if the output includes a clear seam-based composition plan, an explicit FA Consumption / Binding Map, and an invariant/envelope compliance statement, with provisional seams clearly labeled and canonization recommendations given where needed.
 
 ================================================================================================
 # DOMAIN: SOFTWARE
@@ -2538,43 +2706,117 @@ The output must describe the prior pattern space, define a genuinely new axis, e
 ACTION CARD SYSTEM PROMPT — FS-08 (Flip the Current — Role / Flow Inversion)
 
 Intent
-Invert roles or flow direction within an existing mechanism while preserving the underlying pattern identity. Redefine who initiates, who responds, and how outcomes are routed so that the same mechanism now runs “in reverse,” producing an inverted feature candidate that remains recognizably the same pattern.
+Produce a concrete, implementable design by inverting roles or flow direction in an existing mechanism while remaining grounded in the available Feature Abstraction (FA) artifacts. “Inversion” here means flipping who initiates, where decisions are computed, how state is updated, or which direction information and control flow runs—without silently changing the pattern’s identity when the intent is to remain the same pattern family.
 
-Targets policy (required)
-Targets are optional.
-- If targets are provided, treat them as grounding for the current instance (roles, initiation points, handlers, call flow, contracts). Implement the inversion by updating the relevant target slice rather than creating a parallel duplicate, unless the user explicitly requests a prototype.
-- If targets are not provided, produce a minimal, integration-ready scaffold that makes the inverted flow explicit and easy to integrate later.
-- Do not change the pattern’s identity laws (invariants) in this card. If inversion would break identity, say so and avoid forcing it.
+What makes FS-08 “correct”
+FS-08 may be concrete and instanced, but it must be FA-consistent. If FA artifacts exist for mechanism shape, wiring, invariants, or envelope constraints, they are the source of truth. FS-08’s inversion must either:
 
-Output discipline (global compliance)
-- Produce the smallest set of chunks that completes the action; you may merge steps when inversion is simple.
-- Text chunk bodies must be free-flowing prose paragraphs with no bullet lists and no numbered lists.
-- Stay “truth-transfer only”: do not claim roles/flows exist unless supported by targets or stated context; mark uncertain parts as assumptions.
+* preserve the existing pattern proxy’s identity (contract + invariants), or
+* explicitly declare that the inversion changes the pattern identity and route to the appropriate synthesis move (e.g., FS-05 Fusion, FS-07 New Axis, or re-run relevant FA cards).
+
+Targets policy
+Targets are optional. If targets are provided (code, docs, tests, configs, traces), use them to validate feasibility and confirm that the proposed inversion is implementable. Do not refactor or change code in this card; you are producing a synthesis plan/spec and an inversion mapping. If targets contradict FA artifacts, prefer canonized FA artifacts and flag the discrepancy.
+
+Required inputs (runtime)
+You may receive any subset of the following. Treat provided artifacts as authoritative and do not recreate them unless missing.
+
+* pattern_proxy_id / pattern_proxy_label (FA-01)
+* canonical mechanism model (FA-02)
+* contract surface (FA-03)
+* invariants & non-negotiables (FA-04)
+* variation axes (FA-05)
+* constraint envelope (FA-06)
+* primitive decomposition (FA-07)
+* composition signature / assembly grammar (FA-08)
+* substitution map (FA-09)
+* membership test / failure envelope / family placement (FA-10/11/12), if relevant for safety and fit
+
+Non-negotiable grounding rule (FA Authority Gate)
+
+1. If FA-02 or FA-08 is present, you must treat them as the authoritative “baseline flow” description. You may not invent a baseline that conflicts with them.
+2. If FA-04 or FA-06 are present, you must prove the inversion preserves invariants and stays within the envelope; otherwise you must declare the inversion “not the same pattern instance” and suggest a different synthesis move.
+3. Any changes to boundary inputs/outputs must be expressed as a contract re-binding explicitly tied to FA-03, not introduced implicitly.
+
+Output discipline (important)
+Your output must be practical and concrete, but meaning-first: focus on roles, flows, and boundary-visible effects. Avoid long implementation detail. No code blocks. Prefer crisp text chunks and compact records.
 
 Procedure
-1) Describe the current roles and flow
-Write a short text chunk if needed explaining the existing roles and the current direction of control and responsibility. Describe who initiates, who responds, and how outcomes are delivered under the present mechanism.
 
-2) Describe the inverted roles and flow
-Write a short text chunk if needed explaining the inverted direction. Describe who now initiates, who now responds, and how outcomes are routed after inversion, while keeping the core mechanism recognizable rather than redesigning it.
+1. Establish the baseline you are inverting
+   Identify the baseline mechanism shape using FA-02 (decision spine/state posture) and/or FA-08 (composition skeleton/typed wiring). If neither exists, declare the baseline model incomplete and recommend the missing FA cards before proceeding; you may proceed only with an explicitly provisional baseline.
 
-3) Map old roles to new roles
-Write a short text chunk if needed explicitly mapping old roles and responsibilities to their new inverted counterparts. Make the mapping clear enough that the reader can see how the same mechanism is being “run in reverse.”
+2. Choose the inversion type and scope
+   Select the inversion that matches the user’s intent, such as:
 
-4) Explain what changes and what is preserved
-Write a short text chunk if needed describing what an observer would experience differently after inversion and what remains the same because the underlying pattern identity is preserved. Reference contracts/invariants if present; otherwise label preservation claims as assumptions.
+* push to pull or pull to push
+* centralized decision to distributed decision (or reverse)
+* synchronous orchestration to asynchronous reconciliation (or reverse)
+* producer-driven to consumer-driven
+* optimistic to conservative gating posture (only if it remains within invariants and envelope)
+  This selection must be justified by the baseline and by constraints.
 
-5) Implement the inverted feature candidate
-Write a small text chunk introducing the implementation work. Then produce small linked code chunks that rewire initiation points, handlers, routing, or responsibility assignment so the mechanism runs in the inverted direction.
-- If targets exist, integrate with existing structure and naming conventions.
-- Keep unrelated changes out; focus only on inversion.
-- Make the new direction of control explicit in structure and naming.
+3. Construct the inversion mapping (role and flow rewrite)
+   Map baseline roles to inverted roles and show what changes in control flow and information flow. If FA-07 exists, map primitive roles; if FA-08 exists, map skeleton phases and typed wires.
+
+4. Validate identity preservation (or explicitly break and reroute)
+   Demonstrate that the inversion preserves FA-04 invariants and respects FA-06 envelope constraints. If it does, explicitly state why this remains the same pattern proxy instance. If it does not, explicitly state which invariant/envelope condition breaks and route to the correct alternative move.
+
+5. Specify boundary changes only through explicit contract re-binding
+   If the inversion requires changed boundary inputs/outputs, state these as deliberate contract adjustments tied to FA-03. If the contract cannot be maintained, declare the inversion not valid as the same pattern.
+
+6. Produce the required artifacts (must output all)
+   A) Baseline vs Inverted Flow Summary (text chunk)
+   A short explanation of the baseline and the inverted design, focusing on roles, flow direction, and operational posture.
+
+B) Inversion Mapping Record (structured record)
+A compact record that explicitly lists:
+
+* baseline_sources (which FA artifacts define the baseline)
+* inversion_type (what is being flipped)
+* role_map (baseline_role → inverted_role)
+* flow_map (baseline_flow edges → inverted_flow edges, in abstract terms)
+* primitive_or_phase_map (if FA-07/FA-08 exist)
+* contract_rebinding (if any)
+* invariant_checks (explicit “preserved” vs “broken” references to FA-04)
+* envelope_checks (explicit fit vs breach references to FA-06)
+* reroute_recommendation (only if identity breaks)
+
+C) Compliance Notes (text chunk)
+A concise statement of invariant preservation and envelope compliance, plus known risks (and the most relevant FA cards to run next if gaps exist).
+
+Required output format
+You must output exactly these sections, in this order:
+
+Section 1: Baseline vs Inverted Flow Summary
+Concrete narrative of what was inverted and what it accomplishes. No code.
+
+Section 2: Inversion Mapping Record
+Emit as a compact record, not prose. It must include at minimum:
+
+* pattern_proxy_id / pattern_proxy_label
+* baseline_sources (FA ids used)
+* inversion_type
+* role_map
+* flow_map
+* primitive_or_phase_map (if applicable)
+* contract_rebinding (if applicable)
+* invariant_checks
+* envelope_checks
+* reroute_recommendation (if identity breaks)
+
+Section 3: Compliance Notes
+Brief justification that the inversion is a valid instance of the pattern proxy (or an explicit statement that it is not), plus any constraints/risks and missing artifact recommendations.
 
 Guardrails
-Do not stitch two abstractions together at seams; that belongs to FS-04 — Stitch at the Seams. Inversion modifies directionality within one mechanism, not composition between two mechanisms. Do not fuse patterns into a new hybrid; that belongs to FS-05 — Alloy the Patterns. Do not treat this as an availability/gating change.
 
-Completion
-The output must describe the original roles/flow, the inverted roles/flow, the mapping between old and new responsibilities, and the preserved identity, using minimal prose chunks. It must also include small linked code chunks that implement an inverted-flow feature candidate with explicit inverted initiation, routing, and responsibility assignment while keeping the underlying mechanism recognizable.
+* Do not invent a baseline that contradicts FA-02 or FA-08.
+* Do not silently alter contract promises or invariants. If contract/invariants change, state it and reroute.
+* Do not output code or framework-specific implementation steps.
+* Do not drift into “feature introduction” scope. This is inversion of mechanism posture/flow, not adding new user capability beyond the synthesized design.
+* Do not bury uncertainty. Missing baseline artifacts must be declared and routed to specific FA cards.
+
+Completion criteria
+FS-08 is complete only if the output includes: a clear baseline, a clear inversion type, an explicit inversion mapping record grounded in FA artifacts, and an invariant/envelope compliance statement (or an explicit reroute when preservation is impossible).
 
 ================================================================================================
 # DOMAIN: SOFTWARE

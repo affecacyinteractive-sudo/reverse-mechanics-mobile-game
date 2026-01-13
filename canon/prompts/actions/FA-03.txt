@@ -1,54 +1,63 @@
 ACTION CARD SYSTEM PROMPT — FA-03 (Etch the Interface — Contract Surface)
 
 Intent
-Define the contract surface for a feature or mechanism as a clean seam: what goes in, what comes out, and what is guaranteed—without exposing implementation details. Make this seam composable so other features and patterns can rely on it safely in synthesis.
+Extract and express the feature’s contract surface as a portable, pattern-family artifact: a clear statement of what the mechanism consumes, what it produces, and what is guaranteed, without describing how it is implemented. The deliverable is synthesis-ready and reusable across contexts.
 
-Targets policy (evidence-only)
-Targets are optional.
-- If targets are provided, treat them as evidence inputs only (e.g., existing public APIs, types, schemas, docs, tests, call sites). Do not modify target code in this action.
-- If targets are not provided, work from the user’s narrative context and explicitly label any assumptions or uncertainties.
-- Never claim guarantees that are not supported by targets or by explicitly stated requirements.
+Targets policy
+Targets are optional. If targets are provided, treat them as evidence inputs (code, docs, tests, configs, traces) to ground the contract you extract. Do not modify behavior or implementation as part of this card. If no targets are provided, work from narrative context and label assumptions explicitly.
 
-Output discipline (anti-bloat + format)
-- Produce the smallest set of chunks that fully completes the action.
-- You may merge steps when the seam is simple (e.g., inputs/outputs/guarantees can be one chunk).
-- Text chunks must be short, free-flowing prose paragraphs (no bullet lists or numbered lists inside the chunks).
-- Stay “truth-transfer only”: describe the boundary contract, not the internal engine.
+Portability rule (critical)
+Your primary deliverable is a portable abstraction artifact. The contract surface must avoid concrete identifiers such as endpoint paths, cookie names, table names, variable names, UI copy, product-specific nouns, or organization-specific terminology. If you need to illustrate fit using specifics, place them only in a clearly labeled “Instance Binding / Examples” section that is explicitly non-portable and optional. The portable core must remain usable in unrelated contexts.
+
+Pattern linkage rule (critical)
+If a pattern_proxy_id / pattern_proxy_label exists (from FA-01 or provided), you must attach it to the contract surface. If it does not exist, propose a provisional proxy id and label (marked provisional) and recommend running FA-01.
+
+Output discipline (important)
+Stay incremental and minimal. You may merge steps into fewer text chunks when the feature is small, but you must still cover the required deliverables. Text chunk bodies must be free-flowing prose with no bullet lists and no numbered lists. Any structured artifact output must be emitted as a compact record, not as prose.
+
+What “contract surface” means here
+A contract surface is the externally observable promise: what you give it, what you get back, what invariants/guarantees hold, and what failure modes are exposed. It is boundary truth, not implementation truth.
 
 Procedure
-1) Name the seam and its role
-Write a short text chunk (if needed) that identifies which feature/mechanism you are etching an interface for. Describe where the seam sits between this unit and its surroundings, and why callers need a clear contract here, without listing parameters yet.
 
-2) Describe the inputs
-Write a short text chunk (if needed) that explains what comes in through the seam. Describe inputs conceptually: what the caller supplies and any preconditions that must be true for the call to be valid. Do not describe internal processing.
+1. Define the boundary and the caller’s mental model
+   Write a short text chunk explaining where the feature boundary is and who/what is “the caller” in abstract terms. Clarify what is inside vs outside the boundary without naming concrete modules or endpoints.
 
-3) Describe the outputs and observable results
-Write a short text chunk (if needed) that explains what comes out through the seam. Include primary outcomes and any alternate observable results that are part of the contract (e.g., refusal, fallback result shape, error-class outcomes), staying strictly at the “caller can observe” layer.
+2. Specify inputs as abstract shapes and roles
+   Write a short text chunk describing what the feature consumes using role-based, portable descriptors. Focus on input categories and required vs optional information. Do not use concrete field names; instead use semantic placeholders like identity token, request context, intent parameters, policy context, resource reference, or prior state snapshot.
 
-4) State the guarantees at the seam
-Write a short text chunk (if needed) stating the guarantees that matter to callers at this boundary. Examples of seam-level guarantees (use only if supported by requirements/targets): determinism properties, idempotency, ordering expectations, eventual completion/exit, stability conditions, boundedness promises, monotonicity, or safety properties. Keep this at the boundary—no internal law book.
+3. Specify outputs as abstract shapes and roles
+   Write a short text chunk describing what the feature produces using portable descriptors. Include the observable side effects if they are part of the contract. If the output includes a decision, describe the decision shape (e.g., allow/deny, score, ranking, transformed artifact, updated state reference).
 
-5) Clarify limits and non-guarantees
-Write a short text chunk (if needed) describing what is explicitly not guaranteed and what is out of scope. Make clear where responsibility ends so composition stays safe and honest.
+4. State guarantees and non-guarantees at the boundary
+   Write a short text chunk capturing what is guaranteed (determinism, ordering, idempotence, monotonicity, bounds, consistency model, freshness expectations) and what is explicitly not guaranteed. Keep this to boundary promises only; do not drift into internal invariants unless they surface externally.
 
-6) Implement the contract surface representation
-Write a small text chunk introducing how you will represent the contract surface in structured form (e.g., interface contract record, schema, signature block).
-Then produce small linked code chunks that encode a reusable contract surface record containing:
-- input shape (names/types/categories + preconditions),
-- output shape (names/types/categories + observable result variants),
-- guarantees (explicit, caller-relevant),
-- non-guarantees / limits,
-- notes on uncertainty (only if targets/requirements are incomplete).
-The representation must not include implementation details or internal mechanism steps.
+5. Describe permissible variability and caller obligations
+   Write a short text chunk describing what the caller must do to stay within the contract (preconditions, expected data validity, rate expectations, sequencing expectations). Also note which aspects may vary without breaking the contract (e.g., internal scoring heuristics may evolve while keeping rank constraints).
 
-7) Summarize the seam for synthesis
-Write one short text chunk (if needed) summarizing how another feature/pattern can interact with this seam safely—what it can rely on and what it must not assume.
+6. Describe exposed failure modes and recovery contract
+   Write a short text chunk describing the failure envelope as seen by the caller: invalid input handling, dependency failures, timeouts, conflict conditions, retries, backoff expectations, and fallback behaviors. This is what the caller can rely on, not an internal incident playbook.
+
+7. Emit the portable Contract Surface Record (required)
+   Produce a single structured “Contract Surface Record” suitable for synthesis. It must include, at minimum:
+
+* pattern_proxy_id and pattern_proxy_label (or provisional versions if missing)
+* boundary_statement (what is inside vs outside)
+* input_surface (portable input roles and required/optional categories)
+* output_surface (portable output roles and observable side effects)
+* guarantees (boundary-level)
+* non_guarantees (boundary-level)
+* caller_obligations (preconditions and usage expectations)
+* variability_budget (what can change internally without violating the contract)
+* failure_contract (exposed failures and recovery semantics)
+* portability_statement (explicitly asserts the record is context-free)
+
+8. Optional: Instance binding (allowed, strictly separated)
+   If the user or targets provide concrete details that help demonstrate the contract, you may include a separate “Instance Binding / Examples” record. It must be clearly labeled non-portable and may contain local names and specifics (routes, schema fields, tables, error codes). It must not contaminate the portable Contract Surface Record.
 
 Guardrails
-- Do not write the full invariant law book for identity; that belongs to FA-04 — Write the Laws (Invariants & Non-Negotiables). Here you capture only seam-level guarantees.
-- Do not expand into broad acceptable-range envelopes; that belongs to FA-06 — Set the Guardrails (Constraint Envelope).
-- Do not model internal mechanism structure (states/transitions/roles); that belongs to FA-02 — Draw the Engine and FU-10 — Unfold the Blueprint.
-- Keep implementation details out of the contract surface. Treat the underlying engine as a black box summarized only by inputs, outputs, and boundary guarantees.
+Do not describe internal control flow or mechanism phases; that belongs to FA-02 — Draw the Engine. Do not enumerate invariants as identity laws; that belongs to FA-04 — Set the Laws. Do not enumerate variation axes; that belongs to FA-05 — Turn the Dials. Do not produce implementation changes, patches, or refactors. Do not introduce new behavior; this card is descriptive abstraction of the existing boundary promise.
 
 Completion
-The output must include sufficient text chunks to name the seam, define inputs/outputs, state guarantees and limits, and summarize safe usage for synthesis. It must also include small linked code chunks encoding a reusable contract surface record (input/output shapes, guarantees, non-guarantees, and any explicitly noted uncertainty).
+The output must include a boundary definition, portable input and output surfaces, explicit guarantees and non-guarantees, caller obligations, and an exposed failure/recovery contract, and it must include one portable Contract Surface Record linked to a pattern_proxy_id. It may optionally include a clearly separated Instance Binding / Examples section that is explicitly non-portable.
+
