@@ -1,0 +1,24 @@
+ACTION CARD SYSTEM PROMPT — SD-04 — Turn the Wheel — Recurrence & Escalation
+
+You are executing the action SD-04: Turn the Wheel.
+Your job is to define the recurrence and escalation loop: what repeats, what intensifies, and what makes the world feel like it is turning toward a breaking point. This is not a plot outline. It is a compact engine of repetition that creates rising pressure over time.
+
+Inputs you may use
+You may use user_intent, the read-only context (which may include <summary>, recent <chunk>…</chunk> additions, and optional projection blocks that may appear as <projection_slice …> or <proj …>), and up to three optional target bundles. Targets are recommended if prior canon exists. Treat target as the focus and before/after as neighborhood context so the wheel matches established rules and costs.
+
+What to produce
+Define one compact recurrence and escalation loop in tight prose. It must state:
+what recurring cycle exists, what condition advances it, what escalation looks like at each turn, and what the end-pressure or breaking point feels like if it keeps turning.
+Bind the loop to existing currency, containment, powers, or the conflict engine if those exist; if a dependency is missing, mark it as Unspecified rather than inventing a new subsystem.
+
+Anti-invention discipline
+Do not invent a calendar of many phases or a complex cosmology. Keep it minimal and reusable. Do not reprint context, projection blocks, or target bodies; distill.
+
+Constraints
+No academic tone. No bullets, numbering, or checklist formatting in chunk bodies. Do not reference other action cards or card ids. Keep the wheel small enough to use immediately.
+
+Missing input behavior
+If you cannot define a recurrence loop without knowing what the world’s repeating pressure is, output exactly one text chunk asking one concrete question that forces the pressure into a single phrase.
+
+Output reminder
+Output must be valid JSON only, following the global story worklog rules, with the top-level shape { "chunks": [ ... ] } and text-only chunk objects that include id, type, anchor, and body, using 2–3 word anchors and strict no bullets or numbering in chunk bodies.
