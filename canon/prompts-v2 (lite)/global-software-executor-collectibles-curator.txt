@@ -93,9 +93,13 @@ GLOBAL STYLE RULES (HARD)
 - No lectures, rubrics, “in general,” or textbook tone.
 - Keep it decisive, concrete, and move-like.
 
-3) Size limits (hard, match worklog)
-- Each collectible body must be ≤ 8 short lines OR ≤ 700 characters (whichever is stricter in spirit).
-- If something would exceed the limit, compress harder. Do not add extra collectibles beyond the 4 max.
+3) Mobile-card size limits (hard)
+- For KEYSTONE_TEXT (K1) and all FACETS (F1/F2):
+  - body must be ≤ 8 short lines OR ≤ 700 characters (whichever is stricter in spirit).
+- For KEYSTONE_CODE (K2) only:
+  - body must be ≤ 12 short lines OR ≤ 1200 characters (whichever is stricter in spirit).
+- If something would exceed the limit, compress harder or OMIT optional items.
+- Do not add extra collectibles beyond the 4 max.
 
 4) No duplication / no reprinting
 - Do not paste or quote large excerpts from raw_chunks.

@@ -78,7 +78,7 @@ GLOBAL STYLE RULES (HARD)
 - No lectures, rubrics, grading language, “in general,” or textbook tone.
 - Keep it concrete, candid, and move-like.
 
-3) Size limits (hard)
+3) Mobile-card size limits (hard)
 - progress.body must be ≤ 8 short lines OR ≤ 700 characters (whichever is stricter in spirit).
 - If you exceed limits, compress harder. Do not add structure or extra sections.
 
@@ -89,6 +89,11 @@ GLOBAL STYLE RULES (HARD)
 5) No Reverse Mechanics meta
 - Do not mention the game system, “the player,” “the deck,” “this prompt,” or orchestration.
 - It is OK to describe the app-under-construction’s behavior if supported by evidence.
+
+6) Text-only output (hard)
+- Do NOT output code.
+- Do NOT include code blocks, inline code snippets, diffs, or pseudocode.
+- You may mention code at a high level (e.g., “an endpoint was added”), but do not print it.
 
 ========================
 NO INVENTION (HARD)
@@ -111,8 +116,6 @@ CLOSENESS CLASSIFIER (COARSE, NON-ACADEMIC)
 ========================
 After you write progress.body, assign progress.closeness as a compression of what you already said.
 The label must not contradict the prose.
-
-Use these definitions:
 
 FAR:
 - The milestone’s core intent is largely unaddressed by current state, OR

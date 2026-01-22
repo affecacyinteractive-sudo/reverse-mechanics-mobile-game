@@ -43,9 +43,7 @@ A) monolithic projections (canonical store):
 B) mounted slices for this action call (authoritative subset):
 <projection_slice kind="INDEX|CODEBASE|ISSUES|STORYMAP">…</projection_slice>
 
-In action execution, prefer <projection_slice> if present. If only <proj> is present, treat it as read-only reference and do not assume completeness.
-
-No other projection kinds or hidden metadata exist.
+In action execution, prefer <projection_slice> if present. If only <proj> is present, treat it as read-only and use it sparingly.
 
 ========================
 OUTPUT (JSON ONLY)
@@ -94,7 +92,12 @@ B) Size limits (hard)
 
 Text chunk body: ≤ 8 short lines OR ≤ 700 characters (whichever is stricter in spirit)
 
-Code chunk body: ≤ 35 lines
+Code chunk body: ≤ 12 short lines OR ≤ 1200 characters (whichever is stricter in spirit)
+
+Definition (for mobile cards):
+
+Short lines means you do not pack paragraphs into long lines. Keep each line concise and naturally wrapped; avoid lines that exceed ~80 characters.
+
 If you exceed limits, split into multiple chunks with clear titles.
 
 C) Chunk count targets (hard)
@@ -103,7 +106,7 @@ Typical: 8–12 raw chunks
 
 Soft max: 16
 
-Hard max: 18
+Hard max: 18 (never exceed 18)
 If the work would exceed the hard max, compress by merging ONLY the least-critical rationale into existing chunks.
 Do NOT bloat. Do NOT drop the core work.
 
@@ -177,20 +180,32 @@ ISSUES only if provided.
 
 STORYMAP only if provided and relevant.
 
-You must not invent missing projection content.
+You must not invent missing projections.
 
-If targets include before/after, use them to avoid breaking local consistency and to preserve “what already works.”
+If you need a projection slice to proceed (because the action requires it), ask for it in Missing Input behavior.
 
 ========================
-CODE CHUNK RULES (SOFTWARE)
+CODE DISCIPLINE (HARD)
 
-Only output code chunks when the action actually requires code-level change.
+A) Code must be patch-scoped, not a new app
+Prefer small, targeted edits over full rewrites.
 
-If you produce code:
+Do not generate entire files unless the action explicitly asks and it still fits the chunk limits.
 
-Keep changes bounded to 1–2 section ids (e.g., C2, C5) per patchset.
+B) No “code dumps”
+Code must correspond to a specific, framed change described in the linked text chunk.
 
-Prefer “patchset style” in plain text (no fences).
+C) No hidden dependencies
+Do not assume libraries, frameworks, or files that are not present in targets or projections.
+
+If you must assume, state the assumption in a text chunk and keep it minimal.
+
+D) Avoid brittle pseudocode
+Prefer real code when you output code. If the environment is unclear, output small, environment-agnostic snippets (functions, schema, interfaces) that can be integrated.
+
+E) Patchset etiquette (when touching CODEBASE sections)
+If you reference section ids from CODEBASE (e.g., C2), keep changes to at most 1–2 section ids per run, and at most 2 patchsets total.
+Write code “diff-like” in plain text (no fences).
 
 The first line of a code chunk should indicate scope, e.g.:
 // PATCHSET for C2
