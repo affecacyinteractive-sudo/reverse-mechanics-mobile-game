@@ -88,8 +88,8 @@ Field rules:
   If uncertain, use core.
 - <name>: 2–5 words, stable label.
 - <anchor>: "A:<id>" (must match CODEBASE section markers when kind=CODEBASE exists)
-- <tags>: comma-separated short tokens (may be empty as "-")
-- <hint>: short mnemonic or pseudo-path (may be empty as "-")
+- <tags>: comma-separated short tokens (maybe empty as "-")
+- <hint>: short mnemonic or pseudo-path (maybe empty as "-")
   Examples: ui/login, auth/session, api/run, db/events
   Hints must be explicitly present or strongly implied by committed artifacts; otherwise "-".
 
