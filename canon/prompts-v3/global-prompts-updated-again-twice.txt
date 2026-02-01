@@ -1719,7 +1719,7 @@ FIELD CONSTRAINTS
 OUTPUT CONSTRAINT
 Return JSON only. No extra keys. No markdown.
 
-GLOBAL SYSTEM PROMPT — R2-05 — Progress Reporter (Milestone Progress Facet) v1
+GLOBAL SYSTEM PROMPT — R2-05 — Progress Reporter (Milestone Progress Facet) v2
 ROLE: Verifier (progress signal + enrichment hint)
 
 You are the Progress Reporter for Ritual 2 (Feature Planning).
@@ -1777,6 +1777,22 @@ Do not say “you didn’t provide enough info”.
 Instead say “next best enrichment” or “tighten X to make the milestone sharper”.
 Do not ask for more details. State what to enrich as a confident next move.
 
+ACTION MAPPING (FOR ENRICHMENT HINT ONLY)
+When progress_label != "READY", enrichment_hint MUST name exactly ONE recommended FP action id
+based on the single most important missing/weak field (prefer missing over weak; prefer primary_field when it is missing/weak):
+
+- NORTH_STAR  → FP-01
+- SCOPE_FENCE → FP-02
+- TRIPWIRES   → FP-08
+- DONE_RECEIPT→ FP-10
+
+The enrichment_hint must be 1 sentence and must start with:
+"Next: <FP-ID> — ..."
+
+Examples (style only; do not copy):
+"Next: FP-02 — tighten the scope fence so Ritual 3 actions stay sharply in-bounds."
+"Next: FP-10 — sharpen the done receipt into observable acceptance criteria."
+
 OUTPUT (JSON ONLY)
 Return exactly one JSON object:
 
@@ -1804,7 +1820,7 @@ FIELD CONSTRAINTS
 - body: 2–4 sentences, no bullets
 - enrichment_hint:
   - "" if progress_label="READY"
-  - 1 sentence if not READY
+  - exactly 1 sentence if not READY
 - source_chunks: 1–8 ids from normalized_chunks (must exist)
 - source_collectibles: 0–4 ids from candidate_collectibles (must exist)
 - If progress_label="READY":
@@ -1814,12 +1830,13 @@ FIELD CONSTRAINTS
   - user_action_required must be "ENRICH_MILESTONE"
 
 reason
-- 1 short sentence describing why the label was chosen.
+- 1 short sentence describing why the label was chosen (it may mention the single strongest gap field).
 
 OUTPUT CONSTRAINT
 Return JSON only. No extra keys. No markdown.
 
-GLOBAL SYSTEM PROMPT — R2-06 — Collectibles Repair (Milestone Bundle) v2
+
+GLOBAL SYSTEM PROMPT — R2-06 — Collectibles Repair (Milestone Bundle) v3
 ROLE: Repair / Normalizer (mechanical + consistency)
 
 You are the Collectibles Repair step for Ritual 2.
@@ -1843,17 +1860,41 @@ YOU MAY USE ONLY THESE INPUTS
 - <milestone_draft_frame>: mode CREATE/ENRICH + desired_fields
 - <prompt_card>: persisted PromptCard (intent only)
 
+PROGRESS FACET PRESERVATION (CRITICAL)
+The progress facet is a UI-visible proxy signal that downstream UX may use for “what to do next”.
+Therefore:
+- Treat <progress_facet> as AUTHORITATIVE.
+- Do NOT reinterpret its meaning.
+- Only perform mechanical repairs to satisfy the schema + invariants below.
+- Preserve the intent and tone of title/body/reason.
+- If enrichment_hint is non-empty, do NOT rewrite it semantically. Only normalize sentence shape (see invariants).
+
+PROGRESS FACET MECHANICAL INVARIANTS (enforced here)
+- If progress_label="READY":
+  - enrichment_hint must be ""
+  - missing_fields must be []
+  - user_action_required must be "NONE"
+- If progress_label!="READY":
+  - enrichment_hint must be exactly 1 sentence (no bullets, no multi-sentence)
+  - user_action_required must be "ENRICH_MILESTONE"
+- missing_fields and weak_fields must:
+  - contain only the allowed field keys
+  - be de-duplicated
+  - be disjoint (no value appears in both; prefer placing in missing_fields)
+- source_chunks must be 1–8 valid ids from <normalized_chunks>
+- source_collectibles must reference ids present in <candidate_collectibles> (0–4)
+
 REPAIR GOALS (hard)
 1) Schema cleanliness and title/body quality as before.
-2) Internal consistency:
-   - If two collectibles overlap heavily, merge into one stronger keystone.
+2) Internal consistency (milestone keystones):
+   - If two milestone keystones overlap heavily, merge into one stronger keystone.
+   - Do not output two keystones of the same type.
 3) Grounding:
-   - Every keystone must keep source_chunks.
-   - If a keystone is weak, tighten it to the most defensible phrasing supported by its source_chunks.
-   - If you must choose only one, prefer the keystone that best acts as a chase-object (usually NORTH_STAR, else the primary_field type if present).
-4) Count:
+   - Every milestone keystone must cite source_chunks (>=1).
+   - Tighten weak phrasing to the most defensible phrasing supported by its source_chunks.
+4) Count control:
    - Keep 1–4 milestone keystones (excluding progress facet).
-   - progress facet is always present.
+   - progress facet is always present and remains type "P_MILESTONE_PROGRESS".
 
 OUTPUT (JSON ONLY)
 Return exactly one JSON object:
@@ -1888,10 +1929,12 @@ Return exactly one JSON object:
 
 FIELD CONSTRAINTS
 - milestone_collectibles length: 1–4 (never 0)
+- milestone_collectibles must not contain duplicate "type" values
 - repair_note: 1–2 short sentences describing what was merged/tightened.
 
 OUTPUT CONSTRAINT
 Return JSON only. No extra keys. No markdown.
+
 
 GLOBAL SYSTEM PROMPT — R2-07 — Milestone Verifier (Quality + Blame Signals) v1
 ROLE: Verifier (semantic quality + failure origin)
@@ -2873,7 +2916,7 @@ FIELD CONSTRAINTS
 OUTPUT CONSTRAINT
 Return JSON only. No extra keys. No markdown.
 
-GLOBAL SYSTEM PROMPT — R3-04 — Progress Reporter v1
+GLOBAL SYSTEM PROMPT — R3-04 — Progress Reporter v2
 ROLE: Verifier (progress facet)
 
 You are the Progress Reporter for Ritual 3.
@@ -2915,7 +2958,28 @@ SCORING RULES
 NO “CLARIFICATION VIBE”
 Do not say “not enough info”.
 Do not ask for more details.
-If stalled/drift, phrase it as “next best move” in-system terms.
+If partial/stalled/drift, phrase it as “next best move” in-system terms.
+
+NEXT BEST MOVE HINT (MUST BE ACTION-SUGGESTIVE)
+When progress_label != "ADVANCED", next_best_move_hint MUST be exactly 1 sentence and MUST start with:
+
+"Next move: <INTENT> — ..."
+
+Where <INTENT> is exactly one of:
+INTRODUCE | UNDERSTAND | PRESENT | ABSTRACT | SYNTHESIZE | PATCH | ENRICH
+
+The sentence must:
+- stay aligned to milestone_state (done_receipt + scope fence)
+- suggest the *kind* of action that should follow (school-level guidance), without sounding like blame
+- be grounded in this run’s outputs (cite via source_chunks/source_collectibles, not by inventing new work)
+
+Guidance for choosing INTENT:
+- If the run produced output but it’s unclear how it fits → UNDERSTAND or PRESENT
+- If you need sharper structure/spec to proceed → ABSTRACT
+- If abstractions exist but need integration/closure → SYNTHESIZE or PATCH
+- If the run drifted due to scope ambiguity or weak milestone constraints → ENRICH
+- If the work is correct direction but missing concrete edits → PATCH
+- INTRODUCE is mainly for early milestone stages (rare after mid-flight)
 
 OUTPUT (JSON ONLY)
 Return exactly one JSON object:
@@ -2943,14 +3007,19 @@ FIELD CONSTRAINTS
 - body: 2–4 sentences, no bullets
 - next_best_move_hint:
   - "" if progress_label="ADVANCED"
-  - 1 sentence otherwise
-- source_chunks: 1–10 ids from normalized_chunks
-- source_collectibles: 1–5 ids from collectibles
+  - exactly 1 sentence otherwise (must use the “Next move: <INTENT> — ...” format)
+- source_chunks: 1–10 ids from normalized_chunks (must exist)
+- source_collectibles: 1–5 ids from collectibles (must exist)
 - If progress_label="ADVANCED":
   - user_action_required must be "NONE"
+- If progress_label="PARTIAL":
+  - user_action_required should usually be "NONE" (progress exists; hint guides the follow-up)
+- If progress_label="STALLED":
+  - user_action_required must be "TRY_DIFFERENT_ACTION"
 - If progress_label="DRIFT":
   - in_scope must be false
-  - user_action_required should be "ENRICH_MILESTONE" or "TRY_DIFFERENT_ACTION"
+  - user_action_required must be "TRY_DIFFERENT_ACTION" OR "ENRICH_MILESTONE"
+  - choose "ENRICH_MILESTONE" only when milestone constraints (scope fence / done receipt) are too soft to prevent drift
 
 reason
 - 1 short sentence describing why the label was chosen.
@@ -2958,7 +3027,8 @@ reason
 OUTPUT CONSTRAINT
 Return JSON only. No extra keys. No markdown.
 
-GLOBAL SYSTEM PROMPT — R3-05 — Collectibles Repair v1
+
+GLOBAL SYSTEM PROMPT — R3-05 — Collectibles Repair v2
 ROLE: Repair / Normalizer (mechanical + consistency)
 
 You are the Collectibles Repair step for Ritual 3.
@@ -2982,7 +3052,28 @@ NON-NEGOTIABLE INVARIANTS
 - Final bundle must contain 2–5 collectibles (excluding progress facet).
 - Progress facet must exist and remain type "P1_PROGRESS".
 - If prompt_card.action.fp_no_code=true, code collectible "K_CODE_PATCH" must not exist.
-- Every collectible must cite source_chunks.
+- Every collectible must cite source_chunks (>=1).
+
+PROGRESS FACET PRESERVATION (CRITICAL)
+The progress facet is a UI-visible proxy signal that downstream UX may use for Action-hand recommendations.
+Therefore:
+- Treat <progress_facet> as AUTHORITATIVE.
+- Do NOT reinterpret its meaning.
+- Only perform mechanical repairs to satisfy the schema + invariants below.
+- Preserve the intent and tone of title/body/reason and especially next_best_move_hint.
+
+PROGRESS FACET MECHANICAL INVARIANTS (enforced here)
+- If progress_label="ADVANCED":
+  - next_best_move_hint must be ""
+  - user_action_required must be "NONE"
+  - in_scope must be true
+- If progress_label!="ADVANCED":
+  - next_best_move_hint must be exactly 1 sentence (no bullets, no multi-sentence)
+- If progress_label="DRIFT":
+  - in_scope must be false
+  - user_action_required must be "TRY_DIFFERENT_ACTION" or "ENRICH_MILESTONE"
+- source_chunks must be 1–10 valid ids from <normalized_chunks>
+- source_collectibles must reference ids present in <collectibles> (1–5)
 
 REPAIR GOALS (hard)
 1) Schema cleanliness:
@@ -3009,7 +3100,7 @@ Return exactly one JSON object:
     "collectibles": [
       {
         "id": string,
-        "type": "K1_DECISION" | "K2_PLAN" | "K3_SPEC" | "K4_RATIONALE" | "K_CODE_PATCH" | "F1_ANCHOR" | "F2_PROOF" | "P1_PROGRESS",
+        "type": "K1_DECISION" | "K2_PLAN" | "K3_SPEC" | "K4_RATIONALE" | "K_CODE_PATCH" | "F1_ANCHOR" | "F2_PROOF",
         "title": string,
         "body": string,
         "source_chunks": string[]
@@ -3033,12 +3124,12 @@ Return exactly one JSON object:
 
 FIELD CONSTRAINTS
 - repaired_bundle.collectibles length: 2–5
-- repaired_bundle.collectibles must NOT include type "P1_PROGRESS" (progress lives separately)
-- progress_facet is exactly the facet produced by R3-04, only mechanically repaired (typos/format), not reinterpreted
+- progress_facet is the facet produced by R3-04, only mechanically repaired (typos/format), not reinterpreted
 - repair_note: 1–2 sentences describing what was merged/tightened/dropped
 
 OUTPUT CONSTRAINT
 Return JSON only. No extra keys. No markdown.
+
 
 GLOBAL SYSTEM PROMPT — R3-06 — Projection Patch Forger v1
 ROLE: Transformer (derive projection ops from normalized_chunks + authoritative code)
@@ -8955,19 +9046,24 @@ FIELD RULES
 OUTPUT CONSTRAINT
 Return JSON only. No markdown. No extra keys.
 
-// R2.S10b.v1 — Issue Patch Deterministic Validator (deterministic) v1
+// R2.S10b.v1 — Issue Patch Deterministic Validator (deterministic) v1 (PATCHED)
+// ---------------------------------------------------------------------------
 // Purpose:
-// - Mechanical validation for the IssuePatch emitted by R2.S10b (Issue Patch Forger)
+// - Mechanical + invariant validation for the IssuePatch emitted by R2.S10b (Issue Patch Forger)
 // - Enforces R2 invariants BEFORE apply (R2-13 applier)
-// - Produces a small, machine-usable verdict for retry routing + seals.
+// - Produces a machine-usable verdict for retry routing + seals
 //
-// Notes / R2 invariants (ISSUES_ONLY; FP is no-code):
+// Key PATCH (important):
+// - Accepts `expected_run_id` from the engine and requires patch.run_id === expected_run_id.
+//   (Without this, a hallucinated run_id could still “self-consist” with updated_at_run_id.)
+//
+// R2 invariants (FP no-code / issues-only branch):
 // - Only ISSUES ops are allowed.
-// - Only these ops are allowed (matches R2-13 types): UPSERT_ISSUE | RESOLVE_ISSUE
+// - Only ops allowed: UPSERT_ISSUE | RESOLVE_ISSUE
 // - anchor_file_path and anchor_entity_key MUST be null in R2 (no code anchoring during FP).
 // - RESOLVE_ISSUE.resolved_by_codebase_ids MUST be [] in R2.
-// - updated_at_run_id MUST equal patch.run_id.
-// - Duplicate ops for the same issue id are disallowed (strict).
+// - updated_at_run_id MUST equal patch.run_id (and patch.run_id must equal expected_run_id if provided).
+// - At most one op per issue id (strict).
 
 export type R2IssueStatus = "OPEN" | "RESOLVED";
 
@@ -9005,6 +9101,7 @@ export type R2IssuePatchDetFailCode =
   | "E_R2_ISSUE_PATCH_NOT_OBJECT"
   | "E_R2_ISSUE_PATCH_CONTRACT_VERSION"
   | "E_R2_ISSUE_PATCH_RUN_ID"
+  | "E_R2_ISSUE_PATCH_RUN_ID_MISMATCH" // PATCHED: compare against expected_run_id
   | "E_R2_ISSUE_PATCH_OPS_NOT_ARRAY"
   | "E_R2_ISSUE_PATCH_OVERSIZE"
   | "E_R2_ISSUE_PATCH_INVALID_NAMESPACE"
@@ -9021,7 +9118,6 @@ export interface ValidateR2IssuePatchResult {
   fail_code: R2IssuePatchDetFailCode;
   problems: Array<{
     type:
-      | "NONE"
       | "SCHEMA"
       | "OVERSIZE"
       | "FORBIDDEN_OP"
@@ -9031,17 +9127,22 @@ export interface ValidateR2IssuePatchResult {
     detail: string;
     op_index: number | null;
   }>;
-  // Deterministic validator is not the place to decide “semantic overreach”
+
+  // Deterministic validator is not the place to decide semantic overreach
   // (that’s R2.S10b.v2 LLM verifier). This only tags mechanical retryability.
   retryable: boolean;
   retry_from_step: "NONE" | "R2_S10B";
   user_action_required: "NONE" | "REGENERATE_ISSUE_PATCH";
-  // Useful for seals / logs:
+
+  // Useful for seals / logs
   counts: {
     op_count: number;
     upsert_count: number;
     resolve_count: number;
   };
+
+  // Convenience for UI/logging
+  touched_issue_ids: string[];
 }
 
 function isObj(x: unknown): x is Record<string, unknown> {
@@ -9071,6 +9172,7 @@ function emptyFail(): ValidateR2IssuePatchResult {
     retry_from_step: "NONE",
     user_action_required: "NONE",
     counts: { op_count: 0, upsert_count: 0, resolve_count: 0 },
+    touched_issue_ids: [],
   };
 }
 
@@ -9079,22 +9181,31 @@ export function validate_issue_patch_r2_v1(
   opts?: {
     // Hard cap to keep patches bounded (prevents abuse / drift).
     max_ops?: number; // default 24
+    max_id_len?: number; // default 80
     max_title_len?: number; // default 120
     max_summary_len?: number; // default 800
     max_why_len?: number; // default 220
+
+    // PATCHED: engine should pass expected run_id to prevent self-consistent hallucinations.
+    expected_run_id?: string;
+
+    // Usually allowed; keep it explicit.
+    allow_empty_ops?: boolean; // default true
   }
 ): ValidateR2IssuePatchResult {
   const max_ops = opts?.max_ops ?? 24;
+  const max_id_len = opts?.max_id_len ?? 80;
   const max_title_len = opts?.max_title_len ?? 120;
   const max_summary_len = opts?.max_summary_len ?? 800;
   const max_why_len = opts?.max_why_len ?? 220;
+  const allow_empty_ops = opts?.allow_empty_ops ?? true;
 
   const out = emptyFail();
 
   if (!isObj(patchUnknown)) {
     out.fail_code = "E_R2_ISSUE_PATCH_NOT_OBJECT";
     pushProblem(out, "SCHEMA", "Patch is not an object.", null);
-    out.retryable = true; // mechanical
+    out.retryable = true;
     out.retry_from_step = "R2_S10B";
     out.user_action_required = "REGENERATE_ISSUE_PATCH";
     return out;
@@ -9121,6 +9232,21 @@ export function validate_issue_patch_r2_v1(
   }
   const run_id = patchUnknown["run_id"].trim();
 
+  // PATCHED: expected_run_id check (engine provided)
+  if (opts?.expected_run_id && opts.expected_run_id.trim() !== run_id) {
+    out.fail_code = "E_R2_ISSUE_PATCH_RUN_ID_MISMATCH";
+    pushProblem(
+      out,
+      "RUN_MISMATCH",
+      "patch.run_id does not match expected_run_id from engine.",
+      null
+    );
+    out.retryable = true; // rerun patch forger with correct run_id mounted
+    out.retry_from_step = "R2_S10B";
+    out.user_action_required = "REGENERATE_ISSUE_PATCH";
+    return out;
+  }
+
   // ops
   const opsUnknown = patchUnknown["ops"];
   if (!Array.isArray(opsUnknown)) {
@@ -9135,15 +9261,23 @@ export function validate_issue_patch_r2_v1(
   if (opsUnknown.length > max_ops) {
     out.fail_code = "E_R2_ISSUE_PATCH_OVERSIZE";
     pushProblem(out, "OVERSIZE", `ops exceeds max_ops=${max_ops}.`, null);
-    // Oversize is fixable by a rerun that constrains op count.
     out.retryable = true;
     out.retry_from_step = "R2_S10B";
     out.user_action_required = "REGENERATE_ISSUE_PATCH";
     return out;
   }
 
-  // Validate each op
+  if (!allow_empty_ops && opsUnknown.length === 0) {
+    out.fail_code = "E_R2_ISSUE_PATCH_MISSING_FIELDS";
+    pushProblem(out, "INVARIANT", "ops must not be empty.", null);
+    out.retryable = true;
+    out.retry_from_step = "R2_S10B";
+    out.user_action_required = "REGENERATE_ISSUE_PATCH";
+    return out;
+  }
+
   const seenIds = new Set<string>();
+  const touched: string[] = [];
   let upserts = 0;
   let resolves = 0;
 
@@ -9182,12 +9316,18 @@ export function validate_issue_patch_r2_v1(
       continue;
     }
     const id = opU["id"].trim();
+    if (id.length > max_id_len) {
+      out.fail_code = "E_R2_ISSUE_PATCH_BAD_STRING";
+      pushProblem(out, "SCHEMA", `id exceeds max_id_len=${max_id_len}.`, i);
+      continue;
+    }
     if (seenIds.has(id)) {
       out.fail_code = "E_R2_ISSUE_PATCH_DUPLICATE_ISSUE_ID";
       pushProblem(out, "DUPLICATE", `Duplicate issue id "${id}" in ops.`, i);
       continue;
     }
     seenIds.add(id);
+    touched.push(id);
 
     // why
     if (!nonEmptyStr(opU["why"])) {
@@ -9206,13 +9346,11 @@ export function validate_issue_patch_r2_v1(
     if (opTag === "UPSERT_ISSUE") {
       upserts++;
 
-      // required
       if (!nonEmptyStr(opU["title"]) || !nonEmptyStr(opU["summary"])) {
         out.fail_code = "E_R2_ISSUE_PATCH_MISSING_FIELDS";
         pushProblem(out, "SCHEMA", "UPSERT_ISSUE requires title and summary.", i);
         continue;
       }
-
       if (opU["title"].trim().length > max_title_len) {
         out.fail_code = "E_R2_ISSUE_PATCH_BAD_STRING";
         pushProblem(out, "SCHEMA", `title exceeds max_title_len=${max_title_len}.`, i);
@@ -9224,7 +9362,6 @@ export function validate_issue_patch_r2_v1(
         continue;
       }
 
-      // status
       if (opU["status"] !== "OPEN") {
         out.fail_code = "E_R2_ISSUE_PATCH_INVALID_OP";
         pushProblem(out, "INVARIANT", 'UPSERT_ISSUE.status must be "OPEN".', i);
@@ -9232,7 +9369,9 @@ export function validate_issue_patch_r2_v1(
       }
 
       // anchors must be null in R2
-      if (!isNull(opU["anchor_file_path"]) || !isNull(opU["anchor_entity_key"])) {
+      const afp = opU["anchor_file_path"];
+      const aek = opU["anchor_entity_key"];
+      if (!isNull(afp) || !isNull(aek)) {
         out.fail_code = "E_R2_ISSUE_PATCH_INVALID_ANCHOR";
         pushProblem(out, "INVARIANT", "R2 requires anchors to be null (no code anchoring during FP).", i);
         continue;
@@ -9240,7 +9379,6 @@ export function validate_issue_patch_r2_v1(
     } else if (opTag === "RESOLVE_ISSUE") {
       resolves++;
 
-      // status
       if (opU["status"] !== "RESOLVED") {
         out.fail_code = "E_R2_ISSUE_PATCH_INVALID_OP";
         pushProblem(out, "INVARIANT", 'RESOLVE_ISSUE.status must be "RESOLVED".', i);
@@ -9254,6 +9392,16 @@ export function validate_issue_patch_r2_v1(
         pushProblem(out, "INVARIANT", "R2 requires resolved_by_codebase_ids to be [].", i);
         continue;
       }
+
+      // if anchor fields show up at all, they must still be null (strict)
+      if (
+        ("anchor_file_path" in opU && !isNull(opU["anchor_file_path"])) ||
+        ("anchor_entity_key" in opU && !isNull(opU["anchor_entity_key"]))
+      ) {
+        out.fail_code = "E_R2_ISSUE_PATCH_INVALID_ANCHOR";
+        pushProblem(out, "INVARIANT", "R2 requires anchors to be null (even on RESOLVE).", i);
+        continue;
+      }
     } else {
       out.fail_code = "E_R2_ISSUE_PATCH_INVALID_OP";
       pushProblem(out, "FORBIDDEN_OP", 'op must be "UPSERT_ISSUE" or "RESOLVE_ISSUE" in R2.', i);
@@ -9262,6 +9410,7 @@ export function validate_issue_patch_r2_v1(
   }
 
   out.counts = { op_count: opsUnknown.length, upsert_count: upserts, resolve_count: resolves };
+  out.touched_issue_ids = touched;
 
   if (out.problems.length === 0) {
     out.patch_ok = true;
@@ -9272,25 +9421,16 @@ export function validate_issue_patch_r2_v1(
     return out;
   }
 
-  // Deterministic retry policy:
-  // - Retry only for strictly mechanical issues (schema/oversize/run-mismatch/forbidden op).
-  // - This step itself never “repairs”; it only tags retryability for the engine.
-  const retryableTypes = new Set(["SCHEMA", "OVERSIZE", "FORBIDDEN_OP", "RUN_MISMATCH"] as const);
-  const hasOnlyRetryable = out.problems.every((p) => retryableTypes.has(p.type as any));
-
+  // Deterministic retry policy for this validator:
+  // Any failure here is a mechanical contract/invariant violation that a single rerun of the Issue Patch Forger can fix.
   out.patch_ok = false;
-  out.retryable = hasOnlyRetryable;
-  out.retry_from_step = hasOnlyRetryable ? "R2_S10B" : "NONE";
-  out.user_action_required = hasOnlyRetryable ? "REGENERATE_ISSUE_PATCH" : "NONE";
-
-  // If we collected multiple problems, keep the first fail_code already set by the loop.
-  // If loop never set (unlikely), set schema.
-  if (out.fail_code === "E_R2_ISSUE_PATCH_NOT_OBJECT") {
-    out.fail_code = "E_R2_ISSUE_PATCH_MISSING_FIELDS";
-  }
+  out.retryable = true;
+  out.retry_from_step = "R2_S10B";
+  out.user_action_required = "REGENERATE_ISSUE_PATCH";
 
   return out;
 }
+
 
 // R3.S12.v1 — Projection Patch Deterministic Validator (deterministic) v1
 // ---------------------------------------------------------------------
@@ -9299,7 +9439,7 @@ export function validate_issue_patch_r2_v1(
 // - Enforces “no mutation / declarative replacement” invariants BEFORE apply.
 // - Tags retryability for the retry engine (single retry max).
 //
-// Design assumptions (from your canon):
+// Design assumptions (canon):
 // - Patch ops are declarative: changes happen by (a) marking old items REMOVED and (b) UPSERTing new ACTIVE items.
 // - We keep history: REMOVED is allowed, replaced_by chain is allowed.
 // - INDEX is high-level: DELETE_INDEX is allowed (hard remove from index graph), while CODEBASE uses REMOVED.
@@ -9318,15 +9458,18 @@ export type ProjectionPatchDetFailCode =
   | "E_PATCH_NOT_OBJECT"
   | "E_PATCH_CONTRACT_VERSION"
   | "E_PATCH_RUN_ID"
+  | "E_PATCH_RUN_ID_MISMATCH"
   | "E_PATCH_OPS_NOT_ARRAY"
   | "E_PATCH_OVERSIZE"
   | "E_PATCH_UNEXPECTED_OPS_FOR_WRITE_EFFECT"
+  | "E_PATCH_FORBIDDEN_NAMESPACE_FOR_WRITE_EFFECT"
   | "E_PATCH_INVALID_NAMESPACE"
   | "E_PATCH_INVALID_OP"
   | "E_PATCH_MISSING_FIELDS"
   | "E_PATCH_BAD_STRING"
   | "E_PATCH_UPDATED_AT_MISMATCH"
   | "E_PATCH_DUPLICATE_KEY"
+  | "E_PATCH_REPLACED_BY_INVALID"
   | "E_PATCH_REPLACED_BY_MISSING_UPSERT"
   | "E_PATCH_INDEX_ENTITY_KEYS_INVALID"
   | "E_PATCH_ISSUE_RESOLUTION_LINKS_INVALID";
@@ -9365,7 +9508,7 @@ export type PatchOpV1 =
       namespace: "INDEX";
       id: string;
       file_path: string;
-      contains_entity_keys: string[]; // authoritative full list (deduped)
+      contains_entity_keys: string[]; // authoritative full list (deduped, no empties)
       summary: string;
       file_summary: string;
       status: "ACTIVE";
@@ -9397,7 +9540,7 @@ export type PatchOpV1 =
       namespace: "ISSUES";
       id: string;
       status: "RESOLVED";
-      resolved_by_codebase_ids: string[]; // allowed in R3 (unlike FP)
+      resolved_by_codebase_ids: string[]; // allowed in R3
       updated_at_run_id: string;
       why: string;
     };
@@ -9416,6 +9559,7 @@ export type ProblemType =
   | "INVARIANT"
   | "DUPLICATE"
   | "RUN_MISMATCH"
+  | "WRITE_EFFECT"
   | "PIPELINE";
 
 export interface ValidateProjectionPatchResultV1 {
@@ -9428,7 +9572,7 @@ export interface ValidateProjectionPatchResultV1 {
   }>;
 
   // Retry engine wiring fields
-  retryable: boolean; // true only when this is fixable by re-running the patch forger
+  retryable: boolean; // true only when fixable by re-running the patch forger
   retry_from_step: "NONE" | "R3_S12";
   user_action_required: "NONE" | "REGENERATE_PATCH";
 
@@ -9488,17 +9632,19 @@ function mkEmptyResult(): ValidateProjectionPatchResultV1 {
   };
 }
 
-function uniqStrings(arr: string[]): string[] {
-  const out: string[] = [];
+function uniqStringsStrict(arr: unknown[]): { ok: true; values: string[] } | { ok: false; reason: string } {
+  if (!Array.isArray(arr)) return { ok: false, reason: "not array" };
+  const values: string[] = [];
   const seen = new Set<string>();
-  for (const s of arr ?? []) {
-    const t = (s ?? "").trim();
-    if (!t) continue;
-    if (seen.has(t)) continue;
+  for (const x of arr) {
+    if (typeof x !== "string") return { ok: false, reason: "non-string element" };
+    const t = x.trim();
+    if (!t) return { ok: false, reason: "empty/whitespace element" };
+    if (seen.has(t)) return { ok: false, reason: "duplicate element" };
     seen.add(t);
-    out.push(t);
+    values.push(t);
   }
-  return out;
+  return { ok: true, values };
 }
 
 function validateBoundedString(
@@ -9521,21 +9667,31 @@ function validateBoundedString(
   return true;
 }
 
+function namespaceAllowedByWriteEffect(ns: ProjectionNamespace, we: WriteEffect): boolean {
+  if (we === "PATCH_PROJECTIONS") return true;
+  if (we === "ISSUES_ONLY") return ns === "ISSUES";
+  // NONE should never call this validator with ops, but keep strict:
+  return false;
+}
+
 /* ============================================================
    R3.S12.v1 validator
 ============================================================ */
 
 export function validate_projection_patch_r3_v1(args: {
   patch: unknown;
-  expected_write_effect?: WriteEffect; // from action flags; if NONE => must be ops=[]
+
+  // Required: the engine knows the current run_id and the action’s write effect.
+  expected_run_id: string; // must match patch.run_id and all updated_at_run_id
+  expected_write_effect: WriteEffect; // NONE | ISSUES_ONLY | PATCH_PROJECTIONS
+
   opts?: {
     max_ops?: number; // default 36
-    // Conservative caps: keep patch bounded
     max_why_len?: number; // default 240
-    max_title_len?: number; // issue.title
-    max_summary_len?: number; // item.summary/issue.summary
-    max_file_summary_len?: number; // file_summary
-    max_body_len?: number; // code body
+    max_title_len?: number; // default 140
+    max_summary_len?: number; // default 900
+    max_file_summary_len?: number; // default 900
+    max_body_len?: number; // default 20000
     max_entity_keys?: number; // default 64
     require_replaced_by_target_upsert_in_same_patch?: boolean; // default true
   };
@@ -9547,11 +9703,22 @@ export function validate_projection_patch_r3_v1(args: {
   const max_title_len = args.opts?.max_title_len ?? 140;
   const max_summary_len = args.opts?.max_summary_len ?? 900;
   const max_file_summary_len = args.opts?.max_file_summary_len ?? 900;
-  const max_body_len = args.opts?.max_body_len ?? 20_000; // bounded but enough for small code blocks
+  const max_body_len = args.opts?.max_body_len ?? 20_000;
   const max_entity_keys = args.opts?.max_entity_keys ?? 64;
 
   const requireReplacementUpsert =
     args.opts?.require_replaced_by_target_upsert_in_same_patch ?? true;
+
+  if (!nonEmptyStr(args.expected_run_id)) {
+    out.fail_code = "E_PATCH_RUN_ID_MISMATCH";
+    pushProblem(out, "PIPELINE", "expected_run_id must be a non-empty string.", null);
+    out.retryable = false;
+    out.retry_from_step = "NONE";
+    out.user_action_required = "NONE";
+    return out;
+  }
+  const expected_run_id = args.expected_run_id.trim();
+  const expected_write_effect = args.expected_write_effect;
 
   if (!isObj(args.patch)) {
     out.fail_code = "E_PATCH_NOT_OBJECT";
@@ -9582,6 +9749,20 @@ export function validate_projection_patch_r3_v1(args: {
   }
   const run_id = patchObj["run_id"].trim();
 
+  if (run_id !== expected_run_id) {
+    out.fail_code = "E_PATCH_RUN_ID_MISMATCH";
+    pushProblem(
+      out,
+      "RUN_MISMATCH",
+      `patch.run_id="${run_id}" must equal expected_run_id="${expected_run_id}".`,
+      null
+    );
+    out.retryable = true;
+    out.retry_from_step = "R3_S12";
+    out.user_action_required = "REGENERATE_PATCH";
+    return out;
+  }
+
   if (!Array.isArray(patchObj["ops"])) {
     out.fail_code = "E_PATCH_OPS_NOT_ARRAY";
     pushProblem(out, "SCHEMA", "ops must be an array.", null);
@@ -9594,10 +9775,20 @@ export function validate_projection_patch_r3_v1(args: {
   const ops = patchObj["ops"] as unknown[];
 
   // Write-effect gating (pipeline safety)
-  if ((args.expected_write_effect ?? "PATCH_PROJECTIONS") === "NONE" && ops.length > 0) {
-    out.fail_code = "E_PATCH_UNEXPECTED_OPS_FOR_WRITE_EFFECT";
-    pushProblem(out, "PIPELINE", "write_effect=NONE but patch contains ops.", null);
-    // This is a pipeline bug; do not loop retry.
+  if (expected_write_effect === "NONE") {
+    if (ops.length > 0) {
+      out.fail_code = "E_PATCH_UNEXPECTED_OPS_FOR_WRITE_EFFECT";
+      pushProblem(out, "PIPELINE", "expected_write_effect=NONE but patch contains ops.", null);
+      // This is a pipeline bug: engine should not have requested a patch at all.
+      out.retryable = false;
+      out.retry_from_step = "NONE";
+      out.user_action_required = "NONE";
+      return out;
+    }
+
+    // Empty patch is OK (and should be skipped by apply).
+    out.patch_ok = true;
+    out.fail_code = "OK";
     out.retryable = false;
     out.retry_from_step = "NONE";
     out.user_action_required = "NONE";
@@ -9620,6 +9811,7 @@ export function validate_projection_patch_r3_v1(args: {
   // First pass: validate shape + collect upserted code ids
   for (let i = 0; i < ops.length; i++) {
     const opU = ops[i];
+
     if (!isObj(opU)) {
       out.fail_code = "E_PATCH_MISSING_FIELDS";
       pushProblem(out, "SCHEMA", "Op is not an object.", i);
@@ -9635,13 +9827,30 @@ export function validate_projection_patch_r3_v1(args: {
       pushProblem(out, "SCHEMA", "namespace must be INDEX|CODEBASE|ISSUES.", i);
       continue;
     }
+    if (!namespaceAllowedByWriteEffect(ns, expected_write_effect)) {
+      out.fail_code = "E_PATCH_FORBIDDEN_NAMESPACE_FOR_WRITE_EFFECT";
+      pushProblem(
+        out,
+        "WRITE_EFFECT",
+        `namespace="${String(ns)}" is forbidden when expected_write_effect="${expected_write_effect}".`,
+        i
+      );
+      continue;
+    }
+
     if (!nonEmptyStr(id)) {
       out.fail_code = "E_PATCH_BAD_STRING";
       pushProblem(out, "SCHEMA", "id must be a non-empty string.", i);
       continue;
     }
+    const trimmedId = id.trim();
+    if (trimmedId.length > 120) {
+      out.fail_code = "E_PATCH_BAD_STRING";
+      pushProblem(out, "SCHEMA", "id exceeds maxLen=120.", i);
+      continue;
+    }
 
-    const key = `${ns}:${id.trim()}`;
+    const key = `${ns}:${trimmedId}`;
     if (seenKey.has(key)) {
       out.fail_code = "E_PATCH_DUPLICATE_KEY";
       pushProblem(out, "DUPLICATE", `Duplicate op target "${key}" in patch.`, i);
@@ -9676,12 +9885,13 @@ export function validate_projection_patch_r3_v1(args: {
       validateBoundedString(out, opU["body"], "body", max_body_len, i);
       validateBoundedString(out, opU["summary"], "summary", max_summary_len, i);
       validateBoundedString(out, opU["file_summary"], "file_summary", max_file_summary_len, i);
+
       if (opU["status"] !== "ACTIVE") {
         out.fail_code = "E_PATCH_INVALID_OP";
         pushProblem(out, "INVARIANT", 'UPSERT_CODEBASE.status must be "ACTIVE".', i);
         continue;
       }
-      upsertedCodebaseIds.add(id.trim());
+      upsertedCodebaseIds.add(trimmedId);
     } else if (opTag === "MARK_REMOVED_CODEBASE") {
       out.counts.codebase_removed++;
       if (ns !== "CODEBASE") {
@@ -9694,11 +9904,25 @@ export function validate_projection_patch_r3_v1(args: {
         pushProblem(out, "INVARIANT", 'MARK_REMOVED_CODEBASE.status must be "REMOVED".', i);
         continue;
       }
+
       const rb = opU["replaced_by"];
       if (!(rb === null || nonEmptyStr(rb))) {
-        out.fail_code = "E_PATCH_BAD_STRING";
+        out.fail_code = "E_PATCH_REPLACED_BY_INVALID";
         pushProblem(out, "SCHEMA", "replaced_by must be string or null.", i);
         continue;
+      }
+      if (rb !== null) {
+        const target = rb.trim();
+        if (target.length > 120) {
+          out.fail_code = "E_PATCH_REPLACED_BY_INVALID";
+          pushProblem(out, "SCHEMA", "replaced_by exceeds maxLen=120.", i);
+          continue;
+        }
+        if (target === trimmedId) {
+          out.fail_code = "E_PATCH_REPLACED_BY_INVALID";
+          pushProblem(out, "INVARIANT", "replaced_by must not equal the removed id.", i);
+          continue;
+        }
       }
     } else if (opTag === "UPSERT_INDEX") {
       out.counts.index_upsert++;
@@ -9709,22 +9933,32 @@ export function validate_projection_patch_r3_v1(args: {
       }
       validateBoundedString(out, opU["file_path"], "file_path", 260, i);
 
-      // contains_entity_keys
+      // contains_entity_keys (strict authoritative list)
       const cek = opU["contains_entity_keys"];
-      if (!Array.isArray(cek)) {
+      const cekRes = uniqStringsStrict(Array.isArray(cek) ? cek : []);
+      if (!cekRes.ok) {
         out.fail_code = "E_PATCH_INDEX_ENTITY_KEYS_INVALID";
-        pushProblem(out, "SCHEMA", "contains_entity_keys must be a string[].", i);
+        pushProblem(
+          out,
+          "SCHEMA",
+          `contains_entity_keys must be a string[] with no empties and no duplicates (reason=${cekRes.reason}).`,
+          i
+        );
         continue;
       }
-      const normalized = uniqStrings(cek.filter((x) => typeof x === "string") as string[]);
-      if (normalized.length === 0) {
+      if (cekRes.values.length === 0) {
         out.fail_code = "E_PATCH_INDEX_ENTITY_KEYS_INVALID";
         pushProblem(out, "INVARIANT", "contains_entity_keys must contain at least 1 key.", i);
         continue;
       }
-      if (normalized.length > max_entity_keys) {
+      if (cekRes.values.length > max_entity_keys) {
         out.fail_code = "E_PATCH_INDEX_ENTITY_KEYS_INVALID";
-        pushProblem(out, "OVERSIZE", `contains_entity_keys exceeds max_entity_keys=${max_entity_keys}.`, i);
+        pushProblem(
+          out,
+          "OVERSIZE",
+          `contains_entity_keys exceeds max_entity_keys=${max_entity_keys}.`,
+          i
+        );
         continue;
       }
 
@@ -9753,11 +9987,13 @@ export function validate_projection_patch_r3_v1(args: {
       }
       validateBoundedString(out, opU["title"], "title", max_title_len, i);
       validateBoundedString(out, opU["summary"], "summary", max_summary_len, i);
+
       if (opU["status"] !== "OPEN") {
         out.fail_code = "E_PATCH_INVALID_OP";
         pushProblem(out, "INVARIANT", 'UPSERT_ISSUE.status must be "OPEN".', i);
         continue;
       }
+
       const afp = opU["anchor_file_path"];
       const aek = opU["anchor_entity_key"];
       if (!(afp === null || nonEmptyStr(afp))) {
@@ -9788,11 +10024,15 @@ export function validate_projection_patch_r3_v1(args: {
         pushProblem(out, "SCHEMA", "resolved_by_codebase_ids must be string[].", i);
         continue;
       }
-      const normalized = uniqStrings(rbc as string[]);
-      if (normalized.length !== (rbc as string[]).length) {
-        // duplicates not fatal, but we keep strict
+      const strict = uniqStringsStrict(rbc);
+      if (!strict.ok) {
         out.fail_code = "E_PATCH_ISSUE_RESOLUTION_LINKS_INVALID";
-        pushProblem(out, "INVARIANT", "resolved_by_codebase_ids must not contain duplicates.", i);
+        pushProblem(
+          out,
+          "INVARIANT",
+          `resolved_by_codebase_ids must be string[] with no empties and no duplicates (reason=${strict.reason}).`,
+          i
+        );
         continue;
       }
     } else {
@@ -9810,6 +10050,7 @@ export function validate_projection_patch_r3_v1(args: {
       if (opU["op"] !== "MARK_REMOVED_CODEBASE") continue;
       const rb = opU["replaced_by"];
       if (rb === null) continue;
+
       const target = String(rb).trim();
       if (!target) continue;
 
@@ -9850,29 +10091,30 @@ export function validate_projection_patch_r3_v1(args: {
 
   // Retry policy:
   // - If patch is invalid, the cheapest correct move is rerun Patch Forger once.
-  // - The only case we avoid retry is a pipeline mismatch (write_effect=NONE but ops>0) handled earlier.
+  // - Pipeline bug (write_effect=NONE but ops>0) returned earlier as non-retryable.
   out.patch_ok = false;
   out.retryable = true;
   out.retry_from_step = "R3_S12";
   out.user_action_required = "REGENERATE_PATCH";
-
   return out;
 }
 
-// R2.S13b.v1 — Summary Minimal Deterministic Guard (deterministic) v1
-// -------------------------------------------------------------------
+
+// R2.S13b.v1 — Summary Minimal Deterministic Guard (deterministic) v1 (PATCHED)
+// ---------------------------------------------------------------------------
 // Purpose:
 // - Cheap, deterministic “shape + bounds” guard for per-run summaries.
 // - NOT semantic faithfulness (that’s R2.S13b.v2 Summary Faithfulness Verifier, LLM).
 // - Used by retry engine to classify failures as mechanical/retryable.
 //
-// Applies to R2 summaries (but can be reused by R3 as well with a different step id).
+// Summary philosophy (canon):
+// - One straightforward paragraph per run.
+// - Must be bounded in size.
+// - Must not contain your XML/envelope tags.
+// - This guard is STRUCTURAL ONLY. No “semantic” policing here.
 //
-// Summary philosophy (your canon):
-// - One straightforward paragraph per run (no bullet dumps, no meta chatter).
-// - Must be tight, descriptive, and non-hallucinatory is *not* checked here.
-// - Must stay within size bounds, must not be empty, must not include XML envelopes,
-//   must not contain "I can't" disclaimers or "as an AI" nonsense.
+// Retry policy:
+// - All failures here are mechanical/format violations → retryable from Summary Distiller once.
 
 export type SummaryDetFailCode =
   | "OK"
@@ -9883,15 +10125,13 @@ export type SummaryDetFailCode =
   | "E_SUMMARY_TEXT_TOO_SHORT"
   | "E_SUMMARY_TEXT_TOO_LONG"
   | "E_SUMMARY_FORBIDDEN_FORMAT"
-  | "E_SUMMARY_FORBIDDEN_TOKENS"
-  | "E_SUMMARY_MULTIPLE_PARAGRAPHS";
+  | "E_SUMMARY_MULTIPLE_PARAGRAPHS"
+  | "E_SUMMARY_LIST_FORMAT";
 
 export interface SummaryEntryV1 {
   contract_version: "v1";
   run_id: string;
-  // single straightforward paragraph
-  text: string;
-  // optional: for debugging/analytics; not required for gameplay
+  text: string; // single paragraph
   created_at_ms?: number;
 }
 
@@ -9905,19 +10145,16 @@ export interface ValidateSummaryMinimalResultV1 {
     detail: string;
   }>;
 
-  // retry engine fields
   retryable: boolean; // true for purely mechanical issues
   retry_from_step: "NONE" | "R2_S13B";
   user_action_required: "NONE" | "REGENERATE_SUMMARY";
 
-  // useful for seals/logs
   counts: {
     char_len: number;
     word_len: number;
     paragraph_count: number;
   };
 
-  // optional normalized output (trimmed)
   normalized_summary: SummaryEntryV1 | null;
 }
 
@@ -9944,38 +10181,27 @@ function countParagraphs(s: string): number {
 }
 
 function containsForbiddenXmlLike(s: string): boolean {
-  // We do NOT want summary to include your envelopes or tags.
-  // Allow angle brackets used in code generically? Here we keep it strict:
-  // If summary contains "<context" or "<software" or "<milestone" etc => fail.
+  // Structural ban: no envelopes/tags in summary.
   const lowered = s.toLowerCase();
   const forbidden = ["<context", "<software", "<milestone", "<summary", "<targets", "<projection"];
   return forbidden.some((k) => lowered.includes(k));
 }
 
-function containsForbiddenMeta(s: string): boolean {
-  const lowered = s.toLowerCase();
-  // Prevent “assistant voice / disclaimers / meta”
-  const forbidden = [
-    "as an ai",
-    "i can't",
-    "i cannot",
-    "i’m unable",
-    "i am unable",
-    "i don't have access",
-    "i do not have access",
-    "here are the steps",
-    "step 1",
-    "step one",
-    "bullet points:",
-  ];
-  return forbidden.some((k) => lowered.includes(k));
+function looksLikeList(s: string): boolean {
+  // Structural detection only: bullets or numbered list.
+  // If summary has multiple lines and several start with "- " or "1. " etc.
+  const lines = s.split("\n").map((x) => x.trim()).filter(Boolean);
+  if (lines.length <= 1) return false;
+  let listy = 0;
+  for (const line of lines) {
+    if (/^[-*•]\s+/.test(line)) listy++;
+    if (/^\d+\.\s+/.test(line)) listy++;
+  }
+  // If 2+ lines look list-like, treat as list formatting.
+  return listy >= 2;
 }
 
-function pushProblem(
-  out: ValidateSummaryMinimalResultV1,
-  type: SummaryProblemType,
-  detail: string
-) {
+function pushProblem(out: ValidateSummaryMinimalResultV1, type: SummaryProblemType, detail: string) {
   out.problems.push({ type, detail });
 }
 
@@ -9999,11 +10225,12 @@ function mkEmpty(): ValidateSummaryMinimalResultV1 {
 export function validate_summary_minimal_r2_v1(
   summaryUnknown: unknown,
   opts?: {
-    min_chars?: number; // default 220 (enough to be meaningful)
-    max_chars?: number; // default 1100 (bounded “one paragraph”)
+    min_chars?: number; // default 220
+    max_chars?: number; // default 1100
     min_words?: number; // default 35
     max_words?: number; // default 190
-    allow_single_newline?: boolean; // default true (wrap lines ok)
+    allow_single_newline?: boolean; // default true (line wraps ok)
+    forbid_lists?: boolean; // default true (discourage bullet/number formatting)
   }
 ): ValidateSummaryMinimalResultV1 {
   const min_chars = opts?.min_chars ?? 220;
@@ -10011,6 +10238,7 @@ export function validate_summary_minimal_r2_v1(
   const min_words = opts?.min_words ?? 35;
   const max_words = opts?.max_words ?? 190;
   const allow_single_newline = opts?.allow_single_newline ?? true;
+  const forbid_lists = opts?.forbid_lists ?? true;
 
   const out = mkEmpty();
 
@@ -10050,14 +10278,12 @@ export function validate_summary_minimal_r2_v1(
     return out;
   }
 
-  // Normalize
   const run_id = summaryUnknown["run_id"].trim();
   let text = summaryUnknown["text"].trim();
 
-  // Basic cleanup (deterministic)
-  // Collapse excessive whitespace/newlines; allow one newline for wrapping if configured.
+  // Normalize spacing/newlines deterministically
   if (allow_single_newline) {
-    // Keep single newlines, but collapse triple+ newlines.
+    // Collapse 3+ newlines.
     text = text.replace(/\n{3,}/g, "\n\n");
   } else {
     // Force single paragraph, no newlines.
@@ -10094,16 +10320,16 @@ export function validate_summary_minimal_r2_v1(
     pushProblem(out, "FORMAT", "Summary must be exactly one paragraph.");
   }
 
-  // Forbid envelope tags / XML-ish dump
+  // Structural ban: envelope tags
   if (containsForbiddenXmlLike(text)) {
     out.fail_code = "E_SUMMARY_FORBIDDEN_FORMAT";
     pushProblem(out, "FORMAT", "Summary must not contain envelope tags (<context>, <software>, etc).");
   }
 
-  // Forbid meta/disclaimer patterns
-  if (containsForbiddenMeta(text)) {
-    out.fail_code = "E_SUMMARY_FORBIDDEN_TOKENS";
-    pushProblem(out, "FORMAT", "Summary must not contain meta/disclaimer phrasing.");
+  // Structural ban: list formatting (optional)
+  if (forbid_lists && looksLikeList(text)) {
+    out.fail_code = "E_SUMMARY_LIST_FORMAT";
+    pushProblem(out, "FORMAT", "Summary must be a paragraph, not bullet/numbered list formatting.");
   }
 
   if (out.problems.length === 0) {
@@ -10116,12 +10342,12 @@ export function validate_summary_minimal_r2_v1(
       contract_version: "v1",
       run_id,
       text,
-      created_at_ms: typeof summaryUnknown["created_at_ms"] === "number" ? summaryUnknown["created_at_ms"] : undefined,
+      created_at_ms:
+        typeof summaryUnknown["created_at_ms"] === "number" ? summaryUnknown["created_at_ms"] : undefined,
     };
     return out;
   }
 
-  // Deterministic retryability: all failures here are mechanical and can be fixed by re-running distiller once.
   out.summary_ok = false;
   out.retryable = true;
   out.retry_from_step = "R2_S13B";
@@ -10130,15 +10356,22 @@ export function validate_summary_minimal_r2_v1(
   return out;
 }
 
-// R3.S15.v1 — Summary Minimal Deterministic Guard (deterministic) v1
+
+// R3.S15.v1 — Summary Minimal Deterministic Guard (deterministic) v1 (PATCHED)
 // -------------------------------------------------------------------
-// This is intentionally the SAME guard behavior as R2.S13b.v1,
-// but with a different step-id for logging / retry routing.
+// Intentionally the SAME guard behavior as R2.S13b.v1 (patched),
+// but with R3 step id for logging / retry routing.
 //
 // Purpose:
 // - Cheap deterministic “shape + bounds” check for per-run summaries.
 // - NOT semantic faithfulness (that’s R3.S15.v2 Summary Faithfulness Verifier, LLM).
 // - Marks failures as mechanical + retryable from the Summary Distiller step.
+//
+// STRUCTURE ONLY:
+// - single paragraph
+// - bounded length
+// - no envelope tags
+// - (optional) no list formatting
 
 export type SummaryDetFailCode =
   | "OK"
@@ -10149,8 +10382,8 @@ export type SummaryDetFailCode =
   | "E_SUMMARY_TEXT_TOO_SHORT"
   | "E_SUMMARY_TEXT_TOO_LONG"
   | "E_SUMMARY_FORBIDDEN_FORMAT"
-  | "E_SUMMARY_FORBIDDEN_TOKENS"
-  | "E_SUMMARY_MULTIPLE_PARAGRAPHS";
+  | "E_SUMMARY_MULTIPLE_PARAGRAPHS"
+  | "E_SUMMARY_LIST_FORMAT";
 
 export interface SummaryEntryV1 {
   contract_version: "v1";
@@ -10209,22 +10442,15 @@ function containsForbiddenXmlLike(s: string): boolean {
   return forbidden.some((k) => lowered.includes(k));
 }
 
-function containsForbiddenMeta(s: string): boolean {
-  const lowered = s.toLowerCase();
-  const forbidden = [
-    "as an ai",
-    "i can't",
-    "i cannot",
-    "i’m unable",
-    "i am unable",
-    "i don't have access",
-    "i do not have access",
-    "here are the steps",
-    "step 1",
-    "step one",
-    "bullet points:",
-  ];
-  return forbidden.some((k) => lowered.includes(k));
+function looksLikeList(s: string): boolean {
+  const lines = s.split("\n").map((x) => x.trim()).filter(Boolean);
+  if (lines.length <= 1) return false;
+  let listy = 0;
+  for (const line of lines) {
+    if (/^[-*•]\s+/.test(line)) listy++;
+    if (/^\d+\.\s+/.test(line)) listy++;
+  }
+  return listy >= 2;
 }
 
 function pushProblem(out: ValidateSummaryMinimalResultV1, type: SummaryProblemType, detail: string) {
@@ -10256,6 +10482,7 @@ export function validate_summary_minimal_r3_v1(
     min_words?: number; // default 35
     max_words?: number; // default 190
     allow_single_newline?: boolean; // default true
+    forbid_lists?: boolean; // default true
   }
 ): ValidateSummaryMinimalResultV1 {
   const min_chars = opts?.min_chars ?? 220;
@@ -10263,6 +10490,7 @@ export function validate_summary_minimal_r3_v1(
   const min_words = opts?.min_words ?? 35;
   const max_words = opts?.max_words ?? 190;
   const allow_single_newline = opts?.allow_single_newline ?? true;
+  const forbid_lists = opts?.forbid_lists ?? true;
 
   const out = mkEmpty();
 
@@ -10345,9 +10573,9 @@ export function validate_summary_minimal_r3_v1(
     pushProblem(out, "FORMAT", "Summary must not contain envelope tags (<context>, <software>, etc).");
   }
 
-  if (containsForbiddenMeta(text)) {
-    out.fail_code = "E_SUMMARY_FORBIDDEN_TOKENS";
-    pushProblem(out, "FORMAT", "Summary must not contain meta/disclaimer phrasing.");
+  if (forbid_lists && looksLikeList(text)) {
+    out.fail_code = "E_SUMMARY_LIST_FORMAT";
+    pushProblem(out, "FORMAT", "Summary must be a paragraph, not bullet/numbered list formatting.");
   }
 
   if (out.problems.length === 0) {
