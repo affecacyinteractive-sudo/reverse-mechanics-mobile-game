@@ -1,0 +1,118 @@
+<milestone_state contract_version="v1" size_budget_runs="5">
+    <!-- Completed milestones (corridor) remain lean: refs only -->
+    <corridor>
+        <milestone_ref milestone_id="MILE-01">
+            <title>Auth baseline + request guardrails</title>
+            <summary>Completed baseline auth flow and standardized error handling for missing/invalid auth inputs.</summary>
+            <done_receipt>Requests without Authorization fail with consistent error shape; happy path remains unchanged.</done_receipt>
+            <completed_at_run_id>RUN-091</completed_at_run_id>
+        </milestone_ref>
+    </corridor>
+
+    <!-- Active milestone = canonical chase object -->
+    <active>
+        <milestone_card milestone_id="MILE-03" status="UNFINISHED">
+            <title>Add rate limiting for public API endpoints</title>
+
+            <!-- Provenance badges (what FP lenses have touched this milestone) -->
+            <badges>
+                <badge fp_lens="FP-01" run_id="RUN-105" kind="CREATED" />
+                <badge fp_lens="FP-10" run_id="RUN-109" kind="ENRICHED" />
+            </badges>
+
+            <!-- Canonical milestone fields (standardized schema) -->
+            <north_star>
+                <text>Public endpoints enforce per-IP rate limits with clear error responses and do not impact authenticated flows.</text>
+                <provenance kind="SOVEREIGN_FP" fp_lens="FP-01" run_id="RUN-105" confidence="HIGH" />
+                <sources>
+                    <source kind="COLLECTIBLE" id="K1" />
+                    <source kind="CHUNK" id="W2" run_id="RUN-105" />
+                </sources>
+            </north_star>
+
+            <done_receipt>
+                <text>Load test confirms throttling; verification confirms no regressions on protected routes.</text>
+                <provenance kind="SOVEREIGN_FP" fp_lens="FP-10" run_id="RUN-109" confidence="MED" />
+                <sources>
+                    <source kind="COLLECTIBLE" id="F2" />
+                    <source kind="CHUNK" id="W5" run_id="RUN-109" />
+                </sources>
+            </done_receipt>
+
+            <!-- Optional enrichable fields -->
+            <fence>
+                <in_scope>
+                    <item>Rate limit middleware on /api/public/*</item>
+                    <item>Consistent 429 error shape</item>
+                </in_scope>
+                <out_of_scope>
+                    <item>No distributed rate limiting</item>
+                    <item>No dashboard/UI</item>
+                </out_of_scope>
+                <provenance kind="INFERRED" fp_lens="FP-01" run_id="RUN-105" confidence="LOW" />
+                <sources>
+                    <source kind="CHUNK" id="W3" run_id="RUN-105" />
+                </sources>
+            </fence>
+
+            <tripwires>
+                <items>
+                    <item>Middleware ordering might break existing auth guard.</item>
+                    <item>Needs clear config defaults (burst/window).</item>
+                </items>
+                <provenance kind="INFERRED" fp_lens="FP-10" run_id="RUN-109" confidence="LOW" />
+                <sources>
+                    <source kind="CHUNK" id="W4" run_id="RUN-109" />
+                </sources>
+            </tripwires>
+
+            <!-- Linkage: bounded pointers to supporting artifacts across runs -->
+            <linkage>
+                <!-- Convenience list: all artifacts that materially support this milestone -->
+                <supporting_artifacts max_items="12">
+                    <artifact kind="COLLECTIBLE" id="K1" />
+                    <artifact kind="COLLECTIBLE" id="F2" />
+                    <artifact kind="CHUNK" id="W2" run_id="RUN-105" />
+                    <artifact kind="CHUNK" id="W5" run_id="RUN-109" />
+                </supporting_artifacts>
+
+                <!-- Field-specific sources (bounded, authoritative) -->
+                <field_sources>
+                    <field name="north_star" max_items="6">
+                        <source kind="COLLECTIBLE" id="K1" />
+                        <source kind="CHUNK" id="W2" run_id="RUN-105" />
+                    </field>
+                    <field name="done_receipt" max_items="6">
+                        <source kind="COLLECTIBLE" id="F2" />
+                        <source kind="CHUNK" id="W5" run_id="RUN-109" />
+                    </field>
+                    <field name="fence" max_items="6">
+                        <source kind="CHUNK" id="W3" run_id="RUN-105" />
+                    </field>
+                    <field name="tripwires" max_items="6">
+                        <source kind="CHUNK" id="W4" run_id="RUN-109" />
+                    </field>
+                </field_sources>
+            </linkage>
+
+            <!-- Insert inside <milestone_card ...> (no other changes) -->
+            <composition>
+                <!-- Bounded: the primary collectibles from FP runs that materially compose this milestone -->
+                <primary_collectibles max_items="4">
+                    <collectible_id>K1</collectible_id>
+                    <collectible_id>F2</collectible_id>
+                </primary_collectibles>
+
+                <!-- Bounded: supporting chunk refs used to ground/derive milestone fields -->
+                <supporting_chunks max_items="12">
+                    <chunk_ref run_id="RUN-105" chunk_id="W2" />
+                    <chunk_ref run_id="RUN-109" chunk_id="W5" />
+                </supporting_chunks>
+            </composition>
+
+
+            <created_at_run_id>RUN-105</created_at_run_id>
+            <updated_at_run_id>RUN-109</updated_at_run_id>
+        </milestone_card>
+    </active>
+</milestone_state>

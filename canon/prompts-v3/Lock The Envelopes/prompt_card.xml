@@ -1,0 +1,55 @@
+<prompt_card contract_version="v1">
+    <!-- Identity -->
+    <id>PC-6f2a8c</id>
+    <title>Implement auth header validation for API requests</title>
+
+    <!-- Sanitized intent (crisp, collectible-like) -->
+    <sanitized_intent>
+        Add a clear validation path for missing/invalid Authorization header, returning consistent error shape.
+    </sanitized_intent>
+
+    <!-- Binding (PromptCard is a proxy for the loadout that created it) -->
+    <binding>
+        <bound_action_id>A-07-Auth-Guard</bound_action_id>
+
+        <!-- These are the target card ids used when the prompt card was created -->
+        <bound_target_ids>
+            <target_id>TGT-12</target_id>
+            <target_id>TGT-44</target_id>
+        </bound_target_ids>
+
+        <!-- Optional: if prompt card was made with a milestone in view -->
+        <bound_milestone_id>MILE-03</bound_milestone_id>
+
+        <!-- Deterministic fingerprint of (action + targets + milestone?) -->
+        <fingerprint>sha256:...stable...</fingerprint>
+    </binding>
+
+    <!-- Projection selection (refs only; mounted later as manifest/slice) -->
+    <projection_selection>
+        <!-- refs are canonicalized: deduped + stable-sorted -->
+        <selected_projection_refs>
+            <!-- CODEBASE refs -->
+            <ref namespace="CODEBASE" key="src/auth.ts::validateToken" />
+            <ref namespace="CODEBASE" key="src/middleware.ts::requireAuth" />
+
+            <!-- ISSUES refs (optional) -->
+            <ref namespace="ISSUES" key="ISSUE-03-missing-auth-header" />
+        </selected_projection_refs>
+
+        <!-- “slice_version” renamed to “selection_revision” to avoid confusion -->
+        <selection_revision>
+            <selected_at_run_id>RUN-xyz222</selected_at_run_id>
+            <projection_store_revision>PROJ-REV-104</projection_store_revision>
+        </selection_revision>
+    </projection_selection>
+
+    <!-- Optional: compact scope / constraints -->
+    <scope>
+        <tightness>COMPACT</tightness>
+        <out_of_scope>
+            <item>No redesign of auth architecture</item>
+            <item>No new auth provider</item>
+        </out_of_scope>
+    </scope>
+</prompt_card>

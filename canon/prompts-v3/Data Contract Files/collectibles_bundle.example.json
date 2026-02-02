@@ -1,0 +1,30 @@
+{
+  "contract_version": "v1",
+  "action_id": "FI-02",
+  "collectibles": [
+    {
+      "id": "K1",
+      "kind": "KEYSTONE_TEXT",
+      "keystone_type": "LAW",
+      "title": "Missing-header guard is mandatory",
+      "body": "If validateToken receives no header, it must return a structured failure immediately and callers must treat it as a normal branch, not an exception.",
+      "sources": ["W1", "W2"]
+    },
+    {
+      "id": "F1",
+      "kind": "FACET",
+      "facet_type": "ANCHOR",
+      "title": "Applies to auth header entrypoints",
+      "body": "This applies anywhere Authorization is read, especially src/auth.ts and the login API handler.",
+      "sources": ["W2"]
+    },
+    {
+      "id": "F2",
+      "kind": "FACET",
+      "facet_type": "PROOF",
+      "title": "Failure path is explicit",
+      "body": "The returned object always contains ok=false and a human-readable reason for missing header, preventing silent fallthrough.",
+      "sources": ["W2"]
+    }
+  ]
+}

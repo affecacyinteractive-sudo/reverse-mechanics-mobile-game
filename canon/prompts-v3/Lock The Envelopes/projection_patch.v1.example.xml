@@ -1,0 +1,70 @@
+<projection_patch contract_version="v1">
+    <run_id>RUN-123</run_id>
+
+    <ops>
+        <!-- CODEBASE: upsert new/updated shard -->
+        <op type="UPSERT_CODEBASE">
+            <updated_at_run_id>RUN-123</updated_at_run_id>
+            <entity_key>src/auth.ts::validateToken</entity_key>
+            <file_path>src/auth.ts</file_path>
+            <kind>FUNCTION</kind>
+            <status>ACTIVE</status>
+            <summary>Validates Authorization header and returns a normalized ok/error result.</summary>
+            <body><![CDATA[
+export function validateToken(header?: string) {
+  // ...
+}
+      ]]></body>
+        </op>
+
+        <!-- CODEBASE: retire old shard -->
+        <op type="MARK_REMOVED_CODEBASE">
+            <updated_at_run_id>RUN-123</updated_at_run_id>
+            <entity_key>src/auth.ts::oldGuard</entity_key>
+            <replaced_by>src/auth.ts::validateToken</replaced_by>
+            <removed_body_ref>ARCHIVE:cb/src/auth.ts::oldGuard@RUN-120</removed_body_ref>
+        </op>
+
+        <!-- INDEX: update file mapping -->
+        <op type="UPSERT_INDEX">
+            <updated_at_run_id>RUN-123</updated_at_run_id>
+            <file_path>src/auth.ts</file_path>
+            <file_summary>Auth helpers: parsing, validation, and error normalization for Authorization header.</file_summary>
+            <contains_entity_keys>
+                <entity_key>src/auth.ts::validateToken</entity_key>
+            </contains_entity_keys>
+        </op>
+
+        <!-- INDEX: delete mapping for a removed file -->
+        <op type="DELETE_INDEX">
+            <updated_at_run_id>RUN-123</updated_at_run_id>
+            <file_path>src/old-auth.ts</file_path>
+        </op>
+
+        <!-- ISSUES: upsert anchored issue -->
+        <op type="UPSERT_ISSUE">
+            <updated_at_run_id>RUN-123</updated_at_run_id>
+            <issue_key>ISSUE-03-missing-auth-header</issue_key>
+            <title>Missing Authorization header produces inconsistent error shape</title>
+            <status>OPEN</status>
+            <anchor_entity_key>src/auth.ts::validateToken</anchor_entity_key>
+            <severity>MED</severity>
+            <details>Unify 401 response format for missing header and invalid token.</details>
+        </op>
+
+        <!-- ISSUES: close resolved issue -->
+        <op type="CLOSE_ISSUE">
+            <updated_at_run_id>RUN-123</updated_at_run_id>
+            <issue_key>ISSUE-01-auth-guard-null</issue_key>
+            <resolution_note>Guard now returns normalized error; verified via integration checks.</resolution_note>
+        </op>
+
+        <!-- ISSUES: optional linkage -->
+        <op type="LINK_ISSUE">
+            <updated_at_run_id>RUN-123</updated_at_run_id>
+            <issue_key>ISSUE-03-missing-auth-header</issue_key>
+            <related_entity_key>src/middleware.ts::requireAuth</related_entity_key>
+            <note>Also affects middleware behavior.</note>
+        </op>
+    </ops>
+</projection_patch>

@@ -1,0 +1,57 @@
+<milestone_artifact contract_version="v1" artifact_type="MILESTONE">
+    <milestone_id>M-1007</milestone_id>
+    <freshness>FRESH</freshness>
+
+    <fields>
+        <north_star>Ship a working Ritual 3 loop with stable projections patching.</north_star>
+        <scope_fence>Only Next.js app; ignore Storymap; no new rituals.</scope_fence>
+        <tripwires>Overgrowth of prompts; chunk bloat; unverifiable patches.</tripwires>
+        <done_receipt>R3 produces keystones + patches projections and summaries deterministically.</done_receipt>
+    </fields>
+
+    <provenance>
+        <created_from_prompt_card_id>PC-221</created_from_prompt_card_id>
+        <created_at_run_id>RUN-9001</created_at_run_id>
+        <updated_at_run_id>RUN-9001</updated_at_run_id>
+    </provenance>
+
+    <family>
+        <family_id>FAM-042</family_id>
+        <family_status>ACTIVE</family_status>
+        <is_family_head>true</is_family_head>
+        <!-- root has no parent -->
+    </family>
+
+    <anchors>
+        <anchor_basis_run_id>RUN-9001</anchor_basis_run_id>
+        <anchor_projection_refs>
+            <ref>IDX:src/app/rituals/r3.ts::runR3</ref>
+            <ref>IDX:src/lib/projections/patchApplier.ts::applyPatch</ref>
+        </anchor_projection_refs>
+    </anchors>
+</milestone_artifact>
+
+<milestone_artifact contract_version="v1" artifact_type="MILESTONE">
+<milestone_id>M-0999</milestone_id>
+<freshness>STALE</freshness>
+
+<fields>
+    <north_star>Ship a working Ritual loop.</north_star>
+    <scope_fence>Keep it minimal.</scope_fence>
+    <tripwires>Too many prompts.</tripwires>
+    <done_receipt>Some output exists.</done_receipt>
+</fields>
+
+<provenance>
+    <created_from_prompt_card_id>PC-199</created_from_prompt_card_id>
+    <created_at_run_id>RUN-8700</created_at_run_id>
+    <updated_at_run_id>RUN-8800</updated_at_run_id>
+</provenance>
+
+<family>
+    <family_id>FAM-042</family_id>
+    <family_status>ACTIVE</family_status>
+    <is_family_head>false</is_family_head>
+    <parent_milestone_id>M-0950</parent_milestone_id>
+</family>
+</milestone_artifact>

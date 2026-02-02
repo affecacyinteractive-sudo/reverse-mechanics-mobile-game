@@ -1,0 +1,326 @@
+<ritual_output contract_version="v1" ritual="R1">
+    <run>
+        <run_id>RUN-...</run_id>
+        <action_id>A-...</action_id>
+        <milestone_id>MILE-...</milestone_id> <!-- optional: if prompt creation was milestone-aware -->
+        <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+    </run>
+
+    <artifacts>
+        <prompt_card contract_version="v1">
+            <artifact_id>ART-PC-...</artifact_id>
+            <created_at_run_id>RUN-...</created_at_run_id>
+            <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+            <source_ritual>R1</source_ritual>
+
+            <id>PC-...</id>
+            <title>...</title>
+
+            <sanitized_intent>...</sanitized_intent>
+
+            <binding>
+                <bound_action_id>A-...</bound_action_id>
+                <bound_target_ids>
+                    <target_id>TGT-...</target_id>
+                    <target_id>TGT-...</target_id>
+                </bound_target_ids>
+                <bound_milestone_id>MILE-...</bound_milestone_id> <!-- optional -->
+                <fingerprint>sha256:...</fingerprint>
+            </binding>
+
+            <projection_selection>
+                <selected_projection_refs>
+                    <ref namespace="CODEBASE" key="src/foo.ts::bar" />
+                    <ref namespace="ISSUES" key="ISSUE-..." />
+                </selected_projection_refs>
+
+                <selection_revision>
+                    <selected_at_run_id>RUN-...</selected_at_run_id>
+                    <projection_store_revision>PROJ-REV-...</projection_store_revision>
+                </selection_revision>
+            </projection_selection>
+
+            <scope>
+                <tightness>COMPACT</tightness>
+                <out_of_scope>
+                    <item>...</item>
+                </out_of_scope>
+            </scope>
+        </prompt_card>
+    </artifacts>
+</ritual_output>
+
+<ritual_output contract_version="v1" ritual="R2">
+<run>
+    <run_id>RUN-...</run_id>
+    <action_id>A-FP-...</action_id>
+    <prompt_card_id>PC-...</prompt_card_id>
+    <milestone_mode>CREATE_NEW|ENRICH_EXISTING</milestone_mode>
+    <target_milestone_id>MILE-...</target_milestone_id> <!-- required if ENRICH_EXISTING -->
+    <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+</run>
+
+<artifacts>
+    <!-- 1) Raw worklog chunks (planning; fp_no_code=true) -->
+    <chunks contract_version="v1">
+        <artifact_id>ART-CHUNKS-...</artifact_id>
+        <created_at_run_id>RUN-...</created_at_run_id>
+        <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+        <source_ritual>R2</source_ritual>
+
+        <chunk run_id="RUN-..." chunk_id="W1" kind="TEXT">
+            <title>...</title>
+            <body>...</body>
+        </chunk>
+
+        <!-- CODE chunks should not appear for FP actions when fp_no_code=true -->
+    </chunks>
+
+    <!-- 2) Collectibles produced from those chunks -->
+    <collectibles_bundle contract_version="v1">
+        <artifact_id>ART-CB-...</artifact_id>
+        <created_at_run_id>RUN-...</created_at_run_id>
+        <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+        <source_ritual>R2</source_ritual>
+
+        <keystones>
+            <keystone id="K1" keystone_type="...">
+                <title>...</title>
+                <body>...</body>
+                <sources>
+                    <source run_id="RUN-..." chunk_id="W1" />
+                </sources>
+            </keystone>
+        </keystones>
+
+        <facets>
+            <facet id="F1" facet_type="ANCHOR">
+                <title>...</title>
+                <body>...</body>
+                <sources>
+                    <source run_id="RUN-..." chunk_id="W1" />
+                </sources>
+            </facet>
+
+            <facet id="F2" facet_type="PROOF">
+                <title>...</title>
+                <body>...</body>
+                <sources>
+                    <source run_id="RUN-..." chunk_id="W1" />
+                </sources>
+            </facet>
+
+            <facet id="P1" facet_type="PROGRESS">
+                <title>...</title>
+                <body>...</body>
+                <sources>
+                    <source run_id="RUN-..." chunk_id="W1" />
+                </sources>
+            </facet>
+        </facets>
+    </collectibles_bundle>
+
+    <!-- 3) MilestoneCard creation/enrichment result (canonical chase object) -->
+    <milestone_card contract_version="v1" milestone_id="MILE-..." status="UNFINISHED">
+        <artifact_id>ART-MILE-...</artifact_id>
+        <created_at_run_id>RUN-...</created_at_run_id>
+        <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+        <source_ritual>R2</source_ritual>
+
+        <title>...</title>
+
+        <badges>
+            <badge fp_lens="FP-01|FP-02|FP-08|FP-10|OTHER_FP" run_id="RUN-..." kind="CREATED|ENRICHED" />
+        </badges>
+
+        <north_star>
+            <text>...</text>
+            <provenance kind="SOVEREIGN_FP|INFERRED" fp_lens="FP-..." run_id="RUN-..." confidence="HIGH|MED|LOW" />
+            <sources>
+                <source kind="COLLECTIBLE" id="K1" />
+                <source kind="CHUNK" id="W1" run_id="RUN-..." />
+            </sources>
+        </north_star>
+
+        <done_receipt>
+            <text>...</text>
+            <provenance kind="SOVEREIGN_FP|INFERRED" fp_lens="FP-..." run_id="RUN-..." confidence="HIGH|MED|LOW" />
+            <sources>
+                <source kind="COLLECTIBLE" id="F2" />
+            </sources>
+        </done_receipt>
+
+        <!-- Optional enrichable fields -->
+        <fence>
+            <in_scope><item>...</item></in_scope>
+            <out_of_scope><item>...</item></out_of_scope>
+            <provenance kind="SOVEREIGN_FP|INFERRED" fp_lens="FP-..." run_id="RUN-..." confidence="HIGH|MED|LOW" />
+            <sources><source kind="CHUNK" id="W1" run_id="RUN-..." /></sources>
+        </fence>
+
+        <tripwires>
+            <items><item>...</item></items>
+            <provenance kind="SOVEREIGN_FP|INFERRED" fp_lens="FP-..." run_id="RUN-..." confidence="HIGH|MED|LOW" />
+            <sources><source kind="CHUNK" id="W1" run_id="RUN-..." /></sources>
+        </tripwires>
+
+        <!-- Composition (explicit: milestone composed from FP outputs) -->
+        <composition>
+            <primary_collectibles max_items="4">
+                <collectible_id>K1</collectible_id>
+                <collectible_id>F2</collectible_id>
+            </primary_collectibles>
+            <supporting_chunks max_items="12">
+                <chunk_ref run_id="RUN-..." chunk_id="W1" />
+            </supporting_chunks>
+        </composition>
+
+        <linkage>
+            <supporting_artifacts max_items="12">
+                <artifact kind="COLLECTIBLE" id="K1" />
+                <artifact kind="CHUNK" id="W1" run_id="RUN-..." />
+            </supporting_artifacts>
+
+            <field_sources>
+                <field name="north_star" max_items="6">
+                    <source kind="COLLECTIBLE" id="K1" />
+                </field>
+            </field_sources>
+        </linkage>
+
+        <created_at_run_id>RUN-...</created_at_run_id>
+        <updated_at_run_id>RUN-...</updated_at_run_id>
+    </milestone_card>
+
+    <!-- 4) ProjectionPatch (optional; typically ISSUES-only in R2) -->
+    <projection_patch contract_version="v1">
+        <artifact_id>ART-PATCH-...</artifact_id>
+        <created_at_run_id>RUN-...</created_at_run_id>
+        <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+        <source_ritual>R2</source_ritual>
+
+        <run_id>RUN-...</run_id>
+        <ops>
+            <op type="UPSERT_ISSUE">
+                <issue_key>ISSUE-...</issue_key>
+                <title>...</title>
+                <status>OPEN</status>
+                <anchor_entity_key>src/foo.ts::bar</anchor_entity_key>
+            </op>
+
+            <op type="CLOSE_ISSUE">
+                <issue_key>ISSUE-...</issue_key>
+            </op>
+        </ops>
+    </projection_patch>
+
+    <!-- 5) SummaryEntry (per-run summary; no milestone scope/id inside) -->
+    <summary_entry contract_version="v1">
+        <artifact_id>ART-SUM-...</artifact_id>
+        <created_at_run_id>RUN-...</created_at_run_id>
+        <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+        <source_ritual>R2</source_ritual>
+
+        <summary_id>SUM-...</summary_id>
+        <run_id>RUN-...</run_id>
+        <text>One paragraph summary of this run...</text>
+    </summary_entry>
+</artifacts>
+</ritual_output>
+
+<ritual_output contract_version="v1" ritual="R3">
+<run>
+    <run_id>RUN-...</run_id>
+    <action_id>A-...</action_id>
+    <prompt_card_id>PC-...</prompt_card_id>
+    <active_milestone_id>MILE-...</active_milestone_id>
+    <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+</run>
+
+<artifacts>
+    <!-- 1) Raw worklog chunks (often includes CODE) -->
+    <chunks contract_version="v1">
+        <artifact_id>ART-CHUNKS-...</artifact_id>
+        <created_at_run_id>RUN-...</created_at_run_id>
+        <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+        <source_ritual>R3</source_ritual>
+
+        <chunk run_id="RUN-..." chunk_id="W1" kind="TEXT">
+            <title>...</title>
+            <body>...</body>
+        </chunk>
+
+        <chunk run_id="RUN-..." chunk_id="W2" kind="CODE" link="W1">
+            <title>...</title>
+            <body>...</body>
+        </chunk>
+    </chunks>
+
+    <!-- 2) Collectibles -->
+    <collectibles_bundle contract_version="v1">
+        <artifact_id>ART-CB-...</artifact_id>
+        <created_at_run_id>RUN-...</created_at_run_id>
+        <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+        <source_ritual>R3</source_ritual>
+
+        <keystones>...</keystones>
+        <facets>...</facets>
+    </collectibles_bundle>
+
+    <!-- 3) ProjectionPatch (optional; codebase/index updates) -->
+    <projection_patch contract_version="v1">
+        <artifact_id>ART-PATCH-...</artifact_id>
+        <created_at_run_id>RUN-...</run_id>
+        <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+        <source_ritual>R3</source_ritual>
+
+        <run_id>RUN-...</run_id>
+        <ops>
+            <op type="UPSERT_CODEBASE">
+                <entity_key>src/auth.ts::validateToken</entity_key>
+                <file_path>src/auth.ts</file_path>
+                <kind>FUNCTION</kind>
+                <status>ACTIVE</status>
+                <summary>1-line specific summary of what this shard does now.</summary>
+                <body>export function validateToken(...) { ... }</body>
+                <updated_at_run_id>RUN-...</updated_at_run_id>
+            </op>
+
+            <op type="MARK_REMOVED_CODEBASE">
+                <entity_key>src/auth.ts::oldGuard</entity_key>
+                <replaced_by>src/auth.ts::validateToken</replaced_by>
+                <updated_at_run_id>RUN-...</updated_at_run_id>
+            </op>
+
+            <op type="UPSERT_INDEX">
+                <file_path>src/auth.ts</file_path>
+                <file_summary>1-line specific summary of this file’s responsibility.</file_summary>
+                <contains_entity_keys>
+                    <entity_key>src/auth.ts::validateToken</entity_key>
+                </contains_entity_keys>
+                <updated_at_run_id>RUN-...</updated_at_run_id>
+            </op>
+
+            <!-- Optional ISSUES ops -->
+            <op type="UPSERT_ISSUE">
+                <issue_key>ISSUE-...</issue_key>
+                <title>...</title>
+                <status>OPEN</status>
+                <anchor_entity_key>src/auth.ts::validateToken</anchor_entity_key>
+            </op>
+        </ops>
+    </projection_patch>
+
+    <!-- 4) SummaryEntry (per-run) -->
+    <summary_entry contract_version="v1">
+        <artifact_id>ART-SUM-...</artifact_id>
+        <created_at_run_id>RUN-...</created_at_run_id>
+        <created_at_ts_iso>2026-01-27T12:34:56Z</created_at_ts_iso>
+        <source_ritual>R3</source_ritual>
+
+        <summary_id>SUM-...</summary_id>
+        <run_id>RUN-...</run_id>
+        <text>One paragraph summary of this run...</text>
+    </summary_entry>
+</artifacts>
+</ritual_output>

@@ -1,0 +1,17 @@
+<milestone_state contract_version="v1">
+    <milestone_id>M-123</milestone_id>
+
+    <!-- v1: FRESH = current active milestone, STALE = read-only relic -->
+    <freshness>FRESH</freshness>
+
+    <!-- anchors are projection INDEX item IDs (for inspection only in v1) -->
+    <anchors>
+        <anchor_basis_run_id>RUN-456</anchor_basis_run_id>
+        <anchor_projection_refs>
+            <ref>IDX:src/app/page.tsx::Page</ref>
+            <ref>IDX:src/components/RitualDesk.tsx::RitualDesk</ref>
+        </anchor_projection_refs>
+    </anchors>
+
+    <!-- rest of your milestone fields stay unchanged -->
+</milestone_state>

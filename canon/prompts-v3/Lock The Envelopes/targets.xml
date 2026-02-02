@@ -1,0 +1,73 @@
+<targets policy="v1" max_selected="3" max_mounted_chunks="12">
+    <!-- 1) What the player actually selected -->
+    <selected>
+        <target_ref slot="1" kind="COLLECTIBLE" collectible_id="K1" />
+        <target_ref slot="2" kind="COLLECTIBLE" collectible_id="F1" />
+        <target_ref slot="3" kind="CHUNK" run_id="RUN-abc123" chunk_id="W7" />
+    </selected>
+
+    <!-- 2) What the system actually mounts for this run (expanded + bounded) -->
+    <mounted>
+        <!-- Each selected target becomes a bundle -->
+        <bundle slot="1" source_kind="COLLECTIBLE" collectible_id="K1">
+            <collectible id="K1" collectible_type="KEYSTONE" keystone_type="...">
+                <title>...</title>
+                <body>...</body>
+                <sources>
+                    <source chunk_id="W3" run_id="RUN-xyz111" />
+                    <source chunk_id="W4" run_id="RUN-xyz111" />
+                </sources>
+            </collectible>
+
+            <!-- Evidence: selected subset of source chunks -->
+            <chunks>
+                <chunk run_id="RUN-xyz111" chunk_id="W3" kind="TEXT">
+                    <title>...</title>
+                    <body>...</body>
+                </chunk>
+
+                <chunk run_id="RUN-xyz111" chunk_id="W4" kind="CODE" link="W3">
+                    <title>...</title>
+                    <body>...</body>
+                </chunk>
+
+                <!-- If CODE chunk is included, include its linked TEXT chunk if not already present -->
+                <!-- (Here link=W3 is already included, so nothing extra) -->
+            </chunks>
+        </bundle>
+
+        <bundle slot="2" source_kind="COLLECTIBLE" collectible_id="F1">
+            <collectible id="F1" collectible_type="FACET" facet_type="ANCHOR">
+                <title>...</title>
+                <body>...</body>
+                <sources>
+                    <source chunk_id="W9" run_id="RUN-xyz222" />
+                </sources>
+            </collectible>
+
+            <chunks>
+                <chunk run_id="RUN-xyz222" chunk_id="W9" kind="TEXT">
+                    <title>...</title>
+                    <body>...</body>
+                </chunk>
+            </chunks>
+        </bundle>
+
+        <bundle slot="3" source_kind="CHUNK" run_id="RUN-abc123" chunk_id="W7">
+            <!-- If chunk is targeted directly, we mount the chunk.
+                 For CODE chunk: also include its link TEXT chunk.
+                 For TEXT chunk: no expansion. -->
+            <chunks>
+                <chunk run_id="RUN-abc123" chunk_id="W7" kind="CODE" link="W6">
+                    <title>...</title>
+                    <body>...</body>
+                </chunk>
+
+                <chunk run_id="RUN-abc123" chunk_id="W6" kind="TEXT">
+                    <title>...</title>
+                    <body>...</body>
+                </chunk>
+            </chunks>
+        </bundle>
+    </mounted>
+</targets>

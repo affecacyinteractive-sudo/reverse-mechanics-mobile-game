@@ -1,0 +1,15 @@
+{
+  "contract_version": "v1",
+  "prompt_card_id": "P-0007",
+  "title": "Harden validateToken missing-header path",
+  "sanitized_intent": "Make validateToken return a structured ok=false reason when Authorization is missing and ensure callers treat it as a normal branch.",
+  "bound_action_id": "FI-02",
+  "bound_target_ids": ["T-001", "T-014"],
+  "bound_milestone_id": "M-0003",
+  "fingerprint": "FI-02|T-001,T-014|M-0003",
+  "selected_projection_refs": [
+    { "ns": "CODEBASE", "entity_key": "src/auth.ts::validateToken" },
+    { "ns": "ISSUE", "issue_key": "ISSUE-03-missing-auth-header" }
+  ],
+  "slice_version": 1
+}

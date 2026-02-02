@@ -1,0 +1,21 @@
+{
+  "contract_version": "v1",
+  "summaries": [
+    {
+      "summary_id": "S-2026-01-24-01",
+      "scope": "GLOBAL",
+      "text": "<summary>Auth guardrails were introduced; missing-header handling must be explicit.</summary>"
+    }
+  ],
+  "recent_runs": [
+    {
+      "run_id": "R3-0005",
+      "action_id": "FI-02",
+      "milestone_id": "M-0003",
+      "chunks": [
+        { "chunk_id": "W1", "kind": "TEXT", "title": "Intent", "body": "We need validateToken to return ok=false with a reason when header is absent." },
+        { "chunk_id": "W2", "kind": "CODE", "title": "validateToken update", "body": "export function validateToken(header?: string) {\n  if (!header) return { ok: false, reason: 'Missing header' };\n  // ...\n}\n", "link": "W1" }
+      ]
+    }
+  ]
+}

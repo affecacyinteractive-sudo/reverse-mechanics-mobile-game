@@ -1,0 +1,25 @@
+{
+  "codebase": [
+    {
+      "entity_key": "src/auth.ts::validateToken",
+      "file_path": "src/auth.ts",
+      "symbol": "validateToken",
+      "kind": "FUNCTION",
+      "language": "ts",
+      "summary": "Validates auth header and returns ok/reason.",
+      "status": "ACTIVE",
+      "body": "export function validateToken(header?: string) {\n  if (!header) return { ok: false, reason: 'Missing header' };\n  // ...\n}\n",
+      "updated_at_run_id": "R3-0005"
+    }
+  ],
+  "issues": [
+    {
+      "issue_key": "ISSUE-03-missing-auth-header",
+      "title": "Requests without Authorization header cause unclear failure path",
+      "anchor_entity_key": "src/auth.ts::validateToken",
+      "status": "OPEN",
+      "severity": "MED",
+      "updated_at_run_id": "R3-0005"
+    }
+  ]
+}

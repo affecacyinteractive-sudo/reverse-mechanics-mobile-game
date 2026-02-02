@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "reverse-mechanics/projection_patch.v1.schema.json",
+  "title": "ProjectionPatchV1",
+  "type": "object",
+  "required": ["contract_version", "run_id", "ops"],
+  "properties": {
+    "contract_version": { "const": "v1" },
+    "run_id": { "type": "string", "minLength": 1 },
+    "ops": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ProjectionOpV1" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "OneLineString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 240,
+      "pattern": "^[^\\n\\r]*$"
+    },
+    "ProjectionOpV1": {
+      "oneOf": [
+        { "$ref": "#/$defs/UpsertCodebaseOpV1" },
+        { "$ref": "#/$defs/MarkRemovedCodebaseOpV1" },
+        { "$ref": "#/$defs/UpsertIndexOpV1" },
+        { "$ref": "#/$defs/DeleteIndexOpV1" },
+        { "$ref": "#/$defs/UpsertIssueOpV1" },
+        { "$ref": "#/$defs/CloseIssueOpV1" },
+        { "$ref": "#/$defs/LinkIssueOpV1" }
+      ]
+    },
+
+    "BaseOpFields": {
+      "type": "object",
+      "required": ["type", "updated_at_run_id"],
+      "properties": {
+        "type": { "type": "string" },
+        "updated_at_run_id": { "type": "string", "minLength": 1 }
+      }
+    },
+
+    "UpsertCodebaseOpV1": {
+      "allOf": [
+        { "$ref": "#/$defs/BaseOpFields" },
+        {
+          "type": "object",
+          "required": ["type", "entity_key", "file_path", "kind", "status", "summary", "body", "updated_at_run_id"],
+          "properties": {
+            "type": { "const": "UPSERT_CODEBASE" },
+            "entity_key": { "type": "string", "minLength": 1 },
+            "file_path": { "type": "string", "minLength": 1 },
+            "kind": { "type": "string", "minLength": 1 },
+            "status": { "const": "ACTIVE" },
+            "summary": { "$ref": "#/$defs/OneLineString" },
+            "body": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+
+    "MarkRemovedCodebaseOpV1": {
+      "allOf": [
+        { "$ref": "#/$defs/BaseOpFields" },
+        {
+          "type": "object",
+          "required": ["type", "entity_key", "updated_at_run_id"],
+          "properties": {
+            "type": { "const": "MARK_REMOVED_CODEBASE" },
+            "entity_key": { "type": "string", "minLength": 1 },
+            "replaced_by": { "type": "string", "minLength": 1 },
+            "removed_body_ref": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+
+    "UpsertIndexOpV1": {
+      "allOf": [
+        { "$ref": "#/$defs/BaseOpFields" },
+        {
+          "type": "object",
+          "required": ["type", "file_path", "file_summary", "contains_entity_keys", "updated_at_run_id"],
+          "properties": {
+            "type": { "const": "UPSERT_INDEX" },
+            "file_path": { "type": "string", "minLength": 1 },
+            "file_summary": { "$ref": "#/$defs/OneLineString" },
+            "contains_entity_keys": {
+              "type": "array",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+
+    "DeleteIndexOpV1": {
+      "allOf": [
+        { "$ref": "#/$defs/BaseOpFields" },
+        {
+          "type": "object",
+          "required": ["type", "file_path", "updated_at_run_id"],
+          "properties": {
+            "type": { "const": "DELETE_INDEX" },
+            "file_path": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+
+    "UpsertIssueOpV1": {
+      "allOf": [
+        { "$ref": "#/$defs/BaseOpFields" },
+        {
+          "type": "object",
+          "required": ["type", "issue_key", "title", "status", "updated_at_run_id"],
+          "properties": {
+            "type": { "const": "UPSERT_ISSUE" },
+            "issue_key": { "type": "string", "minLength": 1 },
+            "title": { "type": "string", "minLength": 1 },
+            "status": { "enum": ["OPEN", "BLOCKED", "INFO", "CLOSED"] },
+            "anchor_entity_key": { "type": "string", "minLength": 1 },
+            "anchor_file_path": { "type": "string", "minLength": 1 },
+            "details": { "type": "string", "minLength": 1 },
+            "severity": { "enum": ["LOW", "MED", "HIGH"] }
+          },
+          "anyOf": [
+            { "required": ["anchor_entity_key"] },
+            { "required": ["anchor_file_path"] }
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+
+    "CloseIssueOpV1": {
+      "allOf": [
+        { "$ref": "#/$defs/BaseOpFields" },
+        {
+          "type": "object",
+          "required": ["type", "issue_key", "updated_at_run_id"],
+          "properties": {
+            "type": { "const": "CLOSE_ISSUE" },
+            "issue_key": { "type": "string", "minLength": 1 },
+            "resolution_note": { "type": "string", "minLength": 1 }
+          },
+          "additionalProperties": false
+        }
+      ]
+    },
+
+    "LinkIssueOpV1": {
+      "allOf": [
+        { "$ref": "#/$defs/BaseOpFields" },
+        {
+          "type": "object",
+          "required": ["type", "issue_key", "updated_at_run_id"],
+          "properties": {
+            "type": { "const": "LINK_ISSUE" },
+            "issue_key": { "type": "string", "minLength": 1 },
+            "related_issue_key": { "type": "string", "minLength": 1 },
+            "related_entity_key": { "type": "string", "minLength": 1 },
+            "related_run_id": { "type": "string", "minLength": 1 },
+            "related_milestone_id": { "type": "string", "minLength": 1 },
+            "note": { "type": "string", "minLength": 1 }
+          },
+          "oneOf": [
+            { "required": ["related_issue_key"] },
+            { "required": ["related_entity_key"] },
+            { "required": ["related_run_id"] },
+            { "required": ["related_milestone_id"] }
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}
