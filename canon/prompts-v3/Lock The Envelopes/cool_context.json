@@ -1,0 +1,97 @@
+{
+  "contract_version": "v1",
+  "project_id": "proj_todo_mini",
+  "latest_run_id": "R3.17",
+
+  "context": {
+    "summaries": [
+      {
+        "run_id": "R2.04",
+        "created_at": "2026-02-05T10:12:00Z",
+        "ritual": "R2",
+        "scope": "RUN",
+        "title": "Milestone drafted: Minimal TODO CRUD UI",
+        "paragraph": "Defined a small milestone for a minimal TODO app: add/toggle/delete todos with a basic UI and a simple store. Scope is intentionally small (no persistence, no routing). Tripwires include over-scoping (auth, backend) and UI bloat. Done is satisfied when CRUD works and empty state is clean."
+      },
+      {
+        "run_id": "R3.15",
+        "created_at": "2026-02-05T10:32:00Z",
+        "ritual": "R3",
+        "scope": "RUN",
+        "title": "Store extracted into createTodoStore()",
+        "paragraph": "Implemented an in-memory todo store with subscribe(), addTodo(), toggleTodo(), removeTodo(). UI will call store methods through handlers. No persistence by design; issues logged for randomUUID compatibility and minor accessibility improvements."
+      },
+      {
+        "run_id": "R3.17",
+        "created_at": "2026-02-05T10:46:00Z",
+        "ritual": "R3",
+        "scope": "RUN",
+        "title": "TodoList UI wired to store handlers",
+        "paragraph": "Added TodoList component rendering items with toggle + delete actions and an empty-state message. Aligned with milestone scope. Remaining work is to add TodoInput and wire everything in a small page/root component."
+      }
+    ],
+
+    "recent_runs": [
+      {
+        "run_id": "R3.15",
+        "ritual": "R3",
+        "action_id": "FI-01",
+        "milestone_id": "ms:todo_minimal_crud",
+        "software": {
+          "chunks": [
+            {
+              "chunk_id": "chk:R3.15:01",
+              "kind": "CODE",
+              "title": "todoStore.js — createTodoStore() skeleton",
+              "body": "export function createTodoStore() {\n  let todos = [];\n  const subs = new Set();\n  function emit() { subs.forEach((fn) => fn(todos.slice())); }\n  function subscribe(fn) { subs.add(fn); fn(todos.slice()); return () => subs.delete(fn); }\n  return { subscribe };\n}\n",
+              "links": {
+                "projection_entity_keys": ["cb:src/todoStore.js#fn:createTodoStore"],
+                "related_issue_keys": ["iss:todoStore:crypto-uuid"]
+              }
+            },
+            {
+              "chunk_id": "chk:R3.15:02",
+              "kind": "TEXT",
+              "title": "Store intent + constraints",
+              "body": "In-memory CRUD store with subscription snapshots. Keep methods small and predictable. No persistence yet. Avoid adding reducers or external state libs in this milestone.",
+              "links": {
+                "projection_entity_keys": ["cb:src/todoStore.js#fn:createTodoStore"],
+                "related_issue_keys": ["iss:store:no-persistence"]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "run_id": "R3.17",
+        "ritual": "R3",
+        "action_id": "FI-02",
+        "milestone_id": "ms:todo_minimal_crud",
+        "software": {
+          "chunks": [
+            {
+              "chunk_id": "chk:R3.17:01",
+              "kind": "CODE",
+              "title": "TodoList.jsx — render + handlers contract",
+              "body": "export function TodoList({ todos, onToggle, onRemove }) {\n  if (!todos.length) return <p>No todos yet.</p>;\n  return (\n    <ul>\n      {todos.map((t) => (\n        <li key={t.id}>\n          <label style={{ textDecoration: t.done ? 'line-through' : 'none' }}>\n            <input type=\"checkbox\" checked={t.done} onChange={() => onToggle(t.id)} />\n            {t.text}\n          </label>\n          <button onClick={() => onRemove(t.id)}>Delete</button>\n        </li>\n      ))}\n    </ul>\n  );\n}\n",
+              "links": {
+                "projection_entity_keys": ["cb:src/components/TodoList.jsx#cmp:TodoList"],
+                "related_issue_keys": ["iss:ui:button-accessibility"]
+              }
+            },
+            {
+              "chunk_id": "chk:R3.17:02",
+              "kind": "TEXT",
+              "title": "UI behavior notes",
+              "body": "TodoList is presentational: receives todos + two callbacks. Empty state is explicit. Keep button styling minimal for now; focus on correctness and readable structure.",
+              "links": {
+                "projection_entity_keys": ["cb:src/components/TodoList.jsx#cmp:TodoList"],
+                "related_issue_keys": []
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

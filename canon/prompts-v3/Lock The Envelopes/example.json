@@ -1,0 +1,70 @@
+{
+  "projection_rev": 12,
+  "index": [
+    {
+      "file_path": "index.html",
+      "file_summary": "Single-page portfolio: sticky header/nav, hero, projects grid, about, contact form. Uses CSS variables + utility classes for layout; anchors link to section ids.",
+      "key_entities": ["#top", "#projects", "#about", "#contact", ".site-header", ".hero", ".projects-grid"]
+    },
+    {
+      "file_path": "styles.css",
+      "file_summary": "Design system + layout styles: color tokens, spacing scale, responsive grid, button styles, card components. Includes dark-mode via prefers-color-scheme.",
+      "key_entities": [":root", "@media", ".btn", ".card", ".container", ".muted", ".stack"]
+    },
+    {
+      "file_path": "assets/avatar.svg",
+      "file_summary": "Inline-friendly avatar illustration used in hero/about sections.",
+      "key_entities": ["<svg>", "path", "circle"]
+    }
+  ],
+  "codebase": [
+    {
+      "code_id": "c_1201",
+      "file_path": "index.html",
+      "status": "ACTIVE",
+      "body": "<!doctype html>\n<html lang=\"en\" id=\"top\">\n<head>\n  <meta charset=\"utf-8\" />\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\" />\n  <title>Aria V. — Frontend Developer</title>\n  <meta name=\"description\" content=\"Portfolio of Aria V.: projects, background, and contact.\" />\n  <link rel=\"stylesheet\" href=\"styles.css\" />\n</head>\n<body>\n  <header class=\"site-header\">\n    <div class=\"container header-row\">\n      <a class=\"brand\" href=\"#top\" aria-label=\"Go to top\">Aria V.</a>\n      <nav class=\"nav\" aria-label=\"Primary\">\n        <a href=\"#projects\">Projects</a>\n        <a href=\"#about\">About</a>\n        <a href=\"#contact\">Contact</a>\n      </nav>\n    </div>\n  </header>\n\n  <main class=\"container\">\n    <section class=\"hero\" aria-label=\"Intro\">\n      <div class=\"hero-copy\">\n        <p class=\"eyebrow\">Frontend Developer</p>\n        <h1>Clean UI, sharp systems, boringly reliable delivery.</h1>\n        <p class=\"muted\">I build responsive web apps with strong UX and maintainable CSS.</p>\n        <div class=\"cta-row\">\n          <a class=\"btn\" href=\"#projects\">View projects</a>\n          <a class=\"btn btn-ghost\" href=\"#contact\">Hire me</a>\n        </div>\n      </div>\n      <div class=\"hero-art\" aria-hidden=\"true\">\n        <img src=\"assets/avatar.svg\" alt=\"\" />\n      </div>\n    </section>\n\n    <section id=\"projects\" class=\"section\">\n      <div class=\"section-head\">\n        <h2>Projects</h2>\n        <p class=\"muted\">A few recent builds with a focus on clarity and craft.</p>\n      </div>\n      <div class=\"projects-grid\">\n        <article class=\"card\">\n          <h3>Focus Board</h3>\n          <p class=\"muted\">A minimal kanban with keyboard-first interactions.</p>\n          <a class=\"link\" href=\"#contact\">Request demo</a>\n        </article>\n        <article class=\"card\">\n          <h3>Landing Kit</h3>\n          <p class=\"muted\">Reusable hero/FAQ/pricing blocks with theming.</p>\n          <a class=\"link\" href=\"#contact\">Get source</a>\n        </article>\n        <article class=\"card\">\n          <h3>Docs Microsite</h3>\n          <p class=\"muted\">Fast static pages with clean typography.</p>\n          <a class=\"link\" href=\"#contact\">See samples</a>\n        </article>\n      </div>\n    </section>\n\n    <section id=\"about\" class=\"section\">\n      <div class=\"section-head\">\n        <h2>About</h2>\n        <p class=\"muted\">I like small components, predictable states, and readable stylesheets.</p>\n      </div>\n      <div class=\"stack\">\n        <p>My work tends to start with a tight slice, then grows via clean seams.</p>\n        <p class=\"muted\">Tools: HTML/CSS, modern JS, design systems, accessibility basics.</p>\n      </div>\n    </section>\n\n    <section id=\"contact\" class=\"section\">\n      <div class=\"section-head\">\n        <h2>Contact</h2>\n        <p class=\"muted\">Send a note and I’ll reply within 24–48 hours.</p>\n      </div>\n      <form class=\"card form\" action=\"#\" method=\"post\">\n        <label class=\"field\">\n          <span>Name</span>\n          <input name=\"name\" autocomplete=\"name\" required />\n        </label>\n        <label class=\"field\">\n          <span>Email</span>\n          <input name=\"email\" type=\"email\" autocomplete=\"email\" required />\n        </label>\n        <label class=\"field\">\n          <span>Message</span>\n          <textarea name=\"message\" rows=\"5\" required></textarea>\n        </label>\n        <button class=\"btn\" type=\"submit\">Send</button>\n      </form>\n    </section>\n  </main>\n\n  <footer class=\"footer\">\n    <div class=\"container footer-row\">\n      <span class=\"muted\">© 2026 Aria V.</span>\n      <a class=\"link\" href=\"#top\">Back to top</a>\n    </div>\n  </footer>\n</body>\n</html>\n"
+    },
+    {
+      "code_id": "c_1202",
+      "file_path": "styles.css",
+      "status": "ACTIVE",
+      "body": "/* Tokens */\n:root{\n  --bg:#0b0c1a;--fg:#f5f3ee;--muted:#b8b4ad;\n  --card:#151823;--border:rgba(245,243,238,.12);\n  --accent:#274690;--amber:#fca311;--r:14px;\n  --space:18px;--max:980px;--shadow:0 12px 28px rgba(0,0,0,.35);\n}\n@media (prefers-color-scheme: light){\n  :root{--bg:#eae4e0;--fg:#151823;--muted:#5b5a57;--card:#ffffff;--border:rgba(21,24,35,.12);--shadow:0 10px 22px rgba(0,0,0,.12);}\n}\n\n/* Base */\n*{box-sizing:border-box} body{margin:0;font:16px/1.5 system-ui;background:var(--bg);color:var(--fg)}\na{color:inherit;text-decoration:none}\n.container{max-width:var(--max);margin:0 auto;padding:0 var(--space)}\n.muted{color:var(--muted)}\n\n/* Header */\n.site-header{position:sticky;top:0;background:color-mix(in oklab,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}\n.header-row{display:flex;align-items:center;justify-content:space-between;height:64px}\n.brand{font-weight:650;letter-spacing:.2px}\n.nav{display:flex;gap:14px} .nav a{padding:8px 10px;border-radius:10px}\n.nav a:hover{background:color-mix(in oklab,var(--card) 70%,transparent)}\n\n/* Sections */\n.section{padding:42px 0} .section-head{margin-bottom:16px}\n.hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;padding:46px 0}\n.eyebrow{color:var(--amber);font-weight:650;margin:0 0 8px}\n.hero h1{font-size:38px;line-height:1.08;margin:0 0 10px}\n.hero-art img{width:100%;max-width:220px;display:block;margin-left:auto;filter:drop-shadow(var(--shadow))}\n\n/* Components */\n.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:18px;box-shadow:var(--shadow)}\n.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 14px;border-radius:12px;background:linear-gradient(90deg,var(--accent),var(--amber));border:0;color:white;font-weight:650}\n.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--fg)}\n.cta-row{display:flex;gap:10px;margin-top:12px}\n.link{color:color-mix(in oklab,var(--amber) 70%,var(--fg));font-weight:600}\n\n.projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}\n.stack{display:flex;flex-direction:column;gap:10px}\n.form{display:flex;flex-direction:column;gap:12px}\n.field{display:flex;flex-direction:column;gap:6px}\ninput,textarea{background:transparent;border:1px solid var(--border);border-radius:12px;color:var(--fg);padding:10px 12px;font:inherit}\n\n.footer{padding:28px 0;border-top:1px solid var(--border)}\n.footer-row{display:flex;align-items:center;justify-content:space-between}\n\n@media (max-width: 780px){\n  .hero{grid-template-columns:1fr}\n  .projects-grid{grid-template-columns:1fr}\n}\n"
+    },
+    {
+      "code_id": "c_1197",
+      "file_path": "styles.css",
+      "status": "REMOVED",
+      "replaced_by": "c_1202",
+      "body": "/* older stylesheet snapshot (pre token cleanup) */\n:root{--bg:#0b0c1a;--fg:#f5f3ee;--card:#151823;--accent:#274690;--r:12px;--max:980px}\nbody{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui}\n.container{max-width:var(--max);margin:0 auto;padding:0 16px}\n/* ... */\n"
+    },
+    {
+      "code_id": "c_1203",
+      "file_path": "assets/avatar.svg",
+      "status": "ACTIVE",
+      "body": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 220 220\" role=\"img\" aria-label=\"Avatar\">\n  <defs>\n    <linearGradient id=\"g\" x1=\"0\" x2=\"1\">\n      <stop offset=\"0\" stop-color=\"#274690\"/>\n      <stop offset=\"1\" stop-color=\"#FCA311\"/>\n    </linearGradient>\n  </defs>\n  <circle cx=\"110\" cy=\"110\" r=\"96\" fill=\"url(#g)\" opacity=\".9\"/>\n  <circle cx=\"110\" cy=\"92\" r=\"42\" fill=\"#151823\" opacity=\".9\"/>\n  <path d=\"M52 188c18-38 98-38 116 0\" fill=\"#151823\" opacity=\".9\"/>\n</svg>\n"
+    }
+  ],
+  "issues": [
+    {
+      "issue_id": "i_041",
+      "title": "Hero layout wraps awkwardly on small phones",
+      "summary": "On ~360px width, the hero heading pushes buttons below fold; consider smaller h1 size + tighter spacing.",
+      "anchor_file_path": "styles.css",
+      "status": "OPEN"
+    },
+    {
+      "issue_id": "i_038",
+      "title": "Contact form submit does nothing",
+      "summary": "Form is currently a placeholder (action '#'). Decide: mailto, Netlify forms, or a minimal backend endpoint.",
+      "anchor_file_path": "index.html",
+      "status": "OPEN"
+    },
+    {
+      "issue_id": "i_029",
+      "title": "Dark mode contrast for link hover",
+      "summary": "The link color mix is a bit dim on OLED screens; tune amber mix or add underline on hover.",
+      "anchor_file_path": "styles.css",
+      "status": "RESOLVED"
+    }
+  ]
+}

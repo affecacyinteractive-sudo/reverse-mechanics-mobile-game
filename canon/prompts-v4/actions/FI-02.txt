@@ -1,0 +1,23 @@
+## WHAT TO PRODUCE
+
+Fix **one** concrete defect (corrective change, not an enhancement). Across the full set of chunks, you must cover:
+
+* **Broken Symptom (trigger + mismatch):** a single sentence describing what action triggers the issue and what happens vs what should happen.
+* **Grounded Local Surface:** identify the specific file/entity/region where the fix will occur, using only grounded surfaces from the mounted targets/projections.
+* **Minimal Cause Candidate:** the smallest grounded explanation connecting the symptom to that local surface (no invented traces, no multi-cause narrative).
+* **Patch Segment(s):** 1–3 tiny, local edits (paired TEXT framing + CODE) nearest to the symptom; do not refactor or redesign unrelated code.
+* **Non-Regression Guard (optional):** one sentence naming the closest coupled behavior that must not change as a result of the fix.
+* **Closure Check:** one short statement of what is now restored **and** how to confirm it (mirror the symptom trigger; do not discuss blueprint progress).
+
+---
+
+## RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Symptom Snapshot:** the broken behavior as trigger + expected vs actual.
+* **Local Surface (grounded):** where the fix will occur (file/entity/region).
+* **Minimal Cause Candidate:** the smallest grounded explanation for the symptom at that surface.
+* **Patch Segment (repeatable):** a small TEXT framing chunk + a linked CODE chunk implementing one local change; repeat only as needed (1–3 max).
+* **Non-Regression Guard (optional):** the nearest sibling behavior that must remain unchanged.
+* **Closure Check:** the now-restored behavior + minimal confirmation step (mirror the symptom trigger; no blueprint progress).

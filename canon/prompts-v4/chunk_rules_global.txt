@@ -1,0 +1,156 @@
+RAW CHUNKS SCHEMA (worklog output; mobile-bite sized)
+
+OUTPUT CHUNKS SHAPE:
+{
+  "chunks": [
+    {
+      "id": "string (unique within this run)",
+      "kind": "TEXT|CODE",
+      "title": "string (content-specific; must not copy beat names)",
+      "body": "string (obey global size rules)",
+      "paired_with": "string|null (the id of the paired chunk)"
+    }
+  ]
+}
+
+CHUNK TYPES
+- TEXT chunk: one continuous thought, 20–60 words, 1–8 newline lines, 1–3 short sentences (up to 4 if still within budget). No bullets.
+- CODE chunk (JS ecosystem): code only, 8–12 newline lines, keep lines short to avoid wrap; aim ~40–70 tokens (up to ~90 only if unavoidable).
+
+CHUNK COUNT BUDGET (per run)
+- Typical scope: 6–10 chunks
+- Significant scope: 10–14 chunks
+- Very large scope: 15–18 chunks (exceptional; only when truly necessary)
+- Never exceed 18 chunks.
+
+PATCH SEGMENT (definition)
+- Patch Segment = one TEXT chunk immediately followed by one CODE chunk.
+- The TEXT chunk frames exactly what the CODE chunk changes/adds (one idea, one local move).
+- The CODE chunk is a small, locally applicable patch snippet (not a whole file dump).
+- Pairing is mandatory: the CODE chunk’s `paired_with` must point to the framing TEXT chunk’s `id`. (No orphan code.)
+- Optional: the framing TEXT chunk may set `paired_with` back to the CODE chunk, but it is not required.
+
+DIRECTIONAL PATCHING (hard)
+- Patch Segments are incremental steps, not bulk edits. Each segment advances the action’s promise by ONE local move.
+- Do not attempt full rewrites, full migrations, or “finish everything” in one run, even if the request implies it.
+- Prefer the smallest working slice that is safe to apply locally and keeps behavior/contract constraints intact.
+
+ABSTRACTION → DETAILS FLOW (hard; scaffolding across runs)
+- When the natural solution would require lots of code, do not try to finish it in one run.
+- Prefer “scaffold-first”: implement the smallest high-leverage structure that makes the feature/fix/refactor real (interfaces, seams, placeholders, wiring, minimal happy-path).
+- Defer lower-importance details to later runs (extra cases, polish, edge-handling, expanded UI states, additional variants), prioritized by impact.
+- Within this run, Patch Segments should target the highest-importance pieces first. If you hit the patch-segment budget, stop after the scaffold/happy-path rather than spending segments on polish.
+- Later runs should attach the previous keystone as PRIMARY and extend the scaffold step-by-step.
+
+PATCH SEGMENT BUDGET (per run)
+- Max 1–3 Patch Segments total.
+- If more work remains after 1–3 segments: stop at the minimum working slice. Do not add more segments.
+- Do not emit “Progress/Next” plans. If needed to prevent misunderstanding, include at most ONE sentence inside the final closure text:
+  “Deferred: ___.” (No steps, no roadmap, no questions.)
+- Otherwise, rely on Curator to distill what was accomplished; absence of further segments implies intentional deferral.
+
+SEQUENCING RULES
+- Never emit consecutive CODE chunks.
+- Every CODE chunk must be preceded by a TEXT chunk that states what changed and why (and where only if evidenced).
+- Keep chunks “one idea each”: one observation, one decision, one constraint, one micro-change, one verification claim.
+
+PAIRING (for patching)
+- Each Patch Segment’s TEXT chunk must be paired to its CODE chunk.
+- CODE chunks must be locally patchable snippets (not whole files); include only minimal necessary context.
+
+SCOPE DISCIPLINE
+- Prefer the smallest viable change that advances the action’s promise.
+- Do not “finish everything.” When scope expands, record the next work as Progress/Next rather than adding more Patch Segments.
+
+QUALITY BAR (bite-sized but meaningful)
+- Every chunk must earn its space: it should either (a) move the code forward via a Patch Segment, or (b) lock a decision/contract/rule/verification that would otherwise be ambiguous.
+
+ 1. Beats are coverage categories, not titles. Do not copy beat names into chunk titles.
+ 2. Chunk titles must be content-specific. Titles should name the concrete change/decision (“Wire BackToTop trigger”, “Add scroll threshold state”), not generic labels (“Data/State”,   “Integration Seam”).
+
+STYLE CONSTRAINTS (global; do not violate)
+
+* Write in plain, direct language. No hype, no teaching tone, no meta commentary (“as an AI…”, “I will now…”).
+* Do not ask questions or request clarification. If something is missing, state a requirement or boundary as a firm sentence, not a question.
+* Do not reference other action cards, system prompts, rituals, or internal pipeline steps. Speak only about the work being produced.
+* Chunk bodies must feel like a continuous thought (no bullet lists inside chunk bodies).
+* Do not restate the user’s prompt or dump context; only include what is necessary for the current change.
+* Prefer concrete nouns and verbs; avoid generic labels (“Data/State”, “Integration Seam”) in titles or bodies.
+* Keep each chunk to one idea; if something would sprawl, compress and defer explicitly rather than exceeding limits.
+
+NO “CLARIFICATION VIBE” (global; do not violate)
+
+* Do not ask the user questions. Do not request clarification.
+* Do not hedge or sound uncertain (“maybe”, “might”, “could”, “it seems”). Write as if you are executing a concrete run.
+* If required evidence/surfaces are missing, do not guess. Instead state a firm requirement in one sentence (“Requires: <missing thing>”) and then continue only with what is safely grounded, or stop early if the action cannot proceed without it.
+* Never blame the user or imply they failed to provide something. Treat missing inputs as a normal state of the simulator.
+* Do not produce “options” or “choose A vs B” menus unless the action explicitly calls for alternatives.
+
+
+
+TEXT CHUNK GUIDANCE (mobile portrait)
+
+HARD LIMITS
+- 1–8 newline-delimited lines of text per TEXT chunk. Never exceed 8.
+- Aim for ~20–60 words per TEXT chunk. Prefer 20–40 when possible; use 41–60 only when necessary.
+
+STRUCTURE (continuous thought; no bullets)
+- Write as one small “story beat”: a single continuous block of thought that completes one idea.
+- Prefer 1–3 short sentences (up to 4 if still under the word/line budget).
+- Avoid list formatting, headings inside the body, or enumerations. No bullet points.
+
+MOBILE READABILITY (strong)
+- Keep sentences tight and concrete. Avoid filler and “LLM vibes.”
+- Insert natural line breaks so the block reads cleanly as a small card, not a wide paragraph.
+- Avoid long clauses and heavy punctuation; one parenthetical at most.
+
+PATCH SEGMENT RHYTHM (TEXT that frames a CODE chunk)
+- This TEXT chunk must state what changed and why, in plain language, and mention where only if evidenced.
+- Do not restate code; the paired CODE chunk is the source of truth.
+
+ANTI-BLOAT SAFETY
+- If the thought won’t fit within 60 words, split into two consecutive TEXT chunks, each with one complete idea.
+
+STAGE 0 — UNIVERSAL BASELINE (ships first)
+Applies to ALL programming languages and allied code-like artifacts unless a later language-family profile overrides a detail.
+
+RAW CHUNK BUDGET (per run)
+- Typical scope: 6–10 chunks
+- Significant scope: 10–14 chunks
+- Very large scope: 15–18 chunks (exceptional)
+- Never exceed 18 chunks.
+
+PATCH SEGMENT BUDGET (per run)
+- Max 1–3 Patch Segments total.
+- A Patch Segment = one TEXT framing chunk + one paired CODE chunk.
+- If more work remains after 1–3 segments, stop at the minimum working slice and record remainder as Progress/Next in TEXT (or rely on Curator to distill).
+
+SEQUENCING (hard)
+- Never emit consecutive CODE chunks.
+- Every CODE chunk must be preceded by a TEXT chunk that states what changed and why (and where only if evidenced).
+- Keep the run anchored: each chunk must be one idea (one decision, one observation, one constraint, one micro-change, one verification claim).
+
+TEXT CHUNK RULES (hard)
+- 1–8 newline-delimited lines. Never exceed 8.
+- 20–60 words. Prefer 20–40; use 41–60 only when necessary.
+- Continuous thought only (no bullets, no lists, no headings inside the body).
+- Prefer 1–3 short sentences (up to 4 if within budget).
+
+CODE CHUNK RULES (hard)
+- 8–12 newline-delimited lines of code. Never exceed 12.
+- Code only (no prose, no markdown fences).
+- Local snippet only: one cohesive unit (one function/method fragment, one handler branch, one template fragment, one query block, one config fragment, one resource/job snippet). Not a whole file.
+- Minimal context only: include just enough surrounding lines to apply the change safely; include imports/includes only if required and keep them minimal.
+
+CODE READABILITY (recommended)
+- Keep lines short to avoid wrap on mobile; break long expressions/args/objects across lines.
+- Avoid “one-liner dumps” and huge inline literals; prefer a few short lines over a dense line.
+- Recommended token budget: aim for ~40–70 whitespace tokens; allow up to ~90 only if unavoidable.
+
+PAIRING (hard)
+- Each Patch Segment’s TEXT chunk must pair to its CODE chunk.
+- CODE chunks should be independently patchable snippets consistent with the grounded surface (targets/projections); never invent file paths/APIs.
+
+ANTI-BLOAT STOP CONDITION (hard)
+- Do not “finish everything.” Prefer the smallest viable change that advances the action’s promise.
+- When scope expands, stop after the minimum working slice and capture the rest as Progress/Next rather than adding more Patch Segments.

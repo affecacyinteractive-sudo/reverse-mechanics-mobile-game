@@ -1,0 +1,22 @@
+## WHAT TO PRODUCE
+
+Upgrade an existing feature **without changing its external contract/rules**. Across the full set of chunks, you must cover:
+
+* **Current Surface:** what the feature currently does, and what makes it recognizably the same feature (entry point / primary behavior), grounded in PRIMARY target when present, otherwise grounded in mounted projections.
+* **Upgrade Goal:** one clear improvement axis (capability **or** polish **or** resilience) that preserves the feature’s identity.
+* **Contract Lock (hard line):** do **not** change external rules/contract/acceptance criteria. If the request requires a rule shift, this action is not applicable (must be blocked/rerouted upstream).
+* **Patch Segment(s):** 1–3 tiny, local edits (paired TEXT framing + CODE) implementing the upgrade while respecting the contract lock; no refactor/redesign unrelated to the upgrade.
+* **Closure Check:** one “If pledged/committed…” observable statement that proves the upgrade occurred (no checklist; no blueprint progress).
+* **Non-Regression Guard (optional):** one sentence naming the closest coupled neighboring behavior that must remain unchanged.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Current Surface:** what the feature does today (observable), so the upgrade stays anchored.
+* **Upgrade Goal:** one clear improvement axis (capability or polish or resilience).
+* **Why-this-upgrade (optional):** one sentence explaining why this upgrade matters (coherence, not a plan).
+* **Contract Lock (hard line):** explicit reminder that external rules/acceptance criteria must not change.
+* **Patch Segment (repeatable):** a small TEXT framing chunk + a linked CODE chunk implementing one local upgrade; repeat only as needed (1–3 max).
+* **Non-Regression Guard (optional):** the closest coupled neighboring behavior that must remain unchanged.
+* **Closure Check:** one “If pledged/committed…” observable statement proving the upgrade occurred (no blueprint progress).
+

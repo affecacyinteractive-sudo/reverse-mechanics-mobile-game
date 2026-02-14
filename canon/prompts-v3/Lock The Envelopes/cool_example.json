@@ -1,0 +1,141 @@
+{
+  "contract_version": "v1",
+  "project": {
+    "project_id": "proj_todo_mini",
+    "name": "Mini TODO (JS)",
+    "stack_hint": "Next.js + client store (plain JS)"
+  },
+  "latest_run_id": "R3.17",
+  "index_items": [
+    {
+      "index_key": "idx:src/todoStore.js",
+      "file_path": "src/todoStore.js",
+      "file_kind": "source",
+      "language": "javascript",
+      "status": "ACTIVE",
+      "updated_at_run_id": "R3.17",
+      "file_summary": "In-memory todo store with CRUD ops and simple event subscribers (no persistence).",
+      "exports": ["createTodoStore"],
+      "contains_entity_keys": [
+        "cb:src/todoStore.js#type:Todo",
+        "cb:src/todoStore.js#fn:createTodoStore",
+        "cb:src/todoStore.js#fn:subscribe",
+        "cb:src/todoStore.js#fn:addTodo",
+        "cb:src/todoStore.js#fn:toggleTodo",
+        "cb:src/todoStore.js#fn:removeTodo"
+      ],
+      "keywords": ["todo", "store", "subscribe", "toggle", "delete"]
+    },
+    {
+      "index_key": "idx:src/components/TodoList.jsx",
+      "file_path": "src/components/TodoList.jsx",
+      "file_kind": "source",
+      "language": "jsx",
+      "status": "ACTIVE",
+      "updated_at_run_id": "R3.17",
+      "file_summary": "Todo list UI: renders items, toggles completion, deletes items, and shows empty state.",
+      "exports": ["TodoList"],
+      "contains_entity_keys": [
+        "cb:src/components/TodoList.jsx#cmp:TodoList",
+        "cb:src/components/TodoList.jsx#fn:onToggle",
+        "cb:src/components/TodoList.jsx#fn:onRemove"
+      ],
+      "keywords": ["react", "component", "render", "toggle", "remove"]
+    },
+    {
+      "index_key": "idx:src/components/TodoInput.jsx",
+      "file_path": "src/components/TodoInput.jsx",
+      "file_kind": "source",
+      "language": "jsx",
+      "status": "ACTIVE",
+      "updated_at_run_id": "R3.17",
+      "file_summary": "Todo input UI: controlled text input + submit handler that calls store.addTodo.",
+      "exports": ["TodoInput"],
+      "contains_entity_keys": [
+        "cb:src/components/TodoInput.jsx#cmp:TodoInput",
+        "cb:src/components/TodoInput.jsx#fn:onSubmit"
+      ],
+      "keywords": ["react", "form", "input", "submit"]
+    }
+  ],
+  "codebase_items": [
+    {
+      "entity_key": "cb:src/todoStore.js#type:Todo",
+      "file_path": "src/todoStore.js",
+      "entity_kind": "TYPE",
+      "entity_name": "Todo",
+      "status": "ACTIVE",
+      "updated_at_run_id": "R3.17",
+      "summary": "Todo record shape used by the store and UI.",
+      "signature": "{ id: string, text: string, done: boolean, createdAt: number }",
+      "body": "/** @typedef {{ id: string, text: string, done: boolean, createdAt: number }} Todo */"
+    },
+    {
+      "entity_key": "cb:src/todoStore.js#fn:createTodoStore",
+      "file_path": "src/todoStore.js",
+      "entity_kind": "FUNCTION",
+      "entity_name": "createTodoStore",
+      "status": "ACTIVE",
+      "updated_at_run_id": "R3.17",
+      "summary": "Creates the todo store with state, subscribers, and CRUD methods.",
+      "exports": ["createTodoStore"],
+      "body": "export function createTodoStore() {\n  /** @type {import('./todoStore').Todo[]} */\n  let todos = [];\n  /** @type {Set<(todos: Todo[]) => void>} */\n  const subs = new Set();\n\n  function emit() {\n    const snapshot = todos.slice();\n    subs.forEach((fn) => fn(snapshot));\n  }\n\n  function subscribe(fn) {\n    subs.add(fn);\n    fn(todos.slice());\n    return () => subs.delete(fn);\n  }\n\n  function addTodo(text) {\n    const clean = String(text || '').trim();\n    if (!clean) return;\n    const id = crypto.randomUUID();\n    todos = [{ id, text: clean, done: false, createdAt: Date.now() }, ...todos];\n    emit();\n  }\n\n  function toggleTodo(id) {\n    todos = todos.map((t) => (t.id === id ? { ...t, done: !t.done } : t));\n    emit();\n  }\n\n  function removeTodo(id) {\n    todos = todos.filter((t) => t.id !== id);\n    emit();\n  }\n\n  return { subscribe, addTodo, toggleTodo, removeTodo };\n}\n"
+    },
+    {
+      "entity_key": "cb:src/components/TodoList.jsx#cmp:TodoList",
+      "file_path": "src/components/TodoList.jsx",
+      "entity_kind": "COMPONENT",
+      "entity_name": "TodoList",
+      "status": "ACTIVE",
+      "updated_at_run_id": "R3.17",
+      "summary": "Renders todos; wires toggle/remove handlers to the store methods.",
+      "body": "export function TodoList({ todos, onToggle, onRemove }) {\n  if (!todos.length) return <p>No todos yet.</p>;\n  return (\n    <ul>\n      {todos.map((t) => (\n        <li key={t.id}>\n          <label style={{ textDecoration: t.done ? 'line-through' : 'none' }}>\n            <input type=\"checkbox\" checked={t.done} onChange={() => onToggle(t.id)} />\n            {t.text}\n          </label>\n          <button onClick={() => onRemove(t.id)}>Delete</button>\n        </li>\n      ))}\n    </ul>\n  );\n}\n"
+    },
+
+    {
+      "entity_key": "cb:src/todoStore.js#fn:addTodo",
+      "file_path": "src/todoStore.js",
+      "entity_kind": "FUNCTION",
+      "entity_name": "addTodo",
+      "status": "REMOVED",
+      "updated_at_run_id": "R3.12",
+      "replaced_by": "cb:src/todoStore.js#fn:createTodoStore",
+      "summary": "Old standalone addTodo; removed when store methods were consolidated inside createTodoStore().",
+      "body": "/* removed: was a standalone addTodo(todos, text) that returned a new todos array */"
+    }
+  ],
+  "issue_items": [
+    {
+      "issue_key": "iss:todoStore:crypto-uuid",
+      "status": "OPEN",
+      "severity": "MEDIUM",
+      "updated_at_run_id": "R3.17",
+      "title": "crypto.randomUUID may be unavailable in some environments",
+      "summary": "If running in older browsers / restricted runtimes, randomUUID may be missing. Consider a fallback or injecting an id generator.",
+      "anchor_entity_key": "cb:src/todoStore.js#fn:createTodoStore",
+      "anchor_file_path": "src/todoStore.js",
+      "tags": ["compat", "runtime"]
+    },
+    {
+      "issue_key": "iss:ui:button-accessibility",
+      "status": "OPEN",
+      "severity": "LOW",
+      "updated_at_run_id": "R3.17",
+      "title": "Delete button lacks an accessible label context",
+      "summary": "Button text is present but could be improved with aria-label including todo text for screen readers.",
+      "anchor_entity_key": "cb:src/components/TodoList.jsx#cmp:TodoList",
+      "anchor_file_path": "src/components/TodoList.jsx",
+      "tags": ["a11y", "ui"]
+    },
+    {
+      "issue_key": "iss:store:no-persistence",
+      "status": "RESERVE",
+      "severity": "LOW",
+      "updated_at_run_id": "R3.17",
+      "title": "Store is in-memory only (no persistence)",
+      "summary": "This is acceptable for a minimal demo. If product scope expands, add localStorage or backend persistence.",
+      "anchor_file_path": "src/todoStore.js",
+      "tags": ["scope", "future"]
+    }
+  ]
+}

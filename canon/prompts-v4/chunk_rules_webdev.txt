@@ -1,0 +1,43 @@
+STAGE 1 — WEB/UI FAMILY PROFILE (JS ecosystem + templates)
+This profile sits on top of STAGE 0 (Universal Baseline). All Stage 0 rules still apply. These are additional “shape + bloat-prevention” hints for web UI work.
+
+APPLIES TO
+- TS / JS
+- React / Vue / Svelte / Angular
+- HTML / CSS
+
+COHESIVE UNIT (what “one CODE chunk” typically is)
+- TS/JS: one small helper, one handler branch, one adapter mapping, one validator, one hook fragment, one service method fragment.
+- React/Vue/Svelte/Angular: one component fragment OR one hook/service fragment OR one template fragment that changes behavior (not a whole component file).
+- HTML: one small markup fragment (a single section/component block), not a full page.
+- CSS: one selector block (or one @media block if necessary) containing only properties relevant to the change.
+
+COMMON BLOAT TRAPS (avoid)
+- Giant JSX/template blocks with many nested children.
+- Long prop lists on one line, especially with inline objects/functions.
+- Huge inline object/array literals (theme objects, config maps, route tables).
+- Long chained calls (map/filter/reduce/pipe) that become unreadable on mobile.
+- “Refactor by paste”: dumping large unchanged surrounding code for context.
+
+MOBILE-FRIENDLY FORMATTING (strong)
+- Prefer vertical formatting:
+  - Break JSX/props across multiple lines.
+  - Break object literals across multiple lines with only the edited keys.
+  - Break long call chains into 2–4 lines with intermediate variables when needed.
+- Keep each line short enough to avoid wrap; rewrite rather than letting a single line overflow.
+- Prefer explicit small variables over dense inline expressions.
+
+MINIMAL CONTEXT (recommended)
+- Only include the smallest surrounding context needed to apply the change:
+  - For components: the nearest JSX/template fragment + the minimal state/props lines it depends on.
+  - For styles: the selector + changed properties only.
+  - For TS/JS logic: the function signature + edited core lines.
+- Imports are allowed only if required; keep to 1–2 lines and prefer existing import style.
+
+PATCH SEGMENT PRACTICE (recommended)
+- 1 Patch Segment is often enough for UI changes; 2–3 only when absolutely necessary.
+- If you need more than 3 micro-changes, stop and record Progress/Next rather than emitting more CODE chunks.
+
+VERIFICATION STYLE (recommended)
+- Prefer a concrete “UI signal” check: what the user sees after the interaction.
+- If the change is non-visual (state/data), mention the observable effect (rendered value, network call, stored preference) in the framing TEXT chunk.

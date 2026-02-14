@@ -1,0 +1,22 @@
+
+## FI-03 — WHAT TO PRODUCE (new-design ready)
+
+Across the full set of chunks, you must cover:
+
+* **Rule Shift (Before → After):** one sentence stating the decision change as condition + outcome (plain language; grounded in directive + targets/projections).
+* **Rule Statement (crisp):** the new rule as a tight condition → outcome statement that matches the Rule Shift.
+* **Rule Surface (grounded):** where the decision lives (file/entity/region) using only grounded identifiers from targets/projections.
+* **Patch Segment(s):** 1–3 tiny local edits that enforce the new rule and nothing else (nearest decision point; no refactor/redesign).
+* **Closure Check:** one now-true observable statement that mirrors the Rule Shift trigger (no checklists; no blueprint progress).
+* **Guardrail Case (optional):** one boundary/neighbor behavior that must remain unchanged after the rule change.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* Rule Shift (Before → After): the one-sentence decision change (condition + outcome).
+* Rule Statement (crisp): the new rule in a compact condition → outcome form.
+* Rule Surface (grounded): where the rule lives (file/entity/region) using only grounded identifiers.
+* Impact Note (optional): one sentence stating the intended blast radius (what this affects and what it does not).
+* Patch Segment (repeatable): a small TEXT framing chunk + a linked CODE chunk implementing one local change; repeat only as needed (1–3 max).
+* Guardrail Case (optional): one edge case / neighboring behavior that must remain unchanged.
+* Closure Check: the now-true observable outcome that mirrors the Rule Shift trigger (no blueprint progress).

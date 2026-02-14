@@ -1,0 +1,23 @@
+## WHAT TO PRODUCE
+
+Produce a grounded **cliff map** for one specific surface’s boundary behavior. You are not changing code. Across the full set of chunks, you must cover:
+
+* **Surface Identity (grounded):** the single surface being mapped (file/entity/region and what it is), using only grounded identifiers from targets/projections.
+* **Boundary Axes (2–4):** the few condition “sliders” that most affect this surface (e.g., empty↔non-empty, small↔large, unauth↔auth, fast↔slow, single↔concurrent).
+* **Failure Modes (edge-linked):** the most likely failures at those boundary edges, each explicitly tied to one boundary axis.
+* **Symptoms (observable):** what a user/caller would observe when each failure mode occurs (no invented internals).
+* **Trigger Conditions / Risk Amplifiers (optional, evidenced):** include only if directly supported by grounded evidence; describe what tends to trigger/worsen the failure without claiming root cause.
+* **Priority Order:** rank the top cliffs by practical impact (severity × likelihood), so the map is immediately actionable as understanding.
+* **Continuity:** one sentence stating why this cliff map matters relative to the current blueprint (what it could block or destabilize), without proposing next actions.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Surface Identity (grounded):** the specific surface being mapped and where it lives.
+* **Boundary Axes (2–4):** the few condition “sliders” that most affect this surface.
+* **Failure Modes (edge-linked):** likely failures at the boundary edges, each tied to one axis.
+* **Symptoms (observable):** what a user/caller would notice for each failure mode.
+* **Trigger Conditions / Risk Amplifiers (optional, evidenced):** include only if directly supported by grounded evidence.
+* **Priority Order:** rank the top cliffs by practical impact (severity × likelihood).
+* **Mitigation Hint (optional, non-prescriptive):** one sentence per top cliff on the kind of mitigation that usually helps, without proposing patches/files.
+* **Continuity:** one sentence on why this matters for the current blueprint (what it could block/destabilize), without proposing next actions.

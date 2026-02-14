@@ -1,0 +1,1253 @@
+Below is the **Feature Introduction (FI)** school, dissected in that spirit.
+
+---
+
+## FI school in one sentence
+
+**FI is about changing reality** (adding/fixing/changing/enhancing) with the smallest coherent move, and expressing it as a deck of small, reusable chunks.
+
+Think of FI as **construction work**:
+
+* FI-01 = build a new small room
+* FI-02 = fix a broken door
+* FI-03 = change a house rule (how the door decides to open)
+* FI-04 = upgrade an existing room (better lighting, safer lock) without turning it into a new house
+
+---
+
+## FI-01 — Cut a New Path — New Feature Slice
+
+### What it’s for (plain-English)
+
+Add **one new capability** that’s small enough to finish in a few moves, not “build the whole product.”
+
+### “What to Produce” clauses (what each one *means*)
+
+You’re defining a **tiny end-to-end slice**, and you must cover:
+
+1. **User-visible behavior (what changes for the user)**
+   The “outside view.” What can someone do now that they couldn’t before?
+   *Example (non-software):* “Customers can now reserve a table online.”
+   *Example (TODO app):* “User can mark a task as ‘Important’ and see it highlighted.”
+
+2. **Smallest contract change / new entry point**
+   The smallest new “door” into the capability. Not the full architecture—just the minimal way it’s accessed.
+   *Non-software:* “A new reservation phone line” or “a new form at the front desk.”
+   *TODO app:* “A new toggle in the task UI” or “a new handler that accepts ‘important=true’.”
+
+3. **Minimum data/state involved**
+   What minimal information must exist for this feature to work, and how long it lives.
+   *Non-software:* “Reservation needs name + time slot.”
+   *TODO app:* “Task needs `isImportant: boolean` (default false).”
+
+4. **Integration with existing surfaces implied by targets/projections**
+   How it fits into what already exists—without inventing new worlds.
+   *Non-software:* “Reservations must show up on the same schedule board staff already uses.”
+   *TODO app:* “Important tasks show up in the existing task list rendering, not in a brand-new screen.”
+
+Also: if code evidence isn’t present, the output should stay **concrete but unnamed** (“Unspecified button/route/file”) instead of hallucinating file paths.
+
+### “Recommended Chunk Beat Categories” (what each beat is *doing*)
+
+These beats are a **presentation plan** so the slice is legible and collectible:
+
+* **Slice Promise**
+  The “one paragraph pitch” of the new capability.
+  *Good chunk anchor example:* “Important tasks stand out at a glance”
+
+* **Entry Point / Contract**
+  The “doorway” and the minimum agreement around it.
+  *Anchor example:* “A single toggle that persists importance”
+
+* **Data / State**
+  The smallest state shape and lifecycle.
+  *Anchor example:* “`isImportant` lives on each task, defaulting to false”
+
+* **Integration Seam**
+  How it plugs into existing surfaces.
+  *Anchor example:* “Highlighting flows through the existing task renderer”
+
+* **Patch Segment (repeatable)**
+  The “do a small thing” pair: a short framing text + a small code patch (repeat if needed).
+  *Anchor example:* “Persist the flag when a task is saved”
+
+* **Progress Anchor**
+  A tight “what is now true” statement that future steps can reference.
+  *Anchor example:* “Tasks now carry an importance signal end-to-end”
+
+**Relationship to the contract:**
+The contract says *what must exist*. The beats are the cleanest way to *express that existence* without dumping.
+
+---
+
+## FI-02 — Set the Broken Bone — Corrective Fix
+
+### What it’s for (plain-English)
+
+Fix **one broken behavior** with the smallest safe change—no upgrades, no refactor campaign.
+
+### “What to Produce” clauses (what each one means)
+
+1. **Broken Symptom (observable wrongness)**
+   What someone experiences that’s wrong.
+   *Non-software:* “Door latch sticks; door won’t close.”
+   *TODO app:* “Completing a task doesn’t visually update until refresh.”
+
+2. **Minimal Cause Hypothesis (smallest plausible explanation)**
+   Not detective fanfic—just the tight link between symptom and the likely surface.
+   *Non-software:* “Latch plate misaligned.”
+   *TODO app:* “UI state doesn’t update after write.”
+
+3. **Patch Segment(s) (tiny local edits)**
+   Do the smallest patch that fixes the symptom.
+   *Non-software:* “Tighten hinge screws / realign plate.”
+   *TODO app:* “Update local state after save returns.”
+
+4. **Verification Note (observable ‘fixed’ statement)**
+   Not a checklist—just what should now be true.
+   *Example:* “After clicking complete, the task immediately shows completed state.”
+
+5. **Optional Non-Regression Guard**
+   One nearby thing that must not break.
+   *Example:* “Completing shouldn’t reorder tasks unexpectedly.”
+
+### Beat categories (what they’re doing)
+
+* **Symptom Snapshot** → make the pain concrete
+  *Anchor:* “Completion doesn’t render until refresh”
+
+* **Local Surface (only if evidenced)** → point to where it lives without guessing
+  *Anchor:* “Completion UI state update path”
+
+* **Minimal Cause** → tight link
+  *Anchor:* “The UI never re-reads the updated task”
+
+* **Patch Segment (repeatable)** → small fix steps
+  *Anchor:* “Apply state update after successful write”
+
+* **Verification Note** → outcome
+  *Anchor:* “Completion is visible immediately”
+
+* **Non-Regression Guard / Progress Anchor (optional)** → keep the fix bounded
+  *Anchor:* “Completion updates without changing ordering rules”
+
+**Relationship:**
+Contract forces “symptom → cause → patch → observable fix.” Beats make it readable.
+
+---
+
+## FI-03 — Rewrite the Rulebook — Decision Logic Change
+
+### What it’s for (plain-English)
+
+Change **one rule** (how the system decides something) while keeping everything else stable.
+
+### “What to Produce” clauses
+
+1. **Rule Shift (before → after, in plain language)**
+   *Non-software:* “Late arrivals used to lose the reservation; now they keep it for 10 minutes.”
+   *TODO app:* “Overdue tasks used to sort to top; now only ‘Important’ tasks do.”
+
+2. **Rule Location (only if evidenced)**
+   Where that rule lives—only if you can actually see it.
+   *Example:* “Sorting decision happens in the list render function.”
+
+3. **Patch Segment(s)**
+   Small edits implementing only that rule shift.
+
+4. **Verification Note**
+   Observable statement that proves the rule changed.
+
+5. **Boundary Case Guard**
+   One edge that must not regress.
+   *Example:* “Tasks without due dates must keep their existing placement.”
+
+### Beat categories (why they exist)
+
+* **Rule Shift** → makes the change unambiguous
+  *Anchor:* “Sorting now prioritizes importance over overdue”
+
+* **Rule Location** → prevents random edits elsewhere
+  *Anchor:* “The sort comparator is the only decision point”
+
+* **Patch Segment** → implement minimally
+  *Anchor:* “Update comparator to reflect new priority”
+
+* **Verification Note** → what you should observe
+  *Anchor:* “Important tasks rise even when not overdue”
+
+* **Boundary Case Guard** → keep it safe
+  *Anchor:* “No-due-date tasks remain stable”
+
+**Relationship:**
+Contract ensures you don’t “change code” without clearly stating the behavioral rule change.
+
+---
+
+## FI-04 — Bolt on an Upgrade — Feature Enhancement
+
+### What it’s for (plain-English)
+
+Make an existing capability **better** without changing what it fundamentally is.
+
+### “What to Produce” clauses
+
+1. **Current Surface (what it does today)**
+   Establish baseline behavior.
+   *Non-software:* “Current checkout prints a basic receipt.”
+   *TODO app:* “Current task creation saves title only.”
+
+2. **Upgrade Goal (what improves)**
+   Capability/polish/resilience improvement that doesn’t redefine the feature.
+   *Example:* “Receipt now includes tax breakdown.”
+   *TODO app:* “Task creation supports optional notes.”
+
+3. **Patch Segment(s) (local edits)**
+   Do the smallest implementation that achieves the upgrade.
+
+4. **Verification Note (observable outcome)**
+   *Example:* “New tasks can include notes and display them correctly.”
+
+5. **Optional Non-Regression Guard**
+   Protect the most coupled neighbor.
+   *Example:* “Adding notes must not break sorting/search.”
+
+### Beat categories (what each beat contributes)
+
+* **Current Surface**
+  *Anchor:* “Task creation currently stores only a title”
+
+* **Upgrade Goal**
+  *Anchor:* “Notes add clarity without changing task identity”
+
+* **Patch Segment**
+  *Anchor:* “Persist and render notes as an optional field”
+
+* **Verification Note**
+  *Anchor:* “Notes appear reliably across reloads”
+
+* **Non-Regression / Progress Anchor (optional)**
+  *Anchor:* “Notes don’t alter completion or sorting behavior”
+
+**Relationship:**
+Contract prevents “upgrade” from becoming “new feature” or “refactor spree.” Beats keep it digestible.
+
+---
+
+Below is **Feature Understanding (FU)** in the *concrete* way you’re asking for: what each FU action is “for”, what its **What to Produce** clauses are really demanding, what the **beat categories** mean in practice, and **examples** that show how those two sections work together (without forcing a 1:1 mapping).
+
+In your system, **FU = “stop guessing, start knowing.”** It turns messy reality (“it kinda works”) into **stable, targetable knowledge** (“this is what happens, here’s the edge, here’s the seam, here’s the signal”).
+
+---
+
+## FU-03 — Watch the Machine Run
+
+**What it’s for (plain-English):**
+You take a feature/mechanism and **watch it operate end-to-end**, then you describe what it *actually does* in a way that can’t drift later.
+
+### What to Produce (what must be true)
+
+* **Surface Identity**: name the exact surface you’re watching (not “the app”; “Add Todo flow + list render”).
+* **Trigger Snapshot**: what starts the behavior (click, keystroke, API call, timer, user gesture).
+* **State Snapshot**: what changes (inputs → internal state → outputs).
+* **Outcome Trace**: the step-by-step of “then this happens, then this happens.”
+* **Missing Evidence handling**: if you don’t have enough evidence, you *don’t invent*—you output text-only and state the minimum evidence required **without sounding like a question**.
+
+### Beat categories (how to express it in chunks)
+
+Think of these as **camera shots**:
+
+* **Surface Identity** = “what scene are we filming?”
+* **Trigger Snapshot** = “what action starts it?”
+* **State Snapshot** = “what changed?”
+* **Outcome Trace** = “play-by-play”
+* **Continuity** = “why this matters next / what it connects to”
+
+### Concrete example (TODO app)
+
+**What to Produce** says you must cover identity + trigger + state + trace.
+So the chunks might look like:
+
+* **“Add Todo: Enter key → item appears in list”** (Surface Identity + Trigger)
+  “User types ‘Buy milk’ and presses Enter in the input…”
+* **“State change: items[] grows + render list rehydrates”** (State Snapshot)
+  “Before: 2 items. After: 3. New item has id=…”
+* **“Outcome trace: input handler → create item → push → render → clear input”** (Outcome Trace)
+  “1) keydown handler fires… 2) validation… 3) append… 4) render…”
+* **“Continuity: this flow is the anchor for probes + observability”** (Continuity)
+  “Next FU steps can probe empty/long input and add signals here.”
+
+### Concrete example (non-software)
+
+A restaurant:
+
+* Surface Identity: “Order → payment → kitchen ticket”
+* Trigger: “server submits order”
+* State: “ticket created, table status changes”
+* Outcome trace: “submit → validate → charge → ticket prints”
+
+---
+
+## FU-04 — Tap the Walls
+
+**What it’s for:**
+You **poke boundaries** on purpose—inputs that might break, confuse, or reveal hidden rules—without fixing anything yet.
+
+### What to Produce
+
+* **Boundary probe set**: a small set of “taps” that test edges.
+* Each probe includes:
+
+  * **Boundary Target** (what surface you’re poking)
+  * **Probe Move** (what you do to poke it)
+  * **Expected vs Unknown**
+  * **Observed Outcome**
+* **No fixes**: this is “what happens”, not “what to change”.
+* **Probe set cap**: don’t explode into a giant list.
+
+### Beat categories (how to chunk it)
+
+* **Boundary Target** (group probes by target)
+* **Probe Case** (each poke)
+* **Observed Outcome** (what actually happened)
+* **Unknown Boundary** (where behavior is unclear)
+* **Continuity** (what this unlocks next)
+
+### Concrete example (TODO app)
+
+**Boundary Target:** “Add Todo input”
+
+**Probe Case examples**
+
+* Probe Move: submit empty string
+
+  * Expected vs Unknown: “Should reject? Should create blank item?”
+  * Observed: “It creates an empty list item” (or “it rejects”)
+* Probe Move: submit 500-char string
+
+  * Observed: “UI overflows / wraps / truncates”
+* Probe Move: submit same text twice
+
+  * Observed: “Allowed duplicates / auto-merges / blocks duplicates”
+
+**How the chunks look**
+
+* **“Boundary: Add Todo input”** (Boundary Target)
+* **“Probe: empty submit”** (Probe Case) → **“Observed: blank item created”**
+* **“Probe: 500-char submit”** → **“Observed: layout overflow”**
+* **“Unknown: duplicate policy isn’t explicit”** (Unknown Boundary)
+* **“Continuity: these are the cliff edges + signal points”**
+
+### Non-software example
+
+Gym membership desk:
+
+* Probe Move: “name mismatch on ID”
+* Probe Move: “expired membership”
+* Observed outcomes become your boundary map.
+
+---
+
+## FU-06 — Map the Cliff Edges
+
+**What it’s for:**
+You turn boundary pokes into a **failure map**: when things go wrong, what it looks like, and what might cause it—again without “fix vibes.”
+
+### What to Produce
+
+* **Failure Modes**: named ways things can fail.
+* **Symptoms**: what the user/dev sees when it fails.
+* **Optional causes**: plausible root causes (clearly labeled as hypotheses).
+* **Optional unknown boundaries**: places you still don’t know.
+* Keep it grounded; don’t invent.
+
+### Beat categories
+
+* **Failure Mode**
+* **Symptom Cue**
+* **Cause Hypothesis (optional)**
+* **Unknown Boundary (optional)**
+* **Continuity**
+
+### Concrete example (TODO app)
+
+Failure Mode: “Items don’t persist after refresh”
+
+* Symptom Cue: “List resets to empty on reload”
+* Cause Hypothesis: “localStorage write isn’t happening” / “read parse fails”
+* Continuity: “FU-08 can add a persistence signal here; FU-10 can refactor seam”
+
+Failure Mode: “Mark-done toggles wrong item”
+
+* Symptom: “click item A, item B changes”
+* Hypothesis: “key/id mismatch in render loop”
+
+---
+
+## FU-08 — Make it Speak
+
+**What it’s for:**
+You add **minimal signals** so the system tells you what it’s doing (logs, counters, warnings). This is *understanding through visibility*.
+
+### What to Produce
+
+* **Observability Intent**: what you’re trying to see (“is addTodo firing? is persistence writing?”).
+* **Signal design**: what signal you add (counter, log, warning, lightweight trace).
+* **Signal placement**: where in the flow it lives (must be grounded in targets/projections).
+* **Reading guide**: how a human interprets the signals.
+* No new features; avoid sprawl.
+
+### Beat categories
+
+* **Observability Intent**
+* **Signal / Counter / Warning**
+* **Signal Placement**
+* **Reading Guide**
+* **Continuity**
+
+### Concrete example (TODO app)
+
+* Observability Intent: “Confirm persistence path runs”
+* Signal: “counter: persistWrites++”, “warn if JSON.parse fails”
+* Placement: “after saveToStorage() call; inside catch”
+* Reading Guide: “If persistWrites increments but reload loses items → load path broken”
+
+**Chunk examples**
+
+* **“Persistence visibility: confirm writes + reads”** (Intent)
+* **“Signal: persistWrites counter + parse-fail warning”** (Signal)
+* **“Placement: saveToStorage() + loadFromStorage() catch”** (Placement)
+* **“How to read: write happens ≠ read succeeds”** (Reading guide)
+
+---
+
+## FU-10 — Re-lay the Beams
+
+**What it’s for:**
+A **small refactor for clarity**: move one responsibility at a time so later work doesn’t drift. This is still FU because the goal is **clear seams**, not new capability.
+
+### What to Produce
+
+* **Refactor Intent**: what seam you’re improving (duplication, unclear responsibility, tangled flow).
+* **Surface Map** (only if evidenced): what files/functions are involved.
+* **Patch Segment(s)**: bounded code moves, one responsibility at a time.
+* **Stability Note**: what must remain true externally + what structural benefit you gained.
+
+### Beat categories
+
+* **Refactor Intent**
+* **Seam Being Re-laid**
+* **Patch Segment (repeatable)**: small text framing chunk + linked code chunk
+* **Minimal Call-site Update (optional)**
+* **Stability Note**
+* **Progress Anchor (optional)**
+
+### Concrete example (TODO app)
+
+Refactor Intent: “Separate storage from UI event handlers”
+Patch segments:
+
+1. Extract `loadTodos()` and `saveTodos(todos)` into a storage module
+2. Update UI handler to call `saveTodos()` instead of inline localStorage calls
+   Stability note: “Adding todo still behaves identical; now persistence is one seam.”
+
+---
+
+## The key pattern across FU (so it stops feeling abstract)
+
+* **What to Produce** is the **truth you owe** (e.g., “boundary probes exist”, “failure modes exist”, “signals exist”, “refactor seam is clearer”).
+* **Beat categories** are the **shape of the storytelling** that prevents blob dumping and keeps chunks targetable.
+---
+
+## Feature Presentation (FPR) — what this school is *for* (plain-English)
+
+FPR is the school that **makes the work legible and safely shareable**.
+
+If FI is “introduce a capability” and FU is “understand it,” then **FPR is “present it so nobody misreads it.”** It produces *clarity artifacts*—mechanism models, boundary highlights, naming locks, and walkthrough scripts—so the project doesn’t become a pile of half-understood patches.
+
+Two layers exist inside every FPR prompt:
+
+* **“What to Produce”** = the *truth contract* (what must be true by the end).
+* **“Recommended Chunk Beat Categories”** = the *expression plan* (how to communicate that truth in small, non-blob chunks).
+
+They overlap, but they should **not** map 1:1. One “produce” clause often needs multiple beats to express cleanly.
+
+---
+
+## FPR-02 — Mechanism Model (how the slice works)
+
+### What to Produce (what it’s demanding, in human terms)
+
+This prompt wants you to write a **small, faithful “how it works” explanation** that a competent adult can follow *without* seeing all the code.
+
+It forces 5 things to be stated (all of these are required):
+
+1. **Responsibility**
+   *Example (non-software):* “The cashier owns taking payment and issuing a receipt. It does not own deciding prices.”
+   *Software analogy:* “This handler owns validating input and writing one record. It does not own authentication.”
+
+2. **Inputs** (what comes in)
+   *Example:* “Customer hands cash or card; may also show a coupon.”
+   *Software:* “Receives a form submit + session user id + optional query param.”
+
+3. **Transformations** (what it does to those inputs)
+   *Example:* “Checks coupon validity, calculates total, approves payment.”
+   *Software:* “Normalizes fields, checks rules, maps to DB shape.”
+
+4. **Outputs / Side effects** (what comes out / what changes)
+   *Example:* “Receipt printed, inventory decremented, cash drawer opens.”
+   *Software:* “Returns JSON + writes to DB + emits event/log.”
+
+5. **Boundaries** (where it stops, what it touches next)
+   *Example:* “Stops after payment confirmation; kitchen receives order separately.”
+   *Software:* “Stops after commit; UI rendering happens elsewhere.”
+
+It also enforces **evidence discipline**: if you can’t prove a concrete detail from targets/context/projections, you say **Unspecified** rather than guessing. That’s the core of “presentation” in RM: *no invented structure*.
+
+### Beat categories (how to chunk it without blob dumping)
+
+Think of beats as a **coverage checklist** for the explanation:
+
+* **Responsibility Boundary** → the “this is what it owns / refuses” chunk
+* **Input Vector** → the “what comes in” chunk
+* **Transformation Rule** → the “what it does” chunk
+* **Output / Side-Effect** → the “what leaves / changes” chunk
+* **Boundary Seam** → “what it touches next” chunk
+* **Concept Anchor (optional)** → only if one concept must be named to avoid confusion
+* **Continuity (optional)** → one sentence tying it back to the milestone chase
+
+*Concrete example anchors you might see (any domain):*
+
+* “What the Front Desk Owns”
+* “What Arrives at the Desk”
+* “What Changes During Check-In”
+* “What Leaves the Desk”
+* “Where the Desk Stops”
+
+---
+
+## FPR-05 — Spotlight the Edges (boundary highlighting)
+
+### What to Produce (in human terms)
+
+This prompt is about **protecting the slice from accidental scope creep** by making boundaries obvious.
+
+It requires:
+
+1. **Edge Surface** (the touchpoints that define “begin/end”)
+   *Example:* “Only these two doors lead into the kitchen: the order window and the staff entrance.”
+   *Software:* “Only these entry points touch this slice: this route + this function call.”
+
+2. **Seam Assumptions** (what must stay true at the edges)
+   *Example:* “Orders are always tagged with table number before entering kitchen.”
+   *Software:* “Caller always passes a validated user id.”
+
+3. **Drift Directions** (common ways people expand it wrongly)
+   *Example:* “Don’t start handling refunds here; that belongs to billing.”
+   *Software:* “Don’t add authorization logic here; it belongs upstream.”
+
+4. **Optional Micro-Annotation (tiny patch)**
+   This is the only FPR boundary prompt that may include code, and only as a **micro guard**.
+   *Non-software equivalent:* a sign that prevents misuse (“Staff Only”) or a small rule label at the seam.
+   *Software equivalent:* a narrow assertion, a small guard message, or a tight type/check right at the boundary.
+
+### Beat categories (how it’s expressed)
+
+* **Edge Surface** → where the boundary lives
+* **Inside the Slice** → what it’s allowed to do
+* **Outside the Slice** → what it must not absorb
+* **Seam Assumption** → the one or two assumptions that keep it stable
+* **Drift Direction** (repeat 1–2 times) → “don’t let it grow into X”
+* **Micro-Annotation Frame/Patch (optional)** → the tiny guardrail, if justified
+* **Continuity (optional)** → tie to milestone so it doesn’t become generic advice
+
+*Concrete example anchors (any domain):*
+
+* “The Only Two Ways In”
+* “What Must Be True at the Door”
+* “Where People Usually Overreach”
+* “A Tiny Guardrail at the Seam”
+
+---
+
+## FPR-08 — Forge the Glossary (naming alignment)
+
+### What to Produce (in human terms)
+
+This prompt prevents the “everyone uses the same word differently” problem.
+
+It requires:
+
+1. **Core Terms** (the few stable names that matter)
+   *Example (non-software):* In a gym app: “Set,” “Rep,” “Workout.”
+   *Software:* “Task,” “TodoItem,” “Project.”
+
+2. **Meaning** (what each term means *here*)
+   *Example:* “A ‘Set’ is one group of reps with one weight, not the whole exercise.”
+   *Software:* “‘Task’ is one actionable unit, not a category.”
+
+3. **Collisions** (what it gets confused with)
+   *Example:* “‘Workout’ might be confused with ‘Routine’—routine is the template, workout is the session.”
+   *Software:* “‘Project’ might be confused with ‘Workspace’.”
+
+4. **Preferred Name Choice** (if multiple names exist, pick one)
+   *Example:* “Use ‘Routine’ for templates and ‘Workout’ for sessions. Don’t mix.”
+
+5. **Optional Rename Patch (small, grounded)**
+   Only if the rename is truly local and evidenced.
+   *Non-software equivalent:* relabeling two bins so people stop dumping wrong items.
+
+### Beat categories (how it’s expressed)
+
+* **Term Anchor** (repeat per term)
+* **Meaning Lock**
+* **Collision Warning**
+* **Preferred Name Decision**
+* **Rename Frame/Patch (optional)**
+* **Continuity (optional)**
+
+*Concrete example anchors (any domain):*
+
+* “What ‘Routine’ Means Here”
+* “Don’t Confuse Routine with Workout”
+* “Pick One Name: Routine Wins”
+
+---
+
+## FPR-10 — Demo Script (walkthrough pitch)
+
+### What to Produce (in human terms)
+
+This is a **playable script** that someone can follow to experience the feature.
+
+It requires:
+
+1. **Start Point**
+   *Example:* “You begin on the main counter screen.” / “You begin at the ticket kiosk home screen.”
+
+2. **Action Flow** (short sequence of actions)
+   *Example:* “Choose destination → pick ticket type → pay.”
+
+3. **What They See** (observable feedback)
+   *Example:* “Price updates, confirmation appears, receipt prints.”
+
+4. **Success Signal** (unmistakable proof it worked)
+   *Example:* “Ticket prints with correct destination and time.”
+
+5. **One Boundary Moment** (a tiny edge behavior revealed)
+   *Example:* “If you try to buy without selecting destination, the kiosk blocks you with a short message.”
+   This is important: it trains the user’s mental model without turning into a testing doc.
+
+It also enforces: **don’t invent UI**, don’t ask questions, don’t shame missing info—use conservative generic phrasing (“main workspace screen”) and still deliver a usable script.
+
+### Beat categories (how it’s expressed)
+
+* **Start Point**
+* **The First Move**
+* **The Feedback Moment**
+* **The Success Signal**
+* **Boundary Moment**
+* **Optional Variants (optional)**
+
+*Concrete example anchors (any domain):*
+
+* “Where You Begin”
+* “Your First Click”
+* “The Moment You See It Worked”
+* “The Edge Case It Quietly Enforces”
+
+---
+
+## The “why” of FPR in your system
+
+FPR is how you prevent the game from becoming “AI produced code + vibes.” It creates **targets people can actually select** later (mechanism chunks, boundary chunks, glossary chunks, demo chunks) and it reduces drift because it keeps the team aligned on: **what the slice is, what it isn’t, and what success looks like.**
+
+----
+
+FA as a school is basically: **“Stop pushing changes for a moment. Name the slice, define its boundary, state its rules, and classify what kind of mechanism it is.”**
+It exists so later actions (especially Synthesis) don’t drift, and so players can *aim* their next spells instead of spraying.
+
+Below is a **concrete dissection** of FA using the four FA prompts you have: **FA-02, FA-03, FA-04, FA-12**.
+
+---
+
+## FA — Feature Abstraction (plain-English purpose)
+
+**FA turns messy “working code / working idea” into a small set of “handles”:**
+
+* *What are the parts?* (surface map)
+* *Where is the boundary?* (what’s inside vs outside)
+* *How do other parts interact with it?* (contract)
+* *What must never break?* (laws/invariants)
+* *What kind of mechanism is this?* (pattern family)
+
+Think non-software:
+If you run a **restaurant kitchen**, FA is where you stop cooking and write:
+
+* the station map (prep / grill / plating),
+* what each station is responsible for,
+* the handoff contract (“plate must have X before it leaves grill”),
+* the non-negotiables (“no raw chicken on the pass”),
+* and what kind of kitchen this is (fast-casual line vs fine-dining brigade).
+
+---
+
+## FA-02 — Surface Map (map the slice without changing it)
+
+### What “What to Produce” is really demanding
+
+You must produce a **surface map** that lists:
+
+1. **Surface Elements**
+   *Meaning:* the named “things” that exist (files, modules, components, core functions, routes, state objects—whatever is real in the slice).
+   *Concrete example (TODO app):*
+
+   * `Task` model, `TaskList` UI, `TaskItem` UI, `/api/tasks` handler, `taskStore` state.
+     *Non-software analogy:*
+   * “Order ticket”, “grill station”, “expediter”, “inventory sheet”.
+
+2. **Connections** (how they talk)
+   *Meaning:* the main data/control flows between those things.
+   *TODO example:*
+
+   * “UI calls POST /api/tasks → server validates → store updates → list rerenders.”
+     *Analogy:*
+   * “Waiter writes ticket → kitchen cooks → pass calls table → cashier closes bill.”
+
+3. **Boundary** (what is in-scope vs out-of-scope)
+   *Meaning:* an explicit “this map governs X, not Y.”
+   *TODO example:*
+
+   * In-scope: task CRUD + filters. Out-of-scope: auth, payments, notifications.
+     *Analogy:*
+   * “Kitchen workflow only, not supplier contracts.”
+
+4. **Optional Continuity** (tie to milestone)
+   *Meaning:* one sentence keeping the map pointed at the current milestone.
+
+### Beat categories (how to express it as chunks)
+
+* **Surface Elements** → multiple small chunks, each a “drawer label”
+  *Good chunk anchors:* “Task lifecycle components”, “API touchpoints”, “State holders”
+* **Connections** → one or more “flow” chunks
+  *Anchors:* “Create-task flow”, “Toggle-complete flow”
+* **Boundary** → one tight chunk
+  *Anchor:* “What this map does *not* cover”
+* **Continuity** → optionally fused into any chunk as one sentence
+
+---
+
+## FA-03 — Extract the Contract (interface + responsibilities)
+
+### What “What to Produce” is really demanding
+
+You must produce a **contract** that lets someone interact with the slice *without needing to read everything*:
+
+1. **Contract Surface** (methods / messages / inputs-outputs)
+   *Meaning:* what the slice *offers* to the rest of the system.
+   *TODO example:*
+
+   * `createTask(title) -> Task`, `toggleTask(id) -> Task`, `listTasks(filter) -> Task[]`
+     *Analogy:*
+   * “Order can be placed, modified, cancelled; receipt printed.”
+
+2. **Responsibilities** (who owns what)
+   *Meaning:* boundaries of duty (“this layer validates X; that layer formats Y”).
+   *TODO example:*
+
+   * API validates payload shape; store owns optimistic updates; UI owns rendering only.
+     *Analogy:*
+   * “Grill cooks; expediter checks plating; server delivers.”
+
+3. **Failure Modes** (tight prose, not a test plan)
+   *Meaning:* what “can go wrong” at the boundary, in a way that prevents later hallucination.
+   *TODO example:*
+
+   * invalid id, missing title, network failure, stale list.
+     *Analogy:*
+   * “Out-of-stock item, allergy note missing, ticket lost.”
+
+4. **Unspecified allowed**
+   *Meaning:* if you can’t infer, you must label as Unspecified instead of guessing.
+
+### Beat categories (how to chunk it)
+
+* **Contract Surface** → 1–N chunks; each chunk can cover one “API face”
+  *Anchors:* “Task write contract”, “Task read contract”
+* **Responsibility Boundary** → usually 1–2 chunks
+  *Anchors:* “What the API owns vs UI owns”
+* **Failure Mode** → 1 chunk or folded into each contract chunk
+  *Anchors:* “What breaks this contract”
+* **Continuity** → optional sentence
+
+---
+
+## FA-04 — Write the Laws (invariants + non-negotiables)
+
+### What “What to Produce” is really demanding
+
+This prompt is brutally specific: it wants **laws**, not plans.
+
+1. **Each law must be always-true**
+   *Meaning:* not “we should…” but “it is always the case that…”
+   *TODO example laws:*
+
+   * “A task id uniquely identifies a single task.”
+   * “Completing a task never deletes it.”
+   * “A task with `completed=true` must render as completed everywhere.”
+     *Analogy:*
+   * “Raw chicken never touches the plating area.”
+
+2. **Small enough to remember, strong enough to prevent drift**
+   *Meaning:* don’t dump 40 rules; pick the few that actually govern correctness.
+
+3. **Optional breakage-prevented note**
+   *Meaning:* one sentence of why the law exists (“prevents phantom tasks / duplicate ids”).
+
+4. **Unspecified if uncertain**
+   *Meaning:* no pretending.
+
+Also: **no bullets, no numbering** in chunk bodies — it forces “tight prose laws.”
+
+### Beat categories (how to chunk it)
+
+* **Law** → repeated as needed; each invariant can be one chunk
+  *Anchors:* “Identity law for tasks”, “Rendering truth law”
+* **Breakage Prevented** → can be merged into each law as a sentence
+* **Boundary Reminder** → optional single chunk
+* **Continuity** → optional sentence
+
+---
+
+## FA-12 — Place on the Family Tree (pattern family placement)
+
+### What “What to Produce” is really demanding
+
+This is “classification for future decisions,” not theory.
+
+1. **Nearest Family**
+   *Meaning:* “this slice behaves like a ____.”
+   *TODO example:*
+
+   * “List + item detail + stateful mutations (CRUD surface).”
+     *Analogy:*
+   * “Assembly line workflow.”
+
+2. **Fit Reason** (evidence-based)
+   *Meaning:* cite what in targets/context/projections supports that.
+   *TODO example:*
+
+   * “Has create/update/delete flows + list rendering + filter state.”
+
+3. **Neighbor Families (not this)**
+   *Meaning:* say what it *isn’t*, to prevent misapplied edits.
+   *TODO example:*
+
+   * “Not event-sourcing” (because no append-only log).
+   * “Not complex workflow engine” (because no multi-step state machine).
+     *Analogy:*
+   * “Not fine-dining brigade; not buffet.”
+
+4. **Safety implication**
+   *Meaning:* one practical warning of “safe to change” vs “causes trouble.”
+   *TODO example:*
+
+   * “Safe: UI layout tweaks. Dangerous: changing task identity semantics.”
+
+### Beat categories (how to chunk it)
+
+* **Nearest Family** → one chunk
+  *Anchor:* “What this mechanism *is*”
+* **Why It Fits** → one chunk
+  *Anchor:* “Evidence from the slice”
+* **Not This Neighbor** → 1–2 chunks
+  *Anchor:* “What it’s not: ___”
+* **Safety Implication** → one chunk
+  *Anchor:* “Safe changes vs landmines”
+* **Continuity** → optional sentence
+
+---
+
+## The practical takeaway (why FA matters in your pipeline)
+
+FA chunks become **low-cost steering gear**:
+
+* They make **target selection** and **projection selection** less drift-y (because the slice is named and bounded).
+* They make **FS (Synthesis)** safer (because synthesis can insist on “instantiate *this* pattern” rather than “write code vibes”).
+
+And importantly, FA outputs are **TEXT-only (fp_no_code=true)** in your prompts — that’s correct: abstraction should not mutate the codebase; it should sharpen the player’s and model’s “handles.”
+---
+
+## FS — Feature Synthesis (plain-English purpose)
+
+**FS is “turn the abstract handle into a real machine.”**
+FA gives you the *shape* (surface map / contract / laws / pattern family).
+FS takes that shape and **instantiates + wires + lands it in the codebase** so the feature actually exists.
+
+Non-software analogy:
+FA is the **recipe + kitchen rules + station responsibilities**.
+FS is **cooking the dish and plating it**, while obeying the rules and fitting the kitchen workflow.
+
+---
+
+## The FS↔FA bridge (the rule that prevents drift)
+
+**FS relies on FA keystones/facets as targets.** That’s the whole point of FS being a different school than FI.
+
+* **FA keystones/facets are the “pattern → constraints” package** (what must exist, boundaries, invariants, what it is / isn’t).
+* **FS outputs are the “instantiation → code reality” package** (files/functions/components updated, wiring done, behavior achieved).
+
+### Practical constraint for your game (simple + strong)
+
+For an FS run, the target hand should **always include at least one FA artifact**, preferably:
+
+* **FA “Contract” keystone** (how others call it / responsibilities)
+* **FA “Laws / Invariants” keystone** (what must never break)
+* Optional: **FA “Family placement” keystone** (what kind of mechanism it is, to avoid wrong edits)
+
+If none of those exist, FS should **not “wing it.”** It should implicitly behave like: *“You need FA first.”*
+(UX-wise: the hand will simply recommend FA actions + FA targets, instead of letting the player misfire FS.)
+
+That’s the **pattern → instantiation bridge**.
+
+---
+
+## FS vs FI (why they’re not the same)
+
+* **FI (Feature Introduction)**: “Add a new capability / change behavior.” It can be driven by milestone + prompt alone.
+* **FS (Feature Synthesis)**: “Implement *this specific mechanism* in a durable way.” It must be guided by FA handles, or it becomes vague “coding vibes” and drifts.
+
+---
+
+# FS school dissection (in the same style)
+
+You have **FS-01, FS-04, FS-06, FS-09**. Think of them as four synthesis moves.
+
+---
+
+## FS-01 — Instantiate the mechanism (from FA handles)
+
+### What “What to Produce” is really demanding
+
+1. **Concrete instantiation of the abstract pattern**
+
+   * If FA says “this is a CRUD surface with a contract,” FS must create the concrete modules/interfaces/components that embody it.
+   * TODO app example: create/update actual `taskService`, API handlers, store, UI components consistent with the contract.
+
+2. **Contract alignment**
+
+   * FS must match the FA contract (names, responsibilities, allowed failures) instead of inventing a new one.
+   * Example: FA contract says `toggleTask(id)` returns updated task → FS must implement that exact shape, not “toggle returns ok”.
+
+3. **Invariants respected**
+
+   * FS must explicitly preserve the FA laws (identity, truth consistency, etc.).
+   * Example: “task id unique” → don’t generate code that duplicates ids or reassigns them.
+
+### Recommended chunk beat categories (how to express it in small chunks)
+
+* **Instantiation Patch Segment (code)**
+  “Here are the new/updated core modules implementing the pattern.”
+* **Contract Fulfillment (text + tiny code references)**
+  “How the code matches the FA contract.”
+* **Invariant Safeguards (text + small code)**
+  “Where the laws are enforced (validation, checks, state rules).”
+* **Micro-Proof Hook (text)**
+  Not tests — just “how you’d observe it works” (e.g., “create → list updates → toggle persists”).
+
+---
+
+## FS-04 — Wire it into the existing system (integration)
+
+### What “What to Produce” is really demanding
+
+1. **Integration / routing / plumbing**
+
+   * The mechanism must be reachable from the actual app surface.
+   * TODO example: route → handler → store → UI refresh is actually connected.
+
+2. **Minimal “touchpoints”**
+
+   * Change as few places as necessary while achieving the wiring.
+   * This keeps projections clean (less noise) and prevents accidental refactors.
+
+3. **Compatibility with current codebase slice**
+
+   * It must fit the current conventions (folder structure, naming, state management style).
+
+### Beat categories
+
+* **Wiring Patch Segment (code)**
+  “Route/api wiring, import hookups, state bindings.”
+* **Touchpoints Map (text)**
+  “These are the only files changed and why.”
+* **Failure Boundary Notes (text)**
+  “What happens on invalid input / missing data” (aligned to FA failure modes).
+
+---
+
+## FS-06 — Harden the implementation against drift (without turning into refactor hell)
+
+### What “What to Produce” is really demanding
+
+1. **Guardrails that enforce FA laws**
+
+   * Not “tests,” not “rewrite architecture.” Just minimal guardrails that prevent known failure.
+   * TODO example: validation for create/update; consistent completed rendering; defensive checks.
+
+2. **Explicitly avoid scope creep**
+
+   * This step is *not* a general cleanup. It only hardens what the synthesized feature depends on.
+
+3. **Make future edits safe**
+
+   * The output should leave behind “handles” so future actions don’t break it accidentally.
+
+### Beat categories
+
+* **Invariant Guard Patch (code)**
+  “Validation / checks / safe defaults.”
+* **Landmine Callouts (text)**
+  “If you change X later, you’ll break Y” — derived from FA family placement.
+* **No-Refactor Discipline (text)**
+  A short chunk that states what you intentionally did *not* touch.
+
+---
+
+## FS-09 — Package the deliverable (player-facing “this is now real”)
+
+### What “What to Produce” is really demanding
+
+1. **Crisp “what changed” deliverable**
+
+   * Summarize the implementation in a way that is collectible-worthy (not a dump).
+   * This is where the run feels “premium.”
+
+2. **Usage / verification instructions (lightweight)**
+
+   * Not a QA plan. Just “how a dev/player can quickly see it working.”
+
+3. **Projection readiness**
+
+   * The changes must be representable as clean projection patches later (so CODEBASE/INDEX stays coherent).
+
+### Beat categories
+
+* **Deliverable Keystone Candidate (text or code)**
+  “The concentrated ‘what you got’ artifact.”
+* **Proof-of-Life (text)**
+  “Do these 2–3 interactions; you’ll see it works.”
+* **Projection-Friendly Change Summary (text)**
+  “New/updated files + key entities touched.”
+
+---
+
+# Concrete end-to-end example (TODO app)
+
+Assume FA targets include:
+
+* Contract keystone: “Tasks can be created/toggled/listed; store owns state; API validates.”
+* Laws keystone: “IDs stable, toggle doesn’t delete, completed truth consistent.”
+* Family keystone: “CRUD surface, not workflow engine.”
+
+**FS outcome should look like:**
+
+* A few code chunks implementing `createTask`, `toggleTask`, `listTasks`.
+* Wiring chunks connecting UI ↔ store ↔ API.
+* Guard chunks enforcing “title required,” “id exists,” and consistent rendering.
+* A packaged deliverable chunk: “Task toggling + persistence is now real; here’s how to observe it.”
+
+That’s synthesis: **pattern becomes reality without drifting away from the declared shape.**
+
+---
+
+## The key discipline that keeps FS “tight”
+
+FS outputs must always be explainable as:
+
+> “We implemented *exactly the FA contract* under *exactly the FA laws*, in *exactly the declared family*, and we wired it through the smallest necessary touchpoints.”
+
+If you keep that sentence true, FS stays distinct from FI, and the whole simulator stays understandable.
+
+---
+## FP — Feature Planning (plain-English purpose)
+
+**FP is “choose what to chase next, and define what ‘done’ means.”**
+It does **not** build code. It produces a **milestone card** (or an enrichment patch to one) that makes R3 runs focused, small-scope, and winnable.
+
+Non-software analogy:
+FP is deciding **what meal you’re cooking**, what counts as **a finished plate**, what’s **in/out of scope**, and what would be **a bad drift** while cooking. It’s not cooking.
+
+---
+
+## What FP produces in Reverse Mechanics (concretely)
+
+Across your 4 FP actions (FP-01 / FP-02 / FP-08 / FP-10), FP should produce:
+
+1. **A milestone goal in one clear sentence** (North Star)
+2. **A concrete “done receipt”** (how we know it’s shipped)
+3. **A scope fence** (in / out boundaries so R3 doesn’t sprawl)
+4. **Tripwires** (drift signals, dependencies, risks, “don’t do this”)
+
+Important: **Any single FP action run may not “own” all 4 fields**, but the system should still attempt to infer reasonable values for missing ones, and later FP runs can enrich/overwrite them.
+
+---
+
+# FP “What to Produce” vs “Chunk Beat Categories”
+
+* **What to Produce** = the *milestone contract* (what must be true in the milestone result)
+* **Beat categories** = how to present that contract as multiple small chunks without dumping
+
+FP chunks are mostly **text**, but still chunked (small, titled morsels).
+
+---
+
+# FP school beats (the recommended chunk beat categories)
+
+These are the “planning beats” that show up repeatedly, regardless of which FP action is used:
+
+1. **North Star (goal statement)**
+2. **Done Receipt (observable completion criteria)**
+3. **Scope Fence (in/out boundaries)**
+4. **Tripwires (drift, deps, risks)**
+5. **Assumptions / Constraints (only if needed)**
+6. **R3 Run Budget Hint (keep it ≤ ~5 runs worth of work)**
+
+You don’t force 1:1. One “What to Produce” clause can require multiple beats; beats can support multiple clauses.
+
+---
+
+# FP-01 (North Star / “what we are building next”)
+
+### What-to-produce (concrete)
+
+* **One crisp milestone goal** that’s specific enough to guide R3 actions.
+* **Minimal context tie-in**: it should reflect the current project reality (from summaries + projections), not fantasy.
+* **No code, no implementation steps**—just the *destination*.
+
+### Beat examples (non-software + software)
+
+**Non-software (fitness):**
+
+* **North Star:** “Be able to jog 3km continuously without stopping.”
+
+**Software (TODO app):**
+
+* **North Star:** “Add recurring tasks with a simple schedule (daily/weekly) and show upcoming occurrences.”
+
+---
+
+# FP-02 (Scope Fence / “what is in vs out”)
+
+### What-to-produce (concrete)
+
+* **In-scope list**: 3–7 bullets of what *must* be included.
+* **Out-of-scope list**: 3–7 bullets of what we will *not* do right now.
+* **Fence must prevent sprawl**: if it’s too permissive, it’s useless.
+
+### Beat examples
+
+**Non-software (cooking):**
+
+* **In-scope:** “One vegetarian main dish; uses pantry staples; under 45 minutes.”
+* **Out-of-scope:** “No dessert; no special equipment; no multi-course meal.”
+
+**Software (TODO app recurring tasks):**
+
+* **In-scope:** daily/weekly recurrence, next-occurrence generation, UI shows next 7 days.
+* **Out-of-scope:** calendar sync, complex rules (RRULE), timezone edge-cases, notifications.
+
+---
+
+# FP-08 (Tripwires / “how we’ll know we’re drifting or blocked”)
+
+### What-to-produce (concrete)
+
+Tripwires are **alerts**—they’re not tasks. They are things that, if they happen, mean:
+
+* we’re drifting
+* we’re blocked
+* we’re overcomplicating
+* we’re violating the fence
+
+Tripwires should include:
+
+* **Drift signals** (“we’re doing X but milestone is Y”)
+* **Dependency signals** (“we can’t proceed until Z exists”)
+* **Complexity signals** (“we’re adding a framework / large refactor”)
+
+### Beat examples
+
+**Non-software (writing a book chapter):**
+
+* Drift: “If we start outlining the entire book, stop—chapter 1 only.”
+* Dependency: “If the protagonist motivation isn’t clear, pause and define it.”
+* Complexity: “If we add new characters, stop—reuse existing cast.”
+
+**Software (TODO app recurring tasks):**
+
+* Drift: “If we start redesigning the entire task model, stop—minimal additions only.”
+* Dependency: “If we can’t represent recurrence without breaking existing tasks, define a backward-compatible model first.”
+* Complexity: “If we introduce cron libraries or job queues, stop—v1 is simple occurrence generation.”
+
+---
+
+# FP-10 (Done Receipt / “what counts as shipped”)
+
+### What-to-produce (concrete)
+
+A done receipt is **observable evidence**, not vibes.
+
+It should include:
+
+* **User-visible behaviors** (“you can do X, see Y”)
+* **Data-level reality** (“stored as Z”)
+* **Non-goals** (“we don’t need A for v1”)
+
+### Beat examples
+
+**Non-software (home organization):**
+
+* “All clothes are sorted into 3 bins; floor is clear; donation bag is packed.”
+
+**Software (TODO app recurring tasks):**
+
+* “User can set a task to recur daily; the UI shows upcoming occurrences; completing one occurrence doesn’t delete the series; data persists on reload.”
+
+---
+
+# How FP stays aligned with your “≤ ~5 R3 runs” rule (without being weird)
+
+FP should **hint at a small run budget** by keeping the milestone atomic:
+
+* If the North Star implies multiple features, FP should narrow it (“recurring tasks *only*, no notifications, no calendar”).
+* Done Receipt should be achievable by a small chain like:
+  FI → FU → FPR → FA → FS (and a couple of iterations), not a month-long epic.
+
+This is not a strict numeric check—it’s a **planning discipline**.
+
+---
+
+# Why FP is essential even if you have summaries/projections
+
+Because summaries/projections tell you **what exists**, but FP tells you:
+
+* **what matters next**
+* **what “done” looks like**
+* **what not to touch**
+* **how to detect drift**
+
+That’s what makes the simulator playable and keeps R3 from turning into “do everything.”
+
+---
+
+## One compact “FP output” example (for the TODO app)
+
+**North Star:** Add recurring tasks (daily/weekly) and show upcoming occurrences.
+**Done Receipt:** Create recurring task → upcoming occurrences show → mark one done → series persists → reload keeps schedule.
+**Scope Fence:** In: daily/weekly only, minimal UI, simple storage. Out: notifications, RRULE, timezone complexity, calendar integrations.
+**Tripwires:** If we refactor the whole data model, introduce cron/jobs, or chase calendar sync—stop and re-scope.
+
+That’s the FP school in the same concrete style.
+
+

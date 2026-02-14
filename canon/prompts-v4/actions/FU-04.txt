@@ -1,0 +1,27 @@
+## WHAT TO PRODUCE
+
+Produce a compact probe set that reveals **boundary behavior** for **one grounded surface**. You are not changing code. Across the full set of chunks, you must cover:
+
+* **Surface (grounded):** name the specific surface being probed (file/entity/region and what it is), using only grounded identifiers from targets/projections.
+* **Boundary Target (flip point):** state the exact axis you’re hunting where behavior changes (e.g., empty vs non-empty, 0 vs >0, short vs long input, breakpoint).
+* **Probe Cases (3–6):** a small set of high-signal probes that approach/cross the flip point and expose what inputs/conditions matter.
+
+Each probe case must include: **starting state**, a **probe move** (minimal trigger/action), an **outcome signal** (what you look at to judge the result), and a **failure signal** (what “wrong” looks like).
+
+If you have grounded evidence for an expectation, state it plainly as part of the outcome signal; if not, phrase the probe as a **discriminator** (what this probe will decide between) without using “unknown/unspecified” language.
+
+Keep the probe set small; if the boundary would require more cases, choose the highest-signal probes and leave the rest for a later run.
+
+---
+
+## RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Surface (grounded):** what is being probed and where it lives.
+* **Boundary Target (flip point):** the specific condition axis where behavior changes.
+* **Coverage Rationale (optional):** one sentence on why these 3–6 probes are the highest-signal set (e.g., they bracket the flip from both sides).
+* **Probe Case Set (3–6):** the probe cases themselves.
+* **Probe Case Anatomy (hard):** each case includes starting state → probe move → outcome signal → failure signal.
+* **Expectation vs Discriminator (optional per case):** expectation if evidenced; otherwise a discriminator framing (no “unknown” language).
+* **Closure (optional):** one sentence stating what the probe set will reveal once performed.

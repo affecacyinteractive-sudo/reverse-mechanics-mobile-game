@@ -1,0 +1,24 @@
+ FU-08 — WHAT TO PRODUCE (new-design ready)
+
+Across the full set of chunks, you must cover:
+
+* **Surface Being Observed (grounded):** the exact surface you’re adding visibility to (file/entity/region and what it is), grounded in PRIMARY target when present, otherwise grounded in mounted projections.
+* **Observability Intent (Missing Signal):** the specific question the system currently can’t answer (“is X firing?”, “which branch ran?”, “did persistence write?”, “what input caused the flip?”).
+* **Signal Design (one bounded mechanism):** the single visibility mechanism you will add (log/event/counter/warn/trace marker/small local debug surface), including a stable signal name and a tiny payload (only the few fields needed).
+* **Signal Placement:** where in the flow the signal is emitted (the exact seam: before/after a call, inside a catch, on a branch boundary, at a state transition), grounded to the surface.
+* **Patch Segment(s):** 1–3 tiny local edits (paired TEXT framing + CODE) implementing the signal exactly at the chosen placement; no feature expansion, no refactor.
+* **Reading Guide:** one short statement explaining how a human interprets the signal (what values/branches mean, what to conclude when it appears/doesn’t).
+* **Closure Check:** one “If pledged/committed…” statement describing what is now observable (no checklists; no blueprint progress).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Surface Being Observed (grounded):** the specific surface you’re adding visibility to and where it lives.
+* **Observability Intent (Missing Signal):** the exact question you currently can’t answer by looking at the system.
+* **Signal Design (one bounded mechanism):** the single visibility mechanism to add, kept small and stable.
+* **Signal Placement:** the exact seam where the signal is emitted (branch boundary, before/after call, catch, state transition).
+* **Patch Segment (repeatable):** a small TEXT framing chunk + a linked CODE chunk implementing one local signal addition; repeat only as needed (1–3 max).
+* **Reading Guide:** how to interpret the signal and what conclusions to draw when it appears/doesn’t.
+* **Safety Guard (optional):** one sentence ensuring the signal is harmless (minimal payload, no sensitive data, optional dev-only guard).
+* **Closure Check:** one “If pledged/committed…” statement describing what is now observable that wasn’t before.
+

@@ -1,0 +1,29 @@
+**WHAT TO PRODUCE**
+Introduce **ONE** new, scoped feature slice (not a brainstorm). Across the full set of chunks, you must cover:
+
+* **Now-true outcome (1 sentence):** “If pledged, the user can ___.” (Concrete and observable.)
+* **Entry point / trigger:** the smallest new or changed “door” into the capability (UI control, handler, route, component prop, etc.).
+* **Minimum data/state:** the smallest state/data shape required, and where it lives (local state, component state, simple object, etc.).
+* **Integration anchor:** where this plugs into the *already grounded* project (which existing file/entity is touched, and what it connects to).
+* **Grounded patches only (no silent invention):** Use **only** file paths / entities present in mounted projections **unless** you explicitly introduce a new surface in this run. If you introduce a new file/component, you must (a) name the file path, (b) create it (a code chunk for that file), and (c) wire it into an existing grounded file/entity in the same run.
+* **Minimal completion check:** one short “how we know it works” note (what to click/see, or what state should change).
+
+If the natural solution would sprawl, **compress to the smallest viable version** that still satisfies the Now-true outcome, and explicitly state **one sentence** of what is intentionally deferred (“Not doing ___ yet.”).
+
+OUTPUT FORMAT (JSON ONLY)
+Return valid JSON only with top-level shape:
+{ "chunks": [ ... ] }
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* Slice Promise: the one-sentence “Now-true” outcome (what the user can do/see after this run)
+* Entry Point / Contract: the smallest reachable trigger/door into the new capability (UI control, handler, prop, route, etc.)
+* Data / State: the minimum state/data needed for the slice, and where it lives (keep it tiny)
+* Integration Seam: where this change plugs into the existing grounded app surfaces (what it connects to)
+* Patch Segment (repeatable): a small TEXT framing chunk + a paired with CODE chunk implementing one local change; may either (a) edit an existing grounded surface, or (b) introduce a new file/component AND wire it into an existing grounded surface in the same run
+* Closure Check: a short “how to confirm” note (what to click/see or what should change) that closes the loop on the Now-true outcome (do not discuss milestone progress here)
+
+BEAT CATEGORY INTERPRETATION (hard rules; do not violate)
+- Do not use beat category names as chunk titles (anchors). Use specific, surface-grounded anchors.
+- You may output more or fewer chunks than the number of beat categories; beats are a coverage checklist, not an outline template.

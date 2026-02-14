@@ -1,0 +1,22 @@
+## WHAT TO PRODUCE (FU-03)
+
+Observe and explain one concrete surface’s behavior **without changing code**. Across the full set of chunks, you must cover:
+
+* **Surface Identity:** the single surface being observed (file/entity/region and what it is), grounded in PRIMARY target when present, otherwise grounded in mounted projections.
+* **Trigger:** what demonstrably triggers this surface (event/call/user action), grounded in evidence.
+* **State Snapshot:** the minimum “before → after” state that matters for understanding the behavior (inputs/props/state/output), grounded in evidence.
+* **Outcome Trace:** the short step-by-step sequence of what happens from trigger to outcome, grounded in evidence (no invented steps).
+* **Observed Guards / Constraints (optional):** any enforced condition/rule that is directly implied by evidence ; include only if directly evidenced, otherwise omit entirely.
+* **Variants (optional):** if behavior differs by context, name the discriminating condition ; include only if directly evidenced; otherwise omit entirely.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Surface Identity:** what surface is being observed and what it is in the system (grounded).
+* **Trigger:** what demonstrably triggers the surface (event/call/user action).
+* **State Snapshot:** the minimum before → after state that matters (inputs/props/state/output).
+* **Outcome Trace:** the short step-by-step sequence from trigger to outcome (no invented steps).
+* **Continuity (optional):** one sentence on what this surface connects to or why it matters, derived from the observed behavior.
+* **Mental Model (optional):** one sentence summarizing the surface’s job in plain language, grounded in the trace.
+* **Observed Guards / Constraints (optional):** an evidenced gating condition that blocks/permits the behavior (e.g., “only if X”, “returns early when Y”, “hidden when Z”). Omit if not evidenced.
+* **Variants (optional):** an evidenced alternate path under a named condition (e.g., success vs error, empty vs non-empty, mobile vs desktop). Omit if not evidenced.
