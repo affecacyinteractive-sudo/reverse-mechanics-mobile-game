@@ -1,0 +1,19 @@
+FP-02 — WHAT TO PRODUCE (new-design aligned)
+
+* Produce a **Scope Fence** for this slice (Blueprint field: **Scope Fence**). Across the full set of chunks, the fence must include:
+
+  * **in-scope boundary:** 2–5 explicit inclusions (what this slice covers),
+  * **out-of-scope boundary:** 2–5 explicit exclusions phrased as “Not doing ___.”,
+  * **handoff seam (optional):** one sentence stating where responsibility stops and what neighbor/upstream/downstream owns instead (no roadmap),
+  * **alignment (optional):** one sentence keeping this fence consistent with the active blueprint composite and/or blueprint targets (continuity only).
+* Do **not** produce North Star / Done Receipt / Tripwires / implementation steps here.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Scope Fence Identity:** the slice/topic this fence applies to (plain language, aligned to the active blueprint composite and/or blueprint targets if present).
+* **In-Scope Boundary (2–5):** the explicit inclusions (what this slice covers).
+* **Out-of-Scope Boundary (2–5):** the explicit exclusions phrased as “Not doing ___.”
+* **Handoff Seam (optional):** one sentence stating where responsibility stops and what neighbor/upstream/downstream owns instead (no roadmap).
+* **Alignment (optional):** one sentence confirming consistency with the active blueprint composite (continuity only; no “next steps”).
+* **Closure Check:** one sentence confirming this fence is complete for the Scope Fence field alone (no North Star / Done Receipt / Tripwires content).

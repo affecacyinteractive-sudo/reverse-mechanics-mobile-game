@@ -19,5 +19,5 @@ Your chunk set should broadly cover most of these categories (some can be merged
 * **Symptoms (observable):** what a user/caller would notice for each failure mode.
 * **Trigger Conditions / Risk Amplifiers (optional, evidenced):** include only if directly supported by grounded evidence.
 * **Priority Order:** rank the top cliffs by practical impact (severity × likelihood).
-* **Mitigation Hint (optional, non-prescriptive):** one sentence per top cliff on the kind of mitigation that usually helps, without proposing patches/files.
+* **Mitigation Hint (optional, class-only):** one sentence per top cliff naming only the type of mitigation (guard, debounce, retry, fallback UI, etc.); no file/entity references, no implementation details.
 * **Continuity:** one sentence on why this matters for the current blueprint (what it could block/destabilize), without proposing next actions.

@@ -1,0 +1,19 @@
+FP-01 — WHAT TO PRODUCE (tight + new design)
+
+Use this as the replacement:
+
+* Produce a **North Star Charter** for this slice (Blueprint: **North Star**). Across the full set of chunks, the charter must yield:
+
+  * a **single, software-observable outcome statement** (one slice, one outcome; not a feature list),
+  * a **success signal** (one unmistakable observable indicator that the North Star is true; not a checklist),
+  * an **alignment sentence (optional)** that keeps this North Star consistent with the **active blueprint composite** and/or any blueprint targets (continuity only; no roadmap).
+
+* Do **not** produce Scope Fence / Tripwires / Done Receipt here; those belong to FP-02 / FP-08 / FP-10 (or are inferred only during ASSEMBLE).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **North Star (one sentence):** the single software-observable outcome for this slice (no feature list, no multi-outcome bundling).
+* **Success Signal:** one unmistakable observable indicator that the North Star is true (not a checklist/test plan).
+* **Alignment (optional):** one sentence keeping this North Star consistent with the active blueprint composite and/or any blueprint targets (continuity only; no roadmap).
+* **Closure Check:** one sentence confirming what will now be considered “done” for the North Star field alone (no scope fence / tripwires / receipt content).

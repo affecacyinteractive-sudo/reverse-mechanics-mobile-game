@@ -1,0 +1,25 @@
+FU-10 — WHAT TO PRODUCE (new design)
+
+Across the full set of chunks, you must cover:
+
+* **Refactor Intent:** the specific seam you are improving stated plainly (responsibility clarity / duplication removal / boundary tightening), without proposing new capability.
+* **Behavior Lock (hard line):** externally observable behavior must remain unchanged (no rule changes, no new feature behavior, no output/UX change intended). If the intent requires behavior change, this action is not applicable and must be blocked upstream.
+* **Surface Map (grounded):** the concrete code surfaces that will be touched (files/entities/regions) grounded in targets/projections; if a new file/module is created as an extraction destination, name it explicitly as **new**.
+* **Seam Being Re-laid:** name the old boundary and the new boundary (what responsibility moves where).
+* **Minimal Call-site Update (optional):** the smallest wiring change that keeps external behavior identical.
+* **Patch Segment(s):** 1–3 bounded restructuring moves, each moving one responsibility toward a clearer seam (paired TEXT framing + CODE), with only the minimal wiring needed to preserve behavior.
+* **Stability Note (payoff):** one short “If pledged/committed…” statement that (a) confirms behavior equivalence at the surface level and (b) states the structural benefit gained (what is now cleaner/cheaper to change).
+
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Refactor Intent:** the specific seam/responsibility split you are improving (structure only).
+* **Behavior Lock (hard line):** explicit reminder that user-visible behavior/rules must remain unchanged.
+* **Surface Map (grounded):** the concrete files/entities/regions that will be touched.
+* **Seam Being Re-laid:** name the old boundary and the new boundary.
+* **Extraction Destination (optional):** any new module/file created as an extraction target, and why it exists.
+* **Patch Segment (repeatable):** a small TEXT framing chunk + a linked CODE chunk implementing one bounded restructuring move; repeat only as needed (1–3 max).
+* **Minimal Call-site Update (optional):** one small rewire step showing the updated usage.
+* **Invariant Check (optional):** one sentence stating the boundary invariant that must remain true (signature/shape/entrypoint).
+* **Stability Note (payoff):** one “If pledged/committed…” statement confirming behavior equivalence and the structural benefit gained.

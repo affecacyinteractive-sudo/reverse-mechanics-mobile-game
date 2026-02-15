@@ -1,0 +1,31 @@
+“WHAT TO PRODUCE” (tight, new-design friendly)
+
+Use this as the revised section:
+
+* Produce a compact mechanism model in tight prose. Across the full set of chunks, the model must cover:
+
+  * **Highlight Frame:** what the reader should notice first (the one lever/idea that makes the mechanism click).
+  * **Responsibility:** what this slice owns and what it refuses to own.
+  * **Inputs / Triggers:** what enters it (calls, events, data), grounded in provided surfaces.
+  * **State / Memory (only if evidenced):** what it retains or owns across calls (key fields/records).
+  * **Transformations:** the key decision/mapping/validation moves it applies.
+  * **Micro-Trace:** one short “when X → it does Y → result Z” walkthrough anchored to the same surfaces.
+  * **Outputs / Side Effects:** what leaves it (returns, state changes, emitted signals).
+  * **Boundaries / Seams:** where the slice ends and which neighbor surfaces it touches.
+* Name only the few key concepts the model depends on.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Mechanism Identity:** what slice is being explained and what it is (grounded surface name, in plain words).
+* **Highlight Frame:** the one idea a reader should notice first (the lever that makes the mechanism “click”).
+* **Responsibility Boundary:** what this slice owns vs refuses to own (what’s inside vs outside).
+* **Inputs / Triggers:** what enters it and what wakes it up (events/calls/data).
+* **State / Memory (optional):** what it retains across calls, only if it truly owns state.
+* **Transformations:** the key decision/mapping/validation moves it performs.
+* **Micro-Trace (walkthrough):** one short “when X → it does Y → result Z” flow using the same concepts as above.
+* **Outputs / Side Effects:** what changes or is emitted (returns/state writes/signals).
+* **Boundaries / Seams:** which neighbor surfaces it touches and where the handoffs occur.
+* **Glossary (micro, optional):** 2–5 key terms only, if the explanation relies on named concepts.
+* **Closure Check:** one sentence that states what a reader can now correctly predict/understand about the mechanism.
+

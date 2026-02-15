@@ -1,0 +1,27 @@
+FP-08 — WHAT TO PRODUCE (new-design aligned)
+
+Produce a **Tripwire Atlas** for this slice (Blueprint field: **Tripwires**). Across the full set of chunks, the atlas must cover:
+
+* **Critical Dependencies:** only the few dependencies this slice truly leans on (high-coupling only).
+* **Seam Touchpoints:** where those dependencies touch the slice (boundary surfaces / handoffs).
+* **Failure Shapes:** what breakage looks like as observable symptoms (no root-cause theories).
+* **Early Tripwires:** early, observable signals that trouble is starting (signals, not tasks).
+* **Drift Signals:** signals that the slice is expanding or degrading beyond intent (signals, not plans).
+* **Stability Invariants (optional):** 1–2 non-actionable constraints that must remain true to keep the slice sane (not a redesign, not a scope fence).
+* **Priority:** clearly emphasize the top few items (do not attempt completeness).
+* **Alignment (implicit):** remain consistent with the active blueprint composite and any blueprint targets; do not redefine North Star / Scope Fence / Done Receipt here.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Tripwire Atlas Identity:** the slice/topic these tripwires apply to, aligned to the active blueprint composite and/or blueprint targets if present.
+* **Critical Dependencies (short):** the few high-coupling dependencies this slice truly leans on.
+* **Seam Touchpoints:** where those dependencies touch the slice (handoff surfaces).
+* **Failure Shapes (observable):** what breakage looks like as symptoms (user-visible or dev-visible), without root-cause theories.
+* **Early Tripwires (signals):** early observable signs that you’re starting to go off the intended corridor (signals, not tasks).
+* **Drift Signals (scope/shape):** signs the slice is absorbing responsibilities beyond the intended scope (signals, not plans).
+* **Complexity Signals (maintainability, optional):** signs the slice is becoming harder to change (touching too many places, duplication, growing branching), stated as observables.
+* **Stability Invariants (optional):** 1–2 constraints that must remain true to keep the slice sane (non-actionable truths).
+* **Priority Order:** explicitly rank the top few signals to watch first (do not attempt completeness).
+* **Closure Check:** one sentence confirming this is complete for the Tripwires field alone (no North Star / Done Receipt / Scope Fence content).
+

@@ -1,0 +1,23 @@
+FPR-10 — WHAT TO PRODUCE (patched)
+
+If you want the cleanest new-design version, replace the section with this:
+
+* Produce a compact walkthrough script in tight prose that someone can follow to *experience* the outcome and notice one important constraint. Across the full set of chunks, the script must describe:
+
+  * **Start Point:** where the user begins (entry surface). Use grounded names when available; otherwise use conservative generic phrasing without disclaimers.
+  * **Action Flow:** a short sequence of user moves (keep it small).
+  * **Key Feedback:** the few observable moments that confirm the flow is proceeding.
+  * **Success Signal:** the unmistakable observable sign the outcome happened.
+  * **Boundary Moment:** one brief enforced constraint/edge behavior revealed in the flow (one moment only).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Walkthrough Identity:** what feature slice / outcome this walkthrough demonstrates (plain language, grounded names when available).
+* **Start Point:** where the user begins (entry surface / screen / route).
+* **Action Flow (3–6 moves):** the short sequence of user moves, kept minimal and readable.
+* **Key Feedback Moments:** the few observable cues that confirm each move worked (UI change, message, state visible).
+* **Success Signal:** the unmistakable observable sign the intended outcome occurred.
+* **Boundary Moment (one constraint):** one brief enforced constraint/edge revealed in the flow (validation/guard/empty-state/permission), presented as a normal product rule (not a failure story).
+* **Reader Notes (optional):** one sentence on how to interpret the boundary moment and what it implies (“this is where the system refuses ___”).
+* **Closure Check:** one sentence stating what a reader can now reliably reproduce/verify via this walkthrough (truthful to the current grounded state).

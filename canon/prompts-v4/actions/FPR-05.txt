@@ -1,0 +1,25 @@
+FPR-05 — WHAT TO PRODUCE
+
+Produce a compact boundary highlight in tight prose. Across the full set of chunks, you must cover:
+
+* **Edge Surface:** the 1–3 entry points / touchpoints that define where the slice begins and ends (grounded identifiers only).
+* **Inside the Slice:** what this slice is responsible for (one sentence).
+* **Outside the Slice:** what this slice must not absorb (one sentence).
+* **Seam Assumptions:** the key boundary contracts that keep the slice stable at the edges (only state assumptions you can ground).
+* **Drift Directions:** one or two common mistaken expansion directions, explicitly fenced out in plain language (“Not doing ___ here.”).
+* **Optional Micro-Annotation:** only if a tiny local annotation would prevent accidental misuse at the boundary; prefer comment/JSDoc/type narrowing. If a runtime guard is used, it must be boundary-only and misuse-only. Do not restructure code or add scaffolding.
+* **Closure Check:** one “If pledged/committed…” sentence stating what is now clearer/harder to misuse because of this boundary highlight.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Slice Identity (Edge Surface):** the 1–3 concrete touchpoints that define where this slice begins/ends (grounded names only).
+* **Inside the Slice:** one sentence stating what this slice owns (its job).
+* **Outside the Slice (Scope Fence):** one sentence stating what this slice must not absorb (what belongs elsewhere).
+* **Seam Assumptions (Contracts):** the few boundary assumptions that must hold at the edges (inputs/outputs/shape), grounded.
+* **Drift Directions:** 1–2 common “wrong expansions” explicitly fenced out in plain language (“Not doing ___ here.”).
+* **Reader Guidance:** one sentence on how to use this boundary when explaining or modifying the system (“treat this as the handoff point for ___”).
+* **Micro-Annotation (optional):** a tiny boundary-only annotation that reduces misuse (prefer comment/JSDoc/type; runtime guard only for misuse paths).
+* **Closure Check:** one sentence stating what is now clearer/harder to misuse about the boundary.
+
+

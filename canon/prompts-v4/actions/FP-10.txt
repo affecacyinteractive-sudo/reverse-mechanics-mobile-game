@@ -1,0 +1,22 @@
+FP-10 — WHAT TO PRODUCE (new-design aligned, tight)
+
+**WHAT TO PRODUCE**
+Produce a **Done Receipt** for this slice (Blueprint field: **Done Receipt**). Across the full set of chunks, the receipt must state:
+
+* **Completion Signal:** one software-observable reality that is true when shipped (no feature list).
+* **Must-Hold Constraints:** 1–3 invariants that must still hold after shipping (no scope expansion, no new requirements).
+* **Evidence:** the minimum observable proof that convinces a skeptical reviewer (may include user-level proof and, when grounded, one data/state proof).
+* **Non-Regression Guard:** one bounded statement protecting the most coupled neighboring behavior (single guard, not a second fence).
+* **Boundary Reminder (optional):** one sentence keeping “done” inside the existing North Star / Scope Fence (reference, don’t redefine).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Done Receipt Identity:** what slice/outcome this receipt applies to, aligned to the active blueprint composite and/or blueprint targets if present.
+* **Completion Signal (one):** the single software-observable reality that is true when “done” (no feature list).
+* **Must-Hold Constraints (1–3):** invariants that must remain true after shipping (no scope expansion, no new requirements).
+* **Evidence (minimal):** the smallest observable proof that convinces a skeptical reviewer (may include one user-level proof and, when grounded, one data/state proof).
+* **Non-Regression Guard (one):** one bounded “do not break ___” statement protecting the most coupled neighbor behavior (not a second fence).
+* **Boundary Reminder (optional):** one sentence keeping “done” inside the existing North Star / Scope Fence (reference, don’t redefine).
+* **Closure Check:** one sentence confirming this is complete for the Done Receipt field alone (no North Star / Tripwires / Scope Fence content).
+

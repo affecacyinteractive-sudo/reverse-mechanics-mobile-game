@@ -6,7 +6,7 @@ Across the full set of chunks, you must cover:
 * **Observability Intent (Missing Signal):** the specific question the system currently can’t answer (“is X firing?”, “which branch ran?”, “did persistence write?”, “what input caused the flip?”).
 * **Signal Design (one bounded mechanism):** the single visibility mechanism you will add (log/event/counter/warn/trace marker/small local debug surface), including a stable signal name and a tiny payload (only the few fields needed).
 * **Signal Placement:** where in the flow the signal is emitted (the exact seam: before/after a call, inside a catch, on a branch boundary, at a state transition), grounded to the surface.
-* **Patch Segment(s):** 1–3 tiny local edits (paired TEXT framing + CODE) implementing the signal exactly at the chosen placement; no feature expansion, no refactor.
+* **Patch Segment(s):** 1–3 tiny local edits (paired TEXT framing + CODE) implementing the signal exactly at the chosen placement; no feature expansion, no refactor.no UI changes unless the signal is explicitly a small local debug surface.
 * **Reading Guide:** one short statement explaining how a human interprets the signal (what values/branches mean, what to conclude when it appears/doesn’t).
 * **Closure Check:** one “If pledged/committed…” statement describing what is now observable (no checklists; no blueprint progress).
 

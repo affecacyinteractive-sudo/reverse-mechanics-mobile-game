@@ -24,4 +24,4 @@ Your chunk set should broadly cover most of these categories (some can be merged
 * **Probe Case Set (3–6):** the probe cases themselves.
 * **Probe Case Anatomy (hard):** each case includes starting state → probe move → outcome signal → failure signal.
 * **Expectation vs Discriminator (optional per case):** expectation if evidenced; otherwise a discriminator framing (no “unknown” language).
-* **Closure (optional):** one sentence stating what the probe set will reveal once performed.
+* **Closure Check (optional):** one sentence stating what the probe set will reveal once performed.

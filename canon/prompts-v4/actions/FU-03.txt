@@ -16,7 +16,7 @@ Your chunk set should broadly cover most of these categories (some can be merged
 * **Trigger:** what demonstrably triggers the surface (event/call/user action).
 * **State Snapshot:** the minimum before → after state that matters (inputs/props/state/output).
 * **Outcome Trace:** the short step-by-step sequence from trigger to outcome (no invented steps).
-* **Continuity (optional):** one sentence on what this surface connects to or why it matters, derived from the observed behavior.
-* **Mental Model (optional):** one sentence summarizing the surface’s job in plain language, grounded in the trace.
+* **Continuity (optional):** one neutral sentence stating what neighbor surface(s) this touches/depends on (no persuasion, no “why you should”).
+* **Mental Model (optional):** one neutral sentence summarizing the surface’s job in plain language, derived from the trace (no framing, no hype).
 * **Observed Guards / Constraints (optional):** an evidenced gating condition that blocks/permits the behavior (e.g., “only if X”, “returns early when Y”, “hidden when Z”). Omit if not evidenced.
 * **Variants (optional):** an evidenced alternate path under a named condition (e.g., success vs error, empty vs non-empty, mobile vs desktop). Omit if not evidenced.
