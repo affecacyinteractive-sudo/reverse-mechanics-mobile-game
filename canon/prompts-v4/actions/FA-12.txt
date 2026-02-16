@@ -1,0 +1,30 @@
+WHAT TO PRODUCE
+Produce a compact pattern-family placement for ONE mechanism (one placement per run), written so it can guide future abstraction/synthesis without turning into a theory lecture. Across the full set of chunks, you must state:
+
+- Family Node: the closest pattern family this mechanism belongs to, at the right specificity (if evidence is thin, choose the broader parent family rather than guessing a narrow label).
+- Family Fingerprint: 2–4 distinguishing traits that make this family “feel like itself” (phrased as concrete behavior/seam traits, not jargon).
+- Fit Evidence: the few grounded cues (from targets/context/projections) that justify the placement; compress, don’t quote.
+- Not-This Neighbors: 1–2 nearby families it is not, with one crisp differentiator each.
+- Practical Implication: one short “safe to change/extend” implication and one short “tends to cause trouble” implication that follows from the family fingerprint (no plans, no steps).
+
+Do not emit uncertainty words (no “Unspecified/Unknown”) and do not request more evidence as an artifact. If grounding is not enough to support a narrow placement, keep the placement conservative (broader family + simpler fingerprint) and stop.
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One placement only (one mechanism → one family node). Do not classify multiple mechanisms or the whole system.
+- Keep it practical: fingerprint + differentiators + implications only (no lectures, no histories, no long taxonomies).
+- If evidence is thin, choose the broader parent family; do not force specificity.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- “Fit Evidence” must be grounded in targets/context/projections; do not invent cues or behaviors.
+- Prefer role-based phrasing; any concrete names used must be grounded (never guessed).
+- Never emit “Unspecified/Unknown” or “evidence required” artifacts; be conservative and stop instead.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Family Node:** the closest pattern family this mechanism belongs to (choose broader parent if evidence is thin).
+* **Family Fingerprint (2–4 traits):** distinguishing traits that define the family (concrete behavior/seam traits, minimal jargon).
+* **Fit Evidence (grounded cues):** the few cues from targets/context/projections that justify the placement (compressed, not quoted).
+* **Not-This Neighbors (1–2):** nearby families it is not, with one crisp differentiator each.
+* **Practical Implications:** one “safe to extend/change” implication and one “common trouble” implication that follow from the fingerprint (no plans/steps).
+* **Closure Check:** one sentence confirming this is a single conservative placement (no taxonomy sprawl).

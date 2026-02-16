@@ -1,0 +1,36 @@
+WHAT TO PRODUCE
+Across the full set of chunks, you must cover:
+
+- Seam Endpoints: identify the PRIMARY surface and the BRIDGE surface being stitched (and optional SUPPORT if present), grounded in targets/projections.
+- Bridge Relation: state the intended relation at the seam (e.g., INTEGRATE / MAP / RECONCILE / REPLACE) and the direction if it matters (A→B).
+- Boundary Mismatch: the specific mismatch at the boundary (shape, naming, timing, error semantics, ownership, lifecycle) that prevents clean interaction today.
+- Seam Guarantee: the one boundary-level promise the seam enforces so both sides stay honest (no redesign of internals).
+- Seam Placement: where the glue lives (prefer an existing seam/call-site; otherwise a single small local adapter surface).
+- Patch Segment(s): 1–3 directional patch segments that implement the smallest adapter/composition needed to enforce the guarantee, plus the smallest call-site proof of use (no bulk edits; do not refactor both sides).
+- Closure Check: one sentence stating what is now observably true because the seam exists (behavioral “now-true” statement, not a checklist).
+- Non-Regression Guard (optional): one sentence about what must remain unchanged on each side after stitching.
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- Seam work only: implement the smallest adapter/composition that makes PRIMARY and BRIDGE cooperate; do not “improve” either side’s internals.
+- One seam guarantee per run. If multiple mismatches exist, pick the dominant one that blocks interaction and omit the rest.
+- Directional patching only: 1–3 patch segments maximum. Each segment must be a small local change; no sweeping rewrites, renames, or refactors across many files.
+- Preserve contracts: do not change existing public behavior on either side unless the directive explicitly demands it.
+- Stop at the minimum working slice that demonstrates the seam (one call-site proof). Do not emit “next steps / progress” artifacts.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- When naming PRIMARY/BRIDGE endpoints, use only grounded file paths/entities from mounted projections or provided targets (never guess).
+- Prefer existing seam locations if evidenced; if a new adapter is required, create at most ONE small local adapter surface (and do not invent new folder trees).
+- Do not invent data shapes, events, routes, or error semantics; describe boundary mismatch and seam guarantee only as supported by targets/context/projections.
+- Closure Check must be a now-true statement implied by the patch segments (no fabricated verification claims).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Seam Identity (PRIMARY + BRIDGE + optional SUPPORT):** the two surfaces being stitched, grounded to targets/projections.
+* **Bridge Relation (and direction if needed):** INTEGRATE / MAP / RECONCILE / REPLACE (A→B when it matters).
+* **Boundary Mismatch:** the specific mismatch blocking clean interaction (shape, naming, timing, error semantics, ownership, lifecycle).
+* **Seam Guarantee (one):** the single boundary-level promise the seam enforces (no redesign of internals).
+* **Seam Placement:** where the glue lives (prefer existing seam/call-site; otherwise one small local adapter surface).
+* **Patch Segment (repeatable, 1–3 max):** a small TEXT framing chunk + a linked CODE chunk implementing one local adapter/composition step and the smallest call-site proof of use.
+* **Closure Check:** one sentence stating what is now observably true because the seam exists (no “next steps”).
+* **Non-Regression Guard (optional):** one sentence on what must remain unchanged on each side after stitching.

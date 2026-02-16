@@ -1,0 +1,33 @@
+WHAT TO PRODUCE
+Instantiate exactly ONE pattern instance as a small, reusable shape inside the fenced slice. Across the full set of chunks, you must cover:
+
+- Pattern Instance: the single pattern you are instantiating, stated as a concrete shape (one sentence name + one sentence “what it looks like here”).
+- Source: what you are instantiating it from (prefer a Concept target if provided; otherwise the sanitized intent + evidenced slice), without turning this into a theory card.
+- Local Pain: the specific pain in this slice that this instance removes or makes cheaper (grounded to targets/context).
+- Usage Seam: the minimal way other code will use this instance (one tight statement; this is the “reusable handle” that makes future runs cheaper).
+- Placement: where the instance lives. Use evidenced file/entity names when available; if a new file is required, create at most ONE new local file in an existing directory and name it consistently (do not invent new folder trees).
+- Patch Segment(s): 1–3 directional patch segments that introduce the instance and the smallest call-site proof of use. No bulk edits; stop at the minimum working slice that demonstrates the reusable shape.
+- Closure Check: one sentence stating what is now true/possible because the pattern instance exists (observable, not a checklist; no “next steps”).
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One pattern instance per run. Do not “finish the feature”; stop once the instance exists and one minimal call-site proves it’s usable.
+- Directional patching only: 1–3 patch segments maximum. Each segment must be a small local addition/edit, not a sweeping rewrite.
+- Preserve contracts: do not change existing public behavior/inputs/outputs unless the directive explicitly demands it.
+- If more work remains, stop at the minimum working slice that demonstrates the reusable seam; do not add “next steps / progress” artifacts.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- When referencing existing code, use only grounded file paths/entities from mounted projections or provided targets (never guess names).
+- Creating new identifiers is allowed only for the pattern instance itself: at most ONE new local file (if needed) and the smallest set of new symbols inside it; do not invent new folder trees.
+- Prefer reusing existing seams/handles when evidenced; otherwise introduce one new seam with a neutral, consistent name.
+- Never fabricate “it works” claims: Closure Check must follow from the patch segments (and any stated verification must be an observable now-true statement, not an assumption).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Instance Identity:** the single pattern instance being created (one sentence name + one sentence “what it looks like here”).
+* **Source Anchor:** what this instance is derived from (prefer a Concept target; otherwise the sanitized intent + evidenced slice).
+* **Local Pain (grounded):** the specific pain/cost in this slice that the instance removes or makes cheaper.
+* **Usage Seam (reusable handle):** the minimal way other code will use this instance (one tight statement).
+* **Placement:** where it lives (grounded file/entity names when available; allow at most one new local file if required).
+* **Patch Segment (repeatable, 1–3 max):** a small TEXT framing chunk + a linked CODE chunk implementing one local step toward the instance and one minimal call-site proof of use.
+* **Closure Check:** one sentence stating what is now true/possible because the instance exists (observable; no “next steps”).

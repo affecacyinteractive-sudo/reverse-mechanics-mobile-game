@@ -1,0 +1,34 @@
+WHAT TO PRODUCE
+Across the full set of chunks, you must cover:
+
+- Jig Constraint: the single constraint you are enforcing (plain language, one constraint per run).
+- Risk Reduced: what misuse/ambiguity/invalid state this jig prevents (one tight statement).
+- Violation Handling: what happens when the constraint is violated (reject, normalize, clamp, default), stated as an outcome at the boundary.
+- Enforcement Seam: where the constraint is enforced. If an enforcement point already exists, ground it. If not, introduce at most ONE small local enforcement surface adjacent to an evidenced seam (no new architecture/folder trees).
+- Patch Segment(s): 1–3 directional patch segments that encode the constraint with the smallest local edit(s) and the smallest call-site proof of effect (no bulk edits; stop at the minimum working slice).
+- Closure Check: one sentence stating what is now observably true for valid vs invalid inputs because of the jig (now-true statement, not a checklist).
+- Non-Regression Guard (optional): one sentence stating what must not change for valid inputs.
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One constraint (one jig) per run. If multiple constraints exist, pick the most blocking one and omit the rest.
+- Enforce at the boundary only: do not refactor internals or redesign flows; add the smallest enforcement surface needed.
+- Directional patching only: 1–3 patch segments maximum. Each segment must be a small local change; no sweeping edits across many files.
+- Preserve behavior for valid inputs. The jig must not introduce new capabilities or change contracts beyond constraint enforcement.
+- Stop at the minimum working slice that demonstrates the constraint and its effect; do not emit “next steps / progress” artifacts.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- Use grounded file paths/entities when referencing existing enforcement seams or call sites (never guess names).
+- If an enforcement point does not exist, create at most ONE small local enforcement surface adjacent to an evidenced seam; do not invent new folder trees or broad frameworks.
+- Do not invent data shapes, validation rules, or error semantics; violation handling must follow what is supported by targets/context/projections or by the explicit directive.
+- Closure Check must be a now-true statement implied by the patch segments (no fabricated verification claims).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Jig Identity (one constraint):** the single constraint being enforced (plain language).
+* **Risk Reduced:** the misuse/ambiguity/invalid state this prevents (one tight statement).
+* **Violation Handling (boundary outcome):** what happens when the constraint is violated (reject/normalize/clamp/default), stated as an outcome.
+* **Enforcement Seam:** where the constraint is enforced (grounded seam if it exists; otherwise one small local enforcement surface adjacent to an evidenced seam).
+* **Patch Segment (repeatable, 1–3 max):** a small TEXT framing chunk + a linked CODE chunk encoding the constraint and the smallest call-site proof of effect (no bulk edits).
+* **Closure Check:** one sentence stating what is now observably true for valid vs invalid inputs (no “next steps”).
+* **Non-Regression Guard (optional):** one sentence on what must not change for valid inputs.

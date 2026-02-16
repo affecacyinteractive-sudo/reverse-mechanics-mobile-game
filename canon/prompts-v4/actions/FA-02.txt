@@ -1,0 +1,38 @@
+WHAT TO PRODUCE
+Produce ONE canonical mechanism model for the current slice — the smallest explanation that makes the behavior feel inevitable and reusable as a Concept Keystone. Across the full set of chunks, your model must capture:
+
+- Mechanic Name: a short, specific label for the single mechanism you are modeling (one mechanism per run).
+- Responsibility Boundary: what this mechanism owns vs refuses to own (in plain language).
+- Entry Triggers + Inputs: what wakes it up and what it receives (events/calls/data), described only as far as supported by targets/context/projections.
+- State / Memory (optional): what it remembers across invocations, only if directly evidenced by the mounted slice or targets.
+- Governing Rules: 2–4 “physics-like” rules that determine behavior (ordering/priority included if it matters).
+- Outputs / Side Effects: what changes or becomes true because the mechanism ran (surface-visible or state-visible).
+- Boundary Seams: where this mechanism hands off to neighbors (touchpoints / seams; do not expand into the neighbor’s internals).
+- Invariants (optional): 1–2 non-negotiable truths that must remain true for the mechanism to stay coherent, only if directly implied by evidence.
+- Prediction Hook (optional): one tight “if X then Y” implication that follows mechanically from the rules above.
+
+The goal is inevitability: outcomes should feel mechanically implied by the named rules, not narrated.
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One mechanism only. If multiple mechanisms are present, choose the dominant one that best matches the prompt_card/targets and omit the rest.
+- Do not propose improvements, refactors, plans, checklists, or “next steps.”
+- If details would sprawl, compress to the stable core: keep the model predictive, not exhaustive.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- Do not invent file paths, endpoints, symbol names, or data fields.
+- If a concrete identity is not evidenced, refer to it generically by role (“the primary entry surface”, “the submit action”, “the persistence step”) rather than naming anything you can’t prove.
+- Do not emit “Unspecified/Unknown” language and do not emit “evidence requirement” artifacts; gating/seals handle missing grounding upstream.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Mechanic Identity:** the single named mechanism being modeled (one mechanism per run).
+* **Responsibility Boundary:** what this mechanism owns vs refuses to own (plain language).
+* **Entry Triggers + Inputs:** what wakes it up and what it receives (events/calls/data), grounded to provided context/targets/projections.
+* **State / Memory (optional):** what it retains across invocations, only if directly evidenced.
+* **Governing Rules (2–4):** the “physics” that determine behavior (include ordering/priority if it matters).
+* **Outputs / Side Effects:** what changes or becomes true when the mechanism runs (surface-visible or state-visible).
+* **Boundary Seams:** handoff touchpoints to neighbors (name seams, don’t expand into neighbor internals).
+* **Invariants (optional):** 1–2 non-negotiable truths implied by evidence (only if evidenced).
+* **Prediction Hook (optional):** one tight “if X then Y” implication that follows mechanically from the rules.
+* **Closure Check:** one sentence confirming the model is complete for this single mechanism (no plans/refactors).

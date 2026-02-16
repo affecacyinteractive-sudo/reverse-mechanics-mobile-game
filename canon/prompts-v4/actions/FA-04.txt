@@ -1,0 +1,32 @@
+WHAT TO PRODUCE
+Produce a compact “Law Set” (invariants + non-negotiables) for the current slice — the smallest set of always-true statements that keeps the slice correct even as code changes. Across the full set of chunks:
+
+- Each law must be phrased as an always-true claim about behavior, state, or boundary contract, and it must be falsifiable (a real counterexample could exist).
+- The set must be small and memorable (prefer fewer, stronger laws over completeness).
+- Laws must be grounded in what is actually evidenced by targets/context/projections; do not invent new business rules or requirements.
+- Concrete names are optional: prefer role-based phrasing when you don’t need names; if you do use a file/symbol/route/event/field name, it must be grounded (never guessed).
+- For each law, you may include one brief “breakage prevented” clause inside the same paragraph (still not a checklist or test plan).
+- Include a tight governance boundary: laws apply only to the fenced slice and its seams; do not broaden into adjacent systems.
+- Optional alignment: one sentence keeping the laws consistent with the active blueprint composite (if present), without adding new goals.
+
+Do not propose fixes, refactors, steps, or future work. If evidence is thin, output fewer laws and keep them at the highest stable abstraction; do not emit uncertainty words or “evidence requirement” artifacts (gating/seals handle missing grounding upstream).
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- Produce only the small Law Set for this slice (no mechanisms, no contracts, no plans).
+- Prefer fewer, stronger laws. Do not attempt completeness.
+- Laws must be behavior-preserving: do not introduce new requirements or redesign intent.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- Prefer role-based phrasing; any concrete file/symbol/route/event/field names used must be grounded.
+- Do not invent business rules. If not evidenced, omit the law rather than guessing.
+- Never emit “Unspecified/Unknown” or “evidence required” artifacts; gating/seals handle missing grounding upstream.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Law Set Identity:** what slice/system these laws apply to (plain language; grounded names only if needed).
+* **Core Laws (2–5):** the small set of always-true, falsifiable invariants (prefer fewer, stronger laws).
+* **Boundary / Applicability Fence:** one sentence stating where these laws apply and where they do not (seams only; no neighbor internals).
+* **Breakage Prevented (inline or optional):** for each law, one brief clause describing the kind of failure it prevents (no fix plan).
+* **Alignment (optional):** one sentence confirming consistency with the active blueprint composite (if present), without adding new goals.
+* **Closure Check:** one sentence confirming the Law Set is complete and stable for this slice (no mechanisms/contracts/plans).

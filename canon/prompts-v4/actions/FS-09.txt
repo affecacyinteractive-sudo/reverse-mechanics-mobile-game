@@ -1,0 +1,44 @@
+WHAT TO PRODUCE
+Across the full set of chunks, you must cover:
+
+- Family Identity (and Fingerprint): what the family is and the 2–4 traits that define “family coherence” here (naming/signature shape, seam style, error semantics, state handoff). Prefer a Concept target if provided (family placement / fingerprint); otherwise derive from existing members. One family only.
+
+- Reference Member(s): the 1–2 existing members you are mirroring for conventions (describe the shared shape; grounded names only when evidenced).
+
+- Variant Axis: the single dimension along which the missing sibling differs (e.g., input source, format, strategy, lifecycle timing). This is what makes it a “sibling,” not a new feature.
+
+- The Gap + Pain: what sibling is missing and what awkwardness it forces today (duplication, branching, special casing, inconsistent seams).
+
+- Sibling Contract: what the new sibling must guarantee at the boundary so future moves can use it confidently (behavioral promise + shape promise). Include one sentence of what it must NOT change about existing siblings.
+
+- Placement + Invocation Seam: where the sibling lives and the minimal way it is selected/used alongside existing members (grounded placement when available; allow at most one new local file if truly needed).
+
+- Patch Segment(s): 1–3 directional patch segments that (1) add the sibling in-family and (2) add the smallest call-site proof that it can be used without rewriting the family. No bulk edits.
+
+- Closure Check: one sentence stating what is now observably cleaner/possible because the sibling exists (now-true statement; no progress/next).
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One family, one missing sibling per run. Do not expand into “general refactor” or “complete the whole feature.”
+- Family coherence is the goal: the new sibling must mirror the family fingerprint and conventions of the reference member(s); do not introduce a new style or new pattern family.
+- One variant axis only. If multiple differences exist, pick the dominant axis and omit the rest.
+- Directional patching only: 1–3 patch segments maximum. Each segment must be a small local addition/edit; no sweeping rewrites across many files.
+- Preserve existing siblings: do not change their contract/behavior except for the minimum call-site selection needed to prove the sibling can be used.
+- Stop at the minimum working slice: sibling exists + one minimal invocation seam demonstrated. No “next steps / progress” artifacts.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- Prefer a Concept target for family fingerprint; if absent, derive fingerprint only from grounded existing members. Never invent a family style.
+- When referencing existing members, file paths, symbols, seams, or selectors, use only grounded names from mounted projections/targets (never guess).
+- Creating new identifiers is allowed only for the missing sibling: at most ONE new local file (if needed) and the smallest set of new symbols; do not invent new folder trees.
+- Do not invent behaviors or guarantees; Sibling Contract and Closure Check must follow from the patch segments and provided evidence (no fabricated verification claims).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Family Identity + Fingerprint:** the family and its 2–4 coherence traits (prefer a Concept target; otherwise derive from grounded members).
+* **Reference Member(s):** the 1–2 existing siblings you are mirroring for conventions (grounded names only when evidenced).
+* **Variant Axis:** the single dimension along which the missing sibling differs (source/format/strategy/lifecycle timing, etc.).
+* **Missing Sibling + Pain:** what sibling is missing and what awkwardness it forces today (duplication/branching/inconsistent seams).
+* **Sibling Contract:** the boundary promise the new sibling must uphold (behavior + shape), plus one sentence of what must not change for existing siblings.
+* **Placement + Invocation Seam:** where the sibling lives and the minimal way it is selected/used alongside existing members.
+* **Patch Segment (repeatable, 1–3 max):** a small TEXT framing chunk + a linked CODE chunk adding the sibling and the smallest call-site proof of use (no bulk edits).
+* **Closure Check:** one sentence stating what is now observably cleaner/possible because the sibling exists (no “next steps”).

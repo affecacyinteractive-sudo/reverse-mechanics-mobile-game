@@ -1,0 +1,33 @@
+WHAT TO PRODUCE
+Define ONE contract surface in tight prose — the smallest interface boundary that makes the slice usable without knowing its internals. This is not an implementation and not a data model. Across the full set of chunks, the contract must specify:
+
+- Surface Identity: what this contract is for (the slice/role), in plain language.
+- Entry Points: the calls/events the slice exposes (1–3 max; pick the minimum needed for the directive).
+- Inputs: the minimum inputs each entry point requires (shape + meaning; names only if evidenced by targets/projections; otherwise describe by role).
+- Outputs / Effects: the observable result of each entry point (return/effect/state-visible outcome, stated at the boundary).
+- Guarantees (1–2): what callers can reliably assume (ordering, idempotence, validation behavior, stability of shape, etc.).
+- Non-Guarantees (1): one explicit “do not assume ___” boundary that prevents callers from leaning on internals.
+
+If a surface already exists in targets or mounted projections, treat this as a tightening pass: preserve behavior, remove ambiguity, keep changes minimal. If multiple surfaces are present, choose the dominant one implied by the directive/targets and omit the rest (do not try to cover everything in one run). Never emit “Unspecified/Unknown”; omit unsupported specifics and keep the contract at the highest stable abstraction.
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One contract surface only. If multiple surfaces exist, choose the dominant one implied by the directive/targets and omit the rest.
+- This is a boundary description, not a redesign: do not introduce new capabilities, new steps, or new responsibilities.
+- If tightening an existing surface, preserve observed behavior; changes are clarification-only unless explicitly demanded.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- Use only grounded names for file paths, symbols, routes, events, and data fields.
+- If a concrete name isn’t evidenced, describe by role at the boundary (“submit action”, “persist step”, “selection input”) instead of guessing.
+- Never emit “Unspecified/Unknown”; omit unsupported specifics and keep the contract at the highest stable abstraction.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Surface Identity:** what this contract surface is for (slice/role), in plain language.
+* **Entry Points (1–3):** the minimal exposed calls/events/actions at the boundary (pick only what’s needed).
+* **Inputs (boundary shapes):** the minimum inputs each entry point requires (shape + meaning; grounded names only).
+* **Outputs / Effects:** the observable result of each entry point (return/effect/state-visible outcome).
+* **Guarantees (1–2):** what callers can rely on (ordering, validation behavior, idempotence, stability of shape).
+* **Non-Guarantee (1):** one explicit “do not assume ___” boundary that prevents leaning on internals.
+* **Contract Seams:** what neighboring surface(s) this contract hands off to (touchpoints only; no neighbor internals).
+* **Closure Check:** one sentence confirming the contract is complete and stable for this single surface (no redesign, no plans).
