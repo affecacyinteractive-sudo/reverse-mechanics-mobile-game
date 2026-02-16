@@ -1,0 +1,855 @@
+===== BEGIN: FA-02.txt =====
+WHAT TO PRODUCE
+Produce ONE canonical mechanism model for the current slice — the smallest explanation that makes the behavior feel inevitable and reusable as a Concept Keystone. Across the full set of chunks, your model must capture:
+
+- Mechanic Name: a short, specific label for the single mechanism you are modeling (one mechanism per run).
+- Responsibility Boundary: what this mechanism owns vs refuses to own (in plain language).
+- Entry Triggers + Inputs: what wakes it up and what it receives (events/calls/data), described only as far as supported by targets/context/projections.
+- State / Memory (optional): what it remembers across invocations, only if directly evidenced by the mounted slice or targets.
+- Governing Rules: 2–4 “physics-like” rules that determine behavior (ordering/priority included if it matters).
+- Outputs / Side Effects: what changes or becomes true because the mechanism ran (surface-visible or state-visible).
+- Boundary Seams: where this mechanism hands off to neighbors (touchpoints / seams; do not expand into the neighbor’s internals).
+- Invariants (optional): 1–2 non-negotiable truths that must remain true for the mechanism to stay coherent, only if directly implied by evidence.
+- Prediction Hook (optional): one tight “if X then Y” implication that follows mechanically from the rules above.
+
+The goal is inevitability: outcomes should feel mechanically implied by the named rules, not narrated.
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One mechanism only. If multiple mechanisms are present, choose the dominant one that best matches the prompt_card/targets and omit the rest.
+- Do not propose improvements, refactors, plans, checklists, or “next steps.”
+- If details would sprawl, compress to the stable core: keep the model predictive, not exhaustive.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- Do not invent file paths, endpoints, symbol names, or data fields.
+- If a concrete identity is not evidenced, refer to it generically by role (“the primary entry surface”, “the submit action”, “the persistence step”) rather than naming anything you can’t prove.
+- Do not emit “Unspecified/Unknown” language and do not emit “evidence requirement” artifacts; gating/seals handle missing grounding upstream.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Mechanic Identity:** the single named mechanism being modeled (one mechanism per run).
+* **Responsibility Boundary:** what this mechanism owns vs refuses to own (plain language).
+* **Entry Triggers + Inputs:** what wakes it up and what it receives (events/calls/data), grounded to provided context/targets/projections.
+* **State / Memory (optional):** what it retains across invocations, only if directly evidenced.
+* **Governing Rules (2–4):** the “physics” that determine behavior (include ordering/priority if it matters).
+* **Outputs / Side Effects:** what changes or becomes true when the mechanism runs (surface-visible or state-visible).
+* **Boundary Seams:** handoff touchpoints to neighbors (name seams, don’t expand into neighbor internals).
+* **Invariants (optional):** 1–2 non-negotiable truths implied by evidence (only if evidenced).
+* **Prediction Hook (optional):** one tight “if X then Y” implication that follows mechanically from the rules.
+* **Closure Check:** one sentence confirming the model is complete for this single mechanism (no plans/refactors).
+===== END:   FA-02.txt =====
+
+===== BEGIN: FA-03.txt =====
+WHAT TO PRODUCE
+Define ONE contract surface in tight prose — the smallest interface boundary that makes the slice usable without knowing its internals. This is not an implementation and not a data model. Across the full set of chunks, the contract must specify:
+
+- Surface Identity: what this contract is for (the slice/role), in plain language.
+- Entry Points: the calls/events the slice exposes (1–3 max; pick the minimum needed for the directive).
+- Inputs: the minimum inputs each entry point requires (shape + meaning; names only if evidenced by targets/projections; otherwise describe by role).
+- Outputs / Effects: the observable result of each entry point (return/effect/state-visible outcome, stated at the boundary).
+- Guarantees (1–2): what callers can reliably assume (ordering, idempotence, validation behavior, stability of shape, etc.).
+- Non-Guarantees (1): one explicit “do not assume ___” boundary that prevents callers from leaning on internals.
+
+If a surface already exists in targets or mounted projections, treat this as a tightening pass: preserve behavior, remove ambiguity, keep changes minimal. If multiple surfaces are present, choose the dominant one implied by the directive/targets and omit the rest (do not try to cover everything in one run). Never emit “Unspecified/Unknown”; omit unsupported specifics and keep the contract at the highest stable abstraction.
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One contract surface only. If multiple surfaces exist, choose the dominant one implied by the directive/targets and omit the rest.
+- This is a boundary description, not a redesign: do not introduce new capabilities, new steps, or new responsibilities.
+- If tightening an existing surface, preserve observed behavior; changes are clarification-only unless explicitly demanded.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- Use only grounded names for file paths, symbols, routes, events, and data fields.
+- If a concrete name isn’t evidenced, describe by role at the boundary (“submit action”, “persist step”, “selection input”) instead of guessing.
+- Never emit “Unspecified/Unknown”; omit unsupported specifics and keep the contract at the highest stable abstraction.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Surface Identity:** what this contract surface is for (slice/role), in plain language.
+* **Entry Points (1–3):** the minimal exposed calls/events/actions at the boundary (pick only what’s needed).
+* **Inputs (boundary shapes):** the minimum inputs each entry point requires (shape + meaning; grounded names only).
+* **Outputs / Effects:** the observable result of each entry point (return/effect/state-visible outcome).
+* **Guarantees (1–2):** what callers can rely on (ordering, validation behavior, idempotence, stability of shape).
+* **Non-Guarantee (1):** one explicit “do not assume ___” boundary that prevents leaning on internals.
+* **Contract Seams:** what neighboring surface(s) this contract hands off to (touchpoints only; no neighbor internals).
+* **Closure Check:** one sentence confirming the contract is complete and stable for this single surface (no redesign, no plans).
+===== END:   FA-03.txt =====
+
+===== BEGIN: FA-04.txt =====
+WHAT TO PRODUCE
+Produce a compact “Law Set” (invariants + non-negotiables) for the current slice — the smallest set of always-true statements that keeps the slice correct even as code changes. Across the full set of chunks:
+
+- Each law must be phrased as an always-true claim about behavior, state, or boundary contract, and it must be falsifiable (a real counterexample could exist).
+- The set must be small and memorable (prefer fewer, stronger laws over completeness).
+- Laws must be grounded in what is actually evidenced by targets/context/projections; do not invent new business rules or requirements.
+- Concrete names are optional: prefer role-based phrasing when you don’t need names; if you do use a file/symbol/route/event/field name, it must be grounded (never guessed).
+- For each law, you may include one brief “breakage prevented” clause inside the same paragraph (still not a checklist or test plan).
+- Include a tight governance boundary: laws apply only to the fenced slice and its seams; do not broaden into adjacent systems.
+- Optional alignment: one sentence keeping the laws consistent with the active blueprint composite (if present), without adding new goals.
+
+Do not propose fixes, refactors, steps, or future work. If evidence is thin, output fewer laws and keep them at the highest stable abstraction; do not emit uncertainty words or “evidence requirement” artifacts (gating/seals handle missing grounding upstream).
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- Produce only the small Law Set for this slice (no mechanisms, no contracts, no plans).
+- Prefer fewer, stronger laws. Do not attempt completeness.
+- Laws must be behavior-preserving: do not introduce new requirements or redesign intent.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- Prefer role-based phrasing; any concrete file/symbol/route/event/field names used must be grounded.
+- Do not invent business rules. If not evidenced, omit the law rather than guessing.
+- Never emit “Unspecified/Unknown” or “evidence required” artifacts; gating/seals handle missing grounding upstream.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Law Set Identity:** what slice/system these laws apply to (plain language; grounded names only if needed).
+* **Core Laws (2–5):** the small set of always-true, falsifiable invariants (prefer fewer, stronger laws).
+* **Boundary / Applicability Fence:** one sentence stating where these laws apply and where they do not (seams only; no neighbor internals).
+* **Breakage Prevented (inline or optional):** for each law, one brief clause describing the kind of failure it prevents (no fix plan).
+* **Alignment (optional):** one sentence confirming consistency with the active blueprint composite (if present), without adding new goals.
+* **Closure Check:** one sentence confirming the Law Set is complete and stable for this slice (no mechanisms/contracts/plans).
+===== END:   FA-04.txt =====
+
+===== BEGIN: FA-12.txt =====
+WHAT TO PRODUCE
+Produce a compact pattern-family placement for ONE mechanism (one placement per run), written so it can guide future abstraction/synthesis without turning into a theory lecture. Across the full set of chunks, you must state:
+
+- Family Node: the closest pattern family this mechanism belongs to, at the right specificity (if evidence is thin, choose the broader parent family rather than guessing a narrow label).
+- Family Fingerprint: 2–4 distinguishing traits that make this family “feel like itself” (phrased as concrete behavior/seam traits, not jargon).
+- Fit Evidence: the few grounded cues (from targets/context/projections) that justify the placement; compress, don’t quote.
+- Not-This Neighbors: 1–2 nearby families it is not, with one crisp differentiator each.
+- Practical Implication: one short “safe to change/extend” implication and one short “tends to cause trouble” implication that follows from the family fingerprint (no plans, no steps).
+
+Do not emit uncertainty words (no “Unspecified/Unknown”) and do not request more evidence as an artifact. If grounding is not enough to support a narrow placement, keep the placement conservative (broader family + simpler fingerprint) and stop.
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One placement only (one mechanism → one family node). Do not classify multiple mechanisms or the whole system.
+- Keep it practical: fingerprint + differentiators + implications only (no lectures, no histories, no long taxonomies).
+- If evidence is thin, choose the broader parent family; do not force specificity.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- “Fit Evidence” must be grounded in targets/context/projections; do not invent cues or behaviors.
+- Prefer role-based phrasing; any concrete names used must be grounded (never guessed).
+- Never emit “Unspecified/Unknown” or “evidence required” artifacts; be conservative and stop instead.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Family Node:** the closest pattern family this mechanism belongs to (choose broader parent if evidence is thin).
+* **Family Fingerprint (2–4 traits):** distinguishing traits that define the family (concrete behavior/seam traits, minimal jargon).
+* **Fit Evidence (grounded cues):** the few cues from targets/context/projections that justify the placement (compressed, not quoted).
+* **Not-This Neighbors (1–2):** nearby families it is not, with one crisp differentiator each.
+* **Practical Implications:** one “safe to extend/change” implication and one “common trouble” implication that follow from the fingerprint (no plans/steps).
+* **Closure Check:** one sentence confirming this is a single conservative placement (no taxonomy sprawl).
+===== END:   FA-12.txt =====
+
+===== BEGIN: FI-01.txt =====
+**WHAT TO PRODUCE**
+Introduce **ONE** new, scoped feature slice (not a brainstorm). Across the full set of chunks, you must cover:
+
+* **Now-true outcome (1 sentence):** “If pledged, the user can ___.” (Concrete and observable.)
+* **Entry point / trigger:** the smallest new or changed “door” into the capability (UI control, handler, route, component prop, etc.).
+* **Minimum data/state:** the smallest state/data shape required, and where it lives (local state, component state, simple object, etc.).
+* **Integration anchor:** where this plugs into the *already grounded* project (which existing file/entity is touched, and what it connects to).
+* **Grounded patches only (no silent invention):** Use **only** file paths / entities present in mounted projections **unless** you explicitly introduce a new surface in this run. If you introduce a new file/component, you must (a) name the file path, (b) create it (a code chunk for that file), and (c) wire it into an existing grounded file/entity in the same run.
+* **Minimal completion check:** one short “how we know it works” note (what to click/see, or what state should change).
+
+If the natural solution would sprawl, **compress to the smallest viable version** that still satisfies the Now-true outcome, and explicitly state **one sentence** of what is intentionally deferred (“Not doing ___ yet.”).
+
+OUTPUT FORMAT (JSON ONLY)
+Return valid JSON only with top-level shape:
+{ "chunks": [ ... ] }
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* Slice Promise: the one-sentence “Now-true” outcome (what the user can do/see after this run)
+* Entry Point / Contract: the smallest reachable trigger/door into the new capability (UI control, handler, prop, route, etc.)
+* Data / State: the minimum state/data needed for the slice, and where it lives (keep it tiny)
+* Integration Seam: where this change plugs into the existing grounded app surfaces (what it connects to)
+* Patch Segment (repeatable): a small TEXT framing chunk + a paired with CODE chunk implementing one local change; may either (a) edit an existing grounded surface, or (b) introduce a new file/component AND wire it into an existing grounded surface in the same run
+* Closure Check: a short “how to confirm” note (what to click/see or what should change) that closes the loop on the Now-true outcome (do not discuss milestone progress here)
+
+BEAT CATEGORY INTERPRETATION (hard rules; do not violate)
+- Do not use beat category names as chunk titles (anchors). Use specific, surface-grounded anchors.
+- You may output more or fewer chunks than the number of beat categories; beats are a coverage checklist, not an outline template.
+===== END:   FI-01.txt =====
+
+===== BEGIN: FI-02.txt =====
+## WHAT TO PRODUCE
+
+Fix **one** concrete defect (corrective change, not an enhancement). Across the full set of chunks, you must cover:
+
+* **Broken Symptom (trigger + mismatch):** a single sentence describing what action triggers the issue and what happens vs what should happen.
+* **Grounded Local Surface:** identify the specific file/entity/region where the fix will occur, using only grounded surfaces from the mounted targets/projections.
+* **Minimal Cause Candidate:** the smallest grounded explanation connecting the symptom to that local surface (no invented traces, no multi-cause narrative).
+* **Patch Segment(s):** 1–3 tiny, local edits (paired TEXT framing + CODE) nearest to the symptom; do not refactor or redesign unrelated code.
+* **Non-Regression Guard (optional):** one sentence naming the closest coupled behavior that must not change as a result of the fix.
+* **Closure Check:** one short statement of what is now restored **and** how to confirm it (mirror the symptom trigger; do not discuss blueprint progress).
+
+---
+
+## RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Symptom Snapshot:** the broken behavior as trigger + expected vs actual.
+* **Local Surface (grounded):** where the fix will occur (file/entity/region).
+* **Minimal Cause Candidate:** the smallest grounded explanation for the symptom at that surface.
+* **Patch Segment (repeatable):** a small TEXT framing chunk + a linked CODE chunk implementing one local change; repeat only as needed (1–3 max).
+* **Non-Regression Guard (optional):** the nearest sibling behavior that must remain unchanged.
+* **Closure Check:** the now-restored behavior + minimal confirmation step (mirror the symptom trigger; no blueprint progress).
+===== END:   FI-02.txt =====
+
+===== BEGIN: FI-03.txt =====
+
+## FI-03 — WHAT TO PRODUCE (new-design ready)
+
+Across the full set of chunks, you must cover:
+
+* **Rule Shift (Before → After):** one sentence stating the decision change as condition + outcome (plain language; grounded in directive + targets/projections).
+* **Rule Statement (crisp):** the new rule as a tight condition → outcome statement that matches the Rule Shift.
+* **Rule Surface (grounded):** where the decision lives (file/entity/region) using only grounded identifiers from targets/projections.
+* **Patch Segment(s):** 1–3 tiny local edits that enforce the new rule and nothing else (nearest decision point; no refactor/redesign).
+* **Closure Check:** one now-true observable statement that mirrors the Rule Shift trigger (no checklists; no blueprint progress).
+* **Guardrail Case (optional):** one boundary/neighbor behavior that must remain unchanged after the rule change.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* Rule Shift (Before → After): the one-sentence decision change (condition + outcome).
+* Rule Statement (crisp): the new rule in a compact condition → outcome form.
+* Rule Surface (grounded): where the rule lives (file/entity/region) using only grounded identifiers.
+* Impact Note (optional): one sentence stating the intended blast radius (what this affects and what it does not).
+* Patch Segment (repeatable): a small TEXT framing chunk + a linked CODE chunk implementing one local change; repeat only as needed (1–3 max).
+* Guardrail Case (optional): one edge case / neighboring behavior that must remain unchanged.
+* Closure Check: the now-true observable outcome that mirrors the Rule Shift trigger (no blueprint progress).
+===== END:   FI-03.txt =====
+
+===== BEGIN: FI-04.txt =====
+## WHAT TO PRODUCE
+
+Upgrade an existing feature **without changing its external contract/rules**. Across the full set of chunks, you must cover:
+
+* **Current Surface:** what the feature currently does, and what makes it recognizably the same feature (entry point / primary behavior), grounded in PRIMARY target when present, otherwise grounded in mounted projections.
+* **Upgrade Goal:** one clear improvement axis (capability **or** polish **or** resilience) that preserves the feature’s identity.
+* **Contract Lock (hard line):** do **not** change external rules/contract/acceptance criteria. If the request requires a rule shift, this action is not applicable (must be blocked/rerouted upstream).
+* **Patch Segment(s):** 1–3 tiny, local edits (paired TEXT framing + CODE) implementing the upgrade while respecting the contract lock; no refactor/redesign unrelated to the upgrade.
+* **Closure Check:** one “If pledged/committed…” observable statement that proves the upgrade occurred (no checklist; no blueprint progress).
+* **Non-Regression Guard (optional):** one sentence naming the closest coupled neighboring behavior that must remain unchanged.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Current Surface:** what the feature does today (observable), so the upgrade stays anchored.
+* **Upgrade Goal:** one clear improvement axis (capability or polish or resilience).
+* **Why-this-upgrade (optional):** one sentence explaining why this upgrade matters (coherence, not a plan).
+* **Contract Lock (hard line):** explicit reminder that external rules/acceptance criteria must not change.
+* **Patch Segment (repeatable):** a small TEXT framing chunk + a linked CODE chunk implementing one local upgrade; repeat only as needed (1–3 max).
+* **Non-Regression Guard (optional):** the closest coupled neighboring behavior that must remain unchanged.
+* **Closure Check:** one “If pledged/committed…” observable statement proving the upgrade occurred (no blueprint progress).
+===== END:   FI-04.txt =====
+
+===== BEGIN: FP-01.txt =====
+FP-01 — WHAT TO PRODUCE (tight + new design)
+
+Use this as the replacement:
+
+* Produce a **North Star Charter** for this slice (Blueprint: **North Star**). Across the full set of chunks, the charter must yield:
+
+  * a **single, software-observable outcome statement** (one slice, one outcome; not a feature list),
+  * a **success signal** (one unmistakable observable indicator that the North Star is true; not a checklist),
+  * an **alignment sentence (optional)** that keeps this North Star consistent with the **active blueprint composite** and/or any blueprint targets (continuity only; no roadmap).
+
+* “Do not define scope fence, tripwires, or done receipt in this action. This run produces only the North Star; other blueprint fields are produced in separate planning runs or inferred during Assemble.”
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **North Star (one sentence):** the single software-observable outcome for this slice (no feature list, no multi-outcome bundling).
+* **Success Signal:** one unmistakable observable indicator that the North Star is true (not a checklist/test plan).
+* **Alignment (optional):** one sentence keeping this North Star consistent with the active blueprint composite and/or any blueprint targets (continuity only; no roadmap).
+* **Closure Check:** one sentence confirming what will now be considered “done” for the North Star field alone (no scope fence / tripwires / receipt content).
+===== END:   FP-01.txt =====
+
+===== BEGIN: FP-02.txt =====
+FP-02 — WHAT TO PRODUCE (new-design aligned)
+
+* Produce a **Scope Fence** for this slice (Blueprint field: **Scope Fence**). Across the full set of chunks, the fence must include:
+
+  * **in-scope boundary:** 2–5 explicit inclusions (what this slice covers),
+  * **out-of-scope boundary:** 2–5 explicit exclusions phrased as “Not doing ___.”,
+  * **handoff seam (optional):** one sentence stating where responsibility stops and what neighbor/upstream/downstream owns instead (no roadmap),
+  * **alignment (optional):** one sentence keeping this fence consistent with the active blueprint composite and/or blueprint targets (continuity only).
+* Do **not** produce North Star / Done Receipt / Tripwires / implementation steps here.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Scope Fence Identity:** the slice/topic this fence applies to (plain language, aligned to the active blueprint composite and/or blueprint targets if present).
+* **In-Scope Boundary (2–5):** the explicit inclusions (what this slice covers).
+* **Out-of-Scope Boundary (2–5):** the explicit exclusions phrased as “Not doing ___.”
+* **Handoff Seam (optional):** one sentence stating where responsibility stops and what neighbor/upstream/downstream owns instead (no roadmap).
+* **Alignment (optional):** one sentence confirming consistency with the active blueprint composite (continuity only; no “next steps”).
+* **Closure Check:** one sentence confirming this fence is complete for the Scope Fence field alone (no North Star / Done Receipt / Tripwires content).
+===== END:   FP-02.txt =====
+
+===== BEGIN: FP-08.txt =====
+FP-08 — WHAT TO PRODUCE (new-design aligned)
+
+Produce a **Tripwire Atlas** for this slice (Blueprint field: **Tripwires**). Across the full set of chunks, the atlas must cover:
+
+* **Critical Dependencies:** only the few dependencies this slice truly leans on (high-coupling only).
+* **Seam Touchpoints:** where those dependencies touch the slice (boundary surfaces / handoffs).
+* **Failure Shapes:** what breakage looks like as observable symptoms (no root-cause theories).
+* **Early Tripwires:** early, observable signals that trouble is starting (signals, not tasks).
+* **Drift Signals:** signals that the slice is expanding or degrading beyond intent (signals, not plans).
+* **Stability Invariants (optional):** 1–2 non-actionable constraints that must remain true to keep the slice sane (not a redesign, not a scope fence).
+* **Priority:** clearly emphasize the top few items (do not attempt completeness).
+* **Alignment (implicit):** remain consistent with the active blueprint composite and any blueprint targets; do not redefine North Star / Scope Fence / Done Receipt here.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Tripwire Atlas Identity:** the slice/topic these tripwires apply to, aligned to the active blueprint composite and/or blueprint targets if present.
+* **Critical Dependencies (short):** the few high-coupling dependencies this slice truly leans on.
+* **Seam Touchpoints:** where those dependencies touch the slice (handoff surfaces).
+* **Failure Shapes (observable):** what breakage looks like as symptoms (user-visible or dev-visible), without root-cause theories.
+* **Early Tripwires (signals):** early observable signs that you’re starting to go off the intended corridor (signals, not tasks).
+* **Drift Signals (scope/shape):** signs the slice is absorbing responsibilities beyond the intended scope (signals, not plans).
+* **Complexity Signals (maintainability, optional):** signs the slice is becoming harder to change (touching too many places, duplication, growing branching), stated as observables.
+* **Stability Invariants (optional):** 1–2 constraints that must remain true to keep the slice sane (non-actionable truths).
+* **Priority Order:** explicitly rank the top few signals to watch first (do not attempt completeness).
+* **Closure Check:** one sentence confirming this is complete for the Tripwires field alone (no North Star / Done Receipt / Scope Fence content).
+===== END:   FP-08.txt =====
+
+===== BEGIN: FP-10.txt =====
+FP-10 — WHAT TO PRODUCE (new-design aligned, tight)
+
+**WHAT TO PRODUCE**
+Produce a **Done Receipt** for this slice (Blueprint field: **Done Receipt**). Across the full set of chunks, the receipt must state:
+
+* **Completion Signal:** one software-observable reality that is true when shipped (no feature list).
+* **Must-Hold Constraints:** 1–3 invariants that must still hold after shipping (no scope expansion, no new requirements).
+* **Evidence:** the minimum observable proof that convinces a skeptical reviewer (may include user-level proof and, when grounded, one data/state proof).
+* **Non-Regression Guard:** one bounded statement protecting the most coupled neighboring behavior (single guard, not a second fence).
+* **Boundary Reminder (optional):** one sentence keeping “done” inside the existing North Star / Scope Fence (reference, don’t redefine).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Done Receipt Identity:** what slice/outcome this receipt applies to, aligned to the active blueprint composite and/or blueprint targets if present.
+* **Completion Signal (one):** the single software-observable reality that is true when “done” (no feature list).
+* **Must-Hold Constraints (1–3):** invariants that must remain true after shipping (no scope expansion, no new requirements).
+* **Evidence (minimal):** the smallest observable proof that convinces a skeptical reviewer (may include one user-level proof and, when grounded, one data/state proof).
+* **Non-Regression Guard (one):** one bounded “do not break ___” statement protecting the most coupled neighbor behavior (not a second fence).
+* **Boundary Reminder (optional):** one sentence keeping “done” inside the existing North Star / Scope Fence (reference, don’t redefine).
+* **Closure Check:** one sentence confirming this is complete for the Done Receipt field alone (no North Star / Tripwires / Scope Fence content).
+===== END:   FP-10.txt =====
+
+===== BEGIN: FPR-02.txt =====
+“WHAT TO PRODUCE” (tight, new-design friendly)
+
+Use this as the revised section:
+
+* Produce a compact mechanism model in tight prose. Across the full set of chunks, the model must cover:
+
+  * **Highlight Frame:** what the reader should notice first (the one lever/idea that makes the mechanism click).
+  * **Responsibility:** what this slice owns and what it refuses to own.
+  * **Inputs / Triggers:** what enters it (calls, events, data), grounded in provided surfaces.
+  * **State / Memory (only if evidenced):** what it retains or owns across calls (key fields/records).
+  * **Transformations:** the key decision/mapping/validation moves it applies.
+  * **Micro-Trace:** one short “when X → it does Y → result Z” walkthrough anchored to the same surfaces.
+  * **Outputs / Side Effects:** what leaves it (returns, state changes, emitted signals).
+  * **Boundaries / Seams:** where the slice ends and which neighbor surfaces it touches.
+* Name only the few key concepts the model depends on.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Mechanism Identity:** what slice is being explained and what it is (grounded surface name, in plain words).
+* **Highlight Frame:** the one idea a reader should notice first (the lever that makes the mechanism “click”).
+* **Responsibility Boundary:** what this slice owns vs refuses to own (what’s inside vs outside).
+* **Inputs / Triggers:** what enters it and what wakes it up (events/calls/data).
+* **State / Memory (optional):** what it retains across calls, only if it truly owns state.
+* **Transformations:** the key decision/mapping/validation moves it performs.
+* **Micro-Trace (walkthrough):** one short “when X → it does Y → result Z” flow using the same concepts as above.
+* **Outputs / Side Effects:** what changes or is emitted (returns/state writes/signals).
+* **Boundaries / Seams:** which neighbor surfaces it touches and where the handoffs occur.
+* **Glossary (micro, optional):** 2–5 key terms only, if the explanation relies on named concepts.
+* **Closure Check:** one sentence that states what a reader can now correctly predict/understand about the mechanism.
+===== END:   FPR-02.txt =====
+
+===== BEGIN: FPR-05.txt =====
+FPR-05 — WHAT TO PRODUCE
+
+Produce a compact boundary highlight in tight prose. Across the full set of chunks, you must cover:
+
+* **Edge Surface:** the 1–3 entry points / touchpoints that define where the slice begins and ends (grounded identifiers only).
+* **Inside the Slice:** what this slice is responsible for (one sentence).
+* **Outside the Slice:** what this slice must not absorb (one sentence).
+* **Seam Assumptions:** the key boundary contracts that keep the slice stable at the edges (only state assumptions you can ground).
+* **Drift Directions:** one or two common mistaken expansion directions, explicitly fenced out in plain language (“Not doing ___ here.”).
+* **Optional Micro-Annotation:** only if a tiny local annotation would prevent accidental misuse at the boundary; prefer comment/JSDoc/type narrowing. If a runtime guard is used, it must be boundary-only and misuse-only. Do not restructure code or add scaffolding.
+* **Closure Check:** one “If pledged/committed…” sentence stating what is now clearer/harder to misuse because of this boundary highlight.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Slice Identity (Edge Surface):** the 1–3 concrete touchpoints that define where this slice begins/ends (grounded names only).
+* **Inside the Slice:** one sentence stating what this slice owns (its job).
+* **Outside the Slice (Scope Fence):** one sentence stating what this slice must not absorb (what belongs elsewhere).
+* **Seam Assumptions (Contracts):** the few boundary assumptions that must hold at the edges (inputs/outputs/shape), grounded.
+* **Drift Directions:** 1–2 common “wrong expansions” explicitly fenced out in plain language (“Not doing ___ here.”).
+* **Reader Guidance:** one sentence on how to use this boundary when explaining or modifying the system (“treat this as the handoff point for ___”).
+* **Micro-Annotation (optional):** a tiny boundary-only annotation that reduces misuse (prefer comment/JSDoc/type; runtime guard only for misuse paths).
+* **Closure Check:** one sentence stating what is now clearer/harder to misuse about the boundary.
+===== END:   FPR-05.txt =====
+
+===== BEGIN: FPR-08.txt =====
+ FPR-08 — WHAT TO PRODUCE (new-design ready, tight)
+
+Produce a compact naming alignment in tight prose. Across the full set of chunks, you must cover:
+
+* **Core Terms (3–6):** the few stable terms this slice should use.
+* **Meaning:** what each core term means here, phrased operationally (a definition you could use in a sentence).
+* **Collisions:** the common misreadings to avoid, stated concretely (“don’t confuse X with Y because…”).
+* **Preferred Name Choice:** when competing names exist, choose one preferred name and justify it in one brief sentence, and explicitly mark the losing synonym as “avoid using ___ for this meaning.”
+* **Rename Proposal (optional):** propose one local rename unit and name the exact grounded surfaces it would touch, but do not emit code in this action..
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Glossary Scope (3–6 terms):** state the few core terms this slice should use (no dictionary sprawl).
+* **Term Anchors:** the selected terms listed with grounded references to where they appear (surface names only).
+* **Meaning Locks:** an operational, sentence-usable definition for each term (how it’s used in this system).
+* **Collision Warnings:** the common misreadings to avoid (“don’t confuse X with Y because…”), kept concrete.
+* **Preferred Name Decisions:** when synonyms compete, pick the preferred term and mark the losing synonym as “avoid using ___ for this meaning.”
+* **Usage Example (optional):** one short example sentence that uses 1–2 terms correctly (documentation tone, not code).
+* **Rename Frame (optional):** if a local rename is warranted, one brief statement of what will be renamed and why (directional, not global).
+* **Closure Check:** one sentence stating what will now be easier to discuss correctly (reduced ambiguity / less drift).
+===== END:   FPR-08.txt =====
+
+===== BEGIN: FPR-10.txt =====
+FPR-10 — WHAT TO PRODUCE (patched)
+
+If you want the cleanest new-design version, replace the section with this:
+
+* Produce a compact walkthrough script in tight prose that someone can follow to *experience* the outcome and notice one important constraint. Across the full set of chunks, the script must describe:
+
+  * **Start Point:** where the user begins (entry surface). Use grounded names when available; otherwise use conservative generic phrasing without disclaimers.
+  * **Action Flow:** a short sequence of user moves (keep it small).
+  * **Key Feedback:** the few observable moments that confirm the flow is proceeding.
+  * **Success Signal:** the unmistakable observable sign the outcome happened.
+  * **Boundary Moment:** one brief enforced constraint/edge behavior revealed in the flow (one moment only).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Walkthrough Identity:** what feature slice / outcome this walkthrough demonstrates (plain language, grounded names when available).
+* **Start Point:** where the user begins (entry surface / screen / route).
+* **Action Flow (3–6 moves):** the short sequence of user moves, kept minimal and readable.
+* **Key Feedback Moments:** the few observable cues that confirm each move worked (UI change, message, state visible).
+* **Success Signal:** the unmistakable observable sign the intended outcome occurred.
+* **Boundary Moment (one constraint):** one brief enforced constraint/edge revealed in the flow (validation/guard/empty-state/permission), presented as a normal product rule (not a failure story).
+* **Reader Notes (optional):** one sentence on how to interpret the boundary moment and what it implies (“this is where the system refuses ___”).
+* **Closure Check:** one sentence stating what a reader can now reliably reproduce/verify via this walkthrough (truthful to the current grounded state).
+===== END:   FPR-10.txt =====
+
+===== BEGIN: FS-01.txt =====
+WHAT TO PRODUCE
+Instantiate exactly ONE pattern instance as a small, reusable shape inside the fenced slice. Across the full set of chunks, you must cover:
+
+- Pattern Instance: the single pattern you are instantiating, stated as a concrete shape (one sentence name + one sentence “what it looks like here”).
+- Source: what you are instantiating it from (prefer a Concept target if provided; otherwise the sanitized intent + evidenced slice), without turning this into a theory card.
+- Local Pain: the specific pain in this slice that this instance removes or makes cheaper (grounded to targets/context).
+- Usage Seam: the minimal way other code will use this instance (one tight statement; this is the “reusable handle” that makes future runs cheaper).
+- Placement: where the instance lives. Use evidenced file/entity names when available; if a new file is required, create at most ONE new local file in an existing directory and name it consistently (do not invent new folder trees).
+- Patch Segment(s): 1–3 directional patch segments that introduce the instance and the smallest call-site proof of use. No bulk edits; stop at the minimum working slice that demonstrates the reusable shape.
+- Closure Check: one sentence stating what is now true/possible because the pattern instance exists (observable, not a checklist; no “next steps”).
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One pattern instance per run. Do not “finish the feature”; stop once the instance exists and one minimal call-site proves it’s usable.
+- Directional patching only: 1–3 patch segments maximum. Each segment must be a small local addition/edit, not a sweeping rewrite.
+- Preserve contracts: do not change existing public behavior/inputs/outputs unless the directive explicitly demands it.
+- If more work remains, stop at the minimum working slice that demonstrates the reusable seam; do not add “next steps / progress” artifacts.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- When referencing existing code, use only grounded file paths/entities from mounted projections or provided targets (never guess names).
+- Creating new identifiers is allowed only for the pattern instance itself: at most ONE new local file (if needed) and the smallest set of new symbols inside it; do not invent new folder trees.
+- Prefer reusing existing seams/handles when evidenced; otherwise introduce one new seam with a neutral, consistent name.
+- Never fabricate “it works” claims: Closure Check must follow from the patch segments (and any stated verification must be an observable now-true statement, not an assumption).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Instance Identity:** the single pattern instance being created (one sentence name + one sentence “what it looks like here”).
+* **Source Anchor:** what this instance is derived from (prefer a Concept target; otherwise the sanitized intent + evidenced slice).
+* **Local Pain (grounded):** the specific pain/cost in this slice that the instance removes or makes cheaper.
+* **Usage Seam (reusable handle):** the minimal way other code will use this instance (one tight statement).
+* **Placement:** where it lives (grounded file/entity names when available; allow at most one new local file if required).
+* **Patch Segment (repeatable, 1–3 max):** a small TEXT framing chunk + a linked CODE chunk implementing one local step toward the instance and one minimal call-site proof of use.
+* **Closure Check:** one sentence stating what is now true/possible because the instance exists (observable; no “next steps”).
+===== END:   FS-01.txt =====
+
+===== BEGIN: FS-04.txt =====
+WHAT TO PRODUCE
+Across the full set of chunks, you must cover:
+
+- Seam Endpoints: identify the PRIMARY surface and the BRIDGE surface being stitched (and optional SUPPORT if present), grounded in targets/projections.
+- Bridge Relation: state the intended relation at the seam (e.g., INTEGRATE / MAP / RECONCILE / REPLACE) and the direction if it matters (A→B).
+- Boundary Mismatch: the specific mismatch at the boundary (shape, naming, timing, error semantics, ownership, lifecycle) that prevents clean interaction today.
+- Seam Guarantee: the one boundary-level promise the seam enforces so both sides stay honest (no redesign of internals).
+- Seam Placement: where the glue lives (prefer an existing seam/call-site; otherwise a single small local adapter surface).
+- Patch Segment(s): 1–3 directional patch segments that implement the smallest adapter/composition needed to enforce the guarantee, plus the smallest call-site proof of use (no bulk edits; do not refactor both sides).
+- Closure Check: one sentence stating what is now observably true because the seam exists (behavioral “now-true” statement, not a checklist).
+- Non-Regression Guard (optional): one sentence about what must remain unchanged on each side after stitching.
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- Seam work only: implement the smallest adapter/composition that makes PRIMARY and BRIDGE cooperate; do not “improve” either side’s internals.
+- One seam guarantee per run. If multiple mismatches exist, pick the dominant one that blocks interaction and omit the rest.
+- Directional patching only: 1–3 patch segments maximum. Each segment must be a small local change; no sweeping rewrites, renames, or refactors across many files.
+- Preserve contracts: do not change existing public behavior on either side unless the directive explicitly demands it.
+- Stop at the minimum working slice that demonstrates the seam (one call-site proof). Do not emit “next steps / progress” artifacts.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- When naming PRIMARY/BRIDGE endpoints, use only grounded file paths/entities from mounted projections or provided targets (never guess).
+- Prefer existing seam locations if evidenced; if a new adapter is required, create at most ONE small local adapter surface (and do not invent new folder trees).
+- Do not invent data shapes, events, routes, or error semantics; describe boundary mismatch and seam guarantee only as supported by targets/context/projections.
+- Closure Check must be a now-true statement implied by the patch segments (no fabricated verification claims).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Seam Identity (PRIMARY + BRIDGE + optional SUPPORT):** the two surfaces being stitched, grounded to targets/projections.
+* **Bridge Relation (and direction if needed):** INTEGRATE / MAP / RECONCILE / REPLACE (A→B when it matters).
+* **Boundary Mismatch:** the specific mismatch blocking clean interaction (shape, naming, timing, error semantics, ownership, lifecycle).
+* **Seam Guarantee (one):** the single boundary-level promise the seam enforces (no redesign of internals).
+* **Seam Placement:** where the glue lives (prefer existing seam/call-site; otherwise one small local adapter surface).
+* **Patch Segment (repeatable, 1–3 max):** a small TEXT framing chunk + a linked CODE chunk implementing one local adapter/composition step and the smallest call-site proof of use.
+* **Closure Check:** one sentence stating what is now observably true because the seam exists (no “next steps”).
+* **Non-Regression Guard (optional):** one sentence on what must remain unchanged on each side after stitching.
+===== END:   FS-04.txt =====
+
+===== BEGIN: FS-06.txt =====
+WHAT TO PRODUCE
+Across the full set of chunks, you must cover:
+
+- Jig Constraint: the single constraint you are enforcing (plain language, one constraint per run).
+- Risk Reduced: what misuse/ambiguity/invalid state this jig prevents (one tight statement).
+- Violation Handling: what happens when the constraint is violated (reject, normalize, clamp, default), stated as an outcome at the boundary.
+- Enforcement Seam: where the constraint is enforced. If an enforcement point already exists, ground it. If not, introduce at most ONE small local enforcement surface adjacent to an evidenced seam (no new architecture/folder trees).
+- Patch Segment(s): 1–3 directional patch segments that encode the constraint with the smallest local edit(s) and the smallest call-site proof of effect (no bulk edits; stop at the minimum working slice).
+- Closure Check: one sentence stating what is now observably true for valid vs invalid inputs because of the jig (now-true statement, not a checklist).
+- Non-Regression Guard (optional): one sentence stating what must not change for valid inputs.
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One constraint (one jig) per run. If multiple constraints exist, pick the most blocking one and omit the rest.
+- Enforce at the boundary only: do not refactor internals or redesign flows; add the smallest enforcement surface needed.
+- Directional patching only: 1–3 patch segments maximum. Each segment must be a small local change; no sweeping edits across many files.
+- Preserve behavior for valid inputs. The jig must not introduce new capabilities or change contracts beyond constraint enforcement.
+- Stop at the minimum working slice that demonstrates the constraint and its effect; do not emit “next steps / progress” artifacts.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- Use grounded file paths/entities when referencing existing enforcement seams or call sites (never guess names).
+- If an enforcement point does not exist, create at most ONE small local enforcement surface adjacent to an evidenced seam; do not invent new folder trees or broad frameworks.
+- Do not invent data shapes, validation rules, or error semantics; violation handling must follow what is supported by targets/context/projections or by the explicit directive.
+- Closure Check must be a now-true statement implied by the patch segments (no fabricated verification claims).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Jig Identity (one constraint):** the single constraint being enforced (plain language).
+* **Risk Reduced:** the misuse/ambiguity/invalid state this prevents (one tight statement).
+* **Violation Handling (boundary outcome):** what happens when the constraint is violated (reject/normalize/clamp/default), stated as an outcome.
+* **Enforcement Seam:** where the constraint is enforced (grounded seam if it exists; otherwise one small local enforcement surface adjacent to an evidenced seam).
+* **Patch Segment (repeatable, 1–3 max):** a small TEXT framing chunk + a linked CODE chunk encoding the constraint and the smallest call-site proof of effect (no bulk edits).
+* **Closure Check:** one sentence stating what is now observably true for valid vs invalid inputs (no “next steps”).
+* **Non-Regression Guard (optional):** one sentence on what must not change for valid inputs.
+===== END:   FS-06.txt =====
+
+===== BEGIN: FS-09.txt =====
+WHAT TO PRODUCE
+Across the full set of chunks, you must cover:
+
+- Family Identity (and Fingerprint): what the family is and the 2–4 traits that define “family coherence” here (naming/signature shape, seam style, error semantics, state handoff). Prefer a Concept target if provided (family placement / fingerprint); otherwise derive from existing members. One family only.
+
+- Reference Member(s): the 1–2 existing members you are mirroring for conventions (describe the shared shape; grounded names only when evidenced).
+
+- Variant Axis: the single dimension along which the missing sibling differs (e.g., input source, format, strategy, lifecycle timing). This is what makes it a “sibling,” not a new feature.
+
+- The Gap + Pain: what sibling is missing and what awkwardness it forces today (duplication, branching, special casing, inconsistent seams).
+
+- Sibling Contract: what the new sibling must guarantee at the boundary so future moves can use it confidently (behavioral promise + shape promise). Include one sentence of what it must NOT change about existing siblings.
+
+- Placement + Invocation Seam: where the sibling lives and the minimal way it is selected/used alongside existing members (grounded placement when available; allow at most one new local file if truly needed).
+
+- Patch Segment(s): 1–3 directional patch segments that (1) add the sibling in-family and (2) add the smallest call-site proof that it can be used without rewriting the family. No bulk edits.
+
+- Closure Check: one sentence stating what is now observably cleaner/possible because the sibling exists (now-true statement; no progress/next).
+
+STABILITY & SCOPE DISCIPLINE (anti-drift)
+- One family, one missing sibling per run. Do not expand into “general refactor” or “complete the whole feature.”
+- Family coherence is the goal: the new sibling must mirror the family fingerprint and conventions of the reference member(s); do not introduce a new style or new pattern family.
+- One variant axis only. If multiple differences exist, pick the dominant axis and omit the rest.
+- Directional patching only: 1–3 patch segments maximum. Each segment must be a small local addition/edit; no sweeping rewrites across many files.
+- Preserve existing siblings: do not change their contract/behavior except for the minimum call-site selection needed to prove the sibling can be used.
+- Stop at the minimum working slice: sibling exists + one minimal invocation seam demonstrated. No “next steps / progress” artifacts.
+
+EVIDENCE DISCIPLINE (anti-invention)
+- Prefer a Concept target for family fingerprint; if absent, derive fingerprint only from grounded existing members. Never invent a family style.
+- When referencing existing members, file paths, symbols, seams, or selectors, use only grounded names from mounted projections/targets (never guess).
+- Creating new identifiers is allowed only for the missing sibling: at most ONE new local file (if needed) and the smallest set of new symbols; do not invent new folder trees.
+- Do not invent behaviors or guarantees; Sibling Contract and Closure Check must follow from the patch segments and provided evidence (no fabricated verification claims).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Family Identity + Fingerprint:** the family and its 2–4 coherence traits (prefer a Concept target; otherwise derive from grounded members).
+* **Reference Member(s):** the 1–2 existing siblings you are mirroring for conventions (grounded names only when evidenced).
+* **Variant Axis:** the single dimension along which the missing sibling differs (source/format/strategy/lifecycle timing, etc.).
+* **Missing Sibling + Pain:** what sibling is missing and what awkwardness it forces today (duplication/branching/inconsistent seams).
+* **Sibling Contract:** the boundary promise the new sibling must uphold (behavior + shape), plus one sentence of what must not change for existing siblings.
+* **Placement + Invocation Seam:** where the sibling lives and the minimal way it is selected/used alongside existing members.
+* **Patch Segment (repeatable, 1–3 max):** a small TEXT framing chunk + a linked CODE chunk adding the sibling and the smallest call-site proof of use (no bulk edits).
+* **Closure Check:** one sentence stating what is now observably cleaner/possible because the sibling exists (no “next steps”).
+===== END:   FS-09.txt =====
+
+===== BEGIN: FU-03.txt =====
+## WHAT TO PRODUCE (FU-03)
+
+Observe and explain one concrete surface’s behavior **without changing code**. Across the full set of chunks, you must cover:
+
+* **Surface Identity:** the single surface being observed (file/entity/region and what it is), grounded in PRIMARY target when present, otherwise grounded in mounted projections.
+* **Trigger:** what demonstrably triggers this surface (event/call/user action), grounded in evidence.
+* **State Snapshot:** the minimum “before → after” state that matters for understanding the behavior (inputs/props/state/output), grounded in evidence.
+* **Outcome Trace:** the short step-by-step sequence of what happens from trigger to outcome, grounded in evidence (no invented steps).
+* **Observed Guards / Constraints (optional):** any enforced condition/rule that is directly implied by evidence ; include only if directly evidenced, otherwise omit entirely.
+* **Variants (optional):** if behavior differs by context, name the discriminating condition ; include only if directly evidenced; otherwise omit entirely.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Surface Identity:** what surface is being observed and what it is in the system (grounded).
+* **Trigger:** what demonstrably triggers the surface (event/call/user action).
+* **State Snapshot:** the minimum before → after state that matters (inputs/props/state/output).
+* **Outcome Trace:** the short step-by-step sequence from trigger to outcome (no invented steps).
+* **Continuity (optional):** one neutral sentence stating what neighbor surface(s) this touches/depends on (no persuasion, no “why you should”).
+* **Mental Model (optional):** one neutral sentence summarizing the surface’s job in plain language, derived from the trace (no framing, no hype).
+* **Observed Guards / Constraints (optional):** an evidenced gating condition that blocks/permits the behavior (e.g., “only if X”, “returns early when Y”, “hidden when Z”). Omit if not evidenced.
+* **Variants (optional):** an evidenced alternate path under a named condition (e.g., success vs error, empty vs non-empty, mobile vs desktop). Omit if not evidenced.
+===== END:   FU-03.txt =====
+
+===== BEGIN: FU-04.txt =====
+## WHAT TO PRODUCE
+
+Produce a compact probe set that reveals **boundary behavior** for **one grounded surface**. You are not changing code. Across the full set of chunks, you must cover:
+
+* **Surface (grounded):** name the specific surface being probed (file/entity/region and what it is), using only grounded identifiers from targets/projections.
+* **Boundary Target (flip point):** state the exact axis you’re hunting where behavior changes (e.g., empty vs non-empty, 0 vs >0, short vs long input, breakpoint).
+* **Probe Cases (3–6):** a small set of high-signal probes that approach/cross the flip point and expose what inputs/conditions matter.
+
+Each probe case must include: **starting state**, a **probe move** (minimal trigger/action), an **outcome signal** (what you look at to judge the result), and a **failure signal** (what “wrong” looks like).
+
+If you have grounded evidence for an expectation, state it plainly as part of the outcome signal; if not, phrase the probe as a **discriminator** (what this probe will decide between) without using “unknown/unspecified” language.
+
+Keep the probe set small; if the boundary would require more cases, choose the highest-signal probes and leave the rest for a later run.
+
+---
+
+## RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Surface (grounded):** what is being probed and where it lives.
+* **Boundary Target (flip point):** the specific condition axis where behavior changes.
+* **Coverage Rationale (optional):** one sentence on why these 3–6 probes are the highest-signal set (e.g., they bracket the flip from both sides).
+* **Probe Case Set (3–6):** the probe cases themselves.
+* **Probe Case Anatomy (hard):** each case includes starting state → probe move → outcome signal → failure signal.
+* **Expectation vs Discriminator (optional per case):** expectation if evidenced; otherwise a discriminator framing (no “unknown” language).
+* **Closure Check (optional):** one sentence stating what the probe set will reveal once performed.
+===== END:   FU-04.txt =====
+
+===== BEGIN: FU-06.txt =====
+## WHAT TO PRODUCE
+
+Produce a grounded **cliff map** for one specific surface’s boundary behavior. You are not changing code. Across the full set of chunks, you must cover:
+
+* **Surface Identity (grounded):** the single surface being mapped (file/entity/region and what it is), using only grounded identifiers from targets/projections.
+* **Boundary Axes (2–4):** the few condition “sliders” that most affect this surface (e.g., empty↔non-empty, small↔large, unauth↔auth, fast↔slow, single↔concurrent).
+* **Failure Modes (edge-linked):** the most likely failures at those boundary edges, each explicitly tied to one boundary axis.
+* **Symptoms (observable):** what a user/caller would observe when each failure mode occurs (no invented internals).
+* **Trigger Conditions / Risk Amplifiers (optional, evidenced):** include only if directly supported by grounded evidence; describe what tends to trigger/worsen the failure without claiming root cause.
+* **Priority Order:** rank the top cliffs by practical impact (severity × likelihood), so the map is immediately actionable as understanding.
+* **Mitigation Class (optional):** for each top cliff, name only the mitigation type (guard/retry/fallback/etc.), with no implementation detail and no file/entity references.
+* **Continuity:** one sentence stating why this cliff map matters relative to the current blueprint (what it could block or destabilize), without proposing next actions.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Surface Identity (grounded):** the specific surface being mapped and where it lives.
+* **Boundary Axes (2–4):** the few condition “sliders” that most affect this surface.
+* **Failure Modes (edge-linked):** likely failures at the boundary edges, each tied to one axis.
+* **Symptoms (observable):** what a user/caller would notice for each failure mode.
+* **Trigger Conditions / Risk Amplifiers (optional, evidenced):** include only if directly supported by grounded evidence.
+* **Priority Order:** rank the top cliffs by practical impact (severity × likelihood).
+* **Mitigation Hint (optional, class-only):** one sentence per top cliff naming only the type of mitigation (guard, debounce, retry, fallback UI, etc.); no file/entity references, no implementation details.
+* **Continuity:** one sentence on why this matters for the current blueprint (what it could block/destabilize), without proposing next actions.
+===== END:   FU-06.txt =====
+
+===== BEGIN: FU-08.txt =====
+ FU-08 — WHAT TO PRODUCE (new-design ready)
+
+Across the full set of chunks, you must cover:
+
+* **Surface Being Observed (grounded):** the exact surface you’re adding visibility to (file/entity/region and what it is), grounded in PRIMARY target when present, otherwise grounded in mounted projections.
+* **Observability Intent (Missing Signal):** the specific question the system currently can’t answer (“is X firing?”, “which branch ran?”, “did persistence write?”, “what input caused the flip?”).
+* **Signal Design (one bounded mechanism):** the single visibility mechanism you will add (log/event/counter/warn/trace marker/small local debug surface), including a stable signal name and a tiny payload (only the few fields needed).
+* **Signal Placement:** where in the flow the signal is emitted (the exact seam: before/after a call, inside a catch, on a branch boundary, at a state transition), grounded to the surface.
+* **Patch Segment(s):** 1–3 tiny local edits (paired TEXT framing + CODE) implementing the signal exactly at the chosen placement; no feature expansion, no refactor.no UI changes unless the signal is explicitly a small local debug surface.
+* **Reading Guide:** one short statement explaining how a human interprets the signal (what values/branches mean, what to conclude when it appears/doesn’t).
+* **Closure Check:** one “If pledged/committed…” statement describing what is now observable (no checklists; no blueprint progress).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Surface Being Observed (grounded):** the specific surface you’re adding visibility to and where it lives.
+* **Observability Intent (Missing Signal):** the exact question you currently can’t answer by looking at the system.
+* **Signal Design (one bounded mechanism):** the single visibility mechanism to add, kept small and stable.
+* **Signal Placement:** the exact seam where the signal is emitted (branch boundary, before/after call, catch, state transition).
+* **Patch Segment (repeatable):** a small TEXT framing chunk + a linked CODE chunk implementing one local signal addition; repeat only as needed (1–3 max).
+* **Reading Guide:** how to interpret the signal and what conclusions to draw when it appears/doesn’t.
+* **Safety Guard (optional):** one sentence ensuring the signal is harmless (minimal payload, no sensitive data, optional dev-only guard).
+* **Closure Check:** one “If pledged/committed…” statement describing what is now observable that wasn’t before.
+===== END:   FU-08.txt =====
+
+===== BEGIN: FU-10.txt =====
+FU-10 — WHAT TO PRODUCE (new design)
+
+Across the full set of chunks, you must cover:
+
+* **Refactor Intent:** the specific seam you are improving stated plainly (responsibility clarity / duplication removal / boundary tightening), without proposing new capability.
+* **Behavior Lock (hard line):** externally observable behavior must remain unchanged (no rule changes, no new feature behavior, no output/UX change intended). If the intent requires behavior change, this action is not applicable and must be blocked upstream.
+* **Surface Map (grounded):** the concrete code surfaces that will be touched (files/entities/regions) grounded in targets/projections; if a new file/module is created as an extraction destination, name it explicitly as **new**.
+* **Seam Being Re-laid:** name the old boundary and the new boundary (what responsibility moves where).
+* **Minimal Call-site Update (optional):** the smallest wiring change that keeps external behavior identical.
+* **Patch Segment(s):** 1–3 bounded restructuring moves, each moving one responsibility toward a clearer seam (paired TEXT framing + CODE), with only the minimal wiring needed to preserve behavior.
+* **Stability Note (payoff):** one short “If pledged/committed…” statement that (a) confirms behavior equivalence at the surface level and (b) states the structural benefit gained (what is now cleaner/cheaper to change).
+
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
+
+* **Refactor Intent:** the specific seam/responsibility split you are improving (structure only).
+* **Behavior Lock (hard line):** explicit reminder that user-visible behavior/rules must remain unchanged.
+* **Surface Map (grounded):** the concrete files/entities/regions that will be touched.
+* **Seam Being Re-laid:** name the old boundary and the new boundary.
+* **Extraction Destination (optional):** any new module/file created as an extraction target, and why it exists.
+* **Patch Segment (repeatable):** a small TEXT framing chunk + a linked CODE chunk implementing one bounded restructuring move; repeat only as needed (1–3 max).
+* **Minimal Call-site Update (optional):** one small rewire step showing the updated usage.
+* **Invariant Check (optional):** one sentence stating the boundary invariant that must remain true (signature/shape/entrypoint).
+* **Stability Note (payoff):** one “If pledged/committed…” statement confirming behavior equivalence and the structural benefit gained.
+===== END:   FU-10.txt =====
+
+===== BEGIN: Schema.txt =====
+---
+
+## ACTION CARD SYSTEM PROMPT — FINAL SCHEMA (V1)
+
+**ACTION CARD SYSTEM PROMPT — `<SCHOOL>-<NN>` — `<Action Name>` (v1)**
+You are executing action `<SCHOOL>-<NN>`: `<Action Name>`.
+
+### 0) Job (one sentence)
+
+**Your job:** `<single responsibility statement; exclude neighboring responsibilities in plain language>`.
+
+### 1) Policy Header (tiny; varies by action)
+
+**POLICY (read-only):**
+
+* `school`: `FI|FU|FPR|FA|FS|FP`
+* `action_id`: `<SCHOOL>-<NN>`
+* `allows_code`: `true|false`
+* `target_requirement`: `NONE_OK | PRIMARY_MIN | BRIDGE_MIN | TRIAD_ALLOWED`
+* `allowed_bridge_relations`: `[INTEGRATE|COMPARE|MAP|RECONCILE|EXTEND|REPLACE|GENERALIZE|INSTANTIATE]` (subset; empty allowed)
+* `allowed_support_roles`: `[CONSTRAINT|COMPATIBILITY|REFERENCE|GUARD]` (omit if triad not allowed)
+
+### 2) Inputs you may use (contract boundary)
+
+Use **only** these inputs (and assume they are grounded/mounted by the orchestrator):
+
+* `<directive>`: sanitized **delta intent** (primary signal)
+* `<blueprint_state>`: active blueprint + reserve refs (if present)
+* `<targets>`: 0–3 keystone targets in grammar form:
+
+  * `()`
+  * `(PRIMARY)`
+  * `(PRIMARY ⟷ BRIDGE via RELATION[, direction])`
+  * `(PRIMARY ⟷ BRIDGE via RELATION[, direction], with SUPPORT[, support_role])`
+* `<context>`: summaries + recent runs (if provided)
+* `<projection_slice_manifest>`: refs/summaries (always safe)
+* `<projection_slice>`: authoritative file bodies (mounted subset)
+
+### 3) Target-grammar usage rule (action-local)
+
+If targets are present, treat them as grammar, not inspiration:
+
+* PRIMARY = the main surface of work.
+* BRIDGE = changes *how* you operate on PRIMARY (must obey `allowed_bridge_relations`).
+* SUPPORT = non-driving constraint/reference/guard (must obey `allowed_support_roles` if present).
+  If target grammar is invalid for this action, follow the action’s downgrade rule (either drop BRIDGE/SUPPORT or emit a requirement and stop—choose one policy per action).
+
+### 4) Integration / Alignment Rules (anti-drift) (action-local, short)
+
+2–5 lines that define “stay inside the project’s current reality,” e.g.:
+
+* integrate into existing seams/patterns implied by targets/projections
+* avoid introducing new architecture/rewrites unless explicitly allowed
+* new surfaces are allowed only if explicitly introduced + wired in the same run (when applicable)
+
+### 5) Evidence / Grounding Rules (anti-invention) (action-local, short)
+
+2–5 lines that define what may be named/changed:
+
+* do not reference file paths/entities that are not in projections/targets
+* new surfaces are allowed only if explicitly created + wired in the same run (when applicable)
+* If required evidence/grounding is missing, emit no raw chunks and rely on the ritual’s seal/failure step.
+
+### 6) Compression rule (scope safety)
+
+If the natural solution would sprawl, **compress** to the smallest viable version that satisfies the action’s “now-true” outcome, and defer the rest in one sentence.
+
+### 7) WHAT TO PRODUCE (required obligations; AND)
+
+A tight list of the semantic obligations for this action.
+
+* These are **AND** obligations unless explicitly written as an either/or alternative.
+* Must be written so a verifier can judge pass/fail.
+
+### 8) RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+
+A short beat list describing coverage areas.
+
+* Beats are **coverage categories**, not chunk titles.
+* Beats may merge; one beat may require multiple small chunks.
+* Must remain compatible with the global chunk rules (limits, pairing, title discipline).
+
+### 9) BEAT CATEGORY INTERPRETATION (hard rules; do not violate)
+
+A tiny, fixed block (same in all actions) that reinforces:
+
+* beats ≠ titles; titles must be content-specific
+* patch segments are framed TEXT + paired CODE (no orphan code)
+* compress/merge rather than exceed limits
+
+### 10) Output format (interface contract)
+
+**OUTPUT FORMAT: JSON ONLY**
+Return a JSON object containing **only** raw chunks per the global chunk schema:
+
+* `chunks[]`: each chunk has `{ id, kind: TEXT|CODE, title, body, pair }`
+
+  * CODE must have `pair` pointing to its framing TEXT chunk id.
+
+---
+===== END:   Schema.txt =====

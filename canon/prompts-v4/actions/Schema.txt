@@ -59,11 +59,11 @@ If targets are present, treat them as grammar, not inspiration:
 
 * do not reference file paths/entities that are not in projections/targets
 * new surfaces are allowed only if explicitly created + wired in the same run (when applicable)
-* if required evidence is missing, state **Requires:** `<missing thing>` (no questions) and continue only with safely grounded work, or stop early if the action cannot proceed
+* If required evidence/grounding is missing, emit no raw chunks and rely on the ritual’s seal/failure step.
 
 ### 6) Compression rule (scope safety)
 
-If the natural solution would sprawl, **compress** to the smallest viable version that satisfies the action’s “now-true” outcome, and defer the rest in one sentence.
+If the natural solution would sprawl, **compress** to the smallest viable version that satisfies the action’s “now-true” outcome.
 
 ### 7) WHAT TO PRODUCE (required obligations; AND)
 

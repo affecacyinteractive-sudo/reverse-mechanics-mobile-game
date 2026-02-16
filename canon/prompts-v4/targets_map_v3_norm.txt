@@ -1,0 +1,240 @@
+Revised Targets Grammar Map for the 25-Action Library
+Canon guardrails used in this revision
+This revision is a strict tightening pass over the prior map (“Targets Grammar Map for the 25-Action Library”) and follows the Targets Grammar Spec (V1) arity and slot semantics (A0–A3; PRIMARY/BRIDGE/SUPPORT; RELATION + direction). It also enforces the closed-set subtype tagging from tags-registry.json, including: "subtype_tags_are_closed_set": true and "one_subtype_tag_per_action": true.
+All slot typings below use only these subtype tags (no invented tags):
+FI:* fi_add | fi_fix | fi_change | fi_upgrade
+FU:* fu_truth | fu_probe | fu_edges | fu_structure
+FPR:* fpr_mechanism | fpr_slice_map | fpr_glossary | fpr_walkthrough
+FP:* fp_north_star | fp_scope_fence | fp_tripwires | fp_done_receipt
+FA:* fa_mechanism_model | fa_surface_contract | fa_law_set | fa_family_placement
+FS:* fs_instantiate | fs_stitch | fs_jig | fs_sibling
+Key tightening changes versus the prior map: - Arity exactness: “Allowed arities” equals the arities actually used by canon combos listed per action. - Slot typing tightened: Removed “PRIMARY:any school / any slice anchor” in canon mode unless the action text truly implies it. - BRIDGE/SUPPORT reduced: BRIDGE appears only where the action text intrinsically names two operands (or explicitly prefers a concept source). SUPPORT appears only where the action text explicitly allows it (notably FS-04).
+Blueprint school mappings
+Action: FP-01 — North Star Charter
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FP:fp_north_star | FP:fp_scope_fence | FP:fp_tripwires | FP:fp_done_receipt / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “Produce a North Star Charter”, WTP: “single, software-observable outcome statement”}
+2. (PRIMARY: FP:fp_scope_fence) — Why: {WTP: “keeps this North Star consistent”, WTP: “any blueprint targets”}
+Action: FP-02 — Scope Fence
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FP:fp_scope_fence | FP:fp_north_star | FP:fp_tripwires | FP:fp_done_receipt / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “Produce a Scope Fence”, WTP: “out-of-scope boundary”}
+2. (PRIMARY: FP:fp_north_star) — Why: {WTP: “alignment (optional)”, WTP: “active blueprint composite”}
+Action: FP-08 — Tripwire Atlas
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FP:fp_tripwires | FP:fp_north_star | FP:fp_scope_fence / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “Produce a Tripwire Atlas”, WTP: “Early Tripwires”}
+2. (PRIMARY: FP:fp_scope_fence) — Why: {WTP: “Drift Signals”, WTP: “beyond intent”}
+3. (PRIMARY: FP:fp_north_star) — Why: {WTP: “remain consistent”, WTP: “do not redefine North Star”}
+Action: FP-10 — Done Receipt
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FP:fp_done_receipt | FP:fp_north_star | FP:fp_scope_fence / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “Produce a Done Receipt”, WTP: “Completion Signal”}
+2. (PRIMARY: FP:fp_north_star) — Why: {WTP: “Boundary Reminder (optional)”, WTP: “existing North Star”}
+3. (PRIMARY: FP:fp_scope_fence) — Why: {WTP: “Boundary Reminder (optional)”, WTP: “inside the existing … Scope Fence”}
+Concept school mappings
+Action: FA-02 — Mechanism Model
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FI:* | FU:fu_truth | FU:fu_structure / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “Produce ONE canonical mechanism model”, WTP: “targets/context/projections”}
+2. (PRIMARY: FI:*) — Why: {WTP: “Boundary Seams”, WTP: “touchpoints / seams”}
+3. (PRIMARY: FU:fu_truth) — Why: {WTP: “Entry Triggers + Inputs”, WTP: “supported by … evidence”}
+Action: FA-03 — Contract Surface
+Allowed arities: {A0, A1, A2}
+Slot typing: PRIMARY: FI:* | FA:fa_surface_contract / BRIDGE: FU:fu_truth / SUPPORT: —
+Allowed relations: RECONCILE
+Direction rules: RECONCILE: Optional
+Canon combos:
+1. () — Why: {WTP: “Define ONE contract surface”, WTP: “smallest interface boundary”}
+2. (PRIMARY: FI:*) — Why: {WTP: “Entry Points (1–3 max)”, WTP: “pick the minimum”}
+3. (PRIMARY: FA:fa_surface_contract ⟷ BRIDGE: FU:fu_truth via RECONCILE) — Why: {WTP: “tightening pass: preserve behavior”, WTP: “remove ambiguity”}
+Action: FA-04 — Law Set
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FA:fa_law_set | FP:fp_scope_fence | FA:fa_surface_contract | FI:* / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “Produce a compact ‘Law Set’”, WTP: “always-true claim”}
+2. (PRIMARY: FP:fp_scope_fence) — Why: {WTP: “laws apply only to the fenced slice”, WTP: “governance boundary”}
+3. (PRIMARY: FA:fa_surface_contract) — Why: {WTP: “boundary contract”, WTP: “falsifiable”}
+Action: FA-12 — Pattern-Family Placement
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FA:fa_mechanism_model | FU:fu_truth | FI:* / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “placement for ONE mechanism”, WTP: “choose the broader parent family”}
+2. (PRIMARY: FA:fa_mechanism_model) — Why: {WTP: “Family Fingerprint: 2–4”, WTP: “Fit Evidence”}
+3. (PRIMARY: FU:fu_truth) — Why: {WTP: “Fit Evidence … grounded cues”, WTP: “do not invent cues”}
+Understanding school mappings
+Action: FU-03 — Behavior Trace
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FI:* | FA:fa_surface_contract | FS:fs_instantiate | FS:fs_stitch / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “explain one concrete surface’s behavior”, WTP: “without changing code”}
+2. (PRIMARY: FI:*) — Why: {WTP: “Surface Identity … grounded in PRIMARY”, WTP: “Outcome Trace”}
+3. (PRIMARY: FA:fa_surface_contract) — Why: {WTP: “Trigger”, WTP: “observable result”}
+Action: FU-04 — Boundary Probe Set
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FI:* | FA:fa_surface_contract | FU:fu_truth / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “probe set … boundary behavior”, WTP: “one grounded surface”}
+2. (PRIMARY: FI:*) — Why: {WTP: “Surface (grounded)”, WTP: “using only grounded identifiers”}
+3. (PRIMARY: FA:fa_surface_contract) — Why: {WTP: “Boundary Target (flip point)”, WTP: “Probe Cases (3–6)”}
+Action: FU-06 — Cliff Map
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FI:* | FA:fa_surface_contract | FU:fu_truth / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “grounded cliff map”, WTP: “one specific surface”}
+2. (PRIMARY: FI:*) — Why: {WTP: “Boundary Axes (2–4)”, WTP: “Failure Modes (edge-linked)”}
+3. (PRIMARY: FU:fu_truth) — Why: {WTP: “Symptoms (observable)”, WTP: “Priority Order”}
+Action: FU-08 — Observability Signal
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FI:* | FU:fu_edges | FU:fu_truth / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “Surface Being Observed (grounded)”, WTP: “Signal Design (one bounded mechanism)”}
+2. (PRIMARY: FI:*) — Why: {WTP: “Patch Segment(s): 1–3 tiny local edits”, WTP: “Signal Placement”}
+3. (PRIMARY: FU:fu_edges) — Why: {WTP: “Observability Intent (Missing Signal)”, WTP: “Reading Guide”}
+NOT CANON (example):* A2/A3 forms are excluded because FU-08 does not intrinsically require BRIDGE/SUPPORT.
+Action: FU-10 — Seam Refactor (behavior-locked)
+Allowed arities: {A1}
+Slot typing: PRIMARY: FI:fi_upgrade | FI:fi_fix | FI:fi_change / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. (PRIMARY: FI:fi_upgrade) — Why: {WTP: “Behavior Lock (hard line)”, WTP: “no output/UX change intended”}
+2. (PRIMARY: FI:fi_fix) — Why: {WTP: “Surface Map (grounded)”, WTP: “Patch Segment(s): 1–3 bounded restructuring moves”}
+NOT CANON (example): A2/A3 excluded because FU-10 does not name a counterpart operand; it’s a single-seam restructure.
+Synthesis school mappings
+Action: FS-01 — Pattern Instance (instantiation)
+Allowed arities: {A1, A2}
+Slot typing: PRIMARY: FI:* / BRIDGE: FA:fa_mechanism_model | FA:fa_surface_contract | FA:fa_law_set | FA:fa_family_placement / SUPPORT: —
+Allowed relations: INSTANTIATE
+Direction rules: INSTANTIATE: Required (direction: BRIDGE→PRIMARY)
+Canon combos:
+1. (PRIMARY: FI:*) — Why: {WTP: “otherwise … evidenced slice”, WTP: “Usage Seam: the minimal way”}
+2. (PRIMARY: FI:* ⟷ BRIDGE: FA:* via INSTANTIATE, direction: BRIDGE→PRIMARY) — Why: {WTP: “Source: what you are instantiating it from”, WTP: “prefer a Concept target”}
+Action: FS-04 — Seam Stitch (two-endpoint glue)
+Allowed arities: {A2, A3}
+Slot typing: PRIMARY: FI:* | FS:* | FU:fu_edges | FU:fu_structure / BRIDGE: FI:* | FS:* | FU:fu_edges | FU:fu_structure / SUPPORT: FP:fp_tripwires | FA:fa_law_set | FPR:fpr_glossary
+Allowed relations: INTEGRATE | MAP | RECONCILE | REPLACE
+Direction rules:
+- INTEGRATE: Forbidden (no direction)
+- MAP: Required (direction: PRIMARY→BRIDGE)
+- REPLACE: Required (direction: PRIMARY→BRIDGE)
+- RECONCILE: Optional
+Canon combos:
+1. (PRIMARY ⟷ BRIDGE via INTEGRATE) — Why: {WTP: “identify the PRIMARY … BRIDGE”, WTP: “INTEGRATE / MAP / RECONCILE / REPLACE”}
+2. (PRIMARY ⟷ BRIDGE via MAP, direction: PRIMARY→BRIDGE) — Why: {WTP: “direction if it matters (A→B)”, WTP: “Boundary Mismatch”}
+3. (PRIMARY ⟷ BRIDGE via RECONCILE) — Why: {WTP: “Seam Guarantee”, WTP: “no redesign of internals”}
+4. (PRIMARY ⟷ BRIDGE via REPLACE, direction: PRIMARY→BRIDGE) + SUPPORT: FP:fp_tripwires — Why: {WTP: “optional SUPPORT if present”, WTP: “Non-Regression Guard (optional)”}
+Action: FS-06 — Constraint Jig
+Allowed arities: {A1}
+Slot typing: PRIMARY: FI:* | FS:fs_instantiate | FS:fs_stitch | FU:fu_edges | FU:fu_structure / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. (PRIMARY: FI:*) — Why: {WTP: “Enforcement Seam: where the constraint is enforced”, WTP: “smallest call-site proof”}
+2. (PRIMARY: FS:fs_instantiate) — Why: {WTP: “introduce … enforcement surface”, WTP: “stop at the minimum working slice”}
+Action: FS-09 — Missing Sibling (family completion)
+Allowed arities: {A1, A2}
+Slot typing: PRIMARY: FI:* | FS:* / BRIDGE: FA:fa_family_placement / SUPPORT: —
+Allowed relations: EXTEND
+Direction rules: EXTEND: Required (direction: BRIDGE→PRIMARY)
+Canon combos:
+1. (PRIMARY: FI:* | FS:*) — Why: {WTP: “otherwise derive from existing members”, WTP: “Reference Member(s)”}
+2. (PRIMARY: FI:* | FS:* ⟷ BRIDGE: FA:fa_family_placement via EXTEND, direction: BRIDGE→PRIMARY) — Why: {WTP: “Prefer a Concept target … fingerprint”, WTP: “Family Identity (and Fingerprint)”}
+Implementation school mappings
+Action: FI-01 — New Feature Slice
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FP:fp_north_star / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “Introduce ONE new, scoped feature slice”, WTP: “Integration anchor”}
+2. (PRIMARY: FP:fp_north_star) — Why: {WTP: “Now-true outcome (1 sentence)”, WTP: “Concrete and observable”}
+Action: FI-02 — Corrective Fix
+Allowed arities: {A1}
+Slot typing: PRIMARY: FU:fu_truth | FI:fi_fix / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. (PRIMARY: FU:fu_truth) — Why: {WTP: “Broken Symptom (trigger + mismatch)”, WTP: “Minimal Cause Candidate”}
+2. (PRIMARY: FI:fi_fix) — Why: {WTP: “Grounded Local Surface”, WTP: “Patch Segment(s): 1–3 tiny”}
+Action: FI-03 — Decision Rule Shift
+Allowed arities: {A1}
+Slot typing: PRIMARY: FI:fi_change | FI:fi_add | FI:fi_fix | FI:fi_upgrade / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. (PRIMARY: FI:fi_change) — Why: {WTP: “Rule Shift (Before → After)”, WTP: “Rule Surface (grounded)”}
+2. (PRIMARY: FI:fi_add) — Why: {WTP: “enforce the new rule”, WTP: “nearest decision point”}
+Action: FI-04 — Feature Enhancement (contract-locked)
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FI:fi_upgrade | FA:fa_surface_contract / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “Upgrade an existing feature”, WTP: “do not change external rules”}
+2. (PRIMARY: FI:fi_upgrade) — Why: {WTP: “Current Surface … grounded in PRIMARY”, WTP: “Patch Segment(s): 1–3 tiny”}
+3. (PRIMARY: FA:fa_surface_contract) — Why: {WTP: “Contract Lock (hard line)”, WTP: “external contract/rules”}
+Presentation school mappings
+Action: FPR-02 — Mechanism Write-up
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FA:fa_mechanism_model | FI:* | FU:fu_truth / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “Produce a compact mechanism model”, WTP: “tight prose”}
+2. (PRIMARY: FA:fa_mechanism_model) — Why: {WTP: “Highlight Frame”, WTP: “Micro-Trace”}
+3. (PRIMARY: FI:*) — Why: {WTP: “Inputs / Triggers”, WTP: “Boundaries / Seams”}
+Action: FPR-05 — Boundary Highlight
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FP:fp_scope_fence | FA:fa_surface_contract | FI:* | FU:fu_truth / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “boundary highlight”, WTP: “Edge Surface”}
+2. (PRIMARY: FP:fp_scope_fence) — Why: {BEATS: “Outside the Slice (Scope Fence)”, WTP: “Outside the Slice”}
+3. (PRIMARY: FA:fa_surface_contract) — Why: {WTP: “Seam Assumptions”, WTP: “boundary contracts”}
+Action: FPR-08 — Naming Alignment
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FI:* | FA:fa_surface_contract | FS:* | FP:* / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “Produce a compact naming alignment”, WTP: “Core Terms (3–6)”}
+2. (PRIMARY: FI:*) — Why: {WTP: “Collisions”, WTP: “Preferred Name Choice”}
+3. (PRIMARY: FA:fa_surface_contract) — Why: {WTP: “Meaning … phrased operationally”, BEATS: “Meaning Locks”}
+Action: FPR-10 — Walkthrough Script
+Allowed arities: {A0, A1}
+Slot typing: PRIMARY: FP:fp_north_star | FI:* | FS:fs_instantiate / BRIDGE: — / SUPPORT: —
+Allowed relations: ∅
+Direction rules: n/a (no BRIDGE)
+Canon combos:
+1. () — Why: {WTP: “walkthrough script … experience the outcome”, WTP: “Success Signal”}
+2. (PRIMARY: FP:fp_north_star) — Why: {WTP: “Success Signal”, BEATS: “Walkthrough Identity”}
+3. (PRIMARY: FI:*) — Why: {WTP: “Start Point”, WTP: “Action Flow”}

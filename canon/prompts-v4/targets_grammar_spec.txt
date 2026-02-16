@@ -1,0 +1,167 @@
+
+---
+
+# Targets Grammar Spec (V1) — Invariants + Mapping Contract
+
+## 0) Purpose
+
+Targets are not “extra context.” Targets are **structured constraints** that tell the action what it is allowed to touch, compare, stitch, or instantiate. The grammar exists to keep runs **meaningful**, **bounded**, and **replayable**.
+
+A target is always a **Keystone Unit** (either TEXT-only, or stapled TEXT+CODE), and implicitly refers to its underlying chunk set.
+
+---
+
+## 1) Allowed arities (only four shapes)
+
+### A0 — No targets
+
+* **Shape:** `()`
+* **Meaning:** run is driven by directive + projections/context only.
+* **Use when:** planning/blueprints, pure explanation, initial creation, or when no reusable artifacts exist yet.
+
+### A1 — Primary only
+
+* **Shape:** `(PRIMARY)`
+* **Meaning:** “Operate on / from this one keystone unit.”
+* **Use when:** refine, repair, explain, or extend a single artifact/slice.
+
+### A2 — Primary + Bridge + Relation
+
+* **Shape:** `(PRIMARY ⟷ BRIDGE via RELATION)`
+* **Meaning:** “Make these two keystone units mean something together.”
+* **Use when:** compare, integrate, translate, reconcile, replace, generalize, instantiate.
+
+### A3 — Primary + Bridge + Relation + Support
+
+* **Shape:** `(PRIMARY ⟷ BRIDGE via RELATION) + SUPPORT`
+* **Meaning:** Support provides **constraints or evidence** but does not become a peer in the relation.
+* **Use when:** a third artifact is needed to anchor correctness, style, or policy without turning it into a second bridge.
+
+No other shapes exist in V1 (no 3-way graphs, no multi-bridge chains).
+
+---
+
+## 2) Slot semantics (what each slot is allowed to mean)
+
+### PRIMARY (required for any targets)
+
+* The “home slice.” The action’s output is primarily **about** PRIMARY.
+* PRIMARY determines the default **scope fence** for patching/analysis (unless action is explicitly cross-cutting).
+
+### BRIDGE (optional)
+
+* The “counterpart.” BRIDGE only exists to satisfy RELATION.
+* BRIDGE is not “extra context”; it is a **peer operand** that must matter.
+
+### SUPPORT (optional; only with A3)
+
+* SUPPORT is **not** an operand. It is a constraint or reference that shapes the work.
+* SUPPORT may provide: naming conventions, invariants, blueprint constraints, or diagnostic evidence.
+* SUPPORT must not cause the action to expand scope beyond PRIMARY+BRIDGE.
+
+---
+
+## 3) Relation semantics (RELATION is required when BRIDGE exists)
+
+RELATION is an enum that explains *why* there are two operands. It must be meaningful for the action.
+
+### Core relation set (V1)
+
+* **INTEGRATE:** wire together / connect workflows
+* **COMPARE:** contrast tradeoffs / differences
+* **MAP:** translate concepts/structures from A → B
+* **RECONCILE:** resolve mismatches/contradictions
+* **EXTEND:** use B to extend A without redesigning A
+* **REPLACE:** swap A with B / migrate A to B
+* **GENERALIZE:** extract shared rule from A + B
+* **INSTANTIATE:** apply concept/spec to a concrete case
+
+(You can add more later, but V1 should stay small.)
+
+### Direction (optional)
+
+* **bridge_direction:** `A→B` or `B→A`
+* Required when RELATION implies a “from/to” mapping: **MAP, REPLACE, INSTANTIATE, EXTEND**.
+* Optional for symmetric relations: **COMPARE, GENERALIZE, RECONCILE** (but still allowed).
+
+---
+
+## 4) School typing (what can go in each slot)
+
+Each slot holds a **school type** (or “any”), chosen per action. You can define allowed sets per action:
+
+* **FI:** Feature keystones (concrete capability / changes)
+* **FU:** Meaning keystones (diagnostic truth / behavior / edges)
+* **FPR:** Presentation keystones (walkthroughs / framing / naming)
+* **FA:** Concept keystones (abstraction / mechanism / contract / laws / family placement)
+* **FS:** Synthesis keystones (instantiation / stitching / jigs)
+* **FP:** Blueprint keystones (planning field outputs)
+
+### Important invariant
+
+If a slot allows a school, it allows **any action output inside that school** unless you add a restriction tag (see §7).
+
+---
+
+## 5) Target selection discipline (anti-noise)
+
+When targets are present, the action must:
+
+* **Use them** (they must change what would be produced),
+* **Name their role** (PRIMARY vs BRIDGE vs SUPPORT must be reflected in the output),
+* **Stay bounded** (no drifting into unrelated parts of the project).
+
+If a chosen target doesn’t logically fit the action’s slot constraints, the run should be blocked upstream (Define ritual) with seals—not by emitting “requires/unknown” artifacts.
+
+---
+
+## 6) “Canon combos” vs “Raw mode”
+
+You may support two operating modes:
+
+### Standard / Canon mode
+
+* Only allows **pre-approved** (action-specific) slot typings + relations.
+* Goal: meaningful gameplay + low drift.
+
+### Raw mode
+
+* Allows any school in any slot + any relation.
+* Goal: power-user freedom; drift becomes user responsibility.
+* Still must obey arity rules and relation/direction rules.
+
+---
+
+## 7) Action-level restriction tags (only when needed)
+
+School-level uniformity will fail sometimes. Instead of exploding the schema, use **light tags** on keystones (derived from parent action) to narrow slot eligibility:
+
+Examples:
+
+* `FA:MECHANIC` vs `FA:CONTRACT` vs `FA:LAWSET` vs `FA:FAMILY`
+* `FS:INSTANTIATE` vs `FS:STITCH` vs `FS:JIG` vs `FS:SIBLING`
+* `FP:NORTH_STAR` vs `FP:DONE_RECEIPT` vs `FP:SCOPE_FENCE` vs `FP:TRIPWIRES`
+
+Then an action slot can say:
+
+* PRIMARY allows `FS:*`
+* BRIDGE allows `FA:CONTRACT | FA:FAMILY`
+* SUPPORT allows `FP:*`
+
+This keeps mapping precise without losing the school identity system.
+
+---
+
+## 8) Output contract for mapping (what Deep Research should generate)
+
+For each action, the mapping output should list:
+
+1. **Allowed arities:** subset of {A0, A1, A2, A3}
+2. **Slot typing:** allowed school (or tags) per slot
+3. **Allowed relations:** subset of relation enum
+4. **Direction rule:** required/optional/forbidden per relation
+5. **One-line rationale:** cite which clause(s) in What-to-Produce / beats make this necessary
+
+This yields a stable “Targets Grammar Map” table for all 25 actions.
+
+---

@@ -8,7 +8,7 @@ Use this as the replacement:
   * a **success signal** (one unmistakable observable indicator that the North Star is true; not a checklist),
   * an **alignment sentence (optional)** that keeps this North Star consistent with the **active blueprint composite** and/or any blueprint targets (continuity only; no roadmap).
 
-* Do **not** produce Scope Fence / Tripwires / Done Receipt here; those belong to FP-02 / FP-08 / FP-10 (or are inferred only during ASSEMBLE).
+* “Do not define scope fence, tripwires, or done receipt in this action. This run produces only the North Star; other blueprint fields are produced in separate planning runs or inferred during Assemble.”
 
 RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
 Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):

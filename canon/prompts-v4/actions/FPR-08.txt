@@ -6,7 +6,7 @@ Produce a compact naming alignment in tight prose. Across the full set of chunks
 * **Meaning:** what each core term means here, phrased operationally (a definition you could use in a sentence).
 * **Collisions:** the common misreadings to avoid, stated concretely (“don’t confuse X with Y because…”).
 * **Preferred Name Choice:** when competing names exist, choose one preferred name and justify it in one brief sentence, and explicitly mark the losing synonym as “avoid using ___ for this meaning.”
-* **Optional Rename Patch (directional):** only if a small, local rename removes a sharp confusion; keep it to one cohesive local rename unit and minimal necessary call-site wiring. If the rename would sprawl, do not attempt a bulk rename in this run.
+* **Rename Proposal (optional):** propose one local rename unit and name the exact grounded surfaces it would touch, but do not emit code in this action..
 
 RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
 Your chunk set should broadly cover most of these categories (some can be merged if still clear and small):
@@ -18,6 +18,5 @@ Your chunk set should broadly cover most of these categories (some can be merged
 * **Preferred Name Decisions:** when synonyms compete, pick the preferred term and mark the losing synonym as “avoid using ___ for this meaning.”
 * **Usage Example (optional):** one short example sentence that uses 1–2 terms correctly (documentation tone, not code).
 * **Rename Frame (optional):** if a local rename is warranted, one brief statement of what will be renamed and why (directional, not global).
-* **Patch Segment (optional):** a small TEXT framing chunk + a linked CODE chunk implementing one cohesive local rename unit (no bulk renames).
 * **Closure Check:** one sentence stating what will now be easier to discuss correctly (reduced ambiguity / less drift).
 

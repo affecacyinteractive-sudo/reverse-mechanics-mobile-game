@@ -1,0 +1,73 @@
+{
+  "version": "tag_registry_v0",
+  "rules": {
+    "one_subtype_tag_per_action": true,
+    "keystone_type": "school + subtype_tag",
+    "subtype_tags_are_closed_set": true
+  },
+  "tags_by_school": {
+    "FI": {
+      "fi_add": "Introduce a new capability (smallest viable slice).",
+      "fi_fix": "Repair a broken behavior without expanding scope.",
+      "fi_change": "Change an existing rule/behavior deliberately (not a fix).",
+      "fi_upgrade": "Improve internals/quality while preserving the external contract."
+    },
+    "FU": {
+      "fu_truth": "Extract truthful behavior/assumptions from evidence (diagnostic-grade).",
+      "fu_probe": "Design a minimal probe to discriminate between causes/outcomes.",
+      "fu_edges": "Map edges/cliffs/tripwires and what signals them.",
+      "fu_structure": "Clarify structure/flow seams to reduce confusion and enable refactor."
+    },
+    "FPR": {
+      "fpr_mechanism": "Explain mechanism with highlight framing (reader-facing clarity).",
+      "fpr_slice_map": "Define/illustrate the slice boundary and its seams (what belongs where).",
+      "fpr_glossary": "Align naming/terms to reduce ambiguity and drift.",
+      "fpr_walkthrough": "Provide an experience-based walkthrough to reproduce/verify outcomes."
+    },
+    "FP": {
+      "fp_north_star": "Blueprint: North Star (single observable outcome).",
+      "fp_scope_fence": "Blueprint: Scope Fence (explicit in/out bounds).",
+      "fp_tripwires": "Blueprint: Tripwires (dependencies, failure shapes, drift signals).",
+      "fp_done_receipt": "Blueprint: Done Receipt (proof + invariants for 'done')."
+    },
+    "FA": {
+      "fa_mechanism_model": "One mechanism model (rules → inevitable behavior).",
+      "fa_surface_contract": "One contract surface (entry/inputs/outputs/guarantees).",
+      "fa_law_set": "Small law set (falsifiable invariants / non-negotiables).",
+      "fa_family_placement": "Place one mechanism in a pattern family (fingerprint + neighbors)."
+    },
+    "FS": {
+      "fs_instantiate": "Instantiate one abstraction into a concrete reusable shape.",
+      "fs_stitch": "Stitch two surfaces with a minimal adapter + seam guarantee.",
+      "fs_jig": "Enforce one constraint (validation/jig) at a boundary seam.",
+      "fs_sibling": "Add a missing sibling to an existing family (variant-axis expansion)."
+    }
+  },
+  "action_id_to_subtype_tag": {
+    "FI-01": "fi_add",
+    "FI-02": "fi_fix",
+    "FI-03": "fi_change",
+    "FI-04": "fi_upgrade",
+    "FU-03": "fu_truth",
+    "FU-04": "fu_probe",
+    "FU-06": "fu_truth",
+    "FU-08": "fu_edges",
+    "FU-10": "fu_structure",
+    "FPR-02": "fpr_mechanism",
+    "FPR-05": "fpr_slice_map",
+    "FPR-08": "fpr_glossary",
+    "FPR-10": "fpr_walkthrough",
+    "FP-01": "fp_north_star",
+    "FP-02": "fp_scope_fence",
+    "FP-08": "fp_tripwires",
+    "FP-10": "fp_done_receipt",
+    "FA-02": "fa_mechanism_model",
+    "FA-03": "fa_surface_contract",
+    "FA-04": "fa_law_set",
+    "FA-12": "fa_family_placement",
+    "FS-01": "fs_instantiate",
+    "FS-04": "fs_stitch",
+    "FS-06": "fs_jig",
+    "FS-09": "fs_sibling"
+  }
+}
