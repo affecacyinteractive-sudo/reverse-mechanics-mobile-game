@@ -6,7 +6,7 @@ const fs = require("fs/promises");
 const path = require("path");
 
 async function main() {
-    const actionsDir = path.resolve(process.cwd(), "actions");
+    const actionsDir = path.resolve(process.cwd(), "actions-candidates");
     const outPath = path.resolve(process.cwd(), process.argv[2] || "stitched-actions.txt");
 
     // Read folder

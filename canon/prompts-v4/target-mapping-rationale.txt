@@ -1,0 +1,578 @@
+### FI (Feature Introduction) — what targeting is trying to *protect*
+
+FI actions are the “hands on keyboard” moves. So the target grammar for FI is deliberately **single-anchor** most of the time: you pick **one strong reference** that tells the model *where to act* and *what not to accidentally turn this into*. FI avoids “two-artifact stitching” on purpose, because two anchors often turns a clean build/fix into an accidental redesign.
+
+In plain terms: **FI wants one compass, not a debate.**
+
+---
+
+## FI-01 — New Feature Slice
+
+**Allowed shape (simple):**
+**Primary focus = Blueprint (FP)** when you have one; otherwise you can run it with no target.
+
+**Why this is allowed:**
+A “new feature” needs a **goal-compass** more than it needs prior artifacts. Using the Blueprint as the primary focus keeps the new slice aligned to a real outcome instead of becoming a random add-on.
+
+**What gets blocked (and why):**
+
+* **FU targets blocked as the main focus** → because FI-01 isn’t “diagnose truth”; it’s “build a new slice.” Anchoring on diagnostic truth tends to produce *repairs* or *edge-case talk* instead of a clean new capability.
+* **FA targets blocked as the main focus** → because concepts/abstractions as the anchor often cause over-generalized scaffolding instead of a concrete feature slice.
+* **FPR targets blocked as the main focus** → because presentation/docs anchors tend to bias toward renaming/explaining rather than adding real capability.
+* **FS targets blocked as the main focus** → because synthesis anchors tend to pull in extra wiring and scope creep.
+
+---
+
+## FI-02 — Corrective Fix
+
+**Allowed shape (simple):**
+**Primary focus = “Truth about the break” (FU)** *or* **Primary focus = “a prior fix attempt / fix slice” (FI)**.
+
+**Why this is allowed:**
+A corrective fix must be anchored to either:
+
+* **what is actually broken** (so you don’t “fix” the wrong thing), or
+* **the existing fix context** (so you can continue/adjust a fix without restarting the investigation).
+
+This keeps FI-02 from silently becoming an “upgrade” or a “new feature.”
+
+**What gets blocked (and why):**
+
+* **FP blueprints blocked as the main focus** → because “fix” must answer to *reality of the defect*, not to a plan. Otherwise it becomes “let’s reshape the feature to match the plan” (scope drift).
+* **FA blocked as main focus** → abstractions are not evidence; they encourage rewriting the model instead of correcting the defect.
+* **FPR blocked as main focus** → docs/presentation anchors tend to trigger refactors/renames, not corrections.
+* **FS blocked as main focus** → synthesis tends to add wiring rather than isolate a defect.
+
+---
+
+## FI-03 — Decision Rule Shift
+
+**Allowed shape (simple):**
+**Primary focus = an existing Feature slice (FI)** that you are changing.
+
+**Why this is allowed:**
+FI-03 is “change the rule deliberately.” That only makes sense when the model is anchored on **the slice whose rule is being altered**. It prevents FI-03 from turning into “let’s diagnose” (FU) or “let’s redesign the system” (FA/FS).
+
+**What gets blocked (and why):**
+
+* **FU blocked as main focus** → because FI-03 is not truth-finding; it’s a deliberate rule change. If the anchor is FU, the model slips into diagnosing instead of executing the new rule.
+* **FP blocked as main focus** → because a blueprint is *why* you want something, not *which rule* you’re changing in code.
+* **FA / FS blocked as main focus** → because abstractions/synthesis encourage broad rewiring; FI-03 must stay local and crisp.
+* **FPR blocked as main focus** → because this isn’t documentation/presentation work.
+
+> **Important note:** in your `all-actions-candidates.txt`, FI-03 currently looks like it allows a second “bridge” reference and even mentions an FI subtype (`fi_extend`) that doesn’t exist in the closed tag registry. Your normalized targets map treats FI-03 as single-anchor. You should align the FI-03 action prompt policy to the map (or consciously decide to let FI-03 become a two-reference action).
+
+---
+
+## FI-04 — Feature Enhancement (contract-locked)
+
+**Allowed shape (simple):**
+Either:
+
+* run with **no target** (tiny safe enhancement), or
+* **Primary focus = an Upgrade-type FI target**, or
+* **Primary focus = a “Surface Contract” concept (FA)**.
+
+**Why this is allowed:**
+FI-04 is “improve without changing what people rely on.” The safest anchor for that is either:
+
+* the **existing upgrade context** (continue polish), or
+* the **explicit surface/contract** (so the model knows exactly what it must preserve).
+
+**What gets blocked (and why):**
+
+* **FU blocked as main focus** → truth/diagnosis anchors bias toward changes justified by edge cases (often contract-breaking).
+* **FP blocked as main focus** → plans tempt feature creep; FI-04 must stay contract-locked.
+* **FPR blocked as main focus** → presentation anchors bias toward renames/refactors that can accidentally shift contract.
+* **FS blocked as main focus** → synthesis anchors bias toward bigger rewires.
+
+---
+
+## FI school summary (what this implies about “ideal behavior”)
+
+* FI is designed so the **main anchor is always the most “drift-resistant” reference for that job**: blueprint for new build, truth for fix, existing slice for rule change, contract for enhancement.
+* FI intentionally avoids “bridge + relation” most of the time because that’s where scope creep starts. Two-operand work belongs more naturally to **FS/FA** where “mapping/instantiation/stitching” is the whole point.
+
+
+### FU (Feature Understanding) — what targeting is trying to *protect*
+
+FU is your **diagnostics school**: it’s trying to state *truth about behavior* (what triggers it, what it outputs, where it fails, what you can observe). So the targeting for FU is intentionally **evidence-anchored** and mostly **single-focus**.
+
+In simple terms: **FU needs one “specimen on the table”** (a real surface, a real contract boundary, or a prior truth-card). If you give it multiple competing anchors, it starts rationalizing instead of diagnosing.
+
+---
+
+## FU-03 — Behavior Trace
+
+**Allowed (in plain English):**
+Primary focus is usually a **Feature slice (FI)**, sometimes a **Contract Surface (FA)**, and sometimes a **Synthesis result (FS)** if that’s the thing whose behavior you now want to understand.
+
+**Why this makes sense:**
+A Behavior Trace needs a *concrete thing* to watch. FI gives you the actual slice. FA:Contract gives you the boundary that defines what counts as “this surface.” FS sometimes produces a stitched/instantiated surface—FU-03 can then trace what that stitched thing actually does.
+
+**Blocked (and why):**
+
+* **Blueprints (FP)** are blocked as the primary anchor because a plan is not behavior evidence; it tempts “what we wish it did” instead of “what it does.”
+* **Most FA abstractions** (mechanism models, law sets, family placement) are blocked because they’re *theories*, not the concrete surface you’re tracing.
+* **Most FPR** is blocked because presentation/doc intent tends to produce narration and framing, not a hard behavior trace.
+
+---
+
+## FU-04 — Boundary Probe Set
+
+**Allowed:**
+Primary focus is a **Feature slice (FI)** or a **Contract Surface (FA)** or a prior **Truth/Trace (FU)**.
+
+**Why this makes sense:**
+Probing boundaries only works if you already know what boundary you’re probing.
+
+* FI gives you the actual thing to probe.
+* FA:Contract gives you the boundary definition.
+* FU truth lets you reuse an already-established behavior trace as the “base specimen,” then probe around it.
+
+**Blocked (and why):**
+
+* **FP** blocked: you can’t “probe a plan.”
+* **FPR** blocked: docs don’t define probe cases; they describe.
+* **FA:mechanism/laws/family** blocked: again, too abstract; FU-04 needs a grounded boundary surface, not a conceptual model.
+
+---
+
+## FU-06 — Cliff Map
+
+**Allowed:**
+Primary focus is a **Feature slice (FI)** or a **Contract Surface (FA)** or prior **Truth/Trace (FU)**.
+
+**Why this makes sense:**
+A cliff map is basically “where this thing falls apart” and “what the failure looks like.” That must attach to a real surface (FI), a real boundary (FA:Contract), or a prior truth anchor (FU) that already pinned down the behavior.
+
+**Blocked (and why):**
+
+* **FP** blocked: cliffs are discovered from reality, not declared by plans.
+* **Most FA** blocked: law sets / family placement are meta-level; they don’t tell you where an actual surface fails unless they’re grounded in an actual boundary contract.
+* **FPR** blocked: it’s not a doc problem; it’s an edge/failure problem.
+
+---
+
+## FU-08 — Observability Signal
+
+**Allowed:**
+Primary focus is either a **Feature slice (FI)** (so you can place the signal in the right place) **or** an **FU edges/truth artifact** (so you can fix what’s missing in observability).
+
+**Why this makes sense:**
+Observability is half “where do I instrument?” and half “what signal do I need?”
+
+* FI anchor = you know what code slice you’re instrumenting.
+* FU-edges/FU-truth anchor = you already know what’s missing or what cliff you can’t see, and you’re adding the smallest signal to make it visible.
+
+**Blocked (and why):**
+
+* **FP** blocked: you don’t instrument plans; you instrument running surfaces.
+* **FA contract/laws** are blocked as primary because they often describe *what should be true*, not *what to measure / where to measure it*; FU-08 is deliberately about visibility mechanics, not governance.
+
+---
+
+## FU-10 — Seam Refactor (behavior-locked)
+
+**Allowed:**
+Primary focus must be an **existing FI slice that is already in motion** (upgrade/fix/change). Not “new feature.”
+
+**Why this makes sense:**
+FU-10 is the one FU action that touches structure: it’s “re-lay the seam without changing behavior.” To keep it honest, the target must be the concrete slice you’re restructuring, and it must already exist.
+
+**Blocked (and why):**
+
+* **Everything abstract (FA), everything planning (FP), everything presentation (FPR)** is blocked as the primary anchor because those anchors will *justify behavior change*. FU-10 is explicitly the opposite: restructure only, behavior stays put.
+* Even **FU truth** is blocked as primary here because FU truth often implies “now fix it” — and FU-10 is not “fix behavior,” it’s “fix seam shape.”
+
+---
+
+## FU school summary (non-engineer mental model)
+
+FU targeting is basically: **“Show me the thing, not the story about the thing.”**
+So the system allows anchors that are **directly tied to the running surface** (FI), **directly define the boundary of that surface** (FA:Contract), or **already proved the truth of behavior** (FU truth/edges). It blocks anchors that are *plans* (FP) or *presentation framing* (FPR) or *high-level abstractions* (most FA), because those cause FU to drift from diagnosis into redesign or narration.
+
+
+### FPR (Feature Presentation) — what targeting is trying to *protect*
+
+FPR is your **“documentation / highlight”** school. The whole point is: *take one thing that already exists (or is already understood) and make it legible, explainable, and nameable* — without accidentally turning the run into **building**, **fixing**, or **redesigning**.
+
+So the targeting behavior is intentionally **single-focus** almost all the time: **pick one anchor to present**, and speak clearly about it. Anything that looks like “combine A and B” gets blocked, because that’s not presentation anymore — that’s synthesis or design work.
+
+---
+
+## FPR-02 — Mechanism Write-up (how it works, in human words)
+
+**Allowed combination (simple):**
+Primary focus is usually **one concrete feature slice (FI)** *or* **one truth card (FU “this is what it does”)** *or* **one mechanism model (FA “this is the model”).**
+
+**Why this is allowed:**
+A mechanism write-up needs something stable to explain:
+
+* If you anchor on **FI**, you explain “here’s what this slice does and how the flow moves.”
+* If you anchor on **FU truth**, you explain “here’s the verified behavior, narrated clearly.”
+* If you anchor on **FA mechanism model**, you explain “here’s the conceptual mechanism, made readable.”
+
+**Blocked (and why):**
+
+* **Blueprint-only planning anchors** are blocked here because they pull the write-up into “what we intend to build” instead of “how this actually works.”
+* **FU probe/cliff/observability-style diagnostics** are blocked as anchors because they turn the output into a test report instead of a clean explanation.
+* **Two-target combos** are blocked because “explaining A while also resolving B” becomes design/synthesis.
+
+---
+
+## FPR-05 — Boundary Highlight (what it does vs what it refuses)
+
+**Allowed combination (simple):**
+Primary focus can be **a scope fence blueprint (FP)** *or* **a surface contract (FA)** *or* **a concrete feature slice (FI)** *or* **FU truth**.
+
+**Why this is allowed:**
+A boundary highlight is basically “draw the line in bright ink”:
+
+* If you anchor on **FP scope fence**, you can present the boundary as a planning contract (what’s in / out).
+* If you anchor on **FA surface contract**, you can present the boundary as an interface promise (what callers can assume).
+* If you anchor on **FI**, you can present “this slice owns X and does not absorb Y.”
+* If you anchor on **FU truth**, you can present boundaries grounded in observed behavior.
+
+**Blocked (and why):**
+
+* Most **FA abstractions that are not contracts** (like hierarchy/family placement) are blocked as anchors because they don’t define a boundary a builder can enforce.
+* **Two-target combos** are blocked because boundary highlighting should not become “reconcile two definitions” — that’s a separate design decision, not a presentation pass.
+
+---
+
+## FPR-08 — Naming Alignment (terms, labels, collisions)
+
+**Allowed combination (simple):**
+Primary focus can be **a feature slice (FI)**, or a **surface contract (FA)**, or a **synthesis output (FS)**, or even a **blueprint (FP)**.
+
+**Why this is allowed:**
+Naming is one of the few presentation tasks that can sensibly anchor on different “sources of truth”:
+
+* **FI**: align names with what the code/feature actually does.
+* **FA surface contract**: align names with the official interface vocabulary.
+* **FS**: align names across something that’s been stitched/instantiated (naming consistency becomes critical).
+* **FP**: align names with the user’s intended language (so the product doesn’t drift into dev-jargon).
+
+**Blocked (and why):**
+
+* **FU diagnostic artifacts** as anchors are mostly blocked because naming alignment shouldn’t be driven by edge cases and failure probes; it should be driven by the stable surface and its vocabulary.
+* **Any request to “apply renames” via multi-target patching** is blocked at the targeting level for this action because you explicitly decided FPR-08 should not patch. The rename execution belongs to a build/refactor-type action that consumes the naming keystone.
+
+---
+
+## FPR-10 — Walkthrough Script (user journey clarity)
+
+**Allowed combination (simple):**
+Primary focus is **a North Star blueprint (FP)** *or* **a feature slice (FI)** *or* a very specific **synthesis-instantiation result (FS “this concrete instance exists”).**
+
+**Why this is allowed:**
+A walkthrough script is “how a user experiences the outcome”:
+
+* **FP North Star** is perfect for keeping the walkthrough outcome-centered (“what success feels like”).
+* **FI** is perfect for grounding the steps in what’s actually present.
+* **FS instantiate** is useful when the “thing the user experiences” is a concrete instance produced from a concept/spec.
+
+**Blocked (and why):**
+
+* **Pure abstractions (FA)** are blocked as anchors because a walkthrough must be experiential, not conceptual.
+* **FU probes/cliffs** are blocked because they create a failure-focused walkthrough; FPR-10 is primarily describing expected success flow (with at most one boundary moment if it’s real and relevant).
+* **Two-target combos** are blocked because walkthroughs are easiest to trust when they’re single-source and don’t become a reconciliation exercise.
+
+---
+
+### Does this “behave ideally” for FPR?
+
+Yes, in the way you want: FPR stays **legibility-first** and **single-focus**, and it only accepts anchors that naturally supply “something worth presenting” (a surface, a contract vocabulary, a verified truth, or an outcome goal). The things it blocks are exactly the anchors that would turn presentation into **diagnosis** (FU probes), **theory-land** (FA hierarchy), or **multi-operand design work** (bridge/synthesis behaviors).
+
+
+## FA (Feature Abstraction) — what targeting is trying to *protect*
+
+FA is your **abstraction engine**, but with one non-negotiable posture: **one named mechanic per run**. Targeting for FA is designed to prevent the two classic failures of abstraction:
+
+1. **Hand-wavy “pattern talk”** that isn’t tied to anything real.
+2. **Overreach** (trying to abstract *two or three things at once*, then inventing a “common rule” that isn’t actually true).
+
+So FA almost always wants **one strong anchor** (a real feature slice, or a verified behavior/truth), and only very rarely a second thing.
+
+---
+
+## FA-02 — Mechanism Model
+
+**Allowed targeting (simple):**
+Primary focus is either **a concrete feature slice (FI)** or a **verified truth/structure (FU)**.
+
+**Why this is allowed:**
+A mechanism model needs a real “thing” to compress into a model. FI gives you *the slice that exists*; FU gives you *the truth about what it does* (or the structure of it) so the abstraction stays honest.
+
+**Blocked (and why):**
+
+* **Presentation cards (FPR)** are blocked as anchors because they’re already “words about the thing,” not the thing itself — you risk abstracting the narration instead of the mechanism.
+* **Blueprint-only planning (FP)** is blocked because FA-02 is “model what is / what works,” not “model what we wish to build.”
+* **Two-target combos** are blocked here on purpose: “abstract A + B together” is the fastest path to invented commonality. Do one mechanism per run.
+
+---
+
+## FA-03 — Contract Surface
+
+**Allowed targeting (simple):**
+Primary focus is **a concrete feature slice (FI)** *or* an existing **contract surface (FA contract)**.
+Optionally, you can bring in **FU truth as a bridge** when the whole point is to *tighten the contract wording to match reality*.
+
+**Why this is allowed:**
+This action is about drawing the **smallest reliable interface boundary**:
+
+* If you anchor on **FI**, you can extract “these are the entry points and expectations.”
+* If you anchor on an **existing contract**, you can refine it.
+* If you add **FU truth**, you’re basically saying: “make the contract match the observed behavior.”
+
+**Blocked (and why):**
+
+* Any bridge target that is **not FU truth** is blocked because “contract vs reality” is the only legitimate two-source tension here. Bringing a concept model, naming glossary, or blueprint turns it into redesign rather than contract clarification.
+* **Synthesis (FS)** and **Presentation (FPR)** are blocked as anchors because contract surfaces must be pinned to either code reality (FI) or behavior truth (FU), not a stitched composite or a narrative.
+
+---
+
+## FA-04 — Law Set
+
+**Allowed targeting (simple):**
+Primary focus can be:
+
+* an existing **law set (FA law)**, or
+* a **scope fence blueprint (FP scope fence)**, or
+* a **contract surface (FA contract)**, or
+* a **concrete feature slice (FI)**.
+
+**Why this is allowed:**
+A law set is “always-true rules” — but they must be **bounded**:
+
+* A **scope fence** is a clean way to say “these laws apply *only inside this boundary*.”
+* A **contract surface** is a clean way to say “these laws are the enforceable promises.”
+* A **feature slice** is a clean way to say “these laws are grounded in this real implementation.”
+
+**Blocked (and why):**
+
+* **FU truth as the main anchor** is blocked here because laws are not just observations; they’re governance statements that must be scoped and enforceable. FU is great evidence, but FA-04 is about the rule layer, not the trace layer.
+* **FPR** and **FS** are blocked because “laws” should not be derived from storytelling or stitching outputs.
+
+---
+
+## FA-12 — Pattern-Family Placement
+
+**Allowed targeting (simple):**
+Primary focus is ideally **a mechanism model (FA mechanism)**; it can also be a **FU truth** or **FI slice** if that’s all you have.
+
+**Why this is allowed:**
+This action is basically: “what family does this mechanism belong to, and why?”
+The cleanest input is already-abstracted (**FA mechanism model**) because family placement requires a stable description of the mechanic. FU/FI can work, but they’re noisier — you may end up classifying a surface detail rather than the underlying pattern.
+
+**Blocked (and why):**
+
+* **Blueprint planning (FP)** is blocked because family placement is about *what the mechanism is*, not what the goal is.
+* **Presentation (FPR)** is blocked because it’s too easy to classify the phrasing instead of the mechanic.
+* Two-target combos are blocked because family placement should not become “compare two patterns”; it should place **one**.
+
+---
+
+### The “blocked schools” story for FA, in one sentence
+
+FA blocks targets that are **words about the thing** (FPR), **wishes about the thing** (FP), or **composites of multiple things** (FS) — because those are the fastest ways to drift or invent abstractions.
+
+
+## FS (Feature Synthesis) — what targeting is trying to *protect*
+
+FS is where you **apply** abstractions and **stitch** things into a working whole. This is the school where “two things at once” is *actually the point* — so FS is the first school where bridge-style targeting becomes normal.
+
+But FS has its own failure mode: **Frankenstein builds** (mixing incompatible ideas) and **over-assembly** (trying to wire everything in one run). So FS targeting is designed to keep synthesis **grammatical**:
+
+* one thing is the **main focus** (what you are changing/building now),
+* one thing is the **bridge concept** (the idea/spec you’re applying or the other slice you’re integrating),
+* and sometimes you allow a **support constraint** (usually the blueprint, or a contract/law).
+
+In plain terms: **FS is “apply this idea to that place,” not “mash everything together.”**
+
+---
+
+## FS-01 — Instantiate a Concept into a Concrete Slice
+
+**Allowed targeting (simple):**
+Primary focus = **a concrete feature slice (FI)**.
+Bridge = **a concept/mechanism model (FA)** that you want to apply.
+Support (optional) = **a blueprint (FP)** or a **contract surface (FA contract)** to keep it aligned.
+
+**Why this is allowed:**
+This is the cleanest synthesis move: “take this abstraction and make it real inside this feature.”
+
+* FI anchor ensures you act on a real place.
+* FA bridge ensures you apply a real concept, not vibes.
+* FP/Contract support prevents scope drift (“don’t implement the concept in a way that violates the plan or contract”).
+
+**Blocked (and why):**
+
+* **FU as the bridge** is usually blocked because FU describes truth/edges; it doesn’t provide a reusable construct to instantiate. If you let FU drive the bridge, FS-01 becomes “fix based on edge cases” instead of “apply a concept.”
+* **FPR as bridge** blocked because naming/docs shouldn’t be what you “instantiate.”
+* **FS as primary** blocked because FS-01 is meant to modify/build a concrete slice, not synthesize onto synthesis recursively.
+
+---
+
+## FS-04 — Integrate / Wire Two Slices Together
+
+**Allowed targeting (simple):**
+Primary focus = **a feature slice (FI)** you’re adding wiring into.
+Bridge = **another feature slice (FI)** (or an FS-instantiated surface) that must be connected.
+Support (optional) = **a contract surface (FA contract)** or **law set (FA laws)** or **blueprint (FP)** to prevent integration drift.
+
+**Why this is allowed:**
+Integration is inherently two-sided. You need “this side” and “that side.”
+Support is allowed because integration is where drift is most expensive — constraints keep you from silently changing contracts or adding side-effects.
+
+**Blocked (and why):**
+
+* **FA mechanism as the bridge** is blocked here because “integrate” is not “apply concept”; it’s “wire A to B.” If you let FA mechanism be the bridge, you blur FS-04 with FS-01.
+* **FU** is blocked as bridge because integration should not be driven by tests/edges; that becomes “fixing” instead of “wiring.”
+* **FPR** blocked because renaming/docs are not integration operands.
+
+---
+
+## FS-06 — Replace / Migrate One Slice With Another
+
+**Allowed targeting (simple):**
+Primary focus = **the slice being replaced (FI)**.
+Bridge = **the replacement slice (FI)** or a **new instantiated surface (FS)**.
+Support (optional) = **contract surface (FA contract)** or **blueprint (FP)** to guarantee the replacement still meets expectations.
+
+**Why this is allowed:**
+Replacement is “swap without breaking.” That requires:
+
+* knowing what you’re removing/replacing (primary),
+* knowing what you’re moving to (bridge),
+* and optionally having a hard constraint that says what must remain true.
+
+**Blocked (and why):**
+
+* **FA mechanism as bridge** blocked because “replace” needs an actual concrete replacement, not a conceptual one.
+* **FU** blocked as bridge because FU is diagnostic evidence; it doesn’t define the replacement target surface.
+* **FPR** blocked because naming is not a replacement object.
+
+---
+
+## FS-09 — Family-Guided Synthesis (choose the right variant)
+
+**Allowed targeting (simple):**
+Primary focus = **a concrete feature slice (FI)** you’re trying to extend or adjust.
+Bridge = **a family-placement abstraction (FA-12 type)** that says “what pattern family this belongs to and what variants exist.”
+Support (optional) = **a blueprint (FP)** or **law/contract (FA)** to pick the right variant under constraints.
+
+**Why this is allowed:**
+FS-09 exists for when “apply the concept” is not enough — you need to pick *which variant of the concept family* fits your situation. FA-12 is exactly the input that makes that decision non-random.
+
+This is where FS differs from FS-01:
+
+* **FS-01**: “apply this mechanism.”
+* **FS-09**: “choose the right sibling variant from the mechanism family, then apply it.”
+
+**Blocked (and why):**
+
+* **FA mechanism (general)** blocked as the bridge because that loses the “family choice” point; FS-09 needs the *variant landscape*, not just the base mechanic.
+* **FPR** blocked because naming/glossary doesn’t decide family variants.
+* **FU** blocked because edges don’t tell you the family structure; they tell you where things break.
+
+---
+
+### The “blocked schools” story for FS, in one sentence
+
+FS blocks targets that are **too narrative (FPR)** or **too diagnostic (FU)** from being the bridge operand, because synthesis needs **constructs and surfaces**, not commentary or probes.
+
+
+## FP (Feature Planning) — what targeting is trying to *protect*
+
+FP is your **blueprint-making school**. The output is not code and not diagnosis — it’s a **decision artifact** (North Star / Done Receipt / Scope Fence / Tripwires) that later runs can enforce.
+
+So FP targeting is designed to prevent the two big planning failures:
+
+1. **Planning becomes implementation** (it starts describing code structure and patches).
+2. **Planning becomes ungrounded fantasy** (random features not implied by the directive, or “helpful” additions the user didn’t ask for).
+
+In plain terms: **FP should be anchored on intent and constraints, not on code surfaces.**
+
+---
+
+## FP-01 — North Star (goal / user-facing success)
+
+**Allowed targeting (simple):**
+Primary focus is usually **no target** *or* **an existing Blueprint keystone (FP)** (any type) to reuse context.
+Support can be another **FP blueprint** if you’re chaining, but still planning-only.
+
+**Why this is allowed:**
+North Star is the top-level “what winning looks like.” The only safe prior reference is **other blueprint pieces**, because they’re already in the same “planning language.” Using implementation slices as anchors tends to bias North Star toward whatever you already built, which is backwards.
+
+**Blocked (and why):**
+
+* **FI / FS / FU / FPR / FA** are blocked as primary anchors because they drag planning into existing reality or existing narration. FP-01 must stay directive-aligned, not code-aligned.
+
+---
+
+## FP-02 — Done Receipt (how you will know it’s finished)
+
+**Allowed targeting (simple):**
+Primary focus is usually **an existing North Star blueprint (FP)**, or a composite blueprint context, or no target.
+
+**Why this is allowed:**
+“Done” must match the goal. So the cleanest anchor is the **goal blueprint** itself, then you derive observable completion criteria from it.
+
+**Blocked (and why):**
+
+* Again, **code slices and abstractions** are blocked as anchors because they cause the receipt to become “done means we refactored X” rather than “done means user can achieve Y.”
+
+---
+
+## FP-08 — Tripwires (risk signals / early failure detectors)
+
+**Allowed targeting (simple):**
+Primary focus can be **Scope Fence (FP)** or **Done Receipt (FP)** or **North Star (FP)** — basically any blueprint piece.
+Support can be another FP piece to tighten the risk lens.
+
+**Why this is allowed:**
+Tripwires only make sense relative to what you’re trying to achieve and what you promised not to do. That’s blueprint territory. Tripwires aren’t “bugs”; they are “early warning signals” that you’re drifting away from the plan.
+
+**Blocked (and why):**
+
+* **FU** is blocked because diagnostic edges are about observed behavior; tripwires are about *future drift risks*. Mixing them makes tripwires read like test cases or failure probes, which is not what you want in planning.
+* **FA** is blocked because abstract laws/mechanisms tend to overreach and create governance constraints the user didn’t ask for.
+* **FI/FS** blocked because planning shouldn’t be anchored on implementation.
+
+---
+
+## FP-10 — Reality Model (user-visible behavior + data reality)
+
+**Allowed targeting (simple):**
+Primary focus is usually **North Star (FP)** and/or **Done Receipt (FP)**.
+Optionally, you can use **one FI slice as SUPPORT** (not primary) *only if* the goal requires “fit with what already exists.”
+
+**Why this is allowed:**
+This action is about translating “what success looks like” into “what must be true in the system.” That’s a blueprint-to-reality translation, so the anchor should be blueprint.
+
+Support is the only place where existing implementation can appear — because sometimes you must plan around existing constraints. But you don’t want the plan to be dominated by implementation; you want it to be dominated by intent.
+
+**Blocked (and why):**
+
+* **FI as primary** blocked: it flips planning direction (existing code becomes the plan).
+* **FU as primary** blocked: truth diagnostics become the plan (too reactive).
+* **FA/FPR/FS as primary** blocked: too abstract, too narrative, or too composite.
+
+---
+
+### FP school summary (non-engineer mental model)
+
+FP targets are mostly “planning artifacts talking to planning artifacts.” That’s on purpose: it keeps planning from becoming a disguised build/fix/refactor step. If you must reference existing code, it’s treated as a *supporting constraint*, not the main source of truth.
+
+---
+
+If you want, next we can do a **quick cross-school takeaway**:
+
+* FI anchors on **real slices** (build/fix/change)
+* FU anchors on **truth about behavior**
+* FPR anchors on **legibility/framing**
+* FA anchors on **one mechanic**
+* FS anchors on **(slice + concept/other slice) under constraints**
+* FP anchors on **blueprints only (implementation only as support, rarely)**
