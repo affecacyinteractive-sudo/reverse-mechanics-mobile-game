@@ -1,0 +1,113 @@
+Here are the core **failure modes** you’ll actually see in the “sleeves + cards” game, phrased as things that can go wrong in outputs. I’m grouping them so each group could plausibly justify a dedicated “repair / guard / rebind” sleeve later.
+
+## A) Truth failures
+
+1. **Invention**
+
+* Uses file paths/entities/APIs that don’t exist in the mounted slice/targets.
+* Hallucinates capabilities, UI, data fields, endpoints.
+
+2. **Drift**
+
+* Produces something “adjacent” to the directive, not what was asked.
+* Often happens when context is broad, or targets pull the model sideways.
+
+3. **Spec contradiction**
+
+* Output conflicts with the blueprint corridor (north star / scope fence / tripwires / done receipt).
+* “Looks good” but violates a declared boundary.
+
+4. **Target misuse**
+
+* Treats SUPPORT like PRIMARY, or ignores BRIDGE relation, or invents the meaning of the combo.
+* Not “wrong code,” but wrong *use of the sentence*.
+
+## B) Grounding and context failures
+
+5. **Wrong slice selection**
+
+* The run is grounded, but grounded to the wrong surfaces (wrong file, wrong component, wrong seam).
+
+6. **Insufficient grounding**
+
+* Not enough projection/context to safely name or patch.
+* Model starts hedging, overgeneralizing, or inventing.
+
+7. **Over-grounding / context swamp**
+
+* Too much context causes the run to become generic, verbose, or multi-topic.
+* “Everything is relevant” syndrome → bloated chunks.
+
+## C) Chunking and formatting failures
+
+8. **Chunk budget blow-up**
+
+* Too many chunks, too many patch segments, or chunks too long.
+* Or the inverse: too small to be meaningful.
+
+9. **Bad patch segment discipline**
+
+* Orphan CODE chunks, missing pairing, consecutive CODE, bulk edits, or sweeping rewrites inside one patch.
+
+10. **Title failure**
+
+* Generic/metaphoric titles, beat-name titles, or titles not anchored to the body (and now: >25 chars).
+
+11. **Schema/serialization failure**
+
+* Non-JSON output, invalid fields, missing required properties, bad enums.
+
+## D) Action-scope failures
+
+12. **Wrong action posture**
+
+* FU/FPR/FA produces code or “fixes,” FI/FS turns into docs, FP turns into implementation.
+* The action’s “school vibe” collapses.
+
+13. **Scope creep**
+
+* Adds extra features, extra refactors, extra renames, extra modules.
+* Usually triggered by “helpfulness.”
+
+14. **Incomplete but pretending complete**
+
+* Looks finished, but doesn’t actually create the minimal working slice it claims.
+* “Now-true” statements not supported by patches.
+
+## E) Integration and continuity failures
+
+15. **Contract break**
+
+* Changes public behavior/shape when action is supposed to preserve it (especially upgrades/refactors).
+
+16. **Seam mismatch**
+
+* Two surfaces are stitched, but the adapter guarantee is unclear or violated (shape/timing/error semantics mismatch remains).
+
+17. **Non-regression risk**
+
+* Local change likely breaks a nearby sibling flow; no guardrail awareness.
+
+18. **Lineage confusion**
+
+* Outputs that can’t be placed “before/after” in the run history (hard to reason about progression).
+
+## F) UX/gameplay failures (still real)
+
+19. **Unfair rejection**
+
+* Seals trigger but user can’t tell why or how to fix it.
+* Makes the game feel moody/random.
+
+20. **Low-value success**
+
+* Run technically succeeds but produces trivial/no-op outputs that aren’t worth a slot in the library.
+
+If you want to build dedicated sleeves, the clean grouping is:
+
+* **Truth Guard** (1–4)
+* **Slice Binder / Context Tuner** (5–7)
+* **Chunk Linter / Formatter** (8–11)
+* **Posture Guard** (12–14)
+* **Integration Guard** (15–18)
+* **Seal Explainer / Recovery** (19–20)
