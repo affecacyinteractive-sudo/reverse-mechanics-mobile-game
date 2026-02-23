@@ -1,0 +1,300 @@
+## Blank Glossary (V1) — De-blur Pairs
+
+- **Slice Identity** = the **noun label** (“Saved Filters”).  
+  **Slice Promise** = the **verb capability** (“save + reapply filters”).
+
+- **Minimum Data/State** = the **one new thing you introduce** to make the slice real (field / event / store / DOM handle / permission bit).
+
+- **Evidence Hook** = why you’re patching *this* surface.  
+  **Minimal Cause** = what you think is actually breaking.
+
+- **Minimal New Seam** = the **new hook point** (where the capability plugs in).  
+  **Local Surface Change** = the **one place the user/flow will notice it**.
+
+- **Responsibility Transfer (Seam)** = one sentence: “move X from A → B.”  
+  **Boundary Shift** = the old→new **ownership claim** (“A no longer owns X; B does”).
+
+## FI-01 — Input Grammar (Liberal)
+**Line 1 — WHAT + WHY (Outcome + Promise)**
+**Create** **[Slice Identity (noun)]** so that **[Now-true Outcome]** — meaning the user can **[Slice Promise (verb)]**.
+*(Pull from: Directive first; sprinkle Blueprint/Targets if they sharpen “what good looks like.”)*
+
+**Line 2 — WHERE + WHEN (Entry + Anchor + State)**
+It starts at **[Entry Point / Contract]**, plugs into **[Integration Anchor]**, and needs only **[Minimum Data/State (one new thing: field/event/store/handle)]** to work.
+*(Pull from: Projection Slice + Context if available; otherwise invent placeholders and fix later.)*
+
+**Line 3 — HOW (Implementation Moves + Close)**
+To make it real: **[Patch Segments / Implementation Moves]** → then confirm with **[Closure Check]**.
+*(Pull from: whatever you dropped in; this is the “do the thing” line.)*
+
+## FI-02 — Input Grammar (Liberal)
+**Line 1 — WHAT is broken + WHY it matters**
+Fix this defect: **when** `[Trigger / Scenario]` happens, we get `[Actual]` but we need `[Expected]` — so the feature behaves correctly again.
+
+**Line 2 — WHERE we’ll touch + WHY we chose the spot**
+We’ll patch around **`[Local Surface / File / Component / Function]`**, guided by **[Evidence Hook]**; our best cause hypothesis is **[Minimal Cause]** (even if it’s just a first guess).
+
+**Line 3 — HOW we change it + WHEN we stop**
+Apply `[Patch Segment(s)]` (small edits), keep `[Non-Regression Guard]` in mind, then stop once `[Closure Check]` is true (i.e., re-running the trigger now produces the expected behavior). Any extra cards you include can be treated as “ingredients” to shape the patch (naming preference, constraint, style, etc.).
+
+## FI-03 — Input Grammar (Liberal)
+**Note:** `all-actions-candidates.txt` doesn’t include an FI-03 section right now; the only FI-03 definition present is in `all-actions.txt`, where FI-03 is **“Rule Shift (Before → After)”**.
+
+**Line 1 — WHY + WHAT (the decision you’re changing)**
+We are changing the rule from **[Before]** to **[After]**: **“If [Condition], then [Outcome].”**  
+Example case: **[One representative example case]**.
+*(Directive supplies the “why/intent”; Targets/Context supply the “what scenario / where it shows up.”)*
+
+**Line 2 — WHERE (the decision surface + blast radius)**
+This rule lives at **[Rule Surface]** (file/entity/region) — and we expect the impact to be **[Impact Note]** (what it affects / what it doesn’t).
+*(Projection Slice gives you plausible surfaces; Targets/Context can override that; placeholders are fine.)*
+
+**Line 3 — HOW + PROOF (the edits + “done” truth)**
+Implement it with **[Patch Segment(s)]** (1–3 small edits), keep **[Guardrail Case]** in mind (what must not break), and call it done when **[Closure Check]** becomes observably true (mirrors the rule-shift trigger).
+
+## FI-04 — Input Grammar (Liberal)
+**Line 1 — WHAT + WHY (the upgrade you want, stated plainly)**
+Upgrade **[Current Surface / “the same feature”]** along **[Upgrade Axis: speed | resilience | clarity | ergonomics]** to achieve **[Upgrade Goal]** so we get **[Why-this-upgrade / payoff]**.
+*(Directive drives the goal/payoff; Targets help name the surface.)*
+
+**Line 2 — WHERE + WHEN (where the change happens, and what we’re treating as “contract”)**
+Do it inside **[Where to touch: file/handler/component seam]**, using **[Projection Slice] + [Recent Context]** to point at the exact area; treat **[Contract Lock: what must not change externally]** as the “outside truth.”
+*(Blueprint/targets can be thrown in here as extra guardrails, but nothing is mandatory.)*
+
+**Line 3 — HOW (the minimal moves, and the “done” claim)**
+Make **[Patch Segment(s): 1–3 small edits]**, and call it done when **[Closure Check: now-true observable statement]** holds; optionally note **[Non-Regression Guard]** if you want a nearby behavior to stay stable.
+
+## FU-03 — Input Grammar (Liberal)
+
+**Line 1 — WHY + WHAT (the surface you’re trying to understand)**
+Trace **[Surface Identity]** because **[Intent / question you’re trying to answer]** (debug, explain, verify, document behavior).
+
+**Line 2 — WHEN + WHERE (the trigger + the “before/after” that matters)**
+Using anything you dropped (targets, projection_slice, context, notes), state: **When [Trigger] happens in [Context], the important before→after is [State Snapshot].**
+
+**Line 3 — HOW (the causal trace + optional framing)**
+Then write the **Outcome Trace**: **[Step 1 → Step 2 → Step 3 → Result]**; optionally add **[Continuity]**, a one-line **[Mental Model]**, and any **[Guards / Variants]** you *suspect* are relevant (even if you’ll correct later).
+
+## FU-04 — Input Grammar (Liberal)
+
+**Line 1 — WHY + WHAT boundary you’re hunting**
+Probe **[Boundary Target]** because **[Intent / suspicion]** (the cliff you want to *see clearly*), using any mix of **targets + projection_slice + context** to name the surface and the suspected edge. 
+
+**Line 2 — WHEN + WHERE the probe happens**
+Set **[Starting State]**, then do **[Probe Move / Trigger]** — keep it one clean “setup → trigger” even if your details are rough and you’ll edit later. 
+
+**Line 3 — HOW you’ll know (success vs failure) + WHY this probe is enough**
+Write the two observable outcomes: **[Outcome Signal]** (boundary not violated) vs **[Failure Signal]** (boundary violated); optionally add **[Discriminator]** (what separates them) and a one-line **[Coverage Rationale]** for why this is the minimal/high-signal probe. 
+
+## FU-06 — Input Grammar (Liberal)
+
+**Line 1 — WHY + WHAT you’re mapping**
+Map the **current mechanics** of **[Surface / Flow]** because **[Intent / Question]** — specifically, “what *is it*, and what *must happen* for it to work?”
+
+**Line 2 — HOW it runs (dependencies → order)**
+Using whatever you dropped in (**targets, projection_slice, context, blueprint notes, random clues**), state the **minimum dependencies** **[Inputs]** and the **priority order** **[Step 1 → Step 2 → Step 3 …]** (even if it’s your best guess for now).
+
+**Line 3 — WHAT it causes + WHERE it connects**
+Then state the **effects/outputs** **[What changes / what gets emitted / what the user sees]**, what it **connects to** **[Upstream trigger / downstream consumer]**, and optionally one **invariant** you *think* stays true.
+
+(Anything extra the player includes just becomes “ingredients” that can sharpen—or distort—the map, and that’s fine in this new manual-fix design.)
+
+## FU-08 — Input Grammar (Liberal)
+**Line 1 — WHY + WHO is secretly tied together**
+Reveal the **hidden coupling** that could bite us: **[Surface A you’re about to change]** is silently tied to **[Surface B that will get affected]** (or **[Surface ↔ Dependency]**).  
+Coupling type: **[Coupling Type: shared state | shared event | shared DOM handle | shared assumption]**.
+
+**Line 2 — WHAT is the shared hook (the “invisible wire”)**
+The coupling exists because they share **[Shared Hook]** — a state field / selector / event / config key / DOM handle / assumption — pulled from **any mix of targets + projection_slice + context + blueprint notes** (guesses are allowed; you’ll correct later). If helpful, note **[Direction]** (who depends on whom).
+
+**Line 3 — WHAT breaks + HOW you’d notice + how to confirm**
+If **[Shared Hook]** changes, then **[Break Scenario]** happens (the unexpected behavior shift); optionally add a **[Guard/Tripwire]** you’d watch for, and a tiny **[Closure Check]** like “change X → Y also changes” to validate the coupling in practice.
+
+## FU-10 — Input Grammar (Liberal)
+**Line 1 — WHY + WHAT (the seam + the promise of “no behavior change”)**
+Refactor by making this **Responsibility Transfer**: **[Responsibility Transfer (one sentence: move X from A → B)]** inside **[Subject]**, to achieve **[Refactor Intent]**, while keeping **[Behavior Lock]**: user-visible rules/outputs/UX should stay the same (structure-only change).
+
+**Line 2 — WHERE + WHEN (what we’ll touch, and what boundary is being re-laid)**
+Using any mix of **targets + projection_slice + context**, name the **[Surface Map]** (files/entities/regions), and state **[Boundary Shift: Old Boundary → New Boundary]** (the ownership claim). If you’re extracting, name the destination as **[NEW Module/File]** and why it exists.
+
+**Line 3 — HOW + DONE (the restructuring moves + payoff claim)**
+Perform **[1–3 Patch Segments]** (bounded restructuring moves) with only the **[Minimal Call-site Update]** needed, optionally state a **[Invariant Check]**, and finish with a **[Stability Note]**: “behavior equivalent, but the seam is now cleaner/cheaper to change.”
+
+## FP-01 — Input Grammar (Liberal)
+
+**Line 1 — WHY + WHAT (North Star Outcome)**
+For **[Subject / slice]**, the *North Star outcome* is: **[one software-observable user-facing outcome]** — distilled from **[Directive]**, sharpened by anything you dropped as context/targets. 
+
+**Line 2 — WHEN we’ll know (Success Signal)**
+We’ll know we’re achieving it when the product can observe **[one unmistakable internal success signal]** (state/behavior/event/trace) — even if it’s a rough guess you’ll refine later. 
+
+**Line 3 — WHAT it is *not* + HOW to judge changes (Boundary + Closure Check)**
+This North Star is **not trying to do [Non-Goal Boundary]**; if a proposed change **doesn’t strengthen the outcome or the signal**, it doesn’t serve the North Star. *(Optional: add a one-liner on how it stays consistent with any blueprint you’ve already got.)* 
+
+## FP-02 — Input Grammar (Liberal)
+
+*(Done Receipt / “acceptance reality”)*
+
+**Line 1 — WHAT + WHERE + WHY**
+For **[Subject / slice]**, define what “done” *means* as an **observable receipt**—so completion is unambiguous and judgeable (not vibes). Use **[Directive]** to set the intent, and **[Targets / Blueprint]** only if they help keep the receipt consistent. 
+
+**Line 2 — HOW (the receipt itself: outside + inside)**
+State **[User-visible Receipt]** (2–4 crisp “user can now do/see” statements) and **[Data-level Reality]** (1–3 “system reliably makes true” facts). Pull details from **[Projection Slice] + [Context]** if you have them; otherwise drop placeholders/guesses and refine later. 
+
+**Line 3 — WHEN we call it done (bar + exclusions + decision test)**
+Add **[Quality Bar]** (1–2 expectations), **[Exclusions Boundary]** (what “done” does *not* include), and a **[Closure Check]** sentence that lets you decide whether a proposed change moves *toward* or *away from* done. Any extra cards you include are just “ingredients” to sharpen wording. 
+
+## FP-08 — Input Grammar (Liberal)
+
+*(Tripwires / early failure alarms)*
+
+**Line 1 — WHY + WHAT we’re protecting**
+For **[Subject / slice]**, define **Tripwires** that warn us early when we’re drifting into bad territory (complexity, scope creep, coupling, or quality rot). Use **[Directive]** to say what you’re afraid of; use **[Targets/Blueprint]** if they clarify what “bad” looks like.
+
+**Line 2 — WHEN it’s “going wrong” (signals you can notice)**
+List **[Tripwire Signals]** as concrete “if you see X, that’s a red flag” statements—draw from any mix of **projection_slice + context + past pain + guesses**. Group them if you want: **drift signals**, **complexity signals**, **dependency/coupling signals**.
+
+**Line 3 — WHAT we do when a tripwire fires (recovery posture)**
+For each signal (or for the set), attach a **[Recovery Move]** like “stop and fence scope,” “extract a seam,” “write a probe,” “add an invariant,” or “re-state done.” Call it done when you have at least **[N]** tripwires that would actually change your behavior if they fired.
+
+## FP-10 — Input Grammar (Liberal)
+
+*(Scope Fence / what we will not absorb)*
+
+**Line 1 — WHY + WHAT we’re fencing**
+For **[Subject / slice]**, define a **Scope Fence** so the work stays coherent: what we’re *building now*, and what we’re explicitly refusing to absorb (even if it’s tempting). Use **[Directive]** for intent and urgency; use any targets/blueprint notes as extra flavor.
+
+**Line 2 — WHERE the boundary sits (in vs out)**
+Write **[In-Scope Core]** as 2–4 statements (“we will handle…”), then **[Out-of-Scope Exclusions]** as 3–7 statements (“we will not…”). You can pull these from projection/context—or invent and revise later.
+
+**Line 3 — WHEN we refuse (rules + edge posture)**
+Add **[Refusal Rules]** (how we say no) and **[Edge Handling Posture]** (what to do when reality hits the fence): defer, route to a new slice, log a future card, or create a dedicated extension. Close with a one-line **Closure Check**: “if it violates the fence, it’s not part of this run.”
+
+## FPR-02 — Input Grammar (Liberal) *(Developer Walkthrough / “how it works”)*
+
+**Line 1 — WHY + WHAT (builder-facing frame)**
+Explain **[this slice]** so a developer understands **why it matters**: state **[Highlight Frame]** (the one lever/idea) + **[what the slice is for]**, using any mix of **directive + targets + context**. 
+
+**Line 2 — WHERE + HOW (locate it, then follow the flow)**
+Name **[where it lives + its boundary]**, then give a short **walkthrough path** (**entry → key hop(s) → outcome**) and point to **2–4 touchpoints** a dev would edit to extend it—using **projection_slice** if available, or best-guess placeholders if not. 
+
+**Line 3 — SAFETY + EXTEND (what not to touch, and one safe hook)**
+State **[Safety Rail]** (the invariant / seam not to casually break), optionally add **[Extension Hook]**, and end with a **Closure Check**: what a dev can now reliably predict/modify safely after reading this. 
+
+## FPR-05 — Input Grammar (Liberal) *(Slice Boundary Card / what it owns)*
+
+**Line 1 — WHAT you’re documenting + WHERE it lives (Slice Identity)**
+Document the boundary of **[Slice Name]** located at **[File / entity / region]**, so builders know *what this slice is* and *why it exists* (pull from **directive + targets**, and use **projection_slice** if you have it).
+
+**Line 2 — WHAT it owns vs must not absorb + WHERE others touch it (Ownership + Seams)**
+State **[Inside the Slice: 2–5 responsibilities it owns]**, then **[Outside the Slice: 1–3 responsibilities it must not absorb]** (blueprint_state can define what “outside” means). Add **[Seam Touchpoints: 2–4 interaction points]** using anything available (projection_slice, context, guesses you’ll later edit).
+
+**Line 3 — HOW to keep the boundary intact (Safety Rail + Closure Check)**
+Name one **[Safety Rail: invariant/seam that must stay stable]**, and finish with a **[Closure Check: how you verify changes stayed inside the boundary]**—a builder-facing “if this is still true, we didn’t violate ownership.”
+
+## FPR-08 — Input Grammar (Liberal) *(Naming & Vocabulary Map)*
+**Line 1 — WHY + WHERE (the naming problem + domain fence)**
+Resolve **[Naming Confusion / Standardization Intent]** for **[Subject / Slice]** at **[Naming Layer: UI | code | concept]** by declaring **[Naming Domain]** (the one conceptual area you’re standardizing), using any mix of **targets, context, projection_slice, and your own taste**.
+
+**Line 2 — WHAT (the vocabulary itself: canon + aliases)**
+Propose **[Canon Terms]** (3–8 preferred terms + one-line meanings), and optionally add an **[Alias Map]** (synonyms/variants → canon term). Feel free to invent/rename aggressively; you’ll manually correct later if it clashes with reality.
+
+**Line 3 — HOW + WHEN DONE (rules + boundary + violation test)**
+Add **[Naming Rules]** (2–4 consistency rules), state a **[Boundary]** (what naming is out of scope), and finish with a **[Closure Check]** that tells you when a new name violates the map.
+
+## FPR-10 — Input Grammar (Liberal) *(User Journey Story / what it feels like)*
+**Line 1 — WHY + WHO + WHAT journey**
+Tell *one* user journey for **[Subject / Slice]** aimed at **[Audience + Intent]**: what the user is trying to accomplish, in plain language.
+
+**Line 2 — WHERE it starts + WHEN it moves (Entry → Steps)**
+Start from **[Entry Context]** (what the user sees/has/needs), then narrate **[3–6 Step Path]** beats as “user action → system response,” using anything you dropped in (targets, projection_slice, context, blueprint framing, guesses).
+
+**Line 3 — WHAT ‘done’ looks like + WHERE it can break (and optional next)**
+End with **[Outcome Receipt]** (visible result + any persisted change), include **[one Boundary Moment]** tagged as **[Boundary Moment Type: common stumble | rare edge]**, and optionally add **[Continuation Hook]** (what naturally comes next).
+
+## FA-02 — Input Grammar (Liberal) *(Mechanism Model)*
+**Line 1 — WHY + WHAT (name the mechanism you’re freezing into a reusable explanation)**
+Model **[Mechanic Name]** inside **[Subject / slice]** so the behavior feels *inevitable* (not “a bunch of steps”)—i.e., a reader can predict what happens next from the rules.
+
+**Line 2 — HOW it runs (what wakes it up + what it remembers + its “physics”)**
+Using whatever you’ve dropped (targets, projection_slice, context, random notes), state **[Entry Triggers + Inputs]**, optional **[State/Memory]**, then write **[2–4 Governing Rules]** phrased as **IF/WHEN → THEN** (ordering/priority if it matters). Placeholders/guesses are totally fine.
+
+**Line 3 — WHAT it causes + WHERE it hands off (and how you know the model is complete)**
+State **[Outputs / Side Effects]**, **[Boundary Seams]** (handoff touchpoints), optional **[Invariants]** + **[Prediction Hook]**, then one **[Closure Check]**: what a builder can now reliably predict/recognize about this mechanism.
+
+## FA-03 — Input Grammar (Liberal) *(Interface Law Set)*
+
+**Line 1 — WHY + WHAT (the contract you’re freezing)**
+Create an **Interface Law Set** for **[Surface / Subject]** so everyone can change it later without “breaking the promise”—i.e., we’re defining what this surface **requires, guarantees, and must not do**.
+
+**Line 2 — WHERE + HOW (what you’ll use to infer the contract)**
+Use whatever you have—**targets**, **projection_slice**, **recent context**, and even rough notes—to describe **what it accepts (call shape)**, **what it produces (receipts)**, and **where it hands off to neighbors (seams)**. If you want, pull in a **[Counterpart]** and a **[Relation]** (compare/map/reconcile) purely to sharpen the laws (not because it’s required).
+
+**Line 3 — WHEN it’s “done” (the output artifacts)**
+Finish by writing **3–7 short laws** (“must / must not / guarantees / requires”), optionally name **1–3 failure modes** if you feel like it, state the **boundary/non-goals**, then add a **closure check**: one line that tells you in practice whether the contract is being respected.
+
+## FA-04 — Input Grammar (Liberal) *(Pattern Boundary & Variants)*
+**Line 1 — WHY + WHAT you’re mapping**
+Map **[Pattern / Mechanism]** (your PRIMARY) into a small “shape space” so people can reuse it: **what stays invariant, what can vary, and what kinds of variants still count as “the same pattern.”**
+
+**Line 2 — HOW you’ll derive the map (inputs are just ingredients)**
+Using whatever you dropped in (**targets, projection_slice, context, directive, blueprint notes, guesses**), write **[Core Invariants (2–5)]** and **[Degrees of Freedom (2–5): Axis → allowed range]** (e.g., “Storage: in-memory | localStorage | server”, “Sync: sync | async”).
+
+**Line 3 — WHERE the boundary is + WHEN it stops being this pattern**
+Name **[2–4 Variant Families]** that cluster the freedoms, state the **[Boundary Line]** (“if you change X, it’s not this pattern anymore”), optionally note **[Seam Implications]**, and end with a **[Closure Check]** that lets you classify a concrete implementation as “still this pattern” vs “not this pattern.”
+
+## FA-12 — Input Grammar (Liberal) *(Pattern Lineage / where it sits)*
+
+**Line 1 — WHY + WHAT you’re pinning in the map**
+Place **[PRIMARY Pattern]** into a small lineage so builders can *choose it on purpose*: what family it belongs to, what it’s “next to,” and what it specializes into.
+
+**Line 2 — HOW + WHERE you’re deriving the lineage (ingredients welcome)**
+Using any mix of **targets + projection_slice + context + directive + extra notes**, write the **Parent Frame (1 sentence)**, then name **2–3 Sibling Alternatives** with the *tradeoff axis* that separates them. *(If you include a BRIDGE/counterpart, use it purely as contrast to sharpen the placement.)*
+
+**Line 3 — WHEN it’s useful vs wrong + DONE test**
+Finish with **Selection Heuristic** (“pick this when…”), optional **Misfit Warning** (“avoid when…”), optional **Child Specializations (1–2)**, then a **Closure Check**: one sentence that lets a builder confirm they’re actually using *this* pattern and not a sibling.
+
+## FS-01 — Input Grammar (Liberal) *(Pattern Instance / Instantiation)*
+**Line 1 — WHY + WHAT you’re instantiating**
+Instantiate **[FA Pattern / Keystone]** into a concrete **working instance** inside **[Subject / slice]** so we get **[Now-true Outcome]** (the practical payoff).
+*(Directive names the payoff; Targets name the pattern + where it should live.)*
+
+**Line 2 — WHERE it lands + HOW it will be used**
+Place it at **[Placement / Seam Location]** (file/component/handler boundary), and define the **Invocation / Usage Seam**: *how other code will call it / depend on it* (shape, entry, return). Add a one-liner **[Pattern → Code Mapping]** (e.g., “Rule A → function X; seam → hook Y”). Use **projection_slice + context** if you have them; otherwise invent and fix later.
+
+**Line 3 — HOW you’ll implement it + WHEN it’s done**
+Do **[Patch Segment(s)]** (1–3 small implementation moves) to wire it in, then finish with a **Closure Check**: an observable statement like “when X happens, Y now works,” plus any optional note about what stays stable (non-regression) or what can vary later.
+
+## FS-04 — Input Grammar (Liberal) *(Seam Stitch / two-endpoint glue)*
+
+**Line 1 — WHY + WHAT two things must meet**
+Stitch **[Subject / PRIMARY]** to **[Counterpart / BRIDGE]** so they behave like one coherent flow and we get **[Now-true Outcome]** (the user/dev payoff).
+*(Directive supplies the payoff; targets supply the endpoints; extra cards are welcome.)*
+
+**Line 2 — HOW they’re supposed to connect (relation + guarantee)**
+Declare the connective intent as **[Relation (+ direction if you want)]** (integrate / map / reconcile / extend / replace / instantiate / generalize) and state **one Seam Guarantee**: the single promise the stitch must uphold (e.g., “data shape stays consistent,” “errors propagate predictably,” “auth is enforced before write”).
+
+**Line 3 — WHERE you’ll sew + WHAT you’ll change (implementation moves)**
+Name **[Seam Placement]** (where the glue lives), then list **[Patch Segment(s)]** (1–3 changes) that make the stitch real. Optionally mention **[Boundary Mismatch]** if there’s a known friction point, and end with a **Closure Check**: how you know the seam is actually stitched (a runnable/observable truth).
+
+## FS-06 — Input Grammar (Liberal) *(Feature Extension / add onto existing)*
+**Line 1 — WHAT + WHY (the extension promise)**
+Extend **[Extension Target: existing slice]** by adding **[ONE new capability]** so that **[Now-true Outcome]** becomes true inside that slice.
+
+**Line 2 — HOW + WHERE (why it fits + where it hooks)**
+This is an *extension (not a rewrite)* because **[Fit Rationale]**; it hooks in via **[Minimal New Seam (new hook point)]**, and the only visible flow change is **[Local Surface Change (where user/flow sees it)]** (as little as needed).
+
+**Line 3 — WHEN DONE (implementation + proof + stability)**
+Make **[1–3 Patch Segments]** that add the seam + minimal implementation + **one proof call-site**, then stop when **[Closure Check]** is observably true; optionally state **[Non-Regression Guard]** for what must stay unchanged.
+
+## FS-09 — Input Grammar (Liberal) *(Missing Sibling / family completion)*
+
+**Line 1 — WHY + WHAT family is incomplete**
+Complete the **[Family Identity + Fingerprint]** by adding **[ONE missing sibling]**: we’re mirroring **[1–2 Reference Members]**, and we’re doing this because **[The Gap + Pain]** is making the family awkward to use today. 
+
+**Line 2 — HOW this sibling differs (but stays “in-family”)**
+Define the **[Variant Axis]** (the *one* dimension this sibling changes), then state the **[Sibling Contract]** (behavior + shape promise) and what it must **NOT** change about existing siblings. 
+
+**Line 3 — WHERE it lives + WHEN it’s “done”**
+Choose **[Placement + Invocation Seam]**, do **[1–3 Patch Segments]** that add the sibling + one minimal proof of invocation, and finish with a **[Closure Check]**: what is now observably cleaner/possible because the sibling exists. 
+
