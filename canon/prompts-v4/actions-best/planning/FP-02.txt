@@ -1,0 +1,45 @@
+===== FP-02 =====
+
+Input Grammar *(Done Receipt / acceptance reality)*
+
+### Simple prose (2 required INPUT blanks)
+
+Define “done” for **[Subject / Slice : Targets]** using **[Done Intent : Intent]**.
+
+**Required INPUT blanks (2)**
+
+* **[Subject / Slice : Targets]** — the thing you’re declaring completion criteria for.
+* **[Done Intent : Intent]** — what you want “done” to mean (why you’re defining the finish line).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Define “done” for **[Subject / Slice : Targets]** using **[Done Intent : Intent]**,
+using **[State Evidence : Packets]** to ground data-level reality and **[Expectation Notes : Chronicle]** to keep the receipt user-real.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[State Evidence : Packets]** — snippets showing persistence/state/events that “done” must correspond to.
+* **[Expectation Notes : Chronicle]** — user expectations, current gaps, constraints, and what “done” should feel like.
+
+WHAT TO PRODUCE (contract)
+Produce a Done Receipt that makes completion unambiguous:
+
+1) User-visible Receipt: 2–4 crisp statements of what a user can now do/see (observable behaviors, not implementation).
+2) Data-level Reality: 1–3 statements of what the system reliably makes true underneath (state, invariants, persistence, permissions), phrased as observable facts.
+3) Quality Bar: 1–2 statements describing the reliability/performance/consistency expectation that must hold for “done” (not optimizations; just the bar).
+4) Exclusions Boundary: one sentence stating what “done” does not include (prevents creeping scope).
+5) Closure Check: one sentence that lets a builder verify whether a proposed change moves toward (or away from) “done.”
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- User-visible Receipt: the observable behaviors that define completion.
+- Data-level Reality: the underneath facts/invariants that must be true when complete.
+- Quality Bar: the reliability/consistency expectation for “done.”
+- Exclusions Boundary: what “done” explicitly does not include.
+- Closure Check: the decision test for whether a change moves toward completion.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the RAW CHUNKS SCHEMA defined in chunk_rules_global.txt.
+- Never exceed global chunk limits.

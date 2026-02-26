@@ -1,0 +1,45 @@
+===== FPR-10 =====
+
+Input Grammar *(User Journey Story / what it feels like)*
+
+### Simple prose (2 required INPUT blanks)
+
+Tell a journey for **[Subject / Slice : Targets]** aimed at **[Journey Intent : Intent]**.
+
+**Required INPUT blanks (2)**
+
+* **[Subject / Slice : Targets]** — the feature/flow the user is experiencing.
+* **[Journey Intent : Intent]** — what the story should clarify (onboard, sell value, reveal friction, document behavior).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Tell a journey for **[Subject / Slice : Targets]** aimed at **[Journey Intent : Intent]**,
+using **[Touchpoint Evidence : Packets]** to align with real surfaces/events and **[User Feel Notes : Chronicle]** to capture what matters in practice.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[Touchpoint Evidence : Packets]** — snippets that reveal real entry points/events/surfaces the journey should mention.
+* **[User Feel Notes : Chronicle]** — what users try, where they stumble, what “success” feels like, and what hurts.
+
+WHAT TO PRODUCE (contract)
+1) Journey Title: one sentence naming the user goal in plain language.
+2) Entry Context: what the user starts with (where they are / what is visible / what is required), grounded.
+3) Step Path: 3–6 short steps the user takes (action → system response), grounded.
+4) Outcome Receipt: what “done” looks like for this journey (visible result + any persisted change), grounded.
+5) One Boundary Moment (required): one concrete moment where the journey can stop/fail/branch, stated as “If X, user sees Y,” grounded in evidence.
+6) Continuation Hook (optional): one sentence describing what the user can do next that is directly connected to this journey, only if evidenced.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Journey Title: the user goal in plain language.
+- Entry Context: what is true at the start (what user sees/has).
+- Step Path: the sequence of user actions and system responses.
+- Outcome Receipt: what “done” looks like (visible result + persisted change).
+- Boundary Moment: where the flow can stop/fail/branch (user-facing).
+- Continuation Hook (optional): what naturally comes next (evidenced only).
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the RAW CHUNKS SCHEMA defined in chunk_rules_global.txt.
+- Never exceed global chunk limits.

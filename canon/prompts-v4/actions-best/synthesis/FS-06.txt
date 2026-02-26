@@ -1,0 +1,51 @@
+===== FS-06 =====
+
+Input Grammar *(Feature Extension / add one capability)*
+
+### Simple prose (2 required INPUT blanks)
+
+Extend **[Extension Target : Targets]** by adding **[New Capability : Intent]**.
+
+**Required INPUT blanks (2)**
+
+* **[Extension Target : Targets]** — the existing slice/feature you’re extending (not rewriting).
+* **[New Capability : Intent]** — the single new ability being added (one clear “now it can…”).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Extend **[Extension Target : Targets]** by adding **[New Capability : Intent]**,
+using **[Hook Evidence : Packets]** to choose the minimal seam and **[Behavior Fit Notes : Chronicle]** to keep the extension disciplined.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[Hook Evidence : Packets]** — snippets showing where to hook in and what surfaces will change.
+* **[Behavior Fit Notes : Chronicle]** — expected behavior, constraints, why this belongs in the existing slice, risks.
+
+WHAT TO PRODUCE (contract)
+Across the full set of chunks, you must cover:
+
+- Extension Target: what existing feature slice is being extended (PRIMARY), grounded in targets/packets.
+- Extension Intent: the single new capability being added, stated as a now-true outcome.
+- Fit Rationale: one sentence for why this extension fits the current slice’s shape (so it doesn’t become a rewrite).
+- Minimal New Seam: the smallest seam/handle introduced or reused to support the new capability (where the extension hooks in).
+- Local Surface Change: what visibly changes at the feature surface (UI/route/event/behavior), only as far as required by the extension.
+- Patch Segment(s): 1–3 directional patch segments that add the extension seam + the minimal implementation + one proof call-site (no bulk edits; do not refactor the whole slice).
+- Closure Check: one sentence describing what is now observably true because the extension exists.
+- Non-Regression Guard (optional): one sentence about what must remain unchanged in existing behavior.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Extension Target (PRIMARY): the existing slice being extended (grounded).
+- Now-True Outcome: the single new capability being added.
+- Fit Rationale: why this is an extension, not a rewrite.
+- Extension Seam: the smallest seam/handle introduced or reused to support the new capability.
+- Local Surface Change: what visibly changes at the surface (only what’s required).
+- Patch Segment (repeatable, 1–3 max): a small TEXT framing chunk + a linked CODE chunk implementing one local extension step and one proof call-site.
+- Closure Check: what is now observably true because the extension exists.
+- Non-Regression Guard (optional): what must remain unchanged in existing behavior.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the RAW CHUNKS SCHEMA defined in chunk_rules_global.txt.
+- Never exceed global chunk limits.

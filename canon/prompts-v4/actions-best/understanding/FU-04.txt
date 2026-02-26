@@ -1,0 +1,49 @@
+===== FU-04 =====
+
+Input Grammar *(Edge / Boundary Probe)*
+
+### Simple prose (2 required INPUT blanks)
+
+Probe **[Boundary Target : Targets]** using **[Probe Set : Intent]**.
+
+**Required INPUT blanks (2)**
+
+* **[Boundary Target : Targets]** — the specific edge you’re testing (limit, forbidden case, missing input, permission wall, threshold).
+* **[Probe Set : Intent]** — 1–3 deliberate taps you choose to test that boundary (setup → trigger(s)).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Probe **[Boundary Target : Targets]** using **[Probe Set : Intent]**,
+using **[Boundary Clues : Packets]** to find where the edge is enforced and **[Setup Notes : Chronicle]** to keep the probe conditions stable.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[Boundary Clues : Packets]** — code surfaces that likely enforce the boundary (guards, validators, permission checks, fallbacks).
+* **[Setup Notes : Chronicle]** — starting assumptions (auth/data/UI state/flags) needed for the probe to mean something.
+
+WHAT TO PRODUCE (contract)
+1) Boundary Target: the single surface/behavior being probed (grounded) and what boundary is suspected (one sentence).
+2) Starting State: the minimum setup that must be true before the probe (inputs/props/state), grounded in evidence.
+3) Probe Move (Trigger): the single action/event/call that tests the boundary, grounded in evidence.
+4) Outcome Signal: what you would observe if the boundary is NOT violated (success signal), grounded in evidence.
+5) Failure Signal: what you would observe if the boundary IS violated (failure signal), grounded in evidence.
+6) Discriminator (optional): one clearly stated condition that distinguishes the success vs failure path, only if evidenced.
+7) Coverage Rationale (required): one sentence explaining why this probe is the minimal, high-signal test for the boundary.
+8) Closure / Next Probe (optional): only if evidenced by chronicle; otherwise omit entirely.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Boundary Target: what boundary is being tested (grounded).
+- Starting State: minimum setup required before probing.
+- Probe Move (Trigger): the single action that tests the boundary.
+- Outcome Signal: success observation if boundary is not violated.
+- Failure Signal: failure observation if boundary is violated.
+- Discriminator (optional): the condition that separates success vs failure (evidenced only).
+- Coverage Rationale: why this probe is minimal and high-signal.
+- Closure / Next Probe (optional): only if evidenced; otherwise omit.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the RAW CHUNKS SCHEMA defined in chunk_rules_global.txt.
+- Never exceed global chunk limits.

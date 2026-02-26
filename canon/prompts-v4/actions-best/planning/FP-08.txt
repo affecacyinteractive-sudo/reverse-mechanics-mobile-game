@@ -1,0 +1,45 @@
+===== FP-08 =====
+
+Input Grammar *(Tripwires / early failure alarms)*
+
+### Simple prose (2 required INPUT blanks)
+
+Set tripwires for **[Subject / Slice : Targets]** to protect **[Protected Truth : Intent]**.
+
+**Required INPUT blanks (2)**
+
+* **[Subject / Slice : Targets]** — the scope you’re guarding.
+* **[Protected Truth : Intent]** — the truth you’re protecting (North Star / Done Receipt / Scope Fence).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Set tripwires for **[Subject / Slice : Targets]** to protect **[Protected Truth : Intent]**,
+using **[Failure Memories : Chronicle]** to predict drift and **[Risk Surfaces : Packets]** to spot where it will accumulate.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[Failure Memories : Chronicle]** — past failures, known drift patterns, “what usually goes wrong” notes.
+* **[Risk Surfaces : Packets]** — code areas where complexity/coupling/scope creep tends to pile up.
+
+WHAT TO PRODUCE (contract)
+Produce a tripwire set that catches wrong direction early:
+
+1) Drift Signals: 2–4 observable signals that indicate the work is drifting away from the intended value (e.g., feature creep, complexity creep, mismatch with intended user).
+2) Complexity Signals: 1–3 observable signals that indicate the system is becoming harder than necessary for the intended outcome (e.g., too many states, too many branches, too many configuration knobs), framed as alarms not tasks.
+3) Dependency / Coupling Signals: 1–3 observable signals that indicate unhealthy coupling or brittle dependencies (where changes cascade unexpectedly).
+4) Recovery Move: for each signal, one sentence stating the smallest corrective posture (not a plan; a “move” like “tighten scope fence,” “simplify seam,” “re-anchor to receipt”).
+5) Closure Check: one sentence that helps decide whether a proposed change trips an alarm.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Drift Signals: early observable alarms that we’re moving away from intended value.
+- Complexity Signals: early observable alarms that the system is getting harder than necessary.
+- Dependency / Coupling Signals: alarms that indicate brittle coupling or cascading change risk.
+- Recovery Moves: smallest corrective posture for each alarm (not a plan).
+- Closure Check: decision test for whether a proposed change trips an alarm.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the RAW CHUNKS SCHEMA defined in chunk_rules_global.txt.
+- Never exceed global chunk limits.

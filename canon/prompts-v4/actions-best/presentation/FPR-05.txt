@@ -1,0 +1,45 @@
+===== FPR-05 =====
+
+Input Grammar *(Slice Boundary Card / what it owns)*
+
+### Simple prose (2 required INPUT blanks)
+
+Define the boundary of **[Slice : Targets]** based on **[Boundary Intent : Intent]**.
+
+**Required INPUT blanks (2)**
+
+* **[Slice : Targets]** — the slice/feature boundary you’re defining.
+* **[Boundary Intent : Intent]** — what you’re trying to protect (prevent sprawl, clarify ownership, reduce coupling).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Define the boundary of **[Slice : Targets]** based on **[Boundary Intent : Intent]**,
+using **[Ownership Evidence : Packets]** to see what it actually touches and **[Sprawl Stories : Chronicle]** to capture why the boundary matters.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[Ownership Evidence : Packets]** — snippets revealing responsibilities, seams, state ownership, and who calls whom.
+* **[Sprawl Stories : Chronicle]** — pain from sprawl, confusion points, “this keeps absorbing stuff” notes.
+
+WHAT TO PRODUCE (contract)
+1) Slice Identity: where it lives (file/entity/region) and what the slice is named as (grounded).
+2) Inside the Slice (owns): 2–5 short ownership bullets expressed as sentences (capabilities/responsibilities), grounded in evidence.
+3) Outside the Slice (must not absorb): 1–3 short “not-owned” responsibilities that belong elsewhere, grounded (or omit if not evidenced).
+4) Seam Touchpoints: the 2–4 grounded seams where other slices interact with it (inputs/outputs/events/calls/handles).
+5) Safety Rail: one sentence stating what must remain stable to keep the boundary intact (invariant/seam), grounded.
+6) Closure Check: one sentence describing how you verify you stayed inside the boundary when making changes (builder-facing).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Slice Identity: where it lives + what it is.
+- Inside the Slice: what responsibilities/capabilities it owns (grounded).
+- Outside the Slice: what responsibilities it must not absorb (grounded; omit if not evidenced).
+- Seam Touchpoints: how other parts interact with this slice (inputs/outputs/events/calls/handles).
+- Safety Rail: the invariant/seam that must stay stable.
+- Closure Check: how to confirm changes stayed within the boundary.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the RAW CHUNKS SCHEMA defined in chunk_rules_global.txt.
+- Never exceed global chunk limits.

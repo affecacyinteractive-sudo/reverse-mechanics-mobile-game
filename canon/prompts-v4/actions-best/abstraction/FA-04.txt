@@ -1,0 +1,50 @@
+===== FA-04 =====
+
+Input Grammar *(Pattern Boundary & Variants)*
+
+### Simple prose (2 required INPUT blanks)
+
+Define the boundary of **[Pattern Candidate : Targets]** for **[Boundary Intent : Intent]**.
+
+**Required INPUT blanks (2)**
+
+* **[Pattern Candidate : Targets]** — the pattern/mechanism you’re trying to define (the reusable “shape”).
+* **[Boundary Intent : Intent]** — why you’re drawing the boundary (reuse, classification, variant planning, choosing the right tool).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Define the boundary of **[Pattern Candidate : Targets]** for **[Boundary Intent : Intent]**,
+using **[Axis Evidence : Packets]** to see what can vary in implementation and **[Variant Stories : Chronicle]** to capture what changes in practice.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[Axis Evidence : Packets]** — snippets showing where the pattern’s axes show up (storage choice, ordering logic, sync/async, policy gates).
+* **[Variant Stories : Chronicle]** — “when we changed axis X, this broke/worked” notes that reveal the real boundary.
+
+
+WHAT TO PRODUCE (contract)
+Produce ONE Pattern Boundary & Variants card for the PRIMARY abstraction:
+
+1) Pattern Identity: the named pattern/mechanism you are mapping.
+2) Core Invariants (2–5): the minimum truths that must remain true for it to still be “the same pattern.”
+3) Degrees of Freedom (2–5): what can vary without breaking the pattern (inputs, ordering, storage choice, sync vs async, etc.), stated as allowed variation ranges.
+4) Variant Families (2–4): named families that cluster the degrees of freedom into meaningful “versions” of the pattern (each family defined in one sentence).
+5) Boundary Line: one sentence stating what changes would turn it into a different pattern (the “not this anymore” line).
+6) Seam Implications (optional): one short note on how variant choice affects seams (handoffs) without expanding into neighbor internals.
+7) Closure Check: one sentence that lets a builder classify a concrete implementation as “still this pattern” vs “not this pattern.”
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Pattern Identity: which abstraction you are mapping.
+- Core Invariants: the minimum truths that must remain true (2–5).
+- Degrees of Freedom: what can vary without breaking the pattern (2–5).
+- Variant Families: 2–4 named families that cluster the degrees of freedom.
+- Boundary Line: what would make it become a different pattern.
+- Seam Implications (optional): how variant choice affects seams/handoffs.
+- Closure Check: how to classify a concrete implementation against this map.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the RAW CHUNKS SCHEMA defined in chunk_rules_global.txt.
+- Never exceed global chunk limits.

@@ -1,0 +1,45 @@
+===== FP-10 =====
+
+Input Grammar *(Scope Fence / what we will not absorb)*
+
+### Simple prose (2 required INPUT blanks)
+
+Set a scope fence for **[Subject / Slice : Targets]** based on **[Fence Intent : Intent]**.
+
+**Required INPUT blanks (2)**
+
+* **[Subject / Slice : Targets]** — the scope you’re fencing.
+* **[Fence Intent : Intent]** — why you need a boundary right now (what you’re trying to keep winnable).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Set a scope fence for **[Subject / Slice : Targets]** based on **[Fence Intent : Intent]**,
+using **[Pressure Notes : Chronicle]** to name what’s tempting and **[Sprawl Evidence : Packets]** to show where scope would explode.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[Pressure Notes : Chronicle]** — temptations, stakeholder pressure, known scope creep risks.
+* **[Sprawl Evidence : Packets]** — code surfaces where adding more would cause coupling/complexity.
+
+WHAT TO PRODUCE (contract)
+Produce a Scope Fence that prevents creeping responsibility:
+
+1) In-Scope Core: 2–4 statements describing what is definitely inside the fence (what the system takes responsibility for).
+2) Out-of-Scope Exclusions: 3–6 statements describing what is explicitly outside the fence (things we will not build or support).
+3) Refusal Rules: 1–3 “we will not” rules that the product should enforce or the team should honor (prevents accidental absorption).
+4) Edge Handling Posture: 1–2 statements describing how to behave when an out-of-scope edge is encountered (ignore, defer, link out, show message, etc.) without specifying UI copy.
+5) Closure Check: one sentence that lets a builder decide whether a proposed change crosses the fence.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- In-Scope Core: what the system definitely owns.
+- Out-of-Scope Exclusions: what the system explicitly does not own.
+- Refusal Rules: the strongest “we will not” rules that prevent absorption.
+- Edge Handling Posture: what happens when out-of-scope edges appear (posture, not UI copy).
+- Closure Check: decision test for whether a change crosses the fence.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the RAW CHUNKS SCHEMA defined in chunk_rules_global.txt.
+- Never exceed global chunk limits.

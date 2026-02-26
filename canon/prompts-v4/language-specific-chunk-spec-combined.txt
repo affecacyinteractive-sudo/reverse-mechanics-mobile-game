@@ -1,0 +1,434 @@
+STAGE 0 — UNIVERSAL BASELINE (ships first)
+Applies to ALL programming languages and allied code-like artifacts unless a later language-family profile overrides a detail.
+
+RAW CHUNK BUDGET (per run)
+- Typical scope: 6–10 chunks
+- Significant scope: 10–14 chunks
+- Very large scope: 15–18 chunks (exceptional)
+- Never exceed 18 chunks.
+
+PATCH SEGMENT BUDGET (per run)
+- Max 1–3 Patch Segments total.
+- A Patch Segment = one TEXT framing chunk + one linked CODE chunk.
+- If more work remains after 1–3 segments, stop at the minimum working slice and record remainder as Progress/Next in TEXT (or rely on Curator to distill).
+
+SEQUENCING (hard)
+- Never emit consecutive CODE chunks.
+- Every CODE chunk must be preceded by a TEXT chunk that states what changed and why (and where only if evidenced).
+- Keep the run anchored: each chunk must be one idea (one decision, one observation, one constraint, one micro-change, one verification claim).
+
+TEXT CHUNK RULES (hard)
+- 1–8 newline-delimited lines. Never exceed 8.
+- 20–60 words. Prefer 20–40; use 41–60 only when necessary.
+- Continuous thought only (no bullets, no lists, no headings inside the body).
+- Prefer 1–3 short sentences (up to 4 if within budget).
+
+CODE CHUNK RULES (hard)
+- 8–12 newline-delimited lines of code. Never exceed 12.
+- Code only (no prose, no markdown fences).
+- Local snippet only: one cohesive unit (one function/method fragment, one handler branch, one template fragment, one query block, one config fragment, one resource/job snippet). Not a whole file.
+- Minimal context only: include just enough surrounding lines to apply the change safely; include imports/includes only if required and keep them minimal.
+
+CODE READABILITY (recommended)
+- Keep lines short to avoid wrap on mobile; break long expressions/args/objects across lines.
+- Avoid “one-liner dumps” and huge inline literals; prefer a few short lines over a dense line.
+- Recommended token budget: aim for ~40–70 whitespace tokens; allow up to ~90 only if unavoidable.
+
+LINKING (hard)
+- Each Patch Segment’s TEXT chunk must link to its CODE chunk.
+- CODE chunks should be independently patchable snippets consistent with the grounded surface (targets/projections); never invent file paths/APIs.
+
+ANTI-BLOAT STOP CONDITION (hard)
+- Do not “finish everything.” Prefer the smallest viable change that advances the action’s promise.
+- When scope expands, stop after the minimum working slice and capture the rest as Progress/Next rather than adding more Patch Segments.
+
+STAGE 1 — WEB/UI FAMILY PROFILE (JS ecosystem + templates)
+This profile sits on top of STAGE 0 (Universal Baseline). All Stage 0 rules still apply. These are additional “shape + bloat-prevention” hints for web UI work.
+
+APPLIES TO
+- TS / JS
+- React / Vue / Svelte / Angular
+- HTML / CSS
+
+COHESIVE UNIT (what “one CODE chunk” typically is)
+- TS/JS: one small helper, one handler branch, one adapter mapping, one validator, one hook fragment, one service method fragment.
+- React/Vue/Svelte/Angular: one component fragment OR one hook/service fragment OR one template fragment that changes behavior (not a whole component file).
+- HTML: one small markup fragment (a single section/component block), not a full page.
+- CSS: one selector block (or one @media block if necessary) containing only properties relevant to the change.
+
+COMMON BLOAT TRAPS (avoid)
+- Giant JSX/template blocks with many nested children.
+- Long prop lists on one line, especially with inline objects/functions.
+- Huge inline object/array literals (theme objects, config maps, route tables).
+- Long chained calls (map/filter/reduce/pipe) that become unreadable on mobile.
+- “Refactor by paste”: dumping large unchanged surrounding code for context.
+
+MOBILE-FRIENDLY FORMATTING (strong)
+- Prefer vertical formatting:
+  - Break JSX/props across multiple lines.
+  - Break object literals across multiple lines with only the edited keys.
+  - Break long call chains into 2–4 lines with intermediate variables when needed.
+- Keep each line short enough to avoid wrap; rewrite rather than letting a single line overflow.
+- Prefer explicit small variables over dense inline expressions.
+
+MINIMAL CONTEXT (recommended)
+- Only include the smallest surrounding context needed to apply the change:
+  - For components: the nearest JSX/template fragment + the minimal state/props lines it depends on.
+  - For styles: the selector + changed properties only.
+  - For TS/JS logic: the function signature + edited core lines.
+- Imports are allowed only if required; keep to 1–2 lines and prefer existing import style.
+
+PATCH SEGMENT PRACTICE (recommended)
+- 1 Patch Segment is often enough for UI changes; 2–3 only when absolutely necessary.
+- If you need more than 3 micro-changes, stop and record Progress/Next rather than emitting more CODE chunks.
+
+VERIFICATION STYLE (recommended)
+- Prefer a concrete “UI signal” check: what the user sees after the interaction.
+- If the change is non-visual (state/data), mention the observable effect (rendered value, network call, stored preference) in the framing TEXT chunk.
+
+STAGE 2 — SCRIPTING FAMILY PROFILE
+This profile sits on top of STAGE 0 (Universal Baseline). All Stage 0 rules still apply. These are additional “shape + readability” hints for scripting languages.
+
+APPLIES TO
+- Python
+- Ruby
+- PHP
+
+COHESIVE UNIT (what “one CODE chunk” typically is)
+- One function/method, one small helper, one handler branch, one validator, one small class method fragment.
+- One small control-flow correction (early return / guard / exception handling tweak) that is locally patchable.
+- Avoid whole-file scripts; avoid multi-function dumps.
+
+COMMON BLOAT TRAPS (avoid)
+- Deep nesting (if/for/try chains) that consumes line budget and becomes unreadable.
+- Large dict/hash literals or long string templates inline.
+- Big refactors that move many responsibilities at once.
+- Pasting lots of unchanged surrounding code “for context.”
+
+MOBILE-FRIENDLY FORMATTING (strong)
+- Prefer shallow control flow:
+  - Use guard clauses / early returns to reduce nesting.
+  - Keep try/except (or begin/rescue) blocks tight and local.
+- Keep lines short; break long calls/arguments across lines in the language’s idiomatic style.
+- Prefer a couple clear lines over one dense expression.
+
+MINIMAL CONTEXT (recommended)
+- Include just enough context to apply safely:
+  - def signature + edited body lines.
+  - For class methods, include the method signature and the few relevant lines around the edit.
+- Imports/includes only if required; keep minimal (1–2 lines).
+
+PATCH SEGMENT PRACTICE (recommended)
+- 1–2 Patch Segments is usually enough for scripting fixes; use 3 only when truly necessary.
+- If you find yourself needing multiple helpers, stop after the smallest working slice and capture Progress/Next rather than adding more Patch Segments.
+
+VERIFICATION STYLE (recommended)
+- State one concrete check in the framing TEXT chunk:
+  - “Given input X, output becomes Y” or “Error Z no longer occurs.”
+- Avoid writing full test suites inside the run; keep checks lightweight unless the action explicitly calls for tests.
+
+STAGE 3 — MANAGED OO FAMILY PROFILE
+This profile sits on top of STAGE 0 (Universal Baseline). All Stage 0 rules still apply. These are additional “shape + bloat-prevention” hints for managed OO languages.
+
+APPLIES TO
+- Java
+- Kotlin
+- C#
+- Swift (if/when included)
+
+COHESIVE UNIT (what “one CODE chunk” typically is)
+- One method/function body change, one small helper method, one guard/validation branch, one mapping/adaptor fragment.
+- One interface/DTO/model tweak only if it is essential and minimal (avoid cascades).
+- One small class fragment is acceptable only if it is the smallest patchable unit (not a full class file dump).
+
+COMMON BLOAT TRAPS (avoid)
+- Boilerplate floods: getters/setters, constructors, full DTO/class definitions when only one field matters.
+- Large annotation blocks or framework scaffolding pasted for context.
+- Wide signatures and generic types on one line that force wrap.
+- Changing multiple classes/packages in one go “to clean things up.”
+
+MOBILE-FRIENDLY FORMATTING (strong)
+- Keep nesting shallow; use guard clauses where idiomatic.
+- Break long signatures/argument lists across lines.
+- Break long generic/type-heavy expressions across lines; prefer a short local variable rather than a long chain.
+- Avoid long fluent chains (builder patterns) in one line; split into multiple lines or introduce an intermediate variable.
+
+MINIMAL CONTEXT (recommended)
+- Include method signature + only the edited core lines.
+- Include class header/fields only if the edit depends on them and cannot be understood/applied otherwise.
+- Imports/usings only if required; keep to 1–2 lines and prefer existing style.
+
+PATCH SEGMENT PRACTICE (recommended)
+- Prefer 1–2 Patch Segments for a typical OO edit; use 3 only for truly necessary multi-spot changes.
+- If the change implies a cascade (signature changes across many callers), stop after the minimal safe step and record Progress/Next rather than emitting more CODE chunks.
+
+VERIFICATION STYLE (recommended)
+- In the framing TEXT chunk, state one concrete check:
+  - “This method now returns X for input Y,” or “Callers now receive a typed error instead of null.”
+- Avoid adding large test harnesses; keep any test change to a single small test case if absolutely necessary.
+
+STAGE 4 — SYSTEMS FAMILY PROFILE
+This profile sits on top of STAGE 0 (Universal Baseline). All Stage 0 rules still apply. These are additional “shape + context control” hints for systems languages.
+
+APPLIES TO
+- Go
+- Rust
+- C / C++
+
+COHESIVE UNIT (what “one CODE chunk” typically is)
+- One function or one method/impl fragment.
+- One small branch/guard, one error-handling adjustment, one local mapping/adaptor, one small trait/interface method change.
+- One small struct/enum field change only if essential and local (avoid cascades).
+
+COMMON BLOAT TRAPS (avoid)
+- Verbose type/lifetime/context dumps (full struct/module impls when only one method matters).
+- Macro-heavy blocks or generated code.
+- Large include/use/import lists pasted for context.
+- Large refactors that touch many files/functions at once.
+
+MOBILE-FRIENDLY FORMATTING (strong)
+- Break long type signatures and long generic/lifetime-heavy lines across lines.
+- Prefer short local variables over dense expressions.
+- Keep nesting shallow; use early returns/guards where idiomatic.
+- Keep error handling tight and local; avoid sprawling match/switch blocks unless unavoidable.
+
+MINIMAL CONTEXT (recommended)
+- Include the function/method signature + the edited core lines only.
+- Imports/includes only if required; keep minimal (1–2 lines).
+- Avoid pasting full structs/modules; include only the relevant member signature if needed for context.
+
+PATCH SEGMENT PRACTICE (recommended)
+- 1–2 Patch Segments is typical; 3 only if essential.
+- If the change would require widespread signature/caller updates, stop after the smallest safe step and record Progress/Next rather than emitting more CODE chunks.
+
+VERIFICATION STYLE (recommended)
+- Frame one concrete safety check in the preceding TEXT chunk:
+  - “This path now returns Err(X) instead of panicking,”
+  - “This function remains behavior-identical for valid inputs.”
+- Avoid large benchmark/test harness dumps; if a test is necessary, keep it to one small case only.
+
+STAGE 5 — DATA / QUERY FAMILY PROFILE
+This profile sits on top of STAGE 0 (Universal Baseline). All Stage 0 rules still apply. These are additional “unit definition + formatting” hints for data/query artifacts.
+
+APPLIES TO
+- SQL (Postgres/MySQL/SQLite) and migrations
+- GraphQL (queries/mutations/fragments; schema snippets)
+
+COHESIVE UNIT (what “one CODE chunk” typically is)
+- SQL:
+  - One query (SELECT/INSERT/UPDATE/DELETE) OR one CTE block (WITH ... ) that supports a single query.
+  - One small migration fragment (one table/column/index change) if needed.
+- GraphQL:
+  - One query/mutation OR one fragment OR one small schema field/type addition (not full schema dumps).
+
+COMMON BLOAT TRAPS (avoid)
+- Multi-query dumps (several unrelated statements in one chunk).
+- Full schema/migration files pasted for context.
+- Unformatted queries that become unreadable on mobile.
+- Huge column lists or deeply nested GraphQL selections without need.
+
+MOBILE-FRIENDLY FORMATTING (strong)
+- SQL:
+  - Always format for readability: line breaks for SELECT fields, FROM/JOIN/WHERE clauses, and CTE sections.
+  - Keep column lists tight; include only fields relevant to the change.
+- GraphQL:
+  - Keep selection sets small; include only fields required for the behavior.
+  - Prefer fragments when it reduces repetition, but keep fragment itself small.
+
+MINIMAL CONTEXT (recommended)
+- SQL:
+  - Include only the statement(s) directly related to the change; avoid unrelated DDL.
+  - If a migration is required, include only the minimal DDL fragment.
+- GraphQL:
+  - Include only the operation/fragment/schema snippet; avoid surrounding schema noise.
+
+PATCH SEGMENT PRACTICE (recommended)
+- 1 Patch Segment is usually enough for query tweaks; 2–3 only if you must change both query + migration/schema.
+- If the change requires large schema reshaping, stop after the minimal safe step and record Progress/Next rather than emitting more CODE chunks.
+
+VERIFICATION STYLE (recommended)
+- In the preceding TEXT chunk, state one concrete check:
+  - SQL: “For inputs X, the query now returns rows shaped like Y” or “the WHERE clause now excludes Z.”
+  - GraphQL: “This operation now returns field F and omits G,” or “schema now exposes type T.field.”
+
+STAGE 6 — CONFIG / BUILD FAMILY PROFILE (allied tech)
+This profile sits on top of STAGE 0 (Universal Baseline). All Stage 0 rules still apply. These are additional “fragment discipline + readability” hints for config/build artifacts.
+
+APPLIES TO
+- JSON / YAML / TOML (general config)
+- TSConfig / Babel / ESLint / Prettier configs
+- Vite / Webpack / Rollup build config
+- package.json (scripts/deps) and package-manager configs (npm/yarn/pnpm)
+
+COHESIVE UNIT (what “one CODE chunk” typically is)
+- One minimal config fragment that changes one behavior:
+  - One key/path change (or one small nested object) in JSON/YAML/TOML.
+  - One build rule/plugin tweak (single plugin config block or single rule).
+  - One package.json change: one script OR one dependency change set that supports one behavior (avoid large dep lists).
+  - One lint/format rule change (single rule block) when necessary.
+
+COMMON BLOAT TRAPS (avoid)
+- Pasting the entire config file “for context.”
+- Large dependency dumps or long scripts with many chained commands.
+- Huge nested objects/arrays; large rule sets copied wholesale.
+- Multiple unrelated config changes in one chunk.
+
+MOBILE-FRIENDLY FORMATTING (strong)
+- Show only the relevant keys; keep indentation clean and shallow.
+- Break long scripts/commands into shorter lines only if the format allows (otherwise simplify the command).
+- Prefer small, explicit config blocks over dense inline arrays/objects.
+
+MINIMAL CONTEXT (recommended)
+- Include only the smallest surrounding structure needed to place the change:
+  - For JSON/YAML: include the parent key path and the edited leaf(s).
+  - For build configs: include the smallest config function/object around the edited rule.
+  - For package.json: include only the edited section (scripts or dependencies) with minimal neighbors.
+
+PATCH SEGMENT PRACTICE (recommended)
+- 1 Patch Segment is typical for config changes; 2 only when you must touch both build config and package.json.
+- If the change implies broad reconfiguration, stop after the minimal enabling step and record Progress/Next rather than emitting more CODE chunks.
+
+VERIFICATION STYLE (recommended)
+- In the preceding TEXT chunk, state one concrete check:
+  - “Build now succeeds with X,” “lint now enforces Y,” “dev server serves route Z,” “bundle output changes in this specific way.”
+- Avoid long diagnostic logs; keep verification as a single observable statement.
+
+STAGE 7 — INFRA / DEVOPS FAMILY PROFILE (allied tech)
+This profile sits on top of STAGE 0 (Universal Baseline). All Stage 0 rules still apply. These are additional “snippet discipline + safety” hints for infra artifacts.
+
+APPLIES TO
+- Dockerfile
+- Kubernetes YAML
+- Terraform
+- CI pipelines (GitHub Actions / GitLab CI / CircleCI)
+- Shell scripts used for build/deploy/ops
+
+COHESIVE UNIT (what “one CODE chunk” typically is)
+- Dockerfile: one small set of related lines (one stage fragment, one RUN/COPY/ENV tweak) that changes one behavior.
+- Kubernetes: one resource snippet (or one container/spec fragment) that changes one behavior (not full manifest dumps).
+- Terraform: one resource/module block fragment (or one small attribute set) that changes one behavior.
+- CI: one job/step snippet (or one small job fragment) that changes one behavior.
+- Shell: one small function or one short pipeline fragment; avoid long multi-step scripts.
+
+COMMON BLOAT TRAPS (avoid)
+- Full manifest/workflow dumps “for context.”
+- Copying big boilerplate (RBAC, full Helm charts, multi-resource YAML bundles).
+- Long shell pipelines on a single line; huge multiline scripts in one chunk.
+- Multiple unrelated infra changes in one run.
+
+MOBILE-FRIENDLY FORMATTING (strong)
+- Always format YAML/HCL cleanly with minimal nesting shown.
+- Keep shell commands short; prefer multiple short lines over one huge chained line.
+- Avoid long argument lists; break flags across lines when possible/readable.
+
+MINIMAL CONTEXT (recommended)
+- Include only the smallest surrounding block needed to apply safely:
+  - K8s: show the nearest `spec:` fragment relevant to the change.
+  - Terraform: show the resource header + edited attributes only.
+  - CI: show the job header + the edited step(s) only.
+  - Dockerfile: show only the related lines around the edit; don’t paste whole stages unless necessary.
+
+SAFETY GUARDS (recommended)
+- Prefer least-privilege snippets; avoid broad permissions unless explicitly required.
+- Avoid embedding secrets; reference env/secret mechanisms instead.
+- Avoid destructive commands by default (no “wipe”, “rm -rf”, cluster-wide deletes) unless explicitly required and grounded.
+
+PATCH SEGMENT PRACTICE (recommended)
+- 1 Patch Segment is typical; 2–3 only when you must adjust both infra and its calling script/CI step.
+- If change requires broad infra redesign, stop after the minimal enabling step and record Progress/Next rather than emitting more CODE chunks.
+
+VERIFICATION STYLE (recommended)
+- In the preceding TEXT chunk, state one concrete check:
+  - “Image builds,” “pod starts and passes readiness,” “CI job completes,” “terraform plan shows only X change.”
+- Do not paste long logs; keep verification to a single observable outcome.
+
+STAGE 8 — TESTING FAMILY PROFILE
+This profile sits on top of STAGE 0 (Universal Baseline). All Stage 0 rules still apply. These are additional “unit sizing + proof discipline” hints for test artifacts.
+
+APPLIES TO
+- Unit/integration tests (language-appropriate frameworks)
+- JS ecosystem: Jest / Vitest
+- E2E: Playwright / Cypress
+- Test fixtures/mocks when necessary
+
+COHESIVE UNIT (what “one CODE chunk” typically is)
+- One test case (one `it/test(...)` block) OR one small helper/fixture used by a single test.
+- For E2E: one short scenario path (one “happy path” or one boundary case), not an entire suite.
+
+COMMON BLOAT TRAPS (avoid)
+- Dumping an entire test file or multiple unrelated test cases in one chunk.
+- Overbuilding fixtures/mocks that dominate the line budget.
+- Large golden snapshots, large recorded payloads, or big inline HTML/JSON blobs.
+- Writing a full “testing strategy essay” inside the code chunk.
+
+MOBILE-FRIENDLY FORMATTING (strong)
+- Keep arrange/act/assert readable in a few lines; avoid deep nesting.
+- Prefer small named helpers over long inline setup (but don’t introduce many helpers at once).
+- Keep assertions tight; prefer one key assertion per test when possible.
+
+MINIMAL CONTEXT (recommended)
+- Include only what the test needs to run:
+  - minimal imports (1–2 lines if required),
+  - the test case block,
+  - tiny fixture lines only if essential.
+- Avoid pasting unrelated utilities or suite-level setup.
+
+PATCH SEGMENT PRACTICE (recommended)
+- Prefer 1 Patch Segment for “add proof” changes; 2 only if you must add a tiny helper plus the test.
+- If proving the change would require many tests, add only the most representative one and record Progress/Next for additional coverage.
+
+VERIFICATION STYLE (recommended)
+- The preceding TEXT chunk should state the proof intent in one sentence:
+  - “This test demonstrates the bug no longer occurs,” or “This test locks the new rule.”
+- Prefer tests that directly demonstrate the action’s promise (symptom fixed, rule changed, seam works, etc.).
+
+STAGE 9 — EXPANSION + GOVERNANCE (keep specs scalable)
+
+GOAL
+- Expand coverage to new languages/technologies without creating one-off specs per language.
+- Keep the system consistent: same chunk rhythm, same mobile constraints, same “bounded move” philosophy.
+
+GOVERNANCE MODEL
+- Maintain a small PROFILE REGISTRY (language-family profiles) layered on top of STAGE 0 (Universal Baseline).
+- New profiles must be rare. Prefer extending an existing family profile before creating a new one.
+
+WHEN TO CREATE A NEW PROFILE (only if one of these is consistently true)
+1) The smallest meaningful unit is not “function-like” (e.g., queries, configs, manifests).
+2) Required syntax/boilerplate repeatedly consumes the 8–12 line budget and harms patchability.
+3) Mobile readability breaks frequently due to language-specific line/formatting patterns.
+4) Telemetry shows repeated failure modes that a profile would prevent (see metrics below).
+
+PROFILE REGISTRY FIELDS (store as a compact spec)
+- family_name
+- applies_to (languages/artifact types)
+- cohesive_unit (what a CODE chunk should typically be)
+- bloat_traps (top 3–5 common failure patterns)
+- formatting_rules (mobile-friendly conventions)
+- minimal_context (what context is allowed/expected)
+- verification_style (how to state proof concisely)
+
+CHANGE CONTROL
+- Any profile change must preserve STAGE 0 hard rules (chunk count caps, line caps, no consecutive CODE, Patch Segment rhythm).
+- Prefer “recommended” language hints over new “hard” rules unless they prevent consistent breakage.
+- Keep profiles short: aim ≤ 15 lines of spec per family.
+
+ROLL-OUT PROCESS (safe iteration)
+1) Observe: identify recurring failures from real runs (see telemetry).
+2) Propose: add 1–2 profile bullets targeting the failure (not a rewrite).
+3) Validate: run a small batch across representative actions (FI/FU/FS) and check metrics.
+4) Ship: update profile registry; document the one-liner reason.
+5) Reassess: if the fix doesn’t move metrics, revert or simplify.
+
+TELEMETRY (what to track continuously)
+- Chunk count distribution per action (median; % runs hitting 15–18).
+- Patch Segment count per run (median; % runs exceeding 3 attempts).
+- Line-wrap risk proxy (presence of very long lines; frequent wrapping in UI).
+- Normalizer “compress instead” frequency (how often it must shrink because it would exceed 18 chunks).
+- Curator compression ratio (how often keystones successfully capture the run without needing high chunk counts).
+- Patch applicability (do CODE chunks contain enough context to apply cleanly?).
+- Evidence failures (how often actions that want CODE must fall back to TEXT-only due to missing targets/projections).
+
+PRINCIPLE (keep it simple)
+- Default to STAGE 0 + the smallest matching family profile.
+- Only add a new family when you can point to repeated measurable breakage that the family fixes.
+
