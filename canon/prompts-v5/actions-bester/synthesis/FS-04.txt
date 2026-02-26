@@ -1,0 +1,54 @@
+===== BEGIN: synthesis/FS-04.txt =====
+===== FS-04 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+INPUT GRAMMAR *(Seam Stitch / two-endpoint glue)*
+### Simple prose (2 required INPUT blanks)
+Stitch **[Primary Endpoint : Targets]** with **[Counterpart Endpoint : Targets]**.
+
+**Required INPUT blanks (2)**
+- **[Primary Endpoint : Targets]** — the first surface/flow in the seam (the one you’re extending or relying on).
+- **[Counterpart Endpoint : Targets]** — the second surface/flow that must connect cleanly with the first.
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+Stitch **[Primary Endpoint : Targets]** with **[Counterpart Endpoint : Targets]**,
+using **[Endpoint Shape Evidence : Packets]** to resolve interface mismatches and **[Seam Behavior Notes : Chronicle]** to lock the intended guarantee.
+
+**Optional INPUT blanks (descriptions)**
+- **[Endpoint Shape Evidence : Packets]** — snippets showing both endpoints’ call/receipt shapes, adapters, and mismatch points.
+- **[Seam Behavior Notes : Chronicle]** — symptoms of mismatch, desired coherence, constraints, past failures.
+
+WHAT TO PRODUCE (contract)
+Produce a seam stitch that makes the two endpoints behave like one coherent flow:
+1) Endpoint Pair: name the two endpoints being stitched and what each represents.
+2) Bridge Relation: state the intended connective operation (integrate/compare/map/reconcile/extend/replace/generalize/instantiate).
+3) Seam Guarantee: one promise the stitch must uphold (shape, ordering, error propagation, auth-before-write, etc.).
+4) Seam Placement: where the glue lives (adapter, boundary module, orchestration point).
+5) Boundary Mismatch (optional): one friction point being resolved (shape/timing/responsibility overlap).
+6) Patch Segment(s): 1–3 directional patch segments that implement the stitch (TEXT framing + CODE).
+7) Closure Check: one sentence stating the observable proof that the seam is stitched.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Endpoint Pair
+- Bridge Relation
+- Seam Guarantee
+- Seam Placement
+- Boundary Mismatch (optional)
+- Patch Segment (repeatable; 1–3 max)
+- Closure Check
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- Patch segments are allowed (1–3 max) and must obey the global patch-segment rules.
+- Never exceed global chunk limits or patch-segment budget.
+===== END:   synthesis/FS-04.txt =====

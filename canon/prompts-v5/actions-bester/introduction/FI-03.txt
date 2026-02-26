@@ -1,0 +1,59 @@
+===== BEGIN: introduction/FI-03.txt =====
+===== FI-03 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+Input Grammar *(Rule Shift / Before → After)*
+
+### Simple prose (2 required INPUT blanks)
+
+Change the rule for **[Decision Surface : Targets]** to **[After Rule : Intent]**.
+
+**Required INPUT blanks (2)**
+
+* **[Decision Surface : Targets]** — where the rule is enforced (validation gate, permission check, routing choice, state transition, pricing calc, etc.).
+* **[After Rule : Intent]** — the new policy phrased as **IF/WHEN → THEN**.
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Change the rule for **[Decision Surface : Targets]** to **[After Rule : Intent]**,
+using **[Rule Evidence Slice : Packets]** to see the current enforcement and **[Case Notes : Chronicle]** to anchor the behavior change in reality.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[Rule Evidence Slice : Packets]** — the code surfaces that currently implement or reference the rule (guards, validators, branching logic).
+* **[Case Notes : Chronicle]** — the concrete scenario + expected impact (“in this case it should now do…”, what should change / not change).
+
+WHAT TO PRODUCE (contract)
+1) Slice Identity: name the existing slice being extended (grounded) and the new sub-capability being added (one sentence).
+2) Extension Promise (Now-true): one sentence: “If pledged, the user can now ___ within the slice.”
+3) Extension Seam: the smallest new/changed seam in the slice (UI trigger / handler / function branch / component prop) that enables the sub-capability.
+4) Minimum Additions (data/state): the smallest new state/data needed (or explicit reuse), and where it lives.
+5) Patch Segment(s): 1–3 directional local edits that add the sub-capability while preserving existing behavior.
+6) Impact Note (required): one sentence stating what existing behavior is intentionally preserved (the “still true” constraint).
+7) Closure Check: one sentence describing how to confirm the new sub-capability works (no blueprint progress).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Slice Identity: which slice is being extended + what sub-capability is being added.
+- Extension Promise: the new “now-true” behavior inside the slice.
+- Extension Seam: the smallest seam/branch/trigger you add or change.
+- Minimum Additions (data/state): minimal new state/data (or explicit reuse).
+- Patch Segment (repeatable): a small TEXT framing chunk + a paired CODE chunk implementing one local extension change; repeat only as needed (1–3 max).
+- Impact Note: the key “still true” behavior constraint (what remains unchanged).
+- Closure Check: confirm the new behavior with a minimal check (no blueprint progress).
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- Never exceed global chunk limits; never exceed the global patch-segment budget.
+===== END:   introduction/FI-03.txt =====

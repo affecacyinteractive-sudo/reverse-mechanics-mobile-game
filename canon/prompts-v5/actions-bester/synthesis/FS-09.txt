@@ -1,0 +1,60 @@
+===== BEGIN: synthesis/FS-09.txt =====
+===== FS-09 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+INPUT GRAMMAR *(Missing Sibling / complete a family)*
+### Simple prose (2 required INPUT blanks)
+Add a missing sibling to **[Family : Targets]** for **[Family Gap Intent : Intent]**.
+
+**Required INPUT blanks (2)**
+- **[Family : Targets]** — the existing family you’re completing (the group the sibling should belong to).
+- **[Family Gap Intent : Intent]** — why the family feels incomplete (the gap/pain you’re fixing).
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+Add a missing sibling to **[Family : Targets]** for **[Family Gap Intent : Intent]**,
+using **[Sibling Shape Evidence : Packets]** to mirror the family seams and **[Gap Stories : Chronicle]** to define what “complete” should feel like.
+
+**Optional INPUT blanks (descriptions)**
+- **[Sibling Shape Evidence : Packets]** — snippets showing existing siblings’ shapes/seams and where a new one should plug in.
+- **[Gap Stories : Chronicle]** — why the gap hurts, how siblings are used, what “complete” should feel like.
+
+WHAT TO PRODUCE (contract)
+Produce one missing sibling that completes the family:
+1) Family Identity: one sentence naming the family and what makes it a coherent set.
+2) Missing Sibling: one sentence naming the new sibling and what gap it fills.
+3) Family Fingerprint: one concrete shape signature for membership (call shape, return shape, lifecycle beats).
+4) Reference Member(s): 1–2 siblings being mirrored for consistency.
+5) Variant Axis: the single dimension this sibling changes (mode/policy/timing/storage/strategy).
+6) Sibling Contract: one sentence stating the compatibility promise (behavior + shape).
+7) Placement + Invocation Seam: where it lives and how it’s invoked (consistent with family).
+8) Patch Segment(s): 1–3 directional patch segments implementing the sibling (TEXT framing + CODE).
+9) Proof Invocation: one minimal end-to-end usage proving the sibling works.
+10) Closure Check: one sentence stating what is now cleaner/possible because the sibling exists.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Family Identity
+- Missing Sibling
+- Family Fingerprint
+- Reference Member(s)
+- Variant Axis
+- Sibling Contract
+- Placement + Invocation Seam
+- Patch Segment (repeatable; 1–3 max)
+- Proof Invocation
+- Closure Check
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- Patch segments are allowed (1–3 max) and must obey the global patch-segment rules.
+- Never exceed global chunk limits or patch-segment budget.
+===== END:   synthesis/FS-09.txt =====

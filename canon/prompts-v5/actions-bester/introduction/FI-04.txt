@@ -1,0 +1,60 @@
+===== BEGIN: introduction/FI-04.txt =====
+===== FI-04 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+Input Grammar *(Upgrade without contract change)*
+
+### Simple prose (2 required INPUT blanks)
+
+Upgrade **[Current Feature : Targets]** along **[Upgrade Axis : Intent]** without changing its external promise.
+
+**Required INPUT blanks (2)**
+
+* **[Current Feature : Targets]** — the existing slice/flow/surface you’re improving (the “same thing,” not a new feature).
+* **[Upgrade Axis : Intent]** — the single improvement dimension (speed / resilience / clarity / ergonomics).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Upgrade **[Current Feature : Targets]** along **[Upgrade Axis : Intent]**,
+using **[Upgrade Surfaces : Packets]** to find the internal locus and **[Stability Notes : Chronicle]** to keep the contract steady.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[Upgrade Surfaces : Packets]** — the internal code regions that control the chosen axis (hot paths, retry logic, error handling, rendering loop, caching, etc.).
+* **[Stability Notes : Chronicle]** — what must not change externally (user expectations, invariants, known regressions, “don’t break this” reminders).
+
+
+WHAT TO PRODUCE (contract)
+1) Slice Identity: name the existing slice being upgraded (grounded) and what aspect is being upgraded (one sentence).
+2) Upgrade Goal (Now-true): one sentence describing what becomes better (performance, clarity, reliability, maintainability) while staying within slice scope.
+3) Stability Guard (required): one sentence stating what must remain true for the user (the core contract/behavior to preserve).
+4) Upgrade Locus (where/why): the smallest grounded surface where the upgrade is applied and the concrete reason it is the right locus.
+5) Patch Segment(s): 1–3 directional local edits that implement the upgrade while preserving the Stability Guard.
+6) Why-this-upgrade (required): one sentence explaining why this change is the minimal/cleanest way to achieve the upgrade goal without scope creep.
+7) Closure Check: one sentence describing how we confirm the stability guard still holds AND the upgrade benefit is real (no blueprint progress).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Slice Identity: which slice is being upgraded + what aspect is targeted.
+- Upgrade Goal: what becomes better now (and in what way).
+- Stability Guard: the “must remain true” contract/behavior constraint.
+- Upgrade Locus: where the upgrade is applied (grounded) and why this locus.
+- Patch Segment (repeatable): a small TEXT framing chunk + a paired CODE chunk implementing one local upgrade edit; repeat only as needed (1–3 max).
+- Why-this-upgrade: why this is deliberate and minimal (not accidental drift).
+- Closure Check: confirm stability + benefit in one tight verification note (no blueprint progress).
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- Never exceed global chunk limits; never exceed the global patch-segment budget.
+===== END:   introduction/FI-04.txt =====

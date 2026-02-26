@@ -1,0 +1,57 @@
+===== BEGIN: presentation/FPR-08.txt =====
+===== FPR-08 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+INPUT GRAMMAR *(Naming & Vocabulary Map)*
+
+### Simple prose (2 required INPUT blanks)
+Standardize naming for **[Subject / Slice : Targets]** toward **[Naming Intent : Intent]**.
+
+**Required INPUT blanks (2)**
+- **[Subject / Slice : Targets]** — the area whose naming you’re standardizing.
+- **[Naming Intent : Intent]** — what you want naming to achieve (reduce confusion, align UI+code, prevent drift).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+Standardize naming for **[Subject / Slice : Targets]** toward **[Naming Intent : Intent]**,
+using **[Name Evidence : Packets]** to see what’s currently in the code and **[Confusion Stories : Chronicle]** to capture how people talk about it.
+
+**Optional INPUT blanks (descriptions)**
+- **[Name Evidence : Packets]** — snippets showing current identifiers/labels and where they appear.
+- **[Confusion Stories : Chronicle]** — inconsistent terms, user phrasing vs code phrasing, recurring misunderstandings.
+
+WHAT TO PRODUCE (contract)
+Produce a naming map that prevents term drift:
+1) Naming Layer: one word (UI / code / concept).
+2) Naming Domain: 1 sentence describing the conceptual area covered.
+3) Canon Terms: 3–8 preferred terms with one-line meanings.
+4) Alias Map (optional): synonyms/variants → canon term mappings (only if clearly useful).
+5) Naming Rules: 2–4 consistency rules for naming new things.
+6) Out-of-Scope Boundary: 1 sentence stating what naming is not covered here.
+7) Closure Check: 1 sentence stating how you decide a new name violates the map.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Naming Layer
+- Naming Domain
+- Canon Terms
+- Alias Map (optional)
+- Naming Rules
+- Out-of-Scope Boundary
+- Closure Check
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   presentation/FPR-08.txt =====

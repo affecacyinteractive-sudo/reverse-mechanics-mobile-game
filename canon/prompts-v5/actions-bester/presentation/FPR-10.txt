@@ -1,0 +1,59 @@
+===== BEGIN: presentation/FPR-10.txt =====
+===== FPR-10 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+INPUT GRAMMAR *(User Journey Story / what it feels like)*
+
+### Simple prose (2 required INPUT blanks)
+Tell a journey for **[Subject / Slice : Targets]** aimed at **[Journey Intent : Intent]**.
+
+**Required INPUT blanks (2)**
+- **[Subject / Slice : Targets]** — the feature/flow the user is experiencing.
+- **[Journey Intent : Intent]** — what the story should clarify (onboard, sell value, reveal friction, document behavior).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+Tell a journey for **[Subject / Slice : Targets]** aimed at **[Journey Intent : Intent]**,
+using **[Touchpoint Evidence : Packets]** to align with real surfaces/events and **[User Feel Notes : Chronicle]** to capture what matters in practice.
+
+**Optional INPUT blanks (descriptions)**
+- **[Touchpoint Evidence : Packets]** — snippets that reveal real entry points/events/surfaces the journey should mention.
+- **[User Feel Notes : Chronicle]** — what users try, where they stumble, what “success” feels like, and what hurts.
+
+WHAT TO PRODUCE (contract)
+Produce one tight user-journey story:
+1) Audience: 1 phrase naming who this journey is for (if implied, you may omit).
+2) Entry Context: 1–2 sentences describing where the user starts (what they have/see/assume).
+3) Step Path: 3–6 beats written as “user action → system response.”
+4) Outcome Receipt: 1 sentence describing the visible end state.
+5) Boundary Moment: 1 beat describing a bend (stumble/limit/edge).
+6) Boundary Moment Type: one word (common stumble / rare edge).
+7) Continuation Hook (optional): 1 sentence describing what naturally comes next.
+8) Closure Check: 1 sentence stating what the reader should now understand/predict.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Audience (optional)
+- Entry Context
+- Step Path
+- Outcome Receipt
+- Boundary Moment
+- Boundary Moment Type
+- Continuation Hook (optional)
+- Closure Check
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   presentation/FPR-10.txt =====

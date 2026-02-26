@@ -1,0 +1,54 @@
+===== BEGIN: abstraction/FA-04.txt =====
+===== FA-04 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+INPUT GRAMMAR *(Pattern Boundary & Variants)*
+### Simple prose (2 required INPUT blanks)
+Define the boundary of **[Pattern Candidate : Targets]** for **[Boundary Intent : Intent]**.
+
+**Required INPUT blanks (2)**
+- **[Pattern Candidate : Targets]** — the pattern/mechanism you’re trying to define (the reusable “shape”).
+- **[Boundary Intent : Intent]** — why you’re drawing the boundary (reuse, classification, variant planning, choosing the right tool).
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+Define the boundary of **[Pattern Candidate : Targets]** for **[Boundary Intent : Intent]**,
+using **[Axis Evidence : Packets]** to see what can vary in implementation and **[Variant Stories : Chronicle]** to capture what changes in practice.
+
+**Optional INPUT blanks (descriptions)**
+- **[Axis Evidence : Packets]** — snippets showing where the pattern’s axes show up (storage choice, ordering logic, sync/async, policy gates).
+- **[Variant Stories : Chronicle]** — “when we changed axis X, this broke/worked” notes that reveal the real boundary.
+
+WHAT TO PRODUCE (contract)
+Produce ONE Pattern Boundary & Variants map that lets a builder classify “still the same pattern” vs “not this pattern”:
+- **Pattern Identity:** a short label for the pattern/mechanism.
+- **Core Invariants:** 2–5 things that must remain true across all valid variants.
+- **Degrees of Freedom:** 2–5 axes that may vary, written as “Axis → allowed range” (e.g., Storage → memory | local | server).
+- **Variant Families:** 2–4 clusters of variants that share common axis choices.
+- **Boundary Line:** the decisive rule that, if violated, makes it not this pattern.
+- **Seam Implications (optional):** what seams or touchpoints change/stay stable across variants.
+- **Closure Check:** one sentence that lets you classify a concrete implementation as in-family vs out-of-family.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Pattern Identity
+- Core Invariants
+- Degrees of Freedom (Axis → allowed range)
+- Variant Families
+- Boundary Line
+- Seam Implications (optional)
+- Closure Check
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   abstraction/FA-04.txt =====

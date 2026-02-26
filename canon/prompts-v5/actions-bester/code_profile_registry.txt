@@ -1,0 +1,59 @@
+## Code Profile Registry (V1)
+
+### P0 — DEFAULT_APP_CODE
+
+Use when unsure; “plain app code” snippets.
+
+* Typical: generic JS/TS logic, utility functions, small handlers.
+* Falls back when no other profile matches confidently.
+
+### P1 — WEB_UI_REACT
+
+Frontend/UI code.
+
+* Typical: `.tsx/.jsx`, React components, hooks, event handlers, UI state wiring.
+* Also covers CSS-in-JS or small CSS snippets when directly adjacent.
+
+### P2 — SERVER_NODE
+
+Backend/service logic in Node/TS/JS (non-UI).
+
+* Typical: route handlers, server actions, controllers, service modules, DB access wrappers.
+
+### P3 — DATA_SQL
+
+Query-shaped code.
+
+* Typical: SQL `SELECT/INSERT/UPDATE/DELETE`, CTEs, migrations snippets, query builders if the snippet is primarily query semantics.
+
+### P4 — CONFIG_STRUCTURED
+
+Structured config files.
+
+* Typical: JSON/YAML/TOML configs (`tsconfig`, `package.json`, lint configs), small manifests.
+
+### P5 — INFRA_DEVOPS
+
+Infra and operational code/config.
+
+* Typical: Dockerfile, docker-compose, Kubernetes YAML, Terraform-ish snippets, CI workflows.
+
+### P6 — SCRIPTS_AUTOMATION
+
+One-off scripts / tooling glue.
+
+* Typical: bash scripts, node scripts, CLIs, migration runners, file stitching scripts.
+
+### P7 — TESTS_QA
+
+Test code.
+
+* Typical: unit tests (`describe/it`), Playwright/Cypress specs, test helpers, fixtures.
+
+---
+
+### Priority order for matching (when multiple fit)
+
+INFRA_DEVOPS → CONFIG_STRUCTURED → DATA_SQL → TESTS_QA → WEB_UI_REACT → SERVER_NODE → SCRIPTS_AUTOMATION → DEFAULT_APP_CODE
+
+This keeps “obvious file types” from being swallowed by generic JS/TS.
