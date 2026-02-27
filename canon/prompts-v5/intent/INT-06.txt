@@ -1,0 +1,57 @@
+## INT-06 — Intent Scope Cutter (Make it Winnable)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Cut **[Intent Pack : Intent]** down to a winnable slice for **[Intended Use : Intent]**.
+
+**Required blanks (2)**
+
+* **[Intent Pack : Intent]** — the current intent chunks (often overbroad).
+* **[Intended Use : Intent]** — what this intent will drive next.
+
+**Pro prose (optional boosters)**
+Cut **[Intent Pack : Intent]** down to a winnable slice for **[Intended Use : Intent]**, using **[Reality Notes : Chronicle]** and **[Existing Anchors : Targets]** as constraints.
+
+**Optional blanks (descriptions)**
+
+* **[Reality Notes : Chronicle]** — time/scope/constraints that force the slice to be small.
+* **[Existing Anchors : Targets]** — surfaces/contracts you must stay compatible with.
+
+---
+
+### What to Produce
+
+Produce two small TEXT packs:
+
+**A) Focus Intent Pack (the runnable slice)**
+Must be achievable in **1–3 downstream actions**.
+
+Include:
+
+1. **Focus Aim** — one sentence: the “one thing” to make true.
+2. **Focus Subject / Surface** — the concrete thing being changed/understood/defined.
+3. **Focus Constraints** — 1–3 constraints that keep it small.
+4. **Focus Done Signal** — observable success.
+
+**B) Deferred Pack (what is intentionally not done now)**
+Include:
+5) **Deferred Items** — 2–6 short lines naming what was cut (no plan, no steps).
+6) **Return Condition (optional)** — one sentence describing when it’s worth revisiting deferred items.
+
+Hard guard:
+
+* Do not invent a new goal; preserve the user’s intent but slice it.
+* Do not include implementation steps or patch plans.
+* Do not ask questions.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Focus Aim** — the single now-true outcome for this slice.
+* **Focus Subject / Surface** — what the slice is about, in concrete nouns.
+* **Focus Constraints** — the limits that keep it winnable.
+* **Focus Done Signal** — observable proof the slice is complete.
+* **Deferred Items** — what is explicitly not being done now (names only).
+* **Return Condition (optional)** — when it makes sense to pick up the deferred items.

@@ -1,0 +1,52 @@
+## CHR-01 — Chronicle View: Recent Journey (Zoom-Out)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Render a readable journey view from **[Chronicle Pack : Chronicle]** for **[View Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Chronicle Pack : Chronicle]** — the recent chronicle entries (thin window) to display.
+* **[View Intent : Intent]** — what the view should help with (recall, orientation, “what changed lately”, decide what to revisit).
+
+**Pro prose (optional boosters)**
+Render a readable journey view from **[Chronicle Pack : Chronicle]** for **[View Intent : Intent]**, filtered by **[View Filter : Intent]** and anchored by **[Pinned Keystone Pack : Targets]**.
+
+**Optional blanks (descriptions)**
+
+* **[View Filter : Intent]** — filter rules (“only FP”, “only Concepts”, “only last week”, “only fixes”).
+* **[Pinned Keystone Pack : Targets]** — any pinned/active keystones to highlight (e.g., active blueprint).
+
+---
+
+### What to Produce
+
+Produce a **Chronicle View Pack** (TEXT chunks) that is readable, school-biased, and compact.
+
+Across the pack, include:
+
+1. **View Header (TEXT)** — 1–3 lines stating what window/filter was used (no IDs required).
+2. **Recent Entries List (TEXT)** — 5–12 compact lines, each representing one chronicle entry in a consistent format:
+
+   * `[School/Kind] journal_line — anchors (optional)`
+     Keep each line short; no long paragraphs.
+3. **Shelf Highlights (optional, TEXT)** — 2–6 bullets grouping entries by school (“Builds”, “Truth”, “Concepts”, “Wiring”, “Blueprint”), only if it improves readability.
+4. **Active Keystone Highlight (optional, TEXT)** — if a pinned/active keystone is provided, include 1–3 lines describing it as the current “north of the compass.”
+5. **Closure Check (TEXT)** — one sentence stating what the reader should now understand (“what’s been happening and what matters”).
+
+Hard guards:
+
+* Do not expand entries into full summaries; the chronicle is zoomed-out.
+* Do not invent new facts; only reframe what’s already in chronicle/keystones.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **View Header** — what time/window/filter this view covers.
+* **Recent Entries List** — compact list of journal lines, preserving school flavor.
+* **Shelf Highlights (optional)** — grouped “genres” of progress for quick scanning.
+* **Active Keystone Highlight (optional)** — the currently pinned keystone as an orienting marker.
+* **Closure Check** — confirms the view achieved orientation/recall.

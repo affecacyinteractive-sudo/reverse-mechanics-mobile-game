@@ -1,0 +1,52 @@
+## PACK-07 — Packet Diff Receipt (Run A vs Run B)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Summarize the changes from **[Run A : Targets]** to **[Run B : Targets]** for **[Diff Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Run A : Targets]** — the earlier state (a run pack / checkout receipt pack / codebase snapshot identifier).
+* **[Run B : Targets]** — the later state (same kind of pack/identifier).
+
+**Pro prose (optional boosters)**
+Summarize the changes from **[Run A : Targets]** to **[Run B : Targets]** for **[Diff Intent : Intent]**, focusing on **[Focus Slice : Intent]** and grounded by **[Issue Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Diff Intent : Intent]** — why you’re diffing (audit, debug regression, generate release notes, decide what to target next).
+* **[Focus Slice : Intent]** — limit the diff to a folder/module/surface family if desired.
+* **[Issue Notes : Chronicle]** — any known context about what changed and why (previous seals/issues).
+
+---
+
+### What to Produce
+
+Produce a **Diff Receipt Pack** (TEXT chunks) that gives a high-signal view of what changed between the two run states.
+
+Across the pack, include:
+
+1. **Diff Summary (TEXT)** — 2–5 lines: what broadly changed (feature/fix/refactor posture) and why the diff matters.
+2. **Touched Files (TEXT)** — compact list of file paths that changed (added/modified/deleted).
+3. **Change Breakdown (TEXT)** — group changes into 2–6 buckets (e.g., “new capability”, “rule shift”, “refactor seam”, “config/infra”), each with 1–2 sentences.
+4. **Notable Surfaces (TEXT, optional)** — key handles/identifiers introduced/changed (functions/components/routes/tables), names only.
+5. **Deletion/Restore Notes (TEXT, optional)** — if tombstones/restores occurred, summarize them in one chunk.
+6. **Closure Check (TEXT)** — one sentence stating what a player can now do with this diff (target next work, audit, reproduce).
+
+Hard guards:
+
+* No full code bodies and no long diffs here.
+* Keep it interpretable: this is a navigational receipt, not a patch review.
+* Avoid internal action IDs and “next best move” phrasing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Diff Summary** — high-level meaning of the change set.
+* **Touched Files** — which files changed (added/modified/deleted).
+* **Change Breakdown** — grouped explanation of what kinds of changes happened.
+* **Notable Surfaces (optional)** — key identifiers/handles affected.
+* **Deletion/Restore Notes (optional)** — tombstones/restores summarized if present.
+* **Closure Check** — confirms how the diff can be used.

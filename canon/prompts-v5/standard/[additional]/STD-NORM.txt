@@ -1,0 +1,54 @@
+## STD-NORM — Standard Output Normalizer (Format + Composition)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Normalize **[Action Output Pack : Targets]** to comply with **[Action Spec : Targets]**.
+
+**Required blanks (2)**
+
+* **[Action Output Pack : Targets]** — the chunks + patch_segments produced by a standard action run.
+* **[Action Spec : Targets]** — the spec pack for that action (What to Produce + Beat Categories + Output Format rules).
+
+**Pro prose (optional boosters)**
+Normalize **[Action Output Pack : Targets]** to comply with **[Action Spec : Targets]**, guided by **[Verifier Notes : Chronicle]** and constrained by **[Normalization Intent : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Verifier Notes : Chronicle]** — findings from STD-VERIFY (titles, chunk budgets, ordering, patch framing).
+* **[Normalization Intent : Intent]** — what to prioritize (title cleanup, chunk sizing, beat coverage order, patch segment pairing).
+
+---
+
+### What to Produce
+
+Produce a **Normalized Output Pack** that is the *same content* as the input pack, but rewritten/restructured to comply with formatting and composition rules.
+
+Allowed edits (format-only):
+
+1. **Titles** — rewrite titles to:
+
+   * be ≤25 chars,
+   * not copy beat names,
+   * include a grounded anchor from the chunk body.
+2. **Chunk sizing** — rewrite TEXT bodies to obey word/line limits; convert bullets into 1–3 sentences; remove headings inside bodies.
+3. **Chunk splitting/merging** — merge tiny redundant chunks; split overloaded chunks into 2, but keep within global chunk budget.
+4. **Ordering** — reorder chunks to reflect a coherent flow and satisfy beat coverage, without labeling beats.
+5. **Patch segment framing** — ensure each patch segment’s TEXT framing describes exactly what its CODE does; keep CODE unchanged unless it violates hard CODE rules (then minimal formatting correction only).
+6. **Schema compliance** — ensure output matches the global output schema (chunks + patch_segments) and counting rules.
+
+Hard guards:
+
+* Do **not** add new semantic content to satisfy missing contract items (that’s STD-REPAIR’s job).
+* Do **not** invent new code changes. CODE should remain functionally identical; only minimal syntax/whitespace cleanup if it violates hard rules (e.g., markdown fences).
+* Do **not** introduce internal action IDs or “next move” guidance.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Title Normalization** — titles fixed to be short, grounded, and not beat-named.
+* **Text Body Compliance** — bodies rewritten to meet word/line constraints with “one idea each.”
+* **Chunk Restructure** — merge/split/reorder to produce a clean, readable composition.
+* **Patch Segment Framing** — TEXT framing aligns tightly to CODE in each patch segment.
+* **Schema Conformance** — final output matches the global chunk/patch schema and budgets.

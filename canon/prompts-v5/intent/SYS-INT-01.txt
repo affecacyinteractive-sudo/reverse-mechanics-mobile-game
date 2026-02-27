@@ -1,0 +1,27 @@
+## SYS-INT-01 — Intent Capture (Auto-Wrap)
+
+### Input Grammar
+
+Wrap **[Raw User Message : RawText]** into **[Base Intent Chunk : Intent]**.
+
+*(No blanks; this is automatic.)*
+
+### What to Produce
+
+Produce exactly **one** TEXT chunk in `Intent[]`:
+
+* **Title:** `User Ask`
+* **Body:** the raw user message, unchanged (except trimming leading/trailing whitespace)
+* **Kind:** TEXT
+
+Hard guard:
+
+* Do not summarize.
+* Do not rephrase.
+* Do not add assumptions.
+
+### Recommended Chunk/Seal Beat Categories
+
+* **Raw Ask Wrapper** — a faithful container for the original message so downstream intent actions have a stable anchor.
+
+---

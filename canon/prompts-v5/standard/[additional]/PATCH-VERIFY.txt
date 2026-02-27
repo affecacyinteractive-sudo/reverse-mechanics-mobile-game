@@ -1,0 +1,44 @@
+## PATCH-VERIFY — Patch Discipline Verifier (Specialist)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Verify patch safety in **[Action Output Pack : Targets]** against **[Patch Rules : Targets]**.
+
+**Required blanks (2)**
+
+* **[Action Output Pack : Targets]** — a standard action output that includes patch_segments.
+* **[Patch Rules : Targets]** — the global patch constraints pack (budget, locality, framing rules).
+
+**Pro prose (optional boosters)**
+Verify patch safety in **[Action Output Pack : Targets]** using **[Codebase Slice : Packets]** and **[Risk Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Codebase Slice : Packets]** — the packet slice used to generate the patch (for locality/context checks).
+* **[Risk Notes : Chronicle]** — any known coupling/regression risks.
+
+### What to Produce
+
+Produce a **Patch QA Result Pack** (TEXT chunks) that focuses only on patch_segments quality:
+
+1. **Patch Verdict** — OK / TOO_BROAD / MISFRAMED / BUDGET_FAIL / REWRITE_RISK
+2. **Segment Findings** — per segment, 1–3 lines: what’s wrong + why it’s risky
+3. **Locality Check** — whether edits are bounded and incremental
+4. **Framing Check** — whether TEXT framing matches CODE exactly
+5. **Budget Check** — 1–3 segments, 8–12 code lines, no fence/prose in code
+
+Hard guards: no edits, no next-move routing, no action IDs.
+
+### Recommended Beat Categories
+
+* **Verdict** — single patch quality label.
+* **Per-Segment Findings** — what each segment violates.
+* **Locality** — bounded vs rewrite smell.
+* **Framing** — TEXT↔CODE alignment.
+* **Budget** — segment count + line limits.
+
+---
+
+
+

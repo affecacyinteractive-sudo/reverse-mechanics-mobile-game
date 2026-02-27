@@ -1,0 +1,21 @@
+## SYS-PACK-GATE-03 — Checkout No-Dump Gate (PACK-06)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Validate that **[Checkout Receipt Pack : Targets]** contains no full file bodies.
+
+### What to Produce
+
+* If valid: no seal.
+* If invalid: emit **one TEXT seal chunk**:
+
+  * **Title:** `Checkout Dump Fail`
+  * **Body:** 1–2 lines stating that full code bodies were included and must be replaced by manifest-only output.
+
+### Recommended Seal Beats
+
+* **Checkout Verdict** — pass or single failure seal.
+
+---

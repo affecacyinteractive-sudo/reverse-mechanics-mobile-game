@@ -1,0 +1,51 @@
+## CHR-05 — Chronicle Vocabulary Shelf (Naming + Concepts)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Build a vocabulary shelf from **[Chronicle Window : Chronicle]** for **[Shelf Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Chronicle Window : Chronicle]** — chronicle entries (especially FPR + FA) that contain naming and concept signals.
+* **[Shelf Intent : Intent]** — what the shelf should enable (shared language, avoid drift, quick onboarding).
+
+**Pro prose (optional boosters)**
+Build a vocabulary shelf from **[Chronicle Window : Chronicle]** for **[Shelf Intent : Intent]**, anchored by **[Keystone Packs : Targets]** and constrained by **[Shelf Budget : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Keystone Packs : Targets]** — keystones to treat as source-of-truth for terms/mechanisms.
+* **[Shelf Budget : Intent]** — limits like “10 terms max”, “one screen”, “include only canon terms”.
+
+---
+
+### What to Produce
+
+Produce a **Vocabulary Shelf Pack** (TEXT chunks) that captures the project’s shared language and core mechanisms in a compact, drift-resistant way.
+
+Across the pack, include:
+
+1. **Shelf Frame (TEXT)** — 1–3 lines stating what window sources were used and what the shelf is for.
+2. **Canon Terms (TEXT)** — 6–15 terms, each with a one-line meaning (avoid long definitions).
+3. **Alias Map (optional, TEXT)** — synonyms → canon term mappings, only if clearly present.
+4. **Mechanisms (optional, TEXT)** — 3–8 named mechanisms/rules (from FA-ish entries), each as one line: “Name — rule gist.”
+5. **Naming Rules (optional, TEXT)** — 2–5 rules that keep future naming consistent (short and concrete).
+6. **Closure Check (TEXT)** — one sentence stating how to use the shelf (shared language + avoid drift), without routing.
+
+Hard guards:
+
+* Do not invent terms; only include terms/mechanisms implied by chronicle/keystones.
+* Keep it compact; no essay-like prose.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Shelf Frame** — what sources were used and what this shelf is for.
+* **Canon Terms** — preferred terms with one-line meanings.
+* **Alias Map (optional)** — common alternate phrasing mapped to canon.
+* **Mechanisms (optional)** — named rules/mechanisms that recur in the journey.
+* **Naming Rules (optional)** — short rules to keep future terms consistent.
+* **Closure Check** — confirms the shelf is usable as shared language.

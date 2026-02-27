@@ -1,0 +1,74 @@
+## PACK-VERIFY — Universal Packet Output Verifier
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Verify **[Packet Output Pack : Targets]** against **[Packet Action Spec : Targets]**.
+
+**Required blanks (2)**
+
+* **[Packet Output Pack : Targets]** — the output pack produced by any PACK action (PACK-01…PACK-08).
+* **[Packet Action Spec : Targets]** — the spec for that PACK action (What to Produce + Beat Categories).
+
+**Pro prose (optional boosters)**
+Verify **[Packet Output Pack : Targets]** against **[Packet Action Spec : Targets]**, grounded by **[Run Context : Chronicle]** and constrained by **[Verification Focus : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Run Context : Chronicle]** — intent notes, run/state notes, target selection notes, recent seals.
+* **[Verification Focus : Intent]** — what to prioritize (slice usefulness, commit receipt clarity, export correctness, search ranking quality, budget discipline).
+
+---
+
+### What to Produce
+
+Produce a **Packet Verifier Result Pack** (TEXT chunks) that diagnoses quality without rewriting the packet output and without “next move” routing.
+
+Across the pack, include:
+
+1. **Verdict (TEXT)** — choose exactly one:
+   **OK / THIN / OFFSPEC / FORMAT_FAIL / BUDGET_RISK / GROUNDEDNESS_RISK**
+
+2. **Top Findings (TEXT)** — 3–8 short findings, each written as:
+   `Finding: <problem> → Evidence: <where it shows up> → Impact: <what it breaks>`
+
+3. **Spec Coverage (TEXT)** — a compact checklist summary:
+
+   * which required spec elements are present
+   * which are missing or too weak
+     (Keep it readable; no long tables.)
+
+4. **Packet Usability Note (TEXT)** — one tight summary of whether the pack is usable for its intended purpose:
+
+   * PACK-01/02: does it contain a coherent primary surface + minimal interpretability context?
+   * PACK-03: does it include an auditable receipt + updated packets reflecting new state?
+   * PACK-04/05: are tombstone/restore semantics explicit and targetable?
+   * PACK-06: does it resolve run state + scope + manifest without dumping code?
+   * PACK-07: does it provide a navigational diff (touched files + grouped meaning)?
+   * PACK-08: does it provide ranked matches with compact rationales?
+
+5. **Format & Composition Note (TEXT)** — one tight summary of:
+
+   * titles (short, content-specific)
+   * chunk sizes (TEXT/CODE discipline)
+   * ordering (summary → core → context → handles/notes)
+   * compactness (no bloat)
+
+6. **Grounding Note (optional, TEXT)** — only if the packet pack claims file paths/handles that look unsupported by the provided spec/context; flag as risk, not blocker.
+
+Hard guards:
+
+* Do not edit or regenerate the packet output here.
+* Do not reference internal action IDs or recommend “next best move.”
+* Do not ask questions.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Verdict** — the single readiness label for this packet output pack.
+* **Top Findings** — the key failures with evidence + impact.
+* **Spec Coverage** — which required packet-spec elements are satisfied vs missing/thin.
+* **Packet Usability Note** — whether the pack is usable for its declared purpose (slice/commit/export/diff/search).
+* **Format & Composition Note** — whether chunk/title/budget discipline was followed.
+* **Grounding Note (optional)** — flags unsupported file/handle claims as risk.

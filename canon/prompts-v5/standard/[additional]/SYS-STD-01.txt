@@ -1,0 +1,29 @@
+## SYS-STD-01 — Output Schema Gate (JSON + Shape)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Validate **[Raw LLM Output : RawText]** against **[Global Output Schema : Targets]**.
+
+### What to Produce
+
+* If valid: emit no seal (silent pass).
+* If invalid: emit **one TEXT seal chunk**:
+
+  * **Title:** `Schema Fail`
+  * **Body:** 1–2 lines stating what failed (not JSON / missing keys / wrong types / unexpected fields)
+
+### Recommended Seal Beats
+
+* **Schema Verdict** — pass or a single failure seal.
+
+---
+
+
+
+
+
+
+
+

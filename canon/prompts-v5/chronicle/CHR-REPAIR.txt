@@ -1,0 +1,49 @@
+## CHR-REPAIR — Chronicle Repair (Semantic Completeness + Coherence)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Repair **[Chronicle Pack : Chronicle]** using **[Source Keystones : Targets]**.
+
+**Required blanks (2)**
+
+* **[Chronicle Pack : Chronicle]** — chronicle entries that are missing key parts or feel incoherent.
+* **[Source Keystones : Targets]** — the keystone packs those entries should be faithful to (source-of-truth for what happened).
+
+**Pro prose (optional boosters)**
+Repair **[Chronicle Pack : Chronicle]** using **[Source Keystones : Targets]**, constrained by **[Repair Intent : Intent]** and guided by **[Verifier Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Repair Intent : Intent]** — what to repair (fill missing journal lines, fix offgenre, dedupe, add anchors).
+* **[Verifier Notes : Chronicle]** — findings from CHR-VERIFY describing the failure modes.
+
+---
+
+### What to Produce
+
+Produce a **Repaired Chronicle Pack** (TEXT chunks) that becomes usable zoom-out memory while staying faithful to keystones.
+
+Repair scope (semantic, but bounded):
+
+1. **Fill missing journal_line** — if an entry is blank/thin, reconstruct a one-sentence journal line from its keystone.
+2. **Fix off-genre** — rewrite entries to match school emphasis (FI/FU/FPR/FA/FS/FP) without changing facts.
+3. **Dedupe** — merge near-duplicate entries into one stronger line (keep one; mark the other as folded if you track status).
+4. **Anchor repair (optional)** — add 1–3 anchors only if they appear in keystones (do not invent).
+5. **Continuity stitch (optional)** — if the set feels disjoint, add one short “Arc Stitch” line that connects 2–3 entries at a high level (still zoomed-out).
+
+Hard guards:
+
+* No invention: repaired lines must be supported by provided keystones.
+* Keep it compact: one sentence per entry, ≤140 chars preferred.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Journal Line Reconstruction** — missing/thin entries rebuilt from keystones.
+* **Genre Repair** — entries rewritten to match school emphasis faithfully.
+* **Deduplication** — duplicates merged into a single stronger line.
+* **Anchor Repair (optional)** — anchors restored from keystone evidence.
+* **Continuity Stitch (optional)** — one small connecting line to make the window feel coherent.

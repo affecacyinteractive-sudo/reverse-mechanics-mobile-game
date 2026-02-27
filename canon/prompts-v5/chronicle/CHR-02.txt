@@ -1,0 +1,52 @@
+## CHR-02 — Chronicle Rewriter (Tone + Clarity, School-Biased)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Rewrite **[Chronicle Entries : Chronicle]** for **[Rewrite Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Chronicle Entries : Chronicle]** — the selected journal entries to improve (one or more).
+* **[Rewrite Intent : Intent]** — what “better” means (clearer, tighter, more concrete, more school-flavored).
+
+**Pro prose (optional boosters)**
+Rewrite **[Chronicle Entries : Chronicle]** for **[Rewrite Intent : Intent]**, constrained by **[Style Constraints : Intent]** and anchored by **[Linked Keystone Packs : Targets]**.
+
+**Optional blanks (descriptions)**
+
+* **[Style Constraints : Intent]** — caps and tone (“≤140 chars each”, “keep assertive”, “avoid hype”, “no jargon”).
+* **[Linked Keystone Packs : Targets]** — keystone content that the entries should remain faithful to (prevents drift).
+
+---
+
+### What to Produce
+
+Produce a **Rewritten Chronicle Pack** (TEXT chunks) that preserves meaning but improves readability and school-specific emphasis.
+
+For each input chronicle entry, output:
+
+1. **Rewritten Journal Line (TEXT)** — ≤140 chars preferred; one sentence max.
+2. **Preserved Anchors (TEXT, optional)** — 1–3 anchors/handles, only if present in input or in linked keystone packs.
+3. **School Flavor Rule (implicit)** — the rewrite must emphasize what the school cares about:
+
+   * FI: “now-true capability + seam”
+   * FU: “observed truth/boundary”
+   * FPR: “how to navigate/name”
+   * FA: “mechanism/rule/invariant”
+   * FS: “stitch/instantiate + guarantee”
+   * FP: “corridor decision (goal/fence/tripwire)”
+
+Hard guards:
+
+* Do not change the factual content (no new claims).
+* Do not add implementation detail or code.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Before → After Lines** — rewritten journal lines that preserve meaning and become more legible.
+* **Anchor Preservation (optional)** — keep or tighten the anchors/handles without inventing new ones.
+* **School Emphasis** — each line should “sound like” its school genre while staying short.

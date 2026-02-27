@@ -1,0 +1,19 @@
+## SYS-PACK-GATE-05 — Commit Receipt Must-Have Gate (PACK-03)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Validate that a commit pack contains minimum receipt elements.
+
+### What to Produce
+
+* If valid: no seal.
+* If invalid: emit **one TEXT seal chunk**:
+
+  * **Title:** `Commit Receipt Fail`
+  * **Body:** 1–2 lines stating which receipt elements are missing (touched files, closure check, updated packet).
+
+### Recommended Seal Beats
+
+* **Commit Receipt Verdict** — pass or single failure seal.

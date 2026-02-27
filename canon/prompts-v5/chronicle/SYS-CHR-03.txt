@@ -1,0 +1,61 @@
+## SYS-CHR-03 — Anchor/Tag Harvester (Deterministic)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Harvest anchors/tags for **[Chronicle Entry : Chronicle]** from **[Keystone Unit Pack : Targets]** and **[Index Hints : Targets]**.
+
+*(No user blanks; this is automatic after SYS-CHR-02.)*
+
+---
+
+### What to Produce
+
+Produce an **Updated Chronicle Entry chunk** (TEXT) where only these fields change:
+
+* `anchors` (filled with 0–3 items)
+* `tags` (filled with 0–3 items)
+
+Anchor rules (deterministic):
+
+* Anchors are short handles/identifiers that help scanning and targeting.
+* Prefer anchors that appear **verbatim** in the keystone body or in index handles (if provided).
+* Max **3 anchors**, each ≤30 chars.
+
+Anchor sources (priority order):
+
+1. Explicit handles from index hints (e.g., `#hero`, `Hero`, `login`, `POST /login`, `seam:A→B`)
+2. Proper-name / identifier-like tokens from the keystone text (camelCase, PascalCase, snake_case)
+3. Quoted phrases (short) from keystone text
+
+Tag rules (deterministic, closed set):
+Choose up to **3** tags from this closed set:
+
+* `build`, `fix`, `refactor`, `wiring`, `concept`, `naming`, `scope`, `alarm`, `truth`, `doc`
+
+Tag selection heuristics:
+
+* If school=FI → include `build` (and `fix` if words like “bug/fix” appear)
+* FU → include `truth` (and `fix` if “regression” appears)
+* FPR → include `naming` or `doc` when terms/walkthrough appear
+* FA → include `concept`
+* FS → include `wiring`
+* FP → include `scope` or `alarm` when fence/tripwire language appears
+
+Fallback:
+
+* If no anchors found, anchors remain empty (do not invent).
+* If no tags matched, include none (or include the school-implied default tag only, depending on your preference).
+
+Hard guards:
+
+* No invention: anchors must be evidenced in keystone text or index hints.
+* Keep anchors/tags sparse; avoid noisy over-tagging.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Anchor Harvest** — 0–3 high-signal handles extracted deterministically.
+* **Tag Harvest** — 0–3 genre tags selected from a closed set to aid filtering.

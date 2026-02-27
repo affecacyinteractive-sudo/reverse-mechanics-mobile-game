@@ -1,0 +1,177 @@
+## SYS-INT-03 — Thin-Intent Tagger (Soft Quality Flags)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the rules.)*
+
+### Input Grammar
+
+Assess **[Base Intent Chunk : Intent]** for minimum viability.
+
+---
+
+### What to Produce
+
+Produce **0–2** TEXT seal chunks (occasionally 3 if multiple strong failures) that label thinness **without blocking**.
+
+Each seal chunk:
+
+* **Title:** one of the standard labels (closed set)
+* **Body:** one short sentence explaining the flag
+* **Kind:** TEXT
+
+Closed set of seal titles:
+
+* `Too Short`
+* `No Concrete Subject`
+* `No Done Signal`
+* `Overbroad Scope`
+* `Contradictory Ask`
+* `Target Needed` *(only if chosen downstream action requires Targets but none are present)*
+
+Hard guard:
+
+* No questions.
+* No action IDs.
+* No rewriting the intent.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Quantity Flag** — message too small to support meaningful generation.
+* **Specificity Flag** — missing a concrete subject/surface.
+* **Success Flag** — missing any observable “done.”
+* **Scope Flag** — too big for 1–3 actions.
+* **Target Availability Flag (conditional)** — required targets missing for the selected action.
+
+---
+
+## Deterministic Heuristics (V1)
+
+### A) Preprocessing (deterministic)
+
+Compute from the raw message text:
+
+* `char_count` = number of non-whitespace characters
+* `word_count` = whitespace token count
+* `line_count` = number of lines after trimming
+* `sent_count` (approx) = count of `. ! ?` (clamp to [1..])
+* `has_code` = true if contains any of: ``` fences, `;{}` density, common keywords (`function`, `class`, `import`, `SELECT`, `def`, etc.)
+* `has_numbers` = true if contains digits
+* `has_quotes` = true if contains quoted phrases `"..."` or `'...'`
+
+### B) `Too Short` (quantity threshold)
+
+Trigger `Too Short` if **any** of these are true:
+
+* `char_count < 60` **OR**
+* `word_count < 12` **OR**
+* `sent_count < 1` *(empty/near-empty after trim)*
+
+Severity upgrade (still same seal title) if:
+
+* `char_count < 30` OR `word_count < 6`
+  Body should say “very short; likely underspecified.”
+
+### C) `No Concrete Subject` (specificity threshold)
+
+Goal: detect whether the message names at least one concrete thing it’s about.
+
+Trigger `No Concrete Subject` if **all** of these are true:
+
+* No quoted phrase AND
+* No file/path-ish token AND
+* No identifier-ish token AND
+* No UI/object noun signal
+
+Define signals (any one is enough to avoid the flag):
+
+1. **File/path signal**
+
+* contains `/` or `\` with letters around it, or a filename extension like `.ts .tsx .js .py .java .cs .go .rs .sql .yaml .yml .json`
+
+2. **Identifier-ish signal**
+
+* contains camelCase / PascalCase / snake_case token length ≥ 6
+  (regex style: `[a-z]+[A-Z][A-Za-z0-9]*` OR `[A-Z][a-z]+[A-Za-z0-9]*` OR `[a-z]+_[a-z0-9_]+`)
+
+3. **UI/object noun signal** *(simple lexicon)*
+
+* message contains at least one noun-like anchor from a small maintained list, e.g.:
+  `button, form, modal, page, screen, table, list, filter, search, login, auth, upload, download, payment, settings, profile, notification, dashboard, report, export, import, sync, cache, database, query, endpoint, api, service, job, pipeline`
+  (You can tune this list; it’s deterministic.)
+
+4. **Quoted phrase signal**
+
+* any `"..."` / `'...'` phrase length ≥ 3 words counts as a subject anchor.
+
+If none of those signals exist, the message is likely “do it better / fix it / improve it” without naming what.
+
+### D) `No Done Signal` (missing success condition)
+
+Trigger `No Done Signal` when the message contains **no success cue** and **no acceptance cue**.
+
+Success cues (any one avoids the flag):
+
+* contains one of: `so that`, `so I can`, `until`, `when`, `done`, `works`, `working`, `fixed`, `passes`, `no longer`, `should`, `expected`, `must`, `ensure`, `confirm`, `verify`
+* contains comparison structure: `instead of`, `rather than`, `expected vs`, `before/after`
+* contains an explicit observable: `shows`, `returns`, `renders`, `saves`, `loads`, `submits`, `creates`, `deletes`, `updates`, `fails`, `throws`
+
+If none are present, the ask is probably aspiration-only (“make it better / add feature”) without a finish line.
+
+### E) `Overbroad Scope` (too big for 1–3 actions)
+
+Trigger `Overbroad Scope` if **any** of these are true:
+
+1. **Multi-object explosion**
+
+* contains 3+ conjunction-separated asks (heuristic): count occurrences of `and`/`,`/`;` where each side has ≥ 4 words.
+
+  * Example: “build X and Y and Z” → overbroad.
+
+2. **Large-system keywords without bounds**
+
+* contains keywords like: `entire`, `whole`, `complete`, `full`, `end-to-end`, `architecture`, `system`, `platform`, `rewrite`, `refactor everything`, `production-ready`
+  AND lacks any limiting cue like: `one`, `single`, `minimal`, `small`, `only`, `just`, `one screen`, `one endpoint`, `one flow`.
+
+3. **Time/effort mismatch**
+
+* contains “quick” / “fast” / “in 5 minutes” **and** also contains large-system keywords above.
+
+4. **High-level + no anchor**
+
+* message triggers `No Concrete Subject` **and** word_count > 40
+  (This indicates large vague scope.)
+
+Seal body should say: “scope likely exceeds 1–3 actions; needs slicing.”
+
+### F) `Contradictory Ask` (only trivial deterministic contradictions)
+
+Trigger only for obvious pattern pairs (keep this conservative):
+
+* Contains both `no X` and `add X` for same token X within 30 words.
+  Example: “don’t use cache… add caching”
+* Contains both `must be minimal` and `cover everything` / `full` / `complete`.
+
+If triggered, body should say: “contains a direct contradiction; intent needs reconciliation.”
+
+### G) `Target Needed` (conditional; requires action context)
+
+Only evaluate this if the orchestrator already knows the chosen downstream action.
+Trigger if:
+
+* chosen action has `requires_targets = true`
+* and `Targets[]` is empty (or no target packs selected)
+
+Seal body: “this action needs at least one target pack to stay grounded.”
+
+### H) Output cap rule (to keep seals small)
+
+* Emit at most **2 seals** by default.
+* If more than 2 flags trigger, choose the top 2 by priority:
+
+  1. `Overbroad Scope`
+  2. `No Concrete Subject`
+  3. `No Done Signal`
+  4. `Too Short`
+  5. `Contradictory Ask`
+  6. `Target Needed` *(only if action is already chosen)*

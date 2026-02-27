@@ -1,0 +1,39 @@
+## GROUND-VERIFY — Grounding Verifier (Specialist)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Verify grounding of **[Action Output Pack : Targets]** against **[Run Inputs : Targets]**.
+
+**Required blanks (2)**
+
+* **[Action Output Pack : Targets]** — the output to check for unsupported references.
+* **[Run Inputs : Targets]** — the input packs available to that run (Targets/Packets/Chronicle/Intent packs).
+
+**Pro prose (optional boosters)**
+Verify grounding using **[Index Evidence : Targets]** and **[Codebase State Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Index Evidence : Targets]** — search/index results or handle lists if available.
+* **[Codebase State Notes : Chronicle]** — what run/state was assumed.
+
+### What to Produce
+
+Produce a **Grounding QA Pack** (TEXT chunks):
+
+1. **Grounding Verdict** — OK / UNSUPPORTED_REFERENCES / ASSUMPTION_HEAVY
+2. **Unsupported References** — list surfaces/identifiers mentioned that aren’t present in inputs
+3. **Assumption Map** — what was assumed vs what was evidenced
+4. **Impact Note** — what this risks breaking (patch correctness, contract truth)
+
+Hard guards: no edits, no questions, no routing.
+
+### Recommended Beat Categories
+
+* **Verdict** — grounding status.
+* **Unsupported References** — what isn’t supported.
+* **Assumption Map** — assumed vs grounded.
+* **Impact Note** — why it matters.
+
+---

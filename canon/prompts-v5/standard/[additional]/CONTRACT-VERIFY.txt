@@ -1,0 +1,38 @@
+## CONTRACT-VERIFY — Contract Checklist Verifier (Specialist)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Verify contract coverage of **[Action Output Pack : Targets]** against **[Action Spec : Targets]**.
+
+**Required blanks (2)**
+
+* **[Action Output Pack : Targets]** — the output being checked.
+* **[Action Spec : Targets]** — What to Produce + Beat Categories for that action.
+
+**Pro prose (optional boosters)**
+Verify contract coverage using **[Verifier Notes : Chronicle]** and **[Strictness Intent : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Verifier Notes : Chronicle]** — prior STD-VERIFY findings.
+* **[Strictness Intent : Intent]** — what to treat as hard-mandatory vs soft-optional.
+
+### What to Produce
+
+Produce a **Contract QA Pack** (TEXT chunks):
+
+1. **Coverage Verdict** — OK / MISSING_REQUIRED / THIN_REQUIRED / OFFSPEC
+2. **Checklist** — for each required contract item: Present / Missing / Thin
+3. **Minimal Gap Summary** — 2–5 lines describing the smallest missing set that blocks success
+
+Hard guards: no edits, no routing.
+
+### Recommended Beat Categories
+
+* **Verdict** — contract status.
+* **Checklist** — required items present/missing/thin.
+* **Minimal Gap Summary** — smallest blocking gap set.
+
+---
+

@@ -1,0 +1,54 @@
+## CHR-03 — Chronicle Keystone Builder (School-Typed Summary Artifact)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Build a keystone for **[Run Output Pack : Targets]** as **[School Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Run Output Pack : Targets]** — the chunks produced in a run that should be summarized into a keystone (standard action output, packet receipts, etc.).
+* **[School Intent : Intent]** — which school/genre the keystone should embody (FI/FU/FPR/FA/FS/FP) and what it should emphasize.
+
+**Pro prose (optional boosters)**
+Build a keystone for **[Run Output Pack : Targets]** as **[School Intent : Intent]**, anchored by **[Project Vocabulary : Chronicle]** and constrained by **[Keystone Budget : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Project Vocabulary : Chronicle]** — existing chronicle vocabulary/terms to stay consistent with.
+* **[Keystone Budget : Intent]** — size constraints (“card-sized”, “one screen”, “keep it punchy”).
+
+---
+
+### What to Produce
+
+Produce a **Keystone Unit Pack** (TEXT chunks; CODE optional) that functions as the canonical “summary artifact” for a run, written in the chosen school’s genre.
+
+Across the pack, include:
+
+1. **Keystone Title (TEXT)** — short, specific, school-flavored.
+2. **Keystone Body (TEXT)** — card-sized summary that emphasizes the school’s definition:
+
+   * FI: now-true capability + where it plugs in + closure proof
+   * FU: observed truth (trigger→trace→outcome) + boundaries/couplings
+   * FPR: how to understand/navigate + shared language/vocabulary
+   * FA: mechanism name + governing rules/invariants + degrees of freedom
+   * FS: what got instantiated/stitched/extended + guarantee + proof call-site
+   * FP: north star / done receipt / scope fence / tripwires (corridor decisions)
+3. **Anchors (TEXT, optional)** — 1–3 handles that make the keystone targetable (surface names, seams, terms).
+4. **Code Staple (optional, CODE)** — only if the keystone’s usefulness depends on a small code excerpt (≤12 lines). Otherwise omit.
+
+Hard guards:
+
+* Keystone must be zoomed-out: no full chunk lists, no patch logs, no long enumerations.
+* Do not invent facts; only summarize what exists in the run output pack.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Keystone Title** — the name of the summary artifact.
+* **Keystone Body** — the school-typed “genre” summary (card-sized).
+* **Anchors (optional)** — handles/terms that help future targeting and recall.
+* **Code Staple (optional)** — only when a tiny excerpt is essential to the keystone.

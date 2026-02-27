@@ -1,0 +1,21 @@
+## SYS-PACK-GATE-02 — Packet Budget Gate (Slice/Receipt size caps)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Validate **[Parsed Packet Output Pack : Targets]** against **[Packet Budget Rules : Targets]**.
+
+### What to Produce
+
+* If within budget: no seal.
+* If over budget: emit **one TEXT seal chunk**:
+
+  * **Title:** `Packet Budget Fail`
+  * **Body:** 1–2 lines stating what exceeded (too many chunks, too many code extracts, code lines too many, manifest too long)
+
+### Recommended Seal Beats
+
+* **Budget Verdict** — pass or single failure seal.
+
+---

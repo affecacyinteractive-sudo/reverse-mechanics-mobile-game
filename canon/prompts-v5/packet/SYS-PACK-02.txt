@@ -1,0 +1,51 @@
+## SYS-PACK-02 — Upsert/Downsert Applier (Authoritative Update)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Apply **[Commit Ops : Targets]** onto **[Base Codebase State : Targets]** under **[Run Identity : Targets]**.
+
+*(No user blanks; this is automatic whenever a commit/delete/restore operation is executed.)*
+
+---
+
+### What to Produce
+
+Produce a **Codebase Update Receipt Pack** as TEXT seal chunks, and produce **new immutable file versions** in CODEBASE storage (not as LLM output).
+
+Across the receipt pack, include:
+
+1. **Operation Summary (TEXT)** — one short statement: UPSERT / DOWNSERT and which file paths were affected.
+2. **Before/After Version Links (TEXT)** — for each affected file path:
+
+   * `before_version` (latest <= base run, if exists)
+   * `after_version` (new version id written in this run)
+3. **Tombstone Note (conditional, TEXT)** — if DOWNSERT:
+
+   * state that the file is marked deleted via tombstone at this run (history preserved).
+4. **Patch Application Note (conditional, TEXT)** — if UPSERT came from patch segments:
+
+   * state whether the update was “direct replacement” or “patch-op apply” (no details required).
+5. **Failure Seal (conditional, TEXT)** — if an update could not be applied deterministically:
+
+   * Title: `Codebase Update Failed`
+   * Body: one sentence describing why (conflict, missing base file, invalid patch op, etc.)
+
+Hard guards:
+
+* No guessing: if an operation cannot be applied deterministically, do not produce a “best effort” file version.
+* Always prefer explicit failure seals over silent corruption.
+* Never mutate old versions; only create new versions or tombstones.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Operation Summary** — what operation happened and which files were affected.
+* **Before/After Links** — the authoritative lineage needed for reconstruction.
+* **Tombstone Note (optional)** — deletion semantics if applicable.
+* **Patch Application Note (optional)** — which apply mode was used (replace vs patch-op).
+* **Failure Seal (optional)** — deterministic failure captured as a seal chunk.
+
+---

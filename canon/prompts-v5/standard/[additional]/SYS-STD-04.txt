@@ -1,0 +1,21 @@
+## SYS-STD-04 — Title Rule Gate (hard constraints)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Validate **[Chunk Titles : Targets]** against hard title rules.
+
+### What to Produce
+
+* If valid: no seal.
+* If invalid: emit **one TEXT seal chunk**:
+
+  * **Title:** `Title Fail`
+  * **Body:** 1–2 lines stating the failure (too long, generic, copied beat names)
+
+### Recommended Seal Beats
+
+* **Title Verdict** — pass or a single failure seal.
+
+---

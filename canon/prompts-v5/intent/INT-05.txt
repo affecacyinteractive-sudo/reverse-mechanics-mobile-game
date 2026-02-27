@@ -1,0 +1,53 @@
+## INT-05 — Intent Repair / Normalizer
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Repair **[Intent Pack : Intent]** into a clean, runnable intent for **[Intended Use : Intent]**.
+
+**Required blanks (2)**
+
+* **[Intent Pack : Intent]** — the current intent chunks (may be thin/contradictory/overbroad).
+* **[Intended Use : Intent]** — what this intent is meant to drive next.
+
+**Pro prose (optional boosters)**
+Repair **[Intent Pack : Intent]** for **[Intended Use : Intent]**, respecting **[Reality Notes : Chronicle]** and staying compatible with **[Existing Anchors : Targets]**.
+
+**Optional blanks (descriptions)**
+
+* **[Reality Notes : Chronicle]** — constraints/observations that should constrain the repaired intent.
+* **[Existing Anchors : Targets]** — prior artifact packs the repaired intent must not contradict.
+
+---
+
+### What to Produce
+
+Produce a **Repaired Intent Pack** (TEXT chunks) that is runnable and internally consistent, without changing the user’s underlying aim.
+
+Across the pack, include:
+
+1. **Aim (preserved)** — one sentence; same underlying goal, clarified wording allowed.
+2. **Subject / Surface (concretized)** — name the thing the aim applies to in concrete nouns.
+3. **Constraints (deduped + non-contradictory)** — 2–5 constraints; remove duplicates; resolve conflicts by choosing the smallest set that preserves the aim.
+4. **Done Signal (observable)** — one clear success statement.
+5. **Non-Goals (optional)** — add only if it prevents scope creep.
+6. **Assumptions (optional)** — include only if needed to make it runnable; write as **“Assumed: …”**.
+
+Repair rules (hard):
+
+* Remove self-contradictions.
+* Collapse synonymous lines.
+* If scope is too wide, tighten to the smallest coherent slice **without** inventing a new goal.
+* Do not introduce implementation steps, file plans, or patch plans.
+* Do not ask questions.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Aim (Preserved)** — the same goal, clarified but not changed.
+* **Subject / Surface** — the concrete thing the goal applies to.
+* **Constraints (Reconciled)** — non-negotiables with duplicates/conflicts removed.
+* **Done Signal** — observable success statement.
+* **Non-Goals (optional)** — exclusions to keep scope winnable.
+* **Assumptions (optional)** — only what’s required to run, stated as “Assumed: …”.

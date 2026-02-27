@@ -1,0 +1,56 @@
+## PACK-04 — Packet Delete (Downsert / Tombstone)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Delete **[File Target Pack : Targets]** for **[Deletion Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[File Target Pack : Targets]** — the target bundle that identifies the file(s) to remove (must include file path identity).
+* **[Deletion Intent : Intent]** — why the file should be removed (deprecate, replace, cleanup, wrong direction).
+
+**Pro prose (optional boosters)**
+Delete **[File Target Pack : Targets]** for **[Deletion Intent : Intent]**, constrained by **[Safety Constraints : Intent]** and grounded by **[Reality Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Safety Constraints : Intent]** — any hard constraints on deletion (“only delete if unused”, “keep public API stable”).
+* **[Reality Notes : Chronicle]** — observations about current state (“already replaced by X”, “dead code”, “breaks build”).
+
+---
+
+### What to Produce
+
+Produce a **Deletion Receipt Pack** (TEXT chunks) and an **Updated Packet Pack** that reflects the tombstone state.
+
+Across the output, include:
+
+**A) Deletion Receipt Pack**
+
+1. **Deletion Summary (TEXT)** — 2–5 lines: what was deleted and why.
+2. **Deleted File Paths (TEXT)** — list of file paths removed (names only).
+3. **Tombstone Note (TEXT)** — one sentence stating the deletion is represented as a tombstone at the current run (so history remains).
+4. **Assumptions (optional, TEXT)** — “Assumed: …” only if necessary (e.g., run/state).
+5. **Closure Check (TEXT)** — one sentence stating what is now true (“file no longer exists at latest state”).
+
+**B) Updated Packet Pack**
+6) **Tombstone Marker (TEXT)** — a compact marker chunk per deleted file that can be stored in Packets/Targets to indicate deletion state (e.g., `DELETED: <file_path> at RUN_xxx`).
+7) **Updated Handle List (optional, TEXT)** — if deletion removes key handles, note the handles removed (names only).
+
+Hard guards:
+
+* Do not attempt to rewrite other files or “fix imports” here. This action is deletion only.
+* Do not invent usage analysis; if needed, treat it as an assumption in one line.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Deletion Summary** — what was deleted and the reason.
+* **Deleted File Paths** — exact file identities removed.
+* **Tombstone Note** — explains deletion semantics (history kept, current state removed).
+* **Tombstone Marker(s)** — the minimal “this file is deleted” representation for future targeting.
+* **Closure Check** — the now-true statement after deletion.
+
+---

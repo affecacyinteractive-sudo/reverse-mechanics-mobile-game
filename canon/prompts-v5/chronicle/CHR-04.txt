@@ -1,0 +1,52 @@
+## CHR-04 — Chronicle Arc Extractor (Theme Map / Zoomed-Out Patterns)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Extract the arc from **[Chronicle Window : Chronicle]** for **[Arc Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Chronicle Window : Chronicle]** — the set of chronicle entries to read as a journey segment (e.g., last 10–30 entries).
+* **[Arc Intent : Intent]** — what kind of arc you want (themes, progress narrative, recurring tensions, what’s stabilizing).
+
+**Pro prose (optional boosters)**
+Extract the arc from **[Chronicle Window : Chronicle]** for **[Arc Intent : Intent]**, anchored by **[Pinned Keystones : Targets]** and constrained by **[Arc Budget : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Pinned Keystones : Targets]** — keystones that represent “the spine” of the journey (active blueprint, core concept).
+* **[Arc Budget : Intent]** — limits like “5 themes max”, “one screen”, “only last week”.
+
+---
+
+### What to Produce
+
+Produce an **Arc Map Pack** (TEXT chunks) that turns many chronicle entries into a small, legible set of themes without becoming a transcript.
+
+Across the pack, include:
+
+1. **Arc Frame (TEXT)** — 1–3 lines describing what window was analyzed and what “arc” means here.
+2. **Theme List (TEXT)** — 3–8 themes, each as a compact line:
+
+   * `Theme: <name> — Evidence: <2–3 short references>`
+     Evidence should refer to entry anchors or journal-line fragments (no IDs required).
+3. **School Balance Note (optional, TEXT)** — 2–5 lines describing which schools dominated (build vs truth vs concept vs plan), only if it adds insight.
+4. **Tension / Risk Note (optional, TEXT)** — 2–4 lines naming recurring tensions (scope creep, coupling, naming drift, patch risk), inferred from repeated patterns.
+5. **Closure Check (TEXT)** — one sentence stating what the reader should now understand about the journey segment.
+
+Hard guards:
+
+* Do not rewrite history; summarize recurring signals.
+* Do not invent events not present in the window.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Arc Frame** — what window was analyzed and the meaning of “arc.”
+* **Theme List** — compact themes with minimal evidence references.
+* **School Balance Note (optional)** — whether the journey has been build-heavy, plan-heavy, concept-heavy, etc.
+* **Tension / Risk Note (optional)** — recurring frictions visible across entries.
+* **Closure Check** — confirms the arc map is usable for orientation.

@@ -1,0 +1,57 @@
+## PACK-05 — Packet Restore (Re-upsert from prior run)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Restore **[File Target Pack : Targets]** from **[Restore Source : Targets]**.
+
+**Required blanks (2)**
+
+* **[File Target Pack : Targets]** — the file identity to restore (must include file path).
+* **[Restore Source : Targets]** — where to restore from (a prior run’s file version pack, a checkpoint pack, or a known-good snapshot pack).
+
+**Pro prose (optional boosters)**
+Restore **[File Target Pack : Targets]** from **[Restore Source : Targets]**, guided by **[Restore Intent : Intent]** and constrained by **[Safety Constraints : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Restore Intent : Intent]** — why you’re restoring (undo deletion, recover behavior, rollback bad change).
+* **[Safety Constraints : Intent]** — constraints (“restore only this file”, “don’t change public API”, “restore to run K exactly”).
+
+---
+
+### What to Produce
+
+Produce a **Restore Receipt Pack** (TEXT chunks) plus an **Updated Packet Pack** that reflects the restored authoritative state.
+
+Across the output, include:
+
+**A) Restore Receipt Pack**
+
+1. **Restore Summary (TEXT)** — 2–5 lines: what was restored and why.
+2. **Restored File Path (TEXT)** — the file path restored (name only).
+3. **Restore Source Note (TEXT)** — one sentence stating the source (e.g., “restored from RUN_xxx version” or “restored from checkpoint pack”).
+4. **Assumptions (optional, TEXT)** — only if needed; “Assumed: …”.
+5. **Closure Check (TEXT)** — one sentence stating what is now true (file exists again at latest state).
+
+**B) Updated Packet Pack**
+6) **Restored File Body (CODE)** — the authoritative restored file content (or the most relevant restored fragment if full body is too large; prefer body when feasible).
+7) **Updated Handle List (optional, TEXT)** — key identifiers restored (names only).
+
+Hard guards:
+
+* Restore is file-scoped: do not “repair the world” (imports, callers, build) here.
+* Do not invent a new version; restore must match the provided restore source unless explicitly stated as an assumption.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Restore Summary** — what was restored and why.
+* **Restored File Path** — exact file identity restored.
+* **Restore Source Note** — where the restored content came from.
+* **Restored File Body** — the authoritative restored code content.
+* **Updated Handle List (optional)** — identifiers that matter for retargeting.
+* **Closure Check** — the now-true statement after restoration.
+
+---

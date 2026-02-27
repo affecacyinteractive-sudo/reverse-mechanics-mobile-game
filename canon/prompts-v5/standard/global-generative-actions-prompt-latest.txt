@@ -98,9 +98,16 @@ CODE chunks (patch_segments.code):
 - Minimal necessary context only; avoid whole-file dumps.
 - Keep lines short to avoid mobile wrap.
 
-**CODE PROFILE RULE (hard)**
-
-* If `segment_profiles[]` is provided, apply the matching CODE_PROFILE delta rules to each patch segment’s CODE chunk; if missing, default to `DEFAULT_APP_CODE`.
+CODE PROFILE RULE (hard)
+- If segment_profiles[] is provided:
+  - Treat patch_segments[0] as segment_index=1, patch_segments[1] as segment_index=2, etc.
+  - For each patch segment’s CODE chunk, apply:
+    (1) the matching DOMAIN delta for segment_profiles[i].domain_profile, AND
+    (2) the matching LANGUAGE delta for segment_profiles[i].language_profile,
+        unless language_profile = NONE (in that case, skip language deltas).
+- If segment_profiles[] is missing or incomplete for a segment:
+  - domain_profile defaults to DEFAULT_APP_CODE
+  - language_profile defaults to NONE
 
 ──────────────────────────────────────────────────────────────────────────────
 4) CHUNK COUNT BUDGET (per run)

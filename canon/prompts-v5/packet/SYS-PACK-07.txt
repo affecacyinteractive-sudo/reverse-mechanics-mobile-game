@@ -1,0 +1,121 @@
+## SYS-PACK-07 — Target Address Resolver (Targets → Concrete Addresses)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Resolve extraction addresses from **[Target Pack : Targets]** using **[INDEX State : Targets]**, under **[Run State : Targets]**.
+
+*(No user blanks; this is automatic whenever PACK-01 / PACK-02 needs to extract.)*
+
+---
+
+### What to Produce
+
+Produce a **Resolved Address Pack** (TEXT seal chunks) and a machine-usable **address set** (internal object, not LLM output) that the slice builder can consume.
+
+Across the receipt/seal chunks, include:
+
+1. **Resolution Summary (TEXT)** — 2–5 lines stating:
+
+   * what targets were provided (at a high level),
+   * what address types were resolved (file paths, region keys, handle matches),
+   * which run/state the resolution used.
+
+2. **Resolved File Paths (TEXT)** — compact list of resolved `file_path` values (names only).
+
+3. **Resolved Regions (optional, TEXT)** — resolved region addresses if supported (entity keys / sentinel keys / block ids), names only.
+
+4. **Resolved Handles (optional, TEXT)** — handles/identifiers used for matching (function/component names, selectors, routes), names only.
+
+5. **Resolution Failure Seal (conditional, TEXT)** — if no usable addresses can be resolved:
+
+   * Title: `Target Resolution Failed`
+   * Body: one sentence describing why (no index matches, ambiguous targets, missing file identity).
+
+Hard guards:
+
+* Resolution must be deterministic and repeatable (same target pack + same index + same run state → same addresses).
+* Prefer file paths over fuzzy handle matches.
+* Do not invent file paths or identifiers.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Resolution Summary** — what was resolved and under which state.
+* **Resolved File Paths** — concrete file identities to extract from.
+* **Resolved Regions (optional)** — precise region keys if your index supports them.
+* **Resolved Handles (optional)** — identifiers used to locate regions.
+* **Resolution Failure Seal (optional)** — failure captured without guessing.
+
+---
+
+## Deterministic resolution rules (V1)
+
+### A) Address types (ordered by reliability)
+
+1. **File Path** (strongest)
+2. **Region Key** (if supported; e.g., sentinel/entity keys)
+3. **Handle / Identifier Match** (fallback; function/class/component name, selector, route, table)
+4. **Keyword Search Match** (last resort; index handles/summaries)
+
+### B) Extraction state
+
+* Use the run/state implied by the Target Pack if present.
+* Otherwise default to “latest” state (or the currently active run base state).
+
+### C) How to resolve from a Target Pack
+
+Target Packs may contain (any mix):
+
+* explicit file paths
+* entity keys / region identifiers
+* handle lists
+* summaries containing recognizable identifiers
+
+Resolution procedure:
+
+1. **Harvest explicit file paths**
+
+   * If target pack includes file paths, accept them directly if they exist in index at the chosen state.
+2. **Harvest explicit region keys**
+
+   * If region keys exist and index supports them, accept them and attach their file paths.
+3. **Harvest handles/identifiers**
+
+   * Collect handles (e.g., `Hero`, `useAuth`, `#hero`, `POST /login`, `users_by_id`).
+   * Match against index handles to propose candidate file paths.
+4. **Rank candidates**
+
+   * Prefer candidates where:
+
+     * handle appears in the file’s handle list, AND
+     * file’s summary includes similar terms, AND
+     * file is “recent” (latest_run_id close to state) only as a tie-breaker.
+5. **Cap & dedupe**
+
+   * Default cap: max 5 file paths resolved per call (unless intent explicitly says “broad slice”).
+   * Dedupe file paths; keep highest-confidence matches.
+
+### D) Ambiguity handling (no questions)
+
+If multiple matches tie and you must choose:
+
+* choose the smallest set that stays coherent:
+
+  * prefer 1–2 file paths over 5 scattered ones
+* emit a seal chunk:
+
+  * Title: `Ambiguous Target`
+  * Body: one sentence naming the ambiguity (“multiple files matched handle X; chose top 2 by handle density”).
+
+### E) Failure condition
+
+Emit `Target Resolution Failed` if:
+
+* no file paths could be resolved AND
+* no region keys could be resolved AND
+* no handle matches produce candidates.
+
+---

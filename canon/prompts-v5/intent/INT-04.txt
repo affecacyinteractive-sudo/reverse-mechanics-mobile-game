@@ -1,0 +1,51 @@
+## INT-04 — Intent Verifier (QA)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Verify **[Intent Pack : Intent]** for readiness to run **[Intended Use : Intent]**.
+
+**Required blanks (2)**
+
+* **[Intent Pack : Intent]** — the current intent chunks to evaluate (from INT-01/02/03 or raw).
+* **[Intended Use : Intent]** — what the intent is supposed to drive next (e.g., “FI-02 fix”, “FS-04 stitch”, “FP-02 done receipt”).
+
+**Pro prose (optional boosters)**
+Verify **[Intent Pack : Intent]** for **[Intended Use : Intent]**, cross-checking against **[Existing Anchors : Targets]** and **[Reality Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Existing Anchors : Targets]** — prior artifact packs the intent must remain compatible with.
+* **[Reality Notes : Chronicle]** — constraints/observations that might invalidate or sharpen the intent.
+
+---
+
+### What to Produce
+
+Produce a **Verifier Result Pack** (TEXT chunks) that diagnoses readiness without blocking.
+
+Across the pack, include:
+
+1. **Readiness Verdict** — one of: **READY / THIN / CONFLICTED / OVERBROAD / MISALIGNED** (pick one).
+2. **Why (1–3 reasons)** — the smallest set of reasons for the verdict, written plainly.
+3. **Missing Pieces (if any)** — what the intent lacks to be runnable (e.g., missing subject, missing done signal, missing constraint).
+4. **Contradictions (if any)** — any internal conflicts (constraints vs aim, done vs non-goals).
+5. **Scope Fit** — whether this intent is realistically achievable in **1–3 actions**, and if not, what the “one slice” should be.
+6. **Next Best Move** — exactly one recommended follow-up action: **INT-01 / INT-02 / INT-03 / INT-05 / INT-06** (choose one), with a 1-line rationale.
+
+Hard guard:
+
+* Do not rewrite the intent here.
+* Do not propose implementation steps.
+* Do not ask questions.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Verdict** — the single readiness label (READY/THIN/CONFLICTED/OVERBROAD/MISALIGNED).
+* **Reasons** — 1–3 tight reasons supporting the verdict.
+* **Missing Pieces (optional)** — what’s absent that prevents clean downstream generation.
+* **Contradictions (optional)** — conflicts that will cause drift or incoherent outputs.
+* **Scope Fit** — whether 1–3 actions can realistically succeed from this intent.
+* **Next Best Move** — one explicit recommended intent action to run next (not a plan).

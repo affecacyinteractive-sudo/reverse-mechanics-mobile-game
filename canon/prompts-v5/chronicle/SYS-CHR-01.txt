@@ -1,0 +1,40 @@
+## SYS-CHR-01 — Chronicle Capture (Auto-Entry Skeleton)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+On commit, create a chronicle entry from **[Run Identity : Targets]** and **[Keystone Unit Pack : Targets]**.
+
+*(No user blanks; this is automatic whenever a run/keystone is committed.)*
+
+---
+
+### What to Produce
+
+Produce exactly **one** Chronicle Entry chunk (TEXT) as a skeleton record.
+
+Chronicle Entry chunk:
+
+* **Title:** `Chronicle Entry`
+* **Body:** a compact structured text block containing:
+
+  * `run_id: ...`
+  * `school: FI|FU|FPR|FA|FS|FP`
+  * `keystone_ref: <id or handle>`
+  * `journal_line: (placeholder)`
+  * `anchors: (empty)`
+  * `tags: (empty)`
+* **Kind:** TEXT
+
+Hard guards:
+
+* No interpretation and no summary generation here.
+* Do not invent anchors/tags.
+* This is just the minimal skeleton so later steps can fill it.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Entry Skeleton** — the minimal journal record created at commit time, before enrichment.

@@ -1,0 +1,54 @@
+## PACK-06 — Codebase Checkout (Export at Run)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Checkout the codebase at **[Run Selector : Intent]** for **[Checkout Purpose : Intent]**.
+
+**Required blanks (2)**
+
+* **[Run Selector : Intent]** — which state to export (e.g., “latest”, “RUN_0042”, “before RUN_0042”).
+* **[Checkout Purpose : Intent]** — why you’re exporting (download, share, audit, reproduce, branch).
+
+**Pro prose (optional boosters)**
+Checkout the codebase at **[Run Selector : Intent]** for **[Checkout Purpose : Intent]**, constrained by **[Scope Selector : Intent]** and annotated by **[Receipt Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Scope Selector : Intent]** — export all files vs a subset (folder/file list), if you want partial checkout.
+* **[Receipt Notes : Chronicle]** — any notes that should appear in the export receipt (why this run matters, what to look for).
+
+---
+
+### What to Produce
+
+Produce a **Checkout Receipt Pack** (TEXT chunks) and an **Export Payload Description Pack** (TEXT chunks) that describes what was exported.
+
+(Actual export artifact creation is handled by the system; this action produces the player-visible receipt + structured listing.)
+
+Across the output, include:
+
+1. **Checkout Summary (TEXT)** — 2–5 lines: what run was checked out and why.
+2. **Resolved Run State (TEXT)** — the resolved interpretation of the selector (e.g., “RUN_0042”, or “state before RUN_0042”).
+3. **Export Scope (TEXT)** — “all files” or the subset criteria used.
+4. **File Manifest (TEXT)** — a compact manifest: file paths included (can be grouped by folder; names only).
+5. **Tombstone Handling Note (TEXT)** — one sentence stating deleted files are excluded at/after their tombstone run.
+6. **Closure Check (TEXT)** — one sentence confirming what the player can now do (“this export reproduces that state”).
+
+Hard guards:
+
+* Do not include full file bodies as chunks here (that would explode budgets).
+* Keep manifest compact; it’s a “receipt/manifest,” not a dump.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Checkout Summary** — what was exported and why.
+* **Resolved Run State** — the exact state interpretation of the run selector.
+* **Export Scope** — whether this is full-project or partial checkout.
+* **File Manifest** — which files are included (names only, compact).
+* **Tombstone Handling Note** — deletion semantics for reconstruction.
+* **Closure Check** — confirms export usefulness.
+
+---

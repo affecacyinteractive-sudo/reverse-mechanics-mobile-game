@@ -1,0 +1,63 @@
+## CHR-VERIFY — Chronicle Quality Verifier (Zoom-Out QA)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Verify **[Chronicle Pack : Chronicle]** against **[Quality Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Chronicle Pack : Chronicle]** — the chronicle entries (journal lines) to evaluate.
+* **[Quality Intent : Intent]** — what “quality” means here (clarity, school flavor, compactness, usefulness as zoom-out memory).
+
+**Pro prose (optional boosters)**
+Verify **[Chronicle Pack : Chronicle]** against **[Quality Intent : Intent]**, anchored by **[Linked Keystones : Targets]** and constrained by **[Budget Rules : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Linked Keystones : Targets]** — keystone packs to verify faithfulness (prevents drift).
+* **[Budget Rules : Intent]** — caps like “≤140 chars per line”, “anchors max 3”, “no fluff”.
+
+---
+
+### What to Produce
+
+Produce a **Chronicle QA Result Pack** (TEXT chunks) that diagnoses journal quality without rewriting entries and without “next move” routing.
+
+Across the pack, include:
+
+1. **Verdict (TEXT)** — choose exactly one:
+   **OK / THIN / MUSHY / OFFGENRE / DUPLICATIVE / OVERLONG**
+
+2. **Top Findings (TEXT)** — 3–8 short findings, each written as:
+   `Finding: <problem> → Evidence: <which entry/phrase> → Impact: <why it hurts recall>`
+
+3. **School Flavor Check (TEXT)** — a compact note on whether entries “sound like” their school:
+
+   * FI = built capability
+   * FU = observed truth/boundary
+   * FPR = legibility/vocabulary
+   * FA = mechanism/rules
+   * FS = stitching/guarantee
+   * FP = corridor decisions
+     Flag mismatches as OFFGENRE.
+
+4. **Compactness Check (TEXT)** — whether entries are short and scannable (esp. journal_line ≤140-ish), and whether anchors/tags are sparse.
+
+5. **Faithfulness Risk (optional, TEXT)** — only if linked keystones are provided and entries appear to add claims not supported; flag as risk.
+
+Hard guards:
+
+* Do not rewrite entries here.
+* Do not reference action IDs or recommend “next best move.”
+* Do not ask questions.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Verdict** — single label for chronicle pack quality.
+* **Top Findings** — the biggest issues with evidence + impact.
+* **School Flavor Check** — whether each entry matches its school genre.
+* **Compactness Check** — whether entries stay short, scannable, and low-noise.
+* **Faithfulness Risk (optional)** — flags claims that seem unsupported by keystones.

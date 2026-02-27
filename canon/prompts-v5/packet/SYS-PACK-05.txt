@@ -1,0 +1,95 @@
+## SYS-PACK-05 — Packet Budget Shaper (Deterministic Slice Trimming)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Shape **[Raw Slice Materials : Targets]** into **[Budgeted Packet Pack : Packets]** for **[Slice Intent : Intent]**.
+
+*(No user blanks; this is automatic whenever PACK-01 / PACK-02 produces a slice candidate.)*
+
+---
+
+### What to Produce
+
+Produce a **Budget Shaping Receipt Pack** (TEXT seals) and output a **budgeted Packet Pack** (CODE/TEXT chunks) that obeys hard size limits.
+
+Across the receipt pack, include:
+
+1. **Budget Rule Note (TEXT)** — one short statement of the budget posture used (e.g., “prefer fewer high-signal extracts”).
+2. **Applied Limits (TEXT)** — the concrete caps used:
+
+   * max code extracts
+   * max lines per code extract
+   * max text chunks
+   * max total packet chunks
+3. **Trim Actions (TEXT)** — 1–4 lines describing what was trimmed:
+
+   * dropped extract types (e.g., “dropped extra callsites”)
+   * shortened context radius
+   * collapsed handle list
+4. **Budget Failure Seal (conditional, TEXT)** — if budget could not be satisfied without losing the primary surface:
+
+   * Title: `Slice Budget Failed`
+   * Body: one sentence stating why (primary too large, too many dependencies to interpret).
+
+Hard guards:
+
+* The **Primary Surface Extract** must survive whenever possible.
+* Trimming must be deterministic (same input materials + same limits ⇒ same output).
+* Prefer dropping optional context over shortening the primary extract into incoherence.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Budget Rule Note** — how trimming decisions were prioritized.
+* **Applied Limits** — the caps that governed shaping.
+* **Trim Actions** — what context was removed/shortened.
+* **Budget Failure Seal (optional)** — if shaping can’t preserve a usable slice.
+
+---
+
+## Deterministic trimming heuristics (V1)
+
+### A) Hard caps (defaults)
+
+* Max total Packet Pack chunks: **6**
+* Max CODE extracts (kind=CODE) inside the pack: **4**
+
+  * 1 Primary + up to 3 Context
+* Max lines per CODE extract: **12** (align with global code chunk rule)
+* Max TEXT chunks: **3**
+
+  * Summary + (optional) Handles + (optional) Assumptions
+
+### B) Priority order for keeping content
+
+Keep in this order:
+
+1. Primary Surface Extract (must keep)
+2. Minimal Imports/Types needed to read the primary
+3. One Callsite (if it clarifies invocation)
+4. One Governing Config/Constant (if it directly affects behavior)
+5. One Neighbor Helper (only if directly called by primary)
+6. Handle List (only if there is room)
+7. Assumptions (only if needed)
+
+### C) How to trim
+
+* If over cap on CODE extracts: drop lowest priority context extracts first.
+* If a CODE extract exceeds 12 lines:
+
+  * trim to the tightest contiguous region that still includes the referenced identifiers
+  * prefer removing surrounding whitespace/comments and unrelated branches
+* If handle list is long: keep top **8–12** identifiers only.
+* If summary is long: cap to **2–5 lines** (already implied by PACK-01/02).
+
+### D) Failure condition
+
+Emit `Slice Budget Failed` only if:
+
+* the primary extract alone cannot be made coherent within 12 lines **and**
+* dropping all context still doesn’t fit the budget posture.
+
+---

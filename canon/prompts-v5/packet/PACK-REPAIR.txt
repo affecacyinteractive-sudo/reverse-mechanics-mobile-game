@@ -1,0 +1,66 @@
+## PACK-REPAIR — Universal Packet Output Repair (Semantic + Spec Completeness)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Repair **[Packet Output Pack : Targets]** to satisfy **[Packet Action Spec : Targets]**.
+
+**Required blanks (2)**
+
+* **[Packet Output Pack : Targets]** — the output pack produced by any PACK action (may be thin/offspec).
+* **[Packet Action Spec : Targets]** — the spec for that PACK action (What to Produce + Beat Categories).
+
+**Pro prose (optional boosters)**
+Repair **[Packet Output Pack : Targets]** to satisfy **[Packet Action Spec : Targets]**, using **[Verifier Notes : Chronicle]** and grounded by **[Source Materials : Targets]**.
+
+**Optional blanks (descriptions)**
+
+* **[Verifier Notes : Chronicle]** — findings from PACK-VERIFY about missing/weak elements.
+* **[Source Materials : Targets]** — any supporting packs that contain the truth needed to repair correctly (target packs, raw slice materials, index results, checkout receipts, commit ops metadata).
+
+---
+
+### What to Produce
+
+Produce a **Repaired Packet Output Pack** that satisfies the packet action’s “What to Produce” contract with minimal additions, staying compact.
+
+Repair scope (what you are allowed to change):
+
+1. **Fill missing required elements** — add the minimum TEXT/CODE chunks needed to satisfy missing spec items.
+2. **Fix wrong pack type** — if the pack is clearly mismatched to the action spec (e.g., a slice pack missing any CODE), repair by constructing the minimal expected structure from available source materials.
+3. **Strengthen weak essentials** — rewrite thin summaries, missing handle lists, unclear receipts into concrete statements.
+4. **Restore usability** — for extraction-type packs (PACK-01/02), ensure:
+
+   * exactly one coherent **Primary Surface Extract** exists,
+   * and at least one minimal context extract exists if the primary is otherwise uninterpretable (imports/types/callsite/config).
+5. **Commit/Restore/Delete correctness** — for state-changing packs (PACK-03/04/05), ensure:
+
+   * file identities are explicit,
+   * before/after semantics are stated,
+   * tombstone/source notes exist where required,
+   * and updated code packets are present where required.
+6. **Checkout/Diff/Search usefulness** — for PACK-06/07/08, ensure:
+
+   * run state / scope / manifest (checkout),
+   * touched files + grouped meaning (diff),
+   * ranked matches + compact rationales (search).
+
+Hard guards:
+
+* Do not bloat: add only what is required to satisfy the spec.
+* Do not invent code/extracts. If required code is missing from available source materials, emit a single TEXT seal chunk:
+
+  * Title: `Repair Blocked`
+  * Body: one sentence stating what required evidence is missing (no questions).
+* No internal action IDs and no “next move” guidance.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Spec Completion** — missing required packet elements added minimally.
+* **Pack-Type Correction (optional)** — repaired into the correct structural shape for the action.
+* **Slice Usability (optional)** — primary extract + minimal context made interpretable.
+* **State Semantics (optional)** — commit/delete/restore semantics made explicit and auditable.
+* **Receipt Clarity** — summaries/manifests/results made concrete and useful.
+* **Repair Blocked (optional)** — emitted only when required evidence is absent.

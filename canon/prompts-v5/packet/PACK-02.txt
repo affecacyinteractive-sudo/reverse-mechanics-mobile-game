@@ -1,0 +1,63 @@
+## PACK-02 — Packet Context Booster (Enrich a thin slice)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Boost context for **[Packet Pack : Packets]** to better support **[Slice Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Packet Pack : Packets]** — the current extracted slice (often too thin).
+* **[Slice Intent : Intent]** — what the slice is meant to enable next (e.g., FI-02 fix, FA-03 contract, FS-04 stitch).
+
+**Pro prose (optional boosters)**
+Boost context for **[Packet Pack : Packets]** to support **[Slice Intent : Intent]**, using **[Anchor Targets : Targets]** and constrained by **[Budget & Focus : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Anchor Targets : Targets]** — target packs that clarify which surfaces matter most (file/entity/handle anchors).
+* **[Budget & Focus : Intent]** — what to add first (imports/types, callsites, neighboring helpers, config keys; max additions).
+
+---
+
+### What to Produce
+
+Produce a **Boosted Packet Pack** that remains small but becomes meaningfully more usable for downstream standard actions.
+
+Rules:
+
+* Preserve the original **Primary Surface Extract** (do not replace it unless it is clearly the wrong surface for the Slice Intent).
+* Add only context that reduces guessing.
+
+Across the boosted pack, include:
+
+1. **Boost Summary (TEXT)** — 2–5 lines stating what context was added and why it matters for Slice Intent.
+2. **Primary Surface Extract (CODE)** — include the primary extract (same content unless correction is necessary).
+3. **Added Context Extract(s) (CODE)** — 1–4 extracts chosen by utility:
+
+   * **Imports/Types** needed to interpret shapes
+   * **Callsite** showing how it’s invoked
+   * **Neighbor Helper** directly referenced
+   * **Config/Constant** that governs behavior
+4. **Updated Handle List (TEXT)** — identifiers now present across the pack (optional if unchanged).
+5. **Assumptions (TEXT, optional)** — only if needed; one line as **“Assumed: …”**.
+
+Hard guards:
+
+* Do not invent new code; only extract from the authoritative codebase state implied by the packet pack / targets.
+* Do not bloat: prefer fewer, higher-signal context extracts over broad dumps.
+* Added context must be directly referenced by or directly governing the primary surface.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Boost Summary** — what context was added and why it increases usability.
+* **Primary Surface Extract** — the core surface the next action cares about.
+* **Imports/Types Context (optional)** — shapes needed to read the surface correctly.
+* **Callsite Context (optional)** — how the surface is invoked in practice.
+* **Neighbor Helper Context (optional)** — nearby helper(s) directly used by the surface.
+* **Config/Constant Context (optional)** — governing knobs that explain behavior.
+* **Updated Handle List (optional)** — key identifiers for targeting and grounded titles.
+
+---

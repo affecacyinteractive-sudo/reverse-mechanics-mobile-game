@@ -1,0 +1,22 @@
+## SYS-PACK-GATE-01 — Packet Output Schema Gate (JSON + Shape)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Validate **[Raw LLM Output : RawText]** against **[Global Output Schema : Targets]**.
+
+### What to Produce
+
+* If valid: emit no seal (silent pass).
+* If invalid: emit **one TEXT seal chunk**:
+
+  * **Title:** `Packet Schema Fail`
+  * **Body:** 1–2 lines stating what failed (not JSON / missing keys / wrong types / unexpected fields)
+
+### Recommended Seal Beats
+
+* **Schema Verdict** — pass or single failure seal.
+
+---
+

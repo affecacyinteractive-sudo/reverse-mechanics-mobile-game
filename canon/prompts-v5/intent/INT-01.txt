@@ -1,0 +1,49 @@
+## INT-01 — Intent Transformer (Clarify)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Clarify **[Raw Ask : Intent]** into a clean intent for **[Intended Use : Intent]**.
+
+**Required blanks (2)**
+
+* **[Raw Ask : Intent]** — the user’s messy message (what they typed).
+* **[Intended Use : Intent]** — what this intent will drive next (e.g., “run FI-02 fix”, “plan FP-02 done receipt”, “generate a patch segment”).
+
+**Pro prose (optional boosters)**
+Clarify **[Raw Ask : Intent]** into a clean intent for **[Intended Use : Intent]**, anchored by **[Existing Anchors : Targets]** and constrained by **[Reality Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Existing Anchors : Targets]** — prior artifact packs that must anchor meaning (surface/contract/plan already chosen).
+* **[Reality Notes : Chronicle]** — constraints/observations that must be respected (limits, known behavior, scope pressure).
+
+---
+
+### What to Produce
+
+Produce an **Intent Pack** as a small set of TEXT chunks that is:
+
+* coherent (no contradictions),
+* specific enough to drive **1–3 downstream actions**, and
+* free of implementation/solution details (no patch plans, no code).
+
+Across the pack, include:
+
+1. **Core Aim** — one sentence stating what should become true.
+2. **Subject / Surface** — concrete nouns for what the aim is about (feature/slice/surface).
+3. **Constraints** — 1–3 non-negotiables (limits, preserve-true, scope fences).
+4. **Done Signal** — what counts as success (observable outcome, not vibes).
+5. **Non-Goals (optional)** — what not to do / not expand into.
+6. **Assumptions (optional)** — only if required to make the intent runnable; write as **“Assumed: …”** (no questions).
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Aim (Now-True)** — the single outcome you’re trying to make true.
+* **Subject / Surface** — the specific thing this intent is about, named in concrete nouns.
+* **Constraints** — the hard boundaries and “must stay true” conditions.
+* **Done Signal** — the observable proof that the intent succeeded.
+* **Non-Goals (optional)** — explicit exclusions that prevent scope creep.
+* **Assumptions (optional)** — any necessary assumptions stated firmly as “Assumed: …”.

@@ -1,0 +1,57 @@
+## PACK-NORM — Universal Packet Output Normalizer (Format + Composition)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Normalize **[Packet Output Pack : Targets]** to comply with **[Packet Action Spec : Targets]**.
+
+**Required blanks (2)**
+
+* **[Packet Output Pack : Targets]** — the output pack produced by any PACK action (PACK-01…PACK-08).
+* **[Packet Action Spec : Targets]** — the spec for that PACK action (What to Produce + Beat Categories).
+
+**Pro prose (optional boosters)**
+Normalize **[Packet Output Pack : Targets]** to comply with **[Packet Action Spec : Targets]**, guided by **[Verifier Notes : Chronicle]** and constrained by **[Normalization Focus : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Verifier Notes : Chronicle]** — findings from PACK-VERIFY about formatting/composition issues.
+* **[Normalization Focus : Intent]** — what to prioritize (titles, chunk sizing, ordering, handle compression, manifest compactness).
+
+---
+
+### What to Produce
+
+Produce a **Normalized Packet Output Pack** that preserves the same meaning and claims as the input, but is rewritten/restructured to comply with formatting and composition rules.
+
+Allowed edits (format-only):
+
+1. **Titles** — rewrite titles to be short, grounded, and content-specific; avoid generic labels.
+2. **Text body compliance** — rewrite TEXT bodies to be compact and readable; remove bullet lists and headings inside bodies; keep “one idea each.”
+3. **Code formatting hygiene** — remove markdown fences; ensure code body is code-only; minor whitespace/indent cleanup is allowed without changing semantics.
+4. **Chunk splitting/merging** — merge redundant tiny text chunks; split overloaded text chunks into two; stay compact.
+5. **Ordering** — reorder chunks into a coherent flow appropriate to the pack type:
+
+   * Slice packs (PACK-01/02): summary → primary extract → context extracts → handles/assumptions
+   * Commit packs (PACK-03): summary → touched surfaces → segment receipt → updated primary code → updated context → handles
+   * Delete/restore (PACK-04/05): summary → file paths → tombstone/source note → marker/body → closure
+   * Checkout (PACK-06): summary → resolved state → scope → manifest → tombstone note → closure
+   * Diff/search (PACK-07/08): summary → main results → secondary groupings/handles → closure
+6. **Handle list compression** — cap to a tight set of identifiers; remove repetition; group by file/surface only if needed.
+
+Hard guards:
+
+* Do **not** invent missing content or fill missing spec elements (that is PACK-REPAIR’s job).
+* Do **not** change factual claims (file paths, run ids, touched files).
+* Do **not** add new extracts or remove required extracts; only reorganize and compress.
+* No internal action IDs and no “next move” guidance.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Title Normalization** — titles made short and content-specific.
+* **Text Body Compliance** — text rewritten to be compact and readable (“one idea each”).
+* **Code Hygiene** — CODE chunks cleaned of fences/prose without semantic change.
+* **Composition Flow** — chunk ordering adjusted to a coherent pack structure.
+* **Handle Compression (optional)** — identifiers trimmed to a high-signal set.

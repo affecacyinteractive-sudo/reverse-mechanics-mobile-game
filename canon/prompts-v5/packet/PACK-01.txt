@@ -1,0 +1,51 @@
+## PACK-01 — Packet Slice Composer (Extractor)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Extract a usable code slice from **[Target Pack : Targets]** for **[Slice Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Target Pack : Targets]** — the coherent target bundle you want to slice from (file pack / run pack / surface pack).
+* **[Slice Intent : Intent]** — what this slice is meant to enable next (e.g., “run FI-02 fix”, “run FA-03 contract”, “run FU-06 mechanics map”).
+
+**Pro prose (optional boosters)**
+Extract a usable code slice from **[Target Pack : Targets]** for **[Slice Intent : Intent]**, constrained by **[Budget & Focus : Intent]** and grounded by **[Local Reality Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Budget & Focus : Intent]** — what to prioritize (smallest relevant region vs broader context; max files; “prefer callsites” etc.).
+* **[Local Reality Notes : Chronicle]** — constraints about state or selection (“prefer latest run”, “file was recently changed”, “avoid touching X”).
+
+---
+
+### What to Produce
+
+Produce a **Packet Pack**: a small bundle of chunks that is directly usable as `Packets[]` input for a standard generative action.
+
+Across the pack, include:
+
+1. **Slice Summary (TEXT)** — 2–5 lines stating what this slice contains and why it’s sufficient grounding for the Slice Intent.
+2. **Primary Surface Extract (CODE)** — the single most relevant code region (the “main thing” the next action will reason about or patch).
+3. **Context Extract(s) (CODE, optional)** — 1–3 small adjacent extracts that make the primary surface interpretable (imports/types, callsite, helper, config).
+4. **Handle List (TEXT, optional)** — a compact list of identifiers present in the extracts (functions/components/routes/selectors/tables).
+5. **Assumptions (TEXT, optional)** — only if needed; one line as **“Assumed: …”** (e.g., assumed run/state).
+
+Hard guards:
+
+* Prefer one coherent surface over scattered snippets.
+* Don’t invent code; only extract what exists in the target pack’s codebase state.
+* Keep extracts small and local; stop once the next action can run without guessing basic context.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Slice Summary** — what was extracted and why it’s enough.
+* **Primary Surface Extract** — the main code surface to reason about or patch.
+* **Context Extracts (optional)** — the minimum surrounding code needed to interpret the primary extract.
+* **Handle List (optional)** — the key identifiers that support targeting and grounded titles.
+* **Assumptions (optional)** — any necessary assumptions stated firmly as “Assumed: …”.
+
+---

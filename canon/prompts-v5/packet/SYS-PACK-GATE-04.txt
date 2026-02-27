@@ -1,0 +1,21 @@
+## SYS-PACK-GATE-04 — Slice Must-Have Gate (PACK-01/02)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Validate that a slice pack contains a **Primary Surface Extract**.
+
+### What to Produce
+
+* If valid: no seal.
+* If invalid: emit **one TEXT seal chunk**:
+
+  * **Title:** `Slice Missing Primary`
+  * **Body:** 1–2 lines stating the slice lacks a primary CODE extract and is unusable.
+
+### Recommended Seal Beats
+
+* **Slice Verdict** — pass or single failure seal.
+
+---

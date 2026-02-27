@@ -1,0 +1,44 @@
+## SYS-PACK-03 — Index Refresher (Recompute Handles + Summaries)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Refresh index for **[Updated File Versions : Targets]** under **[Run Identity : Targets]**.
+
+*(No user blanks; this is automatic after SYS-PACK-02 succeeds for any file.)*
+
+---
+
+### What to Produce
+
+Produce an **Index Refresh Receipt Pack** as TEXT seal chunks, and update INDEX storage (not as LLM output).
+
+Across the receipt pack, include:
+
+1. **Index Refresh Summary (TEXT)** — one short statement: which file paths were refreshed and for which run.
+2. **Handle Update Note (TEXT)** — one sentence stating what handle sources were used (e.g., “identifiers + selectors + routes”, based on file type heuristics).
+3. **Entity Address Update Note (optional, TEXT)** — only if your system supports entity/region addressing:
+
+   * one sentence stating entities were updated (ACTIVE/REMOVED) for the refreshed files.
+4. **Index Failure Seal (conditional, TEXT)** — if indexing failed for any file:
+
+   * Title: `Index Refresh Failed`
+   * Body: one sentence stating which file path and why (parse error, corrupted body, unsupported format).
+
+Hard guards:
+
+* Index must always point to the correct latest file version for that run.
+* Do not guess handles if parsing fails; emit a failure seal for that file.
+* Index refresh must never mutate CODEBASE; it only updates INDEX.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Index Refresh Summary** — confirms index has been updated for the run.
+* **Handle Update Note** — what kinds of handles were extracted for targeting/search.
+* **Entity Address Update Note (optional)** — whether entity/region addresses were refreshed.
+* **Index Failure Seal (optional)** — deterministic failure recorded as a seal.
+
+---

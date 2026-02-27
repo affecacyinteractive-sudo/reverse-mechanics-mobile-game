@@ -1,0 +1,59 @@
+## SYS-CHR-05 — Chronicle Budget Shaper (Deterministic Trimming)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Shape **[Chronicle Window Pack : Chronicle]** into a budgeted **[Chronicle[] : Chronicle]** for **[Use Context : Intent]**.
+
+*(No user blanks; this is automatic whenever Chronicle[] would exceed budget.)*
+
+---
+
+### What to Produce
+
+Produce a **Budgeted Chronicle Window Pack** (TEXT chunks) that stays within strict size limits while preserving continuity.
+
+Budget targets (defaults; tune later):
+
+* Max chronicle chunks in the window: **6**
+* Max “recent entries” lines: **3**
+* Max total characters per chunk body (soft): **~800** (or equivalent word cap)
+* Prefer keeping one “active blueprint” chunk if present.
+
+Trimming rules (deterministic, priority order):
+
+1. Always keep **Window Header**.
+2. Keep the **last 2–3 entries** (most recent first).
+3. If **Active Blueprint** exists, keep it; if too large, truncate to first ~6–10 lines.
+4. If **Pinned Keystones** exist:
+
+   * keep at most **1–2**, truncated
+5. If still over budget:
+
+   * collapse older entries into a single TEXT chunk:
+
+     * Title: `Earlier`
+     * Body: 2–5 short lines summarizing older entries by their journal_line only (no invention).
+
+If trimming cannot satisfy budget without dropping all continuity:
+
+* emit one seal chunk:
+
+  * Title: `Chronicle Budget Failed`
+  * Body: one sentence stating what exceeded and what was dropped.
+
+Hard guards:
+
+* No rewriting content beyond truncation and collapsing by copying existing journal_line text.
+* No invention.
+* Keep it scannable.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Budgeted Window** — the final thin chronicle context window.
+* **Truncation Note (optional)** — when blueprint/pins were truncated.
+* **Earlier Collapse (optional)** — older entries collapsed into a compact “Earlier” chunk.
+* **Budget Failure Seal (optional)** — emitted only if budget cannot be met.

@@ -1,0 +1,21 @@
+## SYS-STD-02 — Chunk Budget Gate (Counts + Sizes)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Validate **[Parsed Output Pack : Targets]** against **[Global Chunk Rules : Targets]**.
+
+### What to Produce
+
+* If within budget: no seal.
+* If over budget: emit **one TEXT seal chunk**:
+
+  * **Title:** `Budget Fail`
+  * **Body:** 1–2 lines stating what exceeded (total chunks, too many patch segments, text too long, code too many lines)
+
+### Recommended Seal Beats
+
+* **Budget Verdict** — pass or a single failure seal.
+
+---

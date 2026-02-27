@@ -1,0 +1,60 @@
+## PACK-03 — Packet Commit (Apply Patch Segments → Upsert)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Commit **[Patch Segments : Targets]** into **[Commit Target Pack : Targets]**.
+
+**Required blanks (2)**
+
+* **[Patch Segments : Targets]** — the patch_segments output from a standard generative action (the proposed changes).
+* **[Commit Target Pack : Targets]** — the codebase target pack that the patch is meant to update (file(s)/surface(s) implied).
+
+**Pro prose (optional boosters)**
+Commit **[Patch Segments : Targets]** into **[Commit Target Pack : Targets]**, guided by **[Commit Intent : Intent]** and validated against **[Reference Packets : Packets]**.
+
+**Optional blanks (descriptions)**
+
+* **[Commit Intent : Intent]** — why this commit is being made (goal / constraint / what must remain true).
+* **[Reference Packets : Packets]** — the slice that was used to generate the patch (for alignment and conflict detection).
+
+---
+
+### What to Produce
+
+Produce a **Commit Receipt Pack** (TEXT chunks) plus an **Updated Packet Pack** (CODE/TEXT chunks) representing the new authoritative state for the touched surfaces.
+
+Across the output, include:
+
+**A) Commit Receipt Pack**
+
+1. **Commit Summary (TEXT)** — 2–5 lines: what changed and why (high signal, no story).
+2. **Touched Files/Surfaces (TEXT)** — list the file paths/surfaces that were updated/created/deleted (names only).
+3. **Patch Segment Receipt (TEXT)** — 1–3 lines per patch segment: what it did in plain terms (mirrors the patch framing).
+4. **Assumptions (optional, TEXT)** — only if needed; “Assumed: …” (e.g., which run/state).
+5. **Closure Check (TEXT)** — one sentence stating what is now true in the codebase after the commit.
+
+**B) Updated Packet Pack**
+6) **Updated Primary File Body (CODE)** — the authoritative updated body for the primary touched file (or the most relevant updated fragment if full body is too large; prefer fragment + handles).
+7) **Updated Context Extract(s) (optional, CODE)** — small updated regions for other touched files/surfaces if multiple were affected.
+8) **Updated Handle List (optional, TEXT)** — key identifiers introduced/changed.
+
+Hard guards:
+
+* This action must treat patch segments as **instructions to update authoritative codebase**, not as truth by themselves.
+* Do not invent additional edits beyond the patch segments unless explicitly stated as an assumption.
+* Prefer an auditable receipt over verbosity.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Commit Summary** — what was committed and why it matters.
+* **Touched Files/Surfaces** — the exact set of codebase surfaces affected.
+* **Patch Segment Receipt** — plain-language record of each segment’s change.
+* **Updated Primary File Body** — the updated authoritative code for the main file/surface.
+* **Updated Context Extracts (optional)** — updated snippets for secondary touched surfaces.
+* **Updated Handle List (optional)** — identifiers useful for targeting after the commit.
+* **Closure Check** — the now-true statement after applying the commit.
+
+---

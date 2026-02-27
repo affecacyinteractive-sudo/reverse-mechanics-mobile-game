@@ -1,0 +1,56 @@
+## PACK-PATCH-VERIFY — Commit Patch Safety Verifier (Specialist)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Verify commit safety for **[Patch Segments Pack : Targets]** against **[Commit Context Pack : Targets]**.
+
+**Required blanks (2)**
+
+* **[Patch Segments Pack : Targets]** — the patch_segments output pack intended to be committed (usually from a standard generative action).
+* **[Commit Context Pack : Targets]** — the commit target pack + packet slice pack that the patch was based on (file/surface identities + code excerpts).
+
+**Pro prose (optional boosters)**
+Verify commit safety for **[Patch Segments Pack : Targets]** using **[Risk Notes : Chronicle]** and constrained by **[Safety Intent : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Risk Notes : Chronicle]** — known coupling/regression risks, prior failures, fragile areas.
+* **[Safety Intent : Intent]** — what kind of safety matters most (locality, non-regression, minimal diff, no new dependencies).
+
+---
+
+### What to Produce
+
+Produce a **Commit Patch QA Pack** (TEXT chunks) that decides whether the patch is safe enough to apply *as-is*.
+
+Across the pack, include:
+
+1. **Patch Safety Verdict (TEXT)** — choose exactly one:
+   **OK / LOCALITY_FAIL / CONTEXT_MISMATCH / BUDGET_FAIL / REWRITE_RISK / GROUNDEDNESS_RISK**
+
+2. **Segment-by-Segment Findings (TEXT)** — for each patch segment, 1–3 lines:
+
+   * what it changes,
+   * what rule it violates (if any),
+   * why that matters for commit safety.
+
+3. **Context Match Note (TEXT)** — one short statement: whether the patch lines up with the provided commit context slice (same surfaces/identifiers), or looks like it targets missing/different code.
+
+4. **Risk Summary (TEXT)** — 2–5 lines naming the biggest risks (e.g., touches too many surfaces, introduces new seams without grounding, would require follow-up edits).
+
+Hard guards:
+
+* Do not rewrite the patch here.
+* Do not propose next actions.
+* Do not ask questions.
+* No internal action IDs.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Patch Safety Verdict** — single label indicating commit readiness.
+* **Segment Findings** — per-segment safety issues and why they matter.
+* **Context Match Note** — whether patch is consistent with the provided code slice/targets.
+* **Risk Summary** — the top risks that would make commit unsafe.

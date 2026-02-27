@@ -1,0 +1,38 @@
+## SYS-PACK-01 — Run Ledger Step (Assign Run + Anchor Base State)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Open a new run from **[Current Project State : Targets]** for **[Run Intent : Intent]**.
+
+*(No user blanks; this is automatic whenever a new run starts.)*
+
+---
+
+### What to Produce
+
+Produce a **Run Ledger Pack** as **TEXT chunks** (seals/receipts) that anchors everything that happens next.
+
+Across the pack, include:
+
+1. **Run Identity (TEXT)** — assigns the new `run_id` and records minimal metadata (timestamp/actor if available).
+2. **Base State Anchor (TEXT)** — states what this run is based on (e.g., “latest state at start” or “state at RUN_K”).
+3. **Touched Surfaces (TEXT)** — starts as empty; later steps append file paths/entities touched in this run.
+4. **Seals Stream (TEXT, optional)** — a place to append system seals (e.g., “index refreshed”, “upsert applied”, “export built”).
+
+Hard guards:
+
+* No interpretation, no suggestions, no questions.
+* This is a factual receipt pack only.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Run Identity** — the unique run label used for versioning and reconstruction.
+* **Base State Anchor** — what project state this run forks from.
+* **Touched Surfaces** — the cumulative list of file paths/entities affected during the run.
+* **Seals Stream (optional)** — system events recorded as human-readable chunks.
+
+---

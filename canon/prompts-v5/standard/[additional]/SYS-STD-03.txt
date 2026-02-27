@@ -1,0 +1,21 @@
+## SYS-STD-03 — Patch Segment Structure Gate (CODE containment)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Validate that CODE appears only inside **patch_segments.code** for **[Parsed Output Pack : Targets]**.
+
+### What to Produce
+
+* If valid: no seal.
+* If invalid: emit **one TEXT seal chunk**:
+
+  * **Title:** `Patch Shape Fail`
+  * **Body:** 1–2 lines stating the violation (CODE chunk outside patch_segments, missing paired text/code)
+
+### Recommended Seal Beats
+
+* **Patch Shape Verdict** — pass or a single failure seal.
+
+---

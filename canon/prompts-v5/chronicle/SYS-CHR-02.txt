@@ -1,0 +1,51 @@
+## SYS-CHR-02 — Journal Line Extractor (School-Biased)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Fill `journal_line` for **[Chronicle Entry Skeleton : Chronicle]** using **[Keystone Unit Pack : Targets]** under **[School : Targets]**.
+
+*(No user blanks; this is automatic after SYS-CHR-01.)*
+
+---
+
+### What to Produce
+
+Produce an **Updated Chronicle Entry chunk** (TEXT) where only these fields change:
+
+* `journal_line` (filled)
+* optionally `journal_line_source` (internal note; can be omitted from the user-visible chunk)
+
+Journal line rules:
+
+* **One sentence**, **≤140 chars preferred** (hard cap can be enforced later).
+* Must be **school-biased**: choose the most school-relevant line from the keystone.
+* If no suitable line exists, use a deterministic fallback.
+
+Allowed deterministic extraction sources (choose first that exists, per school priority):
+
+* **FI**: “Now-true capability” sentence (look for “Now…”, “You can…”, “Adds…”, “Introduces…”)
+* **FU**: “Observed truth/boundary” sentence (“When X, Y happens…”, “Edge: …”, “Coupling: …”)
+* **FPR**: “How to navigate/name” sentence (“Walkthrough: …”, “Boundary: …”, “Terms: …”)
+* **FA**: “Mechanism + rule” sentence (“Mechanism: …”, “Rule: …”, “Invariant: …”)
+* **FS**: “Stitch/instantiate + guarantee” sentence (“Stitched A↔B…”, “Guarantee: …”, “Now cheaper to…”)
+* **FP**: “Corridor decision” sentence (“North star: …”, “Done when…”, “Fence: …”, “Tripwire: …”)
+
+Fallback (deterministic):
+
+1. take the **first sentence** of the keystone body
+2. trim to ≤140 chars
+3. if empty, use: `Committed a <school> keystone.`
+
+Hard guards:
+
+* No invention: journal line must come from keystone text (or fallback label).
+* No questions, no next-move text, no action IDs.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **School-Weighted Line Pick** — selects the most relevant line from the keystone given the school.
+* **Fallback Line** — deterministic fallback when the keystone doesn’t contain a usable sentence.

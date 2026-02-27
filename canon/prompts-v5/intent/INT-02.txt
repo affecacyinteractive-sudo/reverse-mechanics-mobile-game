@@ -1,0 +1,49 @@
+## INT-02 — Intent Expander (Enrich)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Enrich **[Current Intent Pack : Intent]** into a more build-ready intent for **[Intended Use : Intent]**.
+
+**Required blanks (2)**
+
+* **[Current Intent Pack : Intent]** — the existing intent chunks (even if thin) that you want to improve without changing the goal.
+* **[Intended Use : Intent]** — what this will drive next (e.g., “FS-06 extend capability”, “FA-03 contract laws”, “FI-01 new slice”).
+
+**Pro prose (optional boosters)**
+Enrich **[Current Intent Pack : Intent]** for **[Intended Use : Intent]**, grounded by **[Reality Notes : Chronicle]** and anchored by **[Existing Anchors : Targets]**.
+
+**Optional blanks (descriptions)**
+
+* **[Reality Notes : Chronicle]** — constraints, known behavior, user expectations, risks that should shape the enriched intent.
+* **[Existing Anchors : Targets]** — any artifact pack that must remain compatible (surface/contract/plan already chosen).
+
+---
+
+### What to Produce
+
+Produce an **Enriched Intent Pack** (TEXT chunks) that keeps the original aim intact but adds the missing “builder-grade” detail.
+
+Across the pack, include:
+
+1. **Aim (unchanged)** — restate the aim in one crisp sentence (same meaning, cleaner wording).
+2. **Subject / Surface (sharpened)** — clarify what object/slice/surface the work touches.
+3. **Constraints (expanded)** — upgrade to 2–5 constraints with concrete phrasing (no vague virtues).
+4. **Done Signal (tightened)** — make success observable and testable in plain language.
+5. **Acceptance Examples (optional)** — 1–2 tiny “example passes” that illustrate done without becoming a test plan.
+6. **Failure Avoidance (optional)** — 1–2 “don’t accidentally do this” pitfalls (scope traps / regressions).
+7. **Assumptions (optional)** — only if needed to make the intent runnable; write as **“Assumed: …”**.
+
+Hard guard: do **not** add solution steps, patch plans, file lists, or implementation detail.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Aim (Restated)** — the same goal, rewritten to be unambiguous.
+* **Subject / Surface (Sharpened)** — what the work is about, named concretely.
+* **Constraints (Concrete)** — the non-negotiables phrased so they can be honored.
+* **Done Signal (Observable)** — how you’ll know it worked (without code-level tests).
+* **Acceptance Examples (optional)** — 1–2 tiny “this counts as done” scenarios.
+* **Failure Avoidance (optional)** — common traps/regressions to avoid while pursuing the aim.
+* **Assumptions (optional)** — necessary assumptions stated firmly as “Assumed: …”.

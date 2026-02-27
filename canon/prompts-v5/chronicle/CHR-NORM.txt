@@ -1,0 +1,49 @@
+## CHR-NORM — Chronicle Normalizer (Format + Legibility)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Normalize **[Chronicle Pack : Chronicle]** for **[Normalization Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Chronicle Pack : Chronicle]** — the chronicle entries to rewrite for clarity and consistency.
+* **[Normalization Intent : Intent]** — what to improve (shorten, remove fluff, standardize tense, make school flavor clearer).
+
+**Pro prose (optional boosters)**
+Normalize **[Chronicle Pack : Chronicle]** for **[Normalization Intent : Intent]**, guided by **[Verifier Notes : Chronicle]** and constrained by **[Budget Rules : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Verifier Notes : Chronicle]** — CHR-VERIFY findings (overlong, mushy, offgenre, duplicative).
+* **[Budget Rules : Intent]** — caps like “≤140 chars”, “one sentence”, “anchors max 3”.
+
+---
+
+### What to Produce
+
+Produce a **Normalized Chronicle Pack** (TEXT chunks) that preserves meaning but improves legibility and consistency.
+
+Allowed edits (format-only):
+
+1. **Length cap** — compress each journal line to one sentence (≤140 chars preferred).
+2. **Remove fluff** — delete filler words and vague praise; keep concrete nouns and verbs.
+3. **School flavor clarity** — rewrite wording so each line better reflects its school genre *without adding new facts*.
+4. **Standardize tense** — prefer past-tense “We built / We verified / We named / We extracted / We stitched / We decided” style.
+5. **Anchor hygiene** — keep 0–3 anchors; remove noisy/duplicative anchors; do not invent new anchors.
+
+Hard guards:
+
+* Do not add new claims not present in the original entries/linked keystones.
+* Do not add implementation detail or code.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Line Compression** — each entry rewritten to be short and scannable.
+* **Fluff Removal** — vague language removed, concrete nouns/verbs retained.
+* **Genre Alignment** — wording adjusted to better match school flavor.
+* **Tense Consistency** — entries standardized to a consistent journal voice.
+* **Anchor Hygiene** — anchors trimmed to a sparse, high-signal set.

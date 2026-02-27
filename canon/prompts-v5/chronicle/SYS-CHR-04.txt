@@ -1,0 +1,39 @@
+## SYS-CHR-04 — Chronicle Window Builder (Deterministic Context Window)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Build a chronicle context window from **[Chronicle Store : Chronicle]** for **[Run Start / Request : Targets]**.
+
+*(No user blanks; this is automatic whenever a new run starts or Chronicle[] is requested.)*
+
+---
+
+### What to Produce
+
+Produce a **Chronicle Window Pack** (TEXT chunks) suitable for passing as `Chronicle[]` into LLM calls.
+
+The window pack must include (in order):
+
+1. **Window Header (TEXT)** — 1–3 lines stating what the window contains (e.g., “last 3 entries + active blueprint”).
+2. **Recent Entries (TEXT)** — include the last **2–3** chronicle entries (each as a compact single-line form):
+
+   * `[School] journal_line — anchors`
+3. **Active Blueprint Keystone (optional, TEXT)** — if an “active blueprint” exists, include its keystone body (or a short excerpt) as one chunk.
+4. **Pinned Keystones (optional, TEXT)** — any pinned keystones (1–3 max) included as short excerpts.
+
+Hard guards:
+
+* Keep it thin. Never include full run transcripts or large histories.
+* If there are fewer than 2 entries available, include what exists.
+* Do not invent or rewrite entries; only select and format existing ones.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Window Header** — declares what’s included in the context window.
+* **Recent Entries** — the minimal “story so far” list for continuity.
+* **Active Blueprint (optional)** — the current corridor decision keystone, if present.
+* **Pinned Keystones (optional)** — additional curated memory anchors, if present.

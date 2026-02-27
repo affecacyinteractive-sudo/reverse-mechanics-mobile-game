@@ -1,0 +1,51 @@
+## CHR-06 — Chronicle Blueprint Shelf (FP-only / Corridor Decisions)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Build a blueprint shelf from **[Chronicle Window : Chronicle]** for **[Shelf Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Chronicle Window : Chronicle]** — chronicle entries that include planning/corridor decisions (FP-heavy).
+* **[Shelf Intent : Intent]** — what the shelf should enable (keep goals stable, enforce boundaries, recall tripwires).
+
+**Pro prose (optional boosters)**
+Build a blueprint shelf from **[Chronicle Window : Chronicle]** for **[Shelf Intent : Intent]**, anchored by **[Active Blueprint Keystone : Targets]** and constrained by **[Shelf Budget : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Active Blueprint Keystone : Targets]** — the current pinned/active blueprint keystone, if any.
+* **[Shelf Budget : Intent]** — limits like “one screen”, “only current corridor”, “include latest decisions only”.
+
+---
+
+### What to Produce
+
+Produce a **Blueprint Shelf Pack** (TEXT chunks) that surfaces the current corridor decisions in a compact, enforcement-friendly way.
+
+Across the pack, include:
+
+1. **Shelf Frame (TEXT)** — 1–3 lines stating what window was used and what counts as “current blueprint.”
+2. **North Star (TEXT, optional)** — 1–3 lines stating the active north star outcome + success signal if present.
+3. **Done Receipt (TEXT, optional)** — 2–6 lines listing the key completion receipts if present.
+4. **Scope Fence (TEXT, optional)** — 3–8 lines: in-scope core + out-of-scope exclusions if present.
+5. **Tripwires (TEXT, optional)** — 4–10 short alarms + recovery posture if present.
+6. **Closure Check (TEXT)** — one sentence stating what corridor decisions are now active and should constrain work.
+
+Hard guards:
+
+* Do not invent decisions; only surface what’s present in the chronicle/keystone sources.
+* Prefer the latest active decisions over historical ones.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Shelf Frame** — defines “current corridor” and source window.
+* **North Star (optional)** — the active outcome + success signal.
+* **Done Receipt (optional)** — what “done” means in observable terms.
+* **Scope Fence (optional)** — what’s inside vs explicitly out.
+* **Tripwires (optional)** — alarms that warn early and how to respond.
+* **Closure Check** — confirms the blueprint shelf is active and constraining.

@@ -1,0 +1,95 @@
+## SYS-PACK-06 — Projection Slice Builder (Assemble Raw Slice Materials)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Assemble raw slice materials from **[CODEBASE State : Targets]** using **[INDEX State : Targets]**, guided by **[Slice Intent : Intent]** and **[Target Pack : Targets]**.
+
+*(No user blanks; this is automatic whenever PACK-01 / PACK-02 needs extraction.)*
+
+---
+
+### What to Produce
+
+Produce a **Raw Slice Materials Pack** (CODE/TEXT chunks) that represents the *pre-budget* candidate materials that will later be trimmed by SYS-PACK-05.
+
+Across the raw pack, include:
+
+1. **Selection Receipt (TEXT)** — 2–6 lines stating:
+
+   * which run/state was used,
+   * what primary surface was chosen,
+   * what context categories were gathered (callsites/types/config/helpers).
+
+2. **Primary Candidate Extract (CODE)** — the chosen primary surface region (may exceed later budgets; SYS-PACK-05 will trim).
+
+3. **Context Candidate Extracts (CODE, optional)** — 1–N candidate extracts, tagged by category in the title:
+
+   * `Imports/Types`
+   * `Callsite`
+   * `Neighbor Helper`
+   * `Config/Constant`
+
+4. **Handle Candidates (TEXT, optional)** — identifiers observed across the gathered extracts (names only).
+
+Hard guards:
+
+* This step **only assembles** candidate materials; it does not trim to final size.
+* No invention: extracts must come from authoritative CODEBASE state.
+* Prefer coherent regions (contiguous code) over scattered lines.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Selection Receipt** — which state was used and what was selected as primary + context candidates.
+* **Primary Candidate Extract** — the main surface region selected for downstream reasoning/patching.
+* **Context Candidate Extracts (optional)** — possible supporting regions grouped by role (types/callsites/config/helpers).
+* **Handle Candidates (optional)** — identifier list that helps later targeting and naming.
+
+---
+
+### Deterministic outline (how/why, no implementation details)
+
+1. **Resolve state**
+
+* Determine which project state to read from (latest, RUN_K, or before RUN_K) based on the Target Pack and run context.
+
+2. **Resolve target addresses**
+
+* From the Target Pack, derive one or more “addresses”:
+
+  * file paths (preferred)
+  * known handles/identifiers (secondary)
+  * entity/region keys if your index supports them (optional system capability)
+
+3. **Choose the primary surface candidate**
+
+* Pick the single best primary candidate based on Slice Intent:
+
+  * if Slice Intent implies patching: prefer the surface most likely to be edited
+  * if Slice Intent implies explanation/contract: prefer the surface most representative of the behavior/shape
+
+4. **Extract the primary region**
+
+* Extract a contiguous region from the authoritative file body:
+
+  * entity region if addressable
+  * otherwise a bounded “local region” around the best-matching identifier/handle
+
+5. **Gather context candidates (minimal but useful set)**
+
+* Collect candidate context regions *only if they directly support interpreting the primary*:
+
+  * types/imports referenced by primary
+  * at least one callsite if invocation matters
+  * config/constant if behavior is governed by it
+  * helper region only if directly invoked
+
+6. **Emit Raw Slice Materials Pack**
+
+* Output the receipt + primary + context candidates + handle candidates.
+* Hand off to SYS-PACK-05 (Budget Shaper) to produce the final Packet Pack.
+
+---

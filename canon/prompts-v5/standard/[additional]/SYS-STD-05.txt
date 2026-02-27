@@ -1,0 +1,21 @@
+## SYS-STD-05 — Safety Filter (hard)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Validate **[User Input + Output Pack : Targets]** against safety policy.
+
+### What to Produce
+
+* If allowed: no seal.
+* If blocked: emit **one TEXT seal chunk**:
+
+  * **Title:** `Safety Block`
+  * **Body:** 1 line naming the blocked class (no details)
+
+### Recommended Seal Beats
+
+* **Safety Verdict** — pass or a single blocking seal.
+
+---

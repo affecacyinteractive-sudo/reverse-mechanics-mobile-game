@@ -1,0 +1,46 @@
+## SYS-PACK-04 — Checkout/Export Builder (Reconstruct + Export)
+
+*(NOTE: implement this as **DETERMINISTIC logic** later; this spec defines the behavior.)*
+
+### Input Grammar
+
+Build an export for **[Run Selector : Targets]** from **[CODEBASE Versions : Targets]** using **[INDEX State : Targets]**.
+
+*(No user blanks; this is automatic when a checkout/export is requested.)*
+
+---
+
+### What to Produce
+
+Produce an **Export Build Receipt Pack** as TEXT seal chunks, and produce an **export payload** (zip/virtual FS/file manifest) outside the LLM output.
+
+Across the receipt pack, include:
+
+1. **Resolved Run State (TEXT)** — the resolved run interpretation (e.g., “at RUN_0042” or “before RUN_0042”).
+2. **Reconstruction Rule Note (TEXT)** — one sentence stating the rule used:
+
+   * “For each file path, selected the latest version with run_id ≤ (or <) the requested run; tombstones exclude files.”
+3. **Export Scope (TEXT)** — all files vs subset (if subset, the selection criteria).
+4. **Export Payload Summary (TEXT)** — how many files included, and whether any were excluded due to tombstones.
+5. **Export Failure Seal (conditional, TEXT)** — if export build fails:
+
+   * Title: `Export Build Failed`
+   * Body: one sentence describing why (missing versions, invalid run selector, storage error).
+
+Hard guards:
+
+* Reconstruction must be deterministic: same run selector yields same file set.
+* Tombstones must remove files from the exported state at/after their tombstone run.
+* Do not emit full file bodies as chunks here; the payload is the authoritative export.
+
+---
+
+### Recommended Chunk/Seal Beat Categories (with 1-line descriptions)
+
+* **Resolved Run State** — what state was requested and how it was interpreted.
+* **Reconstruction Rule Note** — the deterministic method used to assemble the state.
+* **Export Scope** — full or partial export and selection criteria.
+* **Export Payload Summary** — size and inclusion/exclusion facts.
+* **Export Failure Seal (optional)** — deterministic failure recorded as a seal.
+
+---
