@@ -1,0 +1,63 @@
+### QA/Repair symmetry plan (keep it small)
+
+Use **existing generic QA tools** as the default; only add new ones when a new artifact type genuinely differs.
+
+## 1) Reuse, don’t multiply
+
+* **Packet-side outputs** from the new plan actions should be validated/repaired with:
+
+  * **PACK-VERIFY / PACK-NORM / PACK-REPAIR**
+* **Chronicle-side outputs** from the new plan actions should be validated/repaired with:
+
+  * **CHR-VERIFY / CHR-NORM / CHR-REPAIR**
+* **Standard action outputs** stay on:
+
+  * **STD-VERIFY / STD-NORM / STD-REPAIR**
+
+## 2) Where each new action fits
+
+* **Aggregate Plan**
+
+  * Use **PLAN-VERIFY / PLAN-REPAIR** (plan is its own contract; keep it separate).
+  * Optionally run **STD-NORM**-style formatting rules, but don’t add PLAN-NORM unless needed.
+
+* **Code progress vs plan**
+
+  * Output is a “packet-style report” → **PACK-VERIFY/NORM/REPAIR**
+  * Keep **PACK-PROG-REPAIR** only as a convenience; it can be dropped if PACK-REPAIR works well.
+
+* **Journey progress vs plan**
+
+  * Output is a chronicle-style report → **CHR-VERIFY/NORM/REPAIR**
+  * Keep **CHR-PROG-REPAIR** only if CHR-REPAIR feels too broad; otherwise drop it.
+
+* **Placement confirms**
+
+  * **PACK-CONF-01** outputs packet-style receipts → **PACK-VERIFY/NORM/REPAIR**
+  * **CHR-CONF-01** outputs chronicle-style receipts → **CHR-VERIFY/NORM/REPAIR**
+
+* **Post-intent outcome check**
+
+  * Output is a packet-like evaluation tied to code slices → **PACK-VERIFY/NORM/REPAIR**
+  * Keep **POST-INTENT-REPAIR** optional; it’s basically a focused PACK-REPAIR.
+
+## 3) Specialist verifiers only when recurring pain justifies them
+
+Keep only these specialists “on standby”:
+
+* **PACK-PATCH-VERIFY** (only if commit patches are frequently unsafe)
+* (Optional later) **PLAN-VERIFY** already exists; it’s justified because plan has a unique structure.
+
+Everything else should be caught by the 3 universal sets:
+
+* STD-*, PACK-*, CHR-*.
+
+## 4) Deterministic gates stay structural and few
+
+* Reuse the existing deterministic gates:
+
+  * **SYS-STD-*** for standard outputs
+  * **SYS-PACK-GATE-*** for packet outputs
+  * Chronicle usually doesn’t need gates beyond budget shaping unless you see constant overlong entries.
+
+This gives you symmetry without a combinatorial explosion.

@@ -1,0 +1,53 @@
+## PACK-PROG-REPAIR — Code Progress Report Repair (Minimal)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Repair **[Progress Report Pack : Targets]** using **[Aggregate Plan Pack : Targets]**.
+
+**Required blanks (2)**
+
+* **[Progress Report Pack : Targets]** — the output of PACK-PROG-01 (may be thin, overclaiming, or poorly mapped).
+* **[Aggregate Plan Pack : Targets]** — the plan spine the report must reference accurately.
+
+**Pro prose (optional boosters)**
+Repair **[Progress Report Pack : Targets]** using **[Aggregate Plan Pack : Targets]**, grounded by **[Code Slice Pack : Packets]** and guided by **[Verifier Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Code Slice Pack : Packets]** — the actual evidence the report must map to (prevents overclaims).
+* **[Verifier Notes : Chronicle]** — notes about what was wrong (missing mappings, unclear verdict, too verbose).
+
+---
+
+### What to Produce
+
+Produce a **Repaired Progress Report Pack** (TEXT chunks) that is:
+
+* faithful to the aggregate plan structure,
+* faithful to the provided evidence (if provided),
+* compact and legible.
+
+Minimal repair operations allowed:
+
+1. **Fix mapping gaps** — ensure each pillar has at least one clear status line.
+2. **Remove overclaims** — downgrade any claim that lacks evidence to “unknown / not evidenced here.”
+3. **Tighten evidence references** — convert vague evidence into file/handle references, or remove them if not supported.
+4. **Compress verbosity** — reduce long sections to short lines while preserving meaning.
+5. **Normalize verdict coherence** — ensure the overall verdict matches the pillar scoreboard (no contradictions).
+
+Hard guards:
+
+* Do not propose implementation steps or patches.
+* Do not invent evidence; only map to what exists in the report/plan/evidence slice.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Verdict Coherence** — overall verdict matches pillar statuses.
+* **Pillar Coverage** — each plan pillar has a clear, compact status.
+* **Evidence Hygiene** — evidence references are grounded and specific or removed.
+* **Gap Clarity** — missing evidence is stated plainly (no speculation).
+* **Compression** — report stays readable and compact.

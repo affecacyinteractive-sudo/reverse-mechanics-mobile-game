@@ -1,0 +1,68 @@
+## PACK-PROG-01 — Code Progress vs Aggregate Plan (Verifier)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Assess code progress for **[Aggregate Plan Pack : Targets]** using **[Code Slice Pack : Packets]**.
+
+**Required blanks (2)**
+
+* **[Aggregate Plan Pack : Targets]** — the corridor spine (north star / done / fence / tripwires).
+* **[Code Slice Pack : Packets]** — the extracted code slice(s) representing current reality (from PACK-01/02 or updated packets from commit).
+
+**Pro prose (optional boosters)**
+Assess code progress for **[Aggregate Plan Pack : Targets]** using **[Code Slice Pack : Packets]**, constrained by **[Progress Lens : Intent]** and informed by **[Journey Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Progress Lens : Intent]** — what to emphasize (receipts, fence violations, tripwire risks, north-star alignment).
+* **[Journey Notes : Chronicle]** — high-level context that helps interpret progress claims (recent decisions, known risks).
+
+---
+
+### What to Produce
+
+Produce a **Code Progress Report Pack** (TEXT chunks) that compares the aggregate plan to the code slice evidence without inventing unseen code.
+
+Across the pack, include:
+
+1. **Progress Verdict (TEXT)** — choose exactly one:
+   **ON_TRACK / PARTIAL / STALLED / OFF_CORRIDOR**
+
+2. **Pillar Scoreboard (TEXT)** — compact per-pillar status lines:
+
+   * **North Star:** aligned / unclear / misaligned (1 line)
+   * **Done Receipt:** X/Y receipts evidenced (1–3 lines)
+   * **Scope Fence:** respected / at-risk / violated (1–3 lines)
+   * **Tripwires:** quiet / triggered / unknown (1–3 lines)
+
+3. **Evidence Map (TEXT)** — 4–10 bullets mapping plan items → code evidence:
+
+   * “Receipt/Rule: ___ → Evidence: <file/handle from packets>”
+     No long quoting; names/handles only.
+
+4. **Gaps (TEXT)** — 2–8 short lines stating what plan items lack evidence in the provided slice (no speculation beyond “not evidenced here”).
+
+5. **Fence & Tripwire Risks (optional, TEXT)** — only if relevant:
+
+   * 2–6 lines naming likely fence violations or tripwire triggers indicated by the slice.
+
+6. **Closure Check (TEXT)** — one sentence summarizing what is now known about progress given this slice.
+
+Hard guards:
+
+* Do not assume unprovided files exist; only claim progress when evidenced in packets.
+* Do not propose implementation steps or patches.
+* No action IDs and no “next move” routing.
+* If the slice is too thin to judge, use “unknown” statuses rather than invention.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Progress Verdict** — overall status relative to the corridor.
+* **Pillar Scoreboard** — quick per-pillar progress status.
+* **Evidence Map** — plan elements mapped to concrete code handles/paths.
+* **Gaps** — plan items not evidenced in the slice.
+* **Fence & Tripwire Risks (optional)** — potential corridor violations implied by current code.
+* **Closure Check** — confirms the progress evaluation is usable.

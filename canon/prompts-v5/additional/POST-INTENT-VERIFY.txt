@@ -1,0 +1,65 @@
+## POST-INTENT-VERIFY — Intent Outcome Check (After Commit)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Verify outcome of **[Intent Pack : Intent]** using **[Post-Commit Code Slice : Packets]**.
+
+**Required blanks (2)**
+
+* **[Intent Pack : Intent]** — the clarified/enriched intent that motivated the change.
+* **[Post-Commit Code Slice : Packets]** — the current code reality after commit (updated packet slice or fresh PACK-01/02 extraction).
+
+**Pro prose (optional boosters)**
+Verify outcome of **[Intent Pack : Intent]** using **[Post-Commit Code Slice : Packets]**, anchored by **[Commit Receipt Pack : Targets]** and informed by **[Journey Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Commit Receipt Pack : Targets]** — what was committed and where it landed (helps map intent to touched surfaces).
+* **[Journey Notes : Chronicle]** — any high-level constraints/decisions that shape interpretation.
+
+---
+
+### What to Produce
+
+Produce an **Outcome Check Pack** (TEXT chunks) that compares intended outcome to current evidence without inventing runtime behavior.
+
+Across the pack, include:
+
+1. **Outcome Verdict (TEXT)** — choose exactly one:
+   **SATISFIED / PARTIAL / NOT_SATISFIED / UNCLEAR**
+
+2. **Intent → Evidence Map (TEXT)** — 4–10 bullets mapping intent elements to evidence:
+
+   * `Intent element: <Aim/Constraint/Done> → Evidence: <file/handle from packets>`
+     If something is not evidenced, say “not evidenced here.”
+
+3. **Done Signal Check (TEXT)** — 2–6 lines judging the intent’s Done Signal against the post-commit slice:
+
+   * “Done Signal: ___ → Status: satisfied/partial/unclear”
+     Keep it structural/semantic, not runtime-test claims.
+
+4. **Constraint Preservation Check (optional, TEXT)** — only if constraints exist:
+
+   * 2–6 lines stating whether constraints appear respected in the slice (or “unclear”).
+
+5. **Mismatch Notes (optional, TEXT)** — 2–6 lines naming where reality diverges from intent (missing surfaces, changed semantics implied by code).
+
+6. **Closure Check (TEXT)** — one sentence stating what can now be confidently claimed about the outcome given the evidence available.
+
+Hard guards:
+
+* No implementation steps or patch plans.
+* No questions and no action IDs.
+* If the slice is insufficient to judge, use **UNCLEAR** rather than guessing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Outcome Verdict** — overall satisfaction status of the intent.
+* **Intent → Evidence Map** — intent elements grounded to post-commit surfaces/handles.
+* **Done Signal Check** — whether the observable success definition appears satisfied.
+* **Constraint Preservation (optional)** — whether key constraints appear respected.
+* **Mismatch Notes (optional)** — where intent and code reality diverge.
+* **Closure Check** — confirms the evaluation is usable and honest.

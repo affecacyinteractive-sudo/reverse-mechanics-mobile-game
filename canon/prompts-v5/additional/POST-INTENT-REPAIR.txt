@@ -1,0 +1,56 @@
+## POST-INTENT-REPAIR — Intent Outcome Repair (Minimal, No Code)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Repair **[Outcome Check Pack : Targets]** using **[Intent Pack : Intent]**.
+
+**Required blanks (2)**
+
+* **[Outcome Check Pack : Targets]** — the output of POST-INTENT-VERIFY (may be thin, inconsistent, or overclaiming).
+* **[Intent Pack : Intent]** — the intent being evaluated (aim/constraints/done).
+
+**Pro prose (optional boosters)**
+Repair **[Outcome Check Pack : Targets]** using **[Intent Pack : Intent]**, grounded by **[Post-Commit Code Slice : Packets]** and guided by **[Commit Receipt Pack : Targets]**.
+
+**Optional blanks (descriptions)**
+
+* **[Post-Commit Code Slice : Packets]** — evidence the outcome report must map to (prevents overclaims).
+* **[Commit Receipt Pack : Targets]** — helps ensure mapping aligns to touched surfaces.
+
+---
+
+### What to Produce
+
+Produce a **Repaired Outcome Check Pack** (TEXT chunks) that is coherent, evidence-faithful, and compact.
+
+Minimal repair operations allowed:
+
+1. **Verdict coherence** — ensure the verdict matches the evidence map and done-signal lines.
+2. **Evidence hygiene** — remove or downgrade any claim not supported by the provided code slice/receipt.
+3. **Mapping completion** — ensure the pack includes at least:
+
+   * intent→evidence mapping (even if “not evidenced here”)
+   * done signal check
+4. **Compression** — rewrite into short lines; remove repetition.
+5. **Optional intent adjustment note (optional, TEXT)** — if the code reality is clearly different than the intent’s phrasing, add a single note:
+
+   * “Intent wording may be misaligned with current reality; consider re-clarifying.”
+     (No action IDs, no routing.)
+
+Hard guards:
+
+* Do not change code or propose patches.
+* Do not rewrite the intent itself; only comment on alignment.
+* Do not invent evidence.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Verdict Coherence** — verdict aligns with evidence and done-signal status.
+* **Evidence Hygiene** — unsupported claims removed or downgraded to unclear.
+* **Mapping Completion** — intent elements are explicitly mapped or marked “not evidenced.”
+* **Done Signal Clarity** — done check is specific and readable.
+* **Compression** — report is compact and non-repetitive.
+* **Intent Alignment Note (optional)** — one small note if intent phrasing seems mismatched to reality.

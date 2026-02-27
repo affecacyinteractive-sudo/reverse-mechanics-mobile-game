@@ -1,0 +1,56 @@
+## PLAN-AGG-01 — Aggregate Plan Builder (FP Spine)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Aggregate **[Planning Packs : Targets]** into **[Aggregate Plan Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Planning Packs : Targets]** — a bundle of planning outputs (FP keystones/packs such as north star, done receipt, scope fence, tripwires).
+* **[Aggregate Plan Intent : Intent]** — why you want an aggregate plan (one corridor spine, compare progress later, avoid drift).
+
+**Pro prose (optional boosters)**
+Aggregate **[Planning Packs : Targets]** into **[Aggregate Plan Intent : Intent]**, constrained by **[Scope Preference : Intent]** and grounded by **[Reality Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Scope Preference : Intent]** — whether to include only the latest corridor decisions or merge across a broader window.
+* **[Reality Notes : Chronicle]** — any context about current direction (“we changed priorities”, “new constraints emerged”).
+
+---
+
+### What to Produce
+
+Produce an **Aggregate Plan Pack** (TEXT chunks) that combines FP artifacts into one coherent corridor spine, without inventing new planning requirements.
+
+Across the pack, include:
+
+1. **Plan Spine (TEXT)** — 3–6 lines that unify the corridor: what we’re aiming for, how we know it’s done, what we refuse, and what alarms us early.
+2. **North Star (optional, TEXT)** — if present in inputs, restate the active outcome + success signal in 1–3 lines.
+3. **Done Receipt (optional, TEXT)** — if present, list 3–8 observable receipts that define “done” (keep concise).
+4. **Scope Fence (optional, TEXT)** — if present, include:
+
+   * in-scope core (2–4 lines)
+   * out-of-scope exclusions (3–6 lines)
+5. **Tripwires (optional, TEXT)** — if present, list 3–8 alarms with a one-line response posture each.
+6. **Conflict Note (optional, TEXT)** — only if needed: 2–6 lines naming contradictions/duplicates detected across inputs, without resolving by inventing new goals.
+7. **Assumptions (optional, TEXT)** — only if required; one-liners as **“Assumed: …”**.
+
+Hard guards:
+
+* Do not add implementation steps or patch plans.
+* Do not introduce new constraints not present in planning packs.
+* Keep it corridor-like: winnable, bounded, readable.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Plan Spine** — the unified corridor statement that ties planning artifacts together.
+* **North Star (optional)** — the active target outcome and success signal.
+* **Done Receipt (optional)** — observable receipts that define completion.
+* **Scope Fence (optional)** — what’s in vs explicitly out of scope.
+* **Tripwires (optional)** — early alarms and response posture.
+* **Conflict Note (optional)** — duplicates/contradictions detected across planning inputs.
+* **Assumptions (optional)** — only necessary assumptions stated firmly.

@@ -1,0 +1,62 @@
+## CHR-PROG-01 — Journey Progress vs Aggregate Plan (Verifier)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Assess journey progress for **[Aggregate Plan Pack : Targets]** using **[Chronicle Window : Chronicle]**.
+
+**Required blanks (2)**
+
+* **[Aggregate Plan Pack : Targets]** — the corridor spine (north star / done / fence / tripwires).
+* **[Chronicle Window : Chronicle]** — the recent journal entries representing project evolution (zoom-out memory).
+
+**Pro prose (optional boosters)**
+Assess journey progress for **[Aggregate Plan Pack : Targets]** using **[Chronicle Window : Chronicle]**, anchored by **[Pinned Keystones : Targets]** and constrained by **[Progress Lens : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Pinned Keystones : Targets]** — key keystones that represent the current spine (active blueprint, core concept).
+* **[Progress Lens : Intent]** — what to emphasize (corridor stability, drift, learning vs building, scope discipline).
+
+---
+
+### What to Produce
+
+Produce a **Journey Progress Report Pack** (TEXT chunks) that compares the aggregate plan to the observed project journey without inventing events.
+
+Across the pack, include:
+
+1. **Journey Verdict (TEXT)** — choose exactly one:
+   **ON_TRACK / PARTIAL / DRIFTING / CHAOTIC**
+
+2. **Plan Pillar Reflection (TEXT)** — compact per-pillar reflection lines:
+
+   * **North Star:** reinforced / unclear / drifting (1–2 lines)
+   * **Done Receipt:** converging / vague / churn (1–2 lines)
+   * **Scope Fence:** respected / eroding / ignored (1–2 lines)
+   * **Tripwires:** acted on / ignored / absent (1–2 lines)
+
+3. **Evidence From Journal (TEXT)** — 4–10 bullets mapping plan elements → chronicle evidence:
+
+   * “Plan item: ___ → Journal signals: <entry fragments/anchors>”
+     Keep it short; no long quoting.
+
+4. **Drift / Tension Notes (optional, TEXT)** — 2–6 lines naming repeated patterns that conflict with the plan (scope creep, naming drift, coupling issues), only if visible in the window.
+
+5. **Closure Check (TEXT)** — one sentence stating what is now known about progress relative to the plan from the journey view.
+
+Hard guards:
+
+* Only use signals present in chronicle/keystones provided.
+* Do not propose next moves or new plans.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Journey Verdict** — overall journey status relative to the corridor.
+* **Plan Pillar Reflection** — how each plan pillar is being reinforced or violated over time.
+* **Evidence From Journal** — plan elements mapped to chronicle signals/anchors.
+* **Drift / Tension Notes (optional)** — recurring frictions visible in the journey window.
+* **Closure Check** — confirms the progress evaluation is usable.

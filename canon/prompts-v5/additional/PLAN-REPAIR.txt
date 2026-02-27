@@ -1,0 +1,51 @@
+## PLAN-REPAIR — Aggregate Plan Repair (Corridor Coherence)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Repair **[Aggregate Plan Pack : Targets]** using **[Repair Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Aggregate Plan Pack : Targets]** — the current aggregate plan (may be thin/contradicted/overbroad).
+* **[Repair Intent : Intent]** — what “repair” should prioritize (coherence, pillar completeness, corridor tightness, readability).
+
+**Pro prose (optional boosters)**
+Repair **[Aggregate Plan Pack : Targets]** using **[Repair Intent : Intent]**, grounded by **[Source Planning Packs : Targets]** and guided by **[Verifier Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Source Planning Packs : Targets]** — FP inputs to ensure repairs stay faithful (no new requirements).
+* **[Verifier Notes : Chronicle]** — PLAN-VERIFY findings to target repairs precisely.
+
+---
+
+### What to Produce
+
+Produce a **Repaired Aggregate Plan Pack** (TEXT chunks) that is coherent, corridor-tight, and faithful to the provided planning sources.
+
+Repair scope (allowed changes):
+
+1. **Deduplicate** repeated receipts/fences/tripwires.
+2. **Reconcile contradictions** by choosing the smallest coherent set that preserves the corridor (do not invent new requirements).
+3. **Tighten wording** into observable statements (especially Done Receipt and Tripwires).
+4. **Fill thin pillars** only if the missing content exists in provided source planning packs; otherwise add a short `Assumed: …` or a minimal “Missing: …” note (no questions).
+5. **Reduce overbreadth** by slicing the corridor into the smallest checkable spine; move the rest into a single `Deferred: …` line if needed.
+
+Hard guards:
+
+* Do not add implementation steps or patch plans.
+* Do not introduce new planning requirements not present in source packs.
+* Keep it compact and checkable; avoid long lists.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Plan Spine (Repaired)** — unified corridor statement rewritten for coherence and tightness.
+* **North Star (optional)** — clarified outcome + success signal if present in sources.
+* **Done Receipt (optional)** — deduped, observable completion receipts.
+* **Scope Fence (optional)** — tightened in/out boundary statements.
+* **Tripwires (optional)** — alarms rewritten to be actionable and compact.
+* **Conflict Resolution Note (optional)** — what was reconciled/deduped in repair.
+* **Assumptions / Deferred (optional)** — only if required to keep the plan runnable and bounded.

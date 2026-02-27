@@ -1,0 +1,62 @@
+## PLAN-VERIFY — Aggregate Plan Verifier (QA)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Verify **[Aggregate Plan Pack : Targets]** against **[Verification Intent : Intent]**.
+
+**Required blanks (2)**
+
+* **[Aggregate Plan Pack : Targets]** — the plan spine produced by PLAN-AGG-01.
+* **[Verification Intent : Intent]** — what to prioritize (coherence, completeness of pillars, corridor tightness, readability).
+
+**Pro prose (optional boosters)**
+Verify **[Aggregate Plan Pack : Targets]** against **[Verification Intent : Intent]**, grounded by **[Source Planning Packs : Targets]** and shaped by **[Reality Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Source Planning Packs : Targets]** — the FP inputs used to build the aggregate plan (for faithfulness checks).
+* **[Reality Notes : Chronicle]** — current direction constraints that may make parts obsolete or contradictory.
+
+---
+
+### What to Produce
+
+Produce a **Plan QA Result Pack** (TEXT chunks) that diagnoses plan quality without rewriting it and without routing.
+
+Across the pack, include:
+
+1. **Verdict (TEXT)** — choose exactly one:
+   **OK / THIN / CONTRADICTED / OVERBROAD / UNREADABLE**
+
+2. **Top Findings (TEXT)** — 3–8 findings in the format:
+   `Finding: <problem> → Evidence: <where> → Impact: <why it hurts progress checks>`
+
+3. **Pillar Coverage (TEXT)** — compact checklist summary:
+
+   * Plan Spine present?
+   * North Star present/clear?
+   * Done Receipt present/observable?
+   * Scope Fence present/usable?
+   * Tripwires present/actionable?
+     Mark each as Present / Missing / Thin.
+
+4. **Corridor Tightness (TEXT)** — one short note on whether the plan is realistically checkable in 1–3 steps of work at a time (too broad vs winnable corridor).
+
+5. **Faithfulness Risk (optional, TEXT)** — only if source packs are provided and the aggregate appears to introduce new requirements; flag as risk.
+
+Hard guards:
+
+* Do not rewrite the plan here.
+* No action IDs and no “next move” guidance.
+* Do not ask questions.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Verdict** — the single label for aggregate plan quality.
+* **Top Findings** — key issues with evidence and impact.
+* **Pillar Coverage** — which planning pillars are present vs missing/thin.
+* **Corridor Tightness** — whether the plan is checkable and bounded.
+* **Faithfulness Risk (optional)** — flags new requirements not supported by source planning packs.

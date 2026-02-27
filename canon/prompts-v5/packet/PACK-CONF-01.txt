@@ -1,0 +1,53 @@
+## PACK-CONF-01 — Commit Placement Confirm (Where it Landed)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Confirm where **[Commit Receipt Pack : Targets]** landed using **[Updated Packet Pack : Packets]**.
+
+**Required blanks (2)**
+
+* **[Commit Receipt Pack : Targets]** — the receipt produced by PACK-03 / SYS-PACK-02 (touched files/surfaces + segment receipts).
+* **[Updated Packet Pack : Packets]** — the updated code excerpts/bodies representing the post-commit state.
+
+**Pro prose (optional boosters)**
+Confirm where **[Commit Receipt Pack : Targets]** landed using **[Updated Packet Pack : Packets]**, cross-checked with **[Index Evidence : Targets]** and constrained by **[Confirmation Focus : Intent]**.
+
+**Optional blanks (descriptions)**
+
+* **[Index Evidence : Targets]** — refreshed index handles/summaries for the touched files (if available).
+* **[Confirmation Focus : Intent]** — whether to prioritize “segment→file mapping”, “where in file”, or “what handles changed”.
+
+---
+
+### What to Produce
+
+Produce a **Placement Confirm Pack** (TEXT chunks, CODE optional) that makes “where it landed” obvious and targetable.
+
+Across the pack, include:
+
+1. **Placement Summary (TEXT)** — 2–5 lines: what commit was confirmed and what files/surfaces were affected.
+2. **Segment → File Map (TEXT)** — 1–3 lines per patch segment:
+
+   * `Segment N → file_path → anchor handle/region (if available)`
+3. **Touched Surfaces Snapshot (TEXT)** — list file paths + 1–2 key handles each (names only).
+4. **Anchor Excerpts (optional, CODE)** — 1–3 tiny CODE excerpts (≤12 lines) showing the anchor region where the change landed (only for the primary touched file(s)).
+5. **Handle Delta (optional, TEXT)** — 3–10 lines listing key identifiers introduced/changed/removed (names only).
+6. **Closure Check (TEXT)** — one sentence stating what is now easy to target/extract because placement is confirmed.
+
+Hard guards:
+
+* No full file dumps; excerpts must be tiny and local.
+* Do not invent file paths/handles; use only what appears in receipt/packets/index evidence.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Placement Summary** — confirms the commit’s landing surface(s).
+* **Segment → File Map** — per-segment mapping to concrete files/anchors.
+* **Touched Surfaces Snapshot** — quick view of files + key handles affected.
+* **Anchor Excerpts (optional)** — small excerpts that show where the change lives.
+* **Handle Delta (optional)** — identifiers changed by the commit.
+* **Closure Check** — confirms the placement is now targetable and legible.

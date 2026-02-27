@@ -1,0 +1,53 @@
+## CHR-PROG-REPAIR — Journey Progress Report Repair (Minimal)
+
+### Input Grammar
+
+**Simple prose (2 required blanks)**
+Repair **[Journey Progress Pack : Targets]** using **[Aggregate Plan Pack : Targets]**.
+
+**Required blanks (2)**
+
+* **[Journey Progress Pack : Targets]** — the output of CHR-PROG-01 (may be thin, inconsistent, or poorly mapped).
+* **[Aggregate Plan Pack : Targets]** — the plan spine the report must reference accurately.
+
+**Pro prose (optional boosters)**
+Repair **[Journey Progress Pack : Targets]** using **[Aggregate Plan Pack : Targets]**, grounded by **[Chronicle Window : Chronicle]** and guided by **[Verifier Notes : Chronicle]**.
+
+**Optional blanks (descriptions)**
+
+* **[Chronicle Window : Chronicle]** — the journal evidence the report must map to (prevents overclaims).
+* **[Verifier Notes : Chronicle]** — notes about what was wrong (missing mapping, unclear verdict, too verbose).
+
+---
+
+### What to Produce
+
+Produce a **Repaired Journey Progress Pack** (TEXT chunks) that is:
+
+* faithful to the aggregate plan structure,
+* faithful to the provided chronicle evidence (if provided),
+* compact and internally consistent.
+
+Minimal repair operations allowed:
+
+1. **Fix mapping gaps** — ensure each pillar has at least one clear reflection line.
+2. **Remove overclaims** — downgrade claims lacking journal evidence to “unclear / not signaled here.”
+3. **Tighten evidence references** — replace vague evidence with short anchor/entry-fragment references, or remove if unsupported.
+4. **Compress verbosity** — reduce long sections into short lines while preserving meaning.
+5. **Normalize verdict coherence** — overall verdict must match pillar reflections (no contradictions).
+
+Hard guards:
+
+* Do not propose next moves or new plans.
+* Do not invent journal evidence.
+* No action IDs and no “next move” routing.
+
+---
+
+### Recommended Chunk Beat Categories (with 1-line descriptions)
+
+* **Verdict Coherence** — overall verdict aligns with pillar reflections.
+* **Pillar Coverage** — each plan pillar has a clear, compact reflection.
+* **Evidence Hygiene** — evidence references are grounded or removed.
+* **Gap Clarity** — unclear areas stated plainly without speculation.
+* **Compression** — report stays readable and small.
