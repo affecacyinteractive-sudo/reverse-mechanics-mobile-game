@@ -1,0 +1,67 @@
+## PLAN-AGGREGATE — Final (LLM-only, chunk-first, no rigid JSON)
+
+### Purpose
+
+Consolidate planning artifacts into a single **corridor spine** that stays readable, checkable, and portable as a Target for progress and outcome checks. This is **planning clarity**, not an implementation plan.
+
+---
+
+## Input Grammar (UI layer)
+
+Aggregate **[Planning Inputs : Targets]** into a corridor for **[Corridor Purpose : Intent]**.
+If present, use **[Recency Rule : Intent]** to choose which planning version(s) are active, and use **[Corridor Strictness : Intent]** to decide how tight the corridor should feel.
+
+Required blanks: **Planning Inputs**, **Corridor Purpose**.
+Optional blanks: **Recency Rule**, **Corridor Strictness**.
+
+---
+
+## Output Contract (chunk-first, hard)
+
+Output an **Aggregate Plan Pack** as TEXT chunks with the following exact titles:
+
+Required:
+
+* **Corridor Spine** — a compact corridor statement that ties together aim, done, fence, and tripwires in readable prose.
+
+Optional (include only when clearly supported by the planning inputs):
+
+* **North Star** — the active outcome and success signal.
+* **Done Receipts** — observable completion receipts phrased as “done when …”.
+* **Scope Fence** — what is in-scope and explicitly out-of-scope.
+* **Tripwires** — early alarms with a short response posture.
+* **Conflict Ledger** — only if planning inputs contradict or duplicate; describe conflicts without inventing a resolution.
+* **Assumptions** — only if needed; each line begins with `Assumed:`.
+
+Hard rules:
+
+* Do not invent new requirements or new corridors; only consolidate what exists.
+* Do not output tasks, steps, or patch plans.
+* Do not ask questions. If planning inputs are incomplete, produce the smallest runnable corridor and record assumptions.
+
+---
+
+## Recommended Chunk Beat Guidance (for writing quality, not required output)
+
+Corridor Spine should read like a short “corridor vow”: what we’re aiming for, what counts as done, what we refuse to take on, and what would alarm us early. Done Receipts should be concrete enough that a progress check can map evidence to them later. Scope Fence should feel like a refusal boundary, not a wish list.
+
+---
+
+### LLM runtime prompt text
+
+Use this exact runtime text for the LLM call:
+
+You are PLAN-AGGREGATE. Consolidate planning artifacts into a single corridor spine.
+
+Inputs:
+
+* Targets[] contains planning inputs (FP artifacts, possibly multiple versions).
+* Intent[] contains corridor purpose and optional recency/strictness preferences.
+* Chronicle[] may provide context but must not introduce new plan requirements.
+
+Output Contract (chunk-first):
+Emit TEXT chunks titled exactly: Corridor Spine (required).
+Optionally North Star, Done Receipts, Scope Fence, Tripwires, Conflict Ledger, Assumptions.
+Do not invent new planning requirements. Do not output tasks, steps, or patch plans. Do not ask questions.
+If conflicts exist, describe them in Conflict Ledger rather than inventing a resolution.
+Assumptions lines start with “Assumed:”.

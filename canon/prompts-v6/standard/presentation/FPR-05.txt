@@ -1,0 +1,57 @@
+===== BEGIN: presentation/FPR-05.txt =====
+===== FPR-05 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+INPUT GRAMMAR *(Slice Boundary Card / what it owns)*
+
+### Simple prose (2 required INPUT blanks)
+Define the boundary of **[Slice : Targets]** based on **[Boundary Intent : Intent]**.
+
+**Required INPUT blanks (2)**
+- **[Slice : Targets]** — the slice/feature boundary you’re defining.
+- **[Boundary Intent : Intent]** — what you’re trying to protect (prevent sprawl, clarify ownership, reduce coupling).
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+Define the boundary of **[Slice : Targets]** based on **[Boundary Intent : Intent]**,
+using **[Ownership Evidence : Packets]** to see what it actually touches and **[Sprawl Stories : Chronicle]** to capture why the boundary matters.
+
+**Optional INPUT blanks (descriptions)**
+- **[Ownership Evidence : Packets]** — snippets revealing responsibilities, seams, state ownership, and who calls whom.
+- **[Sprawl Stories : Chronicle]** — pain from sprawl, confusion points, “this keeps absorbing stuff” notes.
+
+WHAT TO PRODUCE (contract)
+Produce a boundary card that makes slice ownership unambiguous:
+1) Slice Identity: 1 sentence naming the slice and what it is responsible for.
+2) Inside Responsibilities: 2–5 responsibilities the slice explicitly owns.
+3) Outside Responsibilities: 1–3 responsibilities the slice must not absorb.
+4) Boundary Principle: 1 sentence naming the rule that makes the split meaningful (ownership by state, user intent, domain, etc.).
+5) Seam Touchpoints: 2–4 interaction points where other slices connect (calls/events/props/routes).
+6) Safety Rail: 1 sentence stating the invariant/seam that must remain stable.
+7) Closure Check: 1 sentence stating how a builder verifies a change stayed inside the boundary.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Slice Identity
+- Inside Responsibilities
+- Outside Responsibilities
+- Boundary Principle
+- Seam Touchpoints
+- Safety Rail
+- Closure Check
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   presentation/FPR-05.txt =====

@@ -1,0 +1,65 @@
+===== BEGIN: understanding/FU-10.txt =====
+===== FU-10 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+Input Grammar *(Seam Refactor / behavior-locked)*
+
+### Simple prose (2 required INPUT blanks)
+
+Refactor **[Subject / Slice : Targets]** by applying **[Responsibility Transfer : Intent]** without changing user-visible behavior.
+
+**Required INPUT blanks (2)**
+
+* **[Subject / Slice : Targets]** — the slice you’re restructuring (where the current responsibilities live).
+* **[Responsibility Transfer : Intent]** — one sentence describing what responsibility moves from where to where.
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Refactor **[Subject / Slice : Targets]** by applying **[Responsibility Transfer : Intent]**,
+using **[Seam Evidence : Packets]** to see the real boundary and **[Behavior Lock Notes : Chronicle]** to keep behavior stable.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[Seam Evidence : Packets]** — snippets showing current boundaries, call paths, extraction points, and who depends on what.
+* **[Behavior Lock Notes : Chronicle]** — what must remain unchanged externally (symptoms, rules, UX expectations, regressions to avoid).
+
+WHAT TO PRODUCE (contract)
+Across the full set of chunks, you must cover:
+
+1) Refactor Intent: the specific seam you are improving, stated plainly (structure-only; no new capability).
+2) Behavior Lock (hard line): one explicit line that externally observable behavior stays unchanged (no rule/UX/output change).
+3) Surface Map (grounded): the concrete files/entities/regions you will touch; if you create a new file/module as an extraction destination, name it as NEW.
+4) Seam Being Re-laid: name the old boundary and the new boundary (what responsibility moves where).
+5) Patch Segment(s): 1–3 bounded restructuring moves, each as a paired TEXT framing chunk + CODE chunk, preserving behavior with minimal wiring.
+6) Minimal Call-site Update (optional): the smallest wiring change that keeps external behavior identical (only if required).
+7) Invariant Check (optional): one sentence stating what must remain true (signature/shape/entrypoint), grounded.
+8) Stability Note (payoff): one short statement confirming (a) surface-level behavior equivalence and (b) the structural benefit gained (what is now cleaner/cheaper to change).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Refactor Intent: the seam/responsibility split you are improving (structure only).
+- Behavior Lock (hard line): explicit reminder that user-visible behavior/rules remain unchanged.
+- Surface Map (grounded): the concrete files/entities/regions that will be touched.
+- Seam Being Re-laid: name the old boundary and the new boundary.
+- Extraction Destination (optional): any NEW module/file created as an extraction target, and why it exists.
+- Patch Segment (repeatable): a small TEXT framing chunk + a linked CODE chunk implementing one bounded restructuring move; repeat only as needed (1–3 max).
+- Minimal Call-site Update (optional): one tiny rewire step showing updated usage (only if required).
+- Invariant Check (optional): one sentence stating what must remain true (signature/shape/entrypoint), grounded.
+- Stability Note (payoff): one short confirmation of behavior equivalence + structural benefit.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- Patch segments are allowed (1–3 max) and must obey the global patch-segment rules.
+- Never exceed global chunk limits or patch-segment budget.
+===== END:   understanding/FU-10.txt =====

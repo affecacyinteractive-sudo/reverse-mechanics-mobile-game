@@ -1,0 +1,319 @@
+## CODE-COMMIT — Final (latest invariants, hybrid, high reliability)
+
+This is the **one** non-standard action that **must** use a rigid, key-level contract, because the computer needs to apply it to the canon codebase.
+
+### Purpose
+
+Turn patch outputs (often local snippets) into **canonical file updates** by making the LLM produce a strict **CommitPlan**, then applying it mechanically to `CodebaseStore` and emitting an authoritative receipt from what was actually written.
+
+---
+
+## Input Grammar (UI layer)
+
+Commit **[Patch Payload : Targets]** into **[Destination Identity : Targets]**.
+If present, align with **[Commit Aim : Intent]**, reconstruct from **[Pre-Commit Slice : Packets]**, and respect **[Recent Context : Chronicle]**.
+
+Required blanks: **Patch Payload**, **Destination Identity**.
+Optional blanks: **Commit Aim**, **Pre-Commit Slice**, **Recent Context**.
+
+---
+
+## Output Contract (rigid, hard)
+
+### LLM output must include one machine-consumable chunk
+
+The LLM must emit **one TEXT chunk** with:
+
+* `title` exactly: `CommitPlan`
+* `body` exactly: **raw JSON** (no fences, no commentary, no markdown)
+
+Schema:
+
+```json
+{
+  "run_thesis": "short plain text",
+  "file_updates": [
+    { "file_path": "string", "new_body": "string" }
+  ],
+  "assumptions": ["Assumed: ..."]
+}
+```
+
+Rules:
+
+* `file_updates` must be non-empty.
+* Each `new_body` is the **full file body** (Patch Protocol V1 = REPLACE_FILE).
+* `file_path` must be a real project path (no placeholders).
+* `assumptions` is optional; if present, each line starts with `Assumed:`.
+
+### Deterministic outputs (authoritative)
+
+After applying the plan, the engine returns **chunk packs**:
+
+* a **Commit receipt** TEXT chunk with touched paths and before→after version lineage (canonical truth),
+* an optional **Post-commit slice** (CODE chunks titled by file path) for immediate proof/targeting.
+
+---
+
+## LLM runtime prompt text (minimal, contract-only)
+
+You are CODE-COMMIT (Commit Planner). Produce a mechanically appliable commit plan.
+
+Inputs:
+
+* Intent[] is the aim/constraints (why this commit exists).
+* Targets[] contains destination identity and patch payload (snippets/framing).
+* Packets[] contains the pre-commit code slice. Use it to reconstruct full file bodies.
+* Chronicle[] is optional context.
+
+Output Contract:
+Emit a TEXT chunk with title exactly "CommitPlan".
+Its body must be raw JSON (no fences, no extra text) matching:
+{
+"run_thesis": "...",
+"file_updates": [{"file_path":"...","new_body":"..."}],
+"assumptions": ["Assumed: ..."]
+}
+
+Rules:
+
+* file_updates must be non-empty.
+* new_body must be the FULL file body for that file.
+* Use file paths and identifiers that are consistent with Targets/Packets.
+* Keep changes minimal and local to the intended surfaces.
+* Do not ask questions; if underspecified, choose the smallest reasonable interpretation and record it under assumptions.
+
+---
+
+# Deterministic action script (callable like an action, includes Input Grammar)
+
+````ts
+// action_code_commit.ts — CODE-COMMIT (Hybrid) V1
+// Depends on: types.ts, run_container.ts, codebase_store.ts
+
+import type { Chunk, RunId } from "./types";
+import type { RunContainer, RunOutputs } from "./run_container";
+import { CodebaseStore } from "./codebase_store";
+
+export type InvokeLLM = (args: {
+  action_id: string;
+  system_prompt: string;
+  inputs: RunContainer["inputs"];
+  role_fills?: RunContainer["role_fills"];
+  prose_variant?: RunContainer["prose_variant"];
+}) => Promise<RunOutputs>;
+
+export type CodeCommitCtx = {
+  codebase: CodebaseStore;
+  invokeLLM: InvokeLLM;
+};
+
+type CommitPlan = {
+  run_thesis: string;
+  file_updates: Array<{ file_path: string; new_body: string }>;
+  assumptions?: string[];
+};
+
+export const CODE_COMMIT_INPUT_GRAMMAR = {
+  simple: `Commit [Patch Payload : Targets] into [Destination Identity : Targets].`,
+  pro: `Commit [Patch Payload : Targets] into [Destination Identity : Targets], aligned to [Commit Aim : Intent], reconstructed from [Pre-Commit Slice : Packets], respecting [Recent Context : Chronicle].`,
+};
+
+export const CODE_COMMIT_SYSTEM_PROMPT = `You are CODE-COMMIT (Commit Planner). Produce a mechanically appliable commit plan.
+
+Inputs:
+- Intent[] is the aim/constraints (why this commit exists).
+- Targets[] contains destination identity and patch payload (snippets/framing).
+- Packets[] contains the pre-commit code slice. Use it to reconstruct full file bodies.
+- Chronicle[] is optional context.
+
+Output Contract:
+Emit a TEXT chunk with title exactly "CommitPlan".
+Its body must be raw JSON (no fences, no extra text) matching:
+{
+  "run_thesis": "...",
+  "file_updates": [{"file_path":"...","new_body":"..."}],
+  "assumptions": ["Assumed: ..."]
+}
+
+Rules:
+- file_updates must be non-empty.
+- new_body must be the FULL file body for that file.
+- Use file paths and identifiers that are consistent with Targets/Packets.
+- Keep changes minimal and local to the intended surfaces.
+- Do not ask questions; if underspecified, choose the smallest reasonable interpretation and record it under assumptions.
+`;
+
+// -------- strict extraction/parsing helpers --------
+
+function findCommitPlanChunk(chunks: Chunk[]): Chunk | null {
+  return chunks.find((c) => c.kind === "TEXT" && c.title.trim() === "CommitPlan") ?? null;
+}
+
+/**
+ * High-reliability JSON extraction:
+ * - trims
+ * - strips ```json fences if present
+ * - extracts the first top-level {...} block if extra text leaked
+ */
+function extractJsonObject(text: string): string | null {
+  let s = text.trim();
+
+  // strip code fences if the model violated the rule
+  if (s.startsWith("```")) {
+    s = s.replace(/^```[a-zA-Z]*\s*/, "").replace(/```$/, "").trim();
+  }
+
+  const first = s.indexOf("{");
+  const last = s.lastIndexOf("}");
+  if (first < 0 || last < 0 || last <= first) return null;
+
+  return s.slice(first, last + 1);
+}
+
+function parseCommitPlanFromChunks(chunks: Chunk[]): { ok: true; plan: CommitPlan } | { ok: false; error: string } {
+  const c = findCommitPlanChunk(chunks);
+  if (!c) return { ok: false, error: 'Missing required TEXT chunk titled "CommitPlan".' };
+
+  const jsonText = extractJsonObject(c.body);
+  if (!jsonText) return { ok: false, error: "CommitPlan body did not contain a parseable JSON object." };
+
+  let obj: any;
+  try {
+    obj = JSON.parse(jsonText);
+  } catch {
+    return { ok: false, error: "CommitPlan JSON could not be parsed." };
+  }
+
+  if (!obj || typeof obj !== "object") return { ok: false, error: "CommitPlan must be a JSON object." };
+  if (typeof obj.run_thesis !== "string" || !obj.run_thesis.trim())
+    return { ok: false, error: "CommitPlan.run_thesis must be a non-empty string." };
+
+  if (!Array.isArray(obj.file_updates) || obj.file_updates.length === 0)
+    return { ok: false, error: "CommitPlan.file_updates must be a non-empty array." };
+
+  for (const u of obj.file_updates) {
+    if (!u || typeof u !== "object") return { ok: false, error: "Each file_update must be an object." };
+    if (typeof u.file_path !== "string" || !u.file_path.trim())
+      return { ok: false, error: "Each file_update.file_path must be a non-empty string." };
+    if (typeof u.new_body !== "string" || !u.new_body.trim())
+      return { ok: false, error: "Each file_update.new_body must be a non-empty string (full file body)." };
+  }
+
+  if (obj.assumptions !== undefined) {
+    if (!Array.isArray(obj.assumptions)) return { ok: false, error: "CommitPlan.assumptions must be an array if present." };
+    for (const a of obj.assumptions) {
+      if (typeof a !== "string") return { ok: false, error: "CommitPlan.assumptions entries must be strings." };
+    }
+  }
+
+  return { ok: true, plan: obj as CommitPlan };
+}
+
+// -------- deterministic apply + receipts --------
+
+function applyPlanToCodebase(args: { codebase: CodebaseStore; run_id: RunId; plan: CommitPlan }): { touched: string[]; receipt: Chunk[] } {
+  const { codebase, run_id, plan } = args;
+
+  const touched: string[] = [];
+  const lineage: string[] = [];
+
+  for (const u of plan.file_updates) {
+    const file_path = u.file_path.replaceAll("\\", "/").trim();
+
+    const before = codebase.getLatestVersion(file_path);
+    const before_id = before?.version_id ?? "∅";
+
+    const after = codebase.upsertFile({ file_path, run_id, body: u.new_body });
+    const after_id = after.version_id;
+
+    touched.push(file_path);
+    lineage.push(`${file_path}: ${before_id} → ${after_id}`);
+  }
+
+  const receiptBody =
+    `Run: ${run_id}\n` +
+    `Thesis: ${plan.run_thesis}\n` +
+    `Touched: ${touched.join(", ")}\n` +
+    `Lineage:\n${lineage.join("\n")}`;
+
+  const receipt: Chunk[] = [
+    { id: `cr_${Date.now()}_${Math.random()}`, title: "Commit receipt", body: receiptBody, kind: "TEXT" },
+  ];
+
+  if (plan.assumptions?.length) {
+    receipt.push({
+      id: `cr_${Date.now()}_${Math.random()}`,
+      title: "Commit assumptions",
+      body: plan.assumptions.join("\n"),
+      kind: "TEXT",
+    });
+  }
+
+  return { touched: [...new Set(touched)], receipt };
+}
+
+function buildPostCommitSlice(args: { codebase: CodebaseStore; run_id: RunId; file_paths: string[] }): Chunk[] {
+  const { codebase, run_id, file_paths } = args;
+
+  const chunks: Chunk[] = [
+    {
+      id: `ps_${Date.now()}_${Math.random()}`,
+      title: "Post-commit slice",
+      body: `Run: ${run_id}\nFiles: ${file_paths.join(", ")}`,
+      kind: "TEXT",
+    },
+  ];
+
+  const MAX_LINES = 120;
+  for (const fp of file_paths) {
+    const v = codebase.getVersionAtRun({ file_path: fp, run_id, inclusive: true });
+    if (!v || v.is_deleted) continue;
+
+    const excerpt = v.body.split("\n").slice(0, MAX_LINES).join("\n").trimEnd();
+    chunks.push({ id: `ps_${Date.now()}_${Math.random()}`, title: fp, body: excerpt, kind: "CODE" });
+  }
+
+  return chunks;
+}
+
+// -------- callable action --------
+
+export async function run_CODE_COMMIT(args: { rc: RunContainer; ctx: CodeCommitCtx }): Promise<RunContainer> {
+  const { rc, ctx } = args;
+
+  // Phase A: LLM CommitPlan
+  const planned = await ctx.invokeLLM({
+    action_id: "CODE-COMMIT",
+    system_prompt: CODE_COMMIT_SYSTEM_PROMPT,
+    inputs: rc.inputs,
+    role_fills: rc.role_fills,
+    prose_variant: rc.prose_variant,
+  });
+
+  const parsed = parseCommitPlanFromChunks(planned.chunks);
+  if (!parsed.ok) {
+    const outputs: RunOutputs = {
+      chunks: [
+        ...planned.chunks,
+        { id: `cf_${Date.now()}_${Math.random()}`, title: "Commit failed", body: parsed.error, kind: "TEXT" },
+      ],
+      patch_segments: [],
+      seals: [],
+    };
+    return { ...rc, outputs };
+  }
+
+  // Phase B: deterministic canon write + authoritative receipt
+  const { touched, receipt } = applyPlanToCodebase({ codebase: ctx.codebase, run_id: rc.run_id, plan: parsed.plan });
+  const postSlice = buildPostCommitSlice({ codebase: ctx.codebase, run_id: rc.run_id, file_paths: touched });
+
+  const outputs: RunOutputs = {
+    chunks: [...planned.chunks, ...receipt, ...postSlice],
+    patch_segments: [],
+    seals: [],
+  };
+
+  return { ...rc, outputs };
+}
+````

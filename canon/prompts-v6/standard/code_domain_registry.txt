@@ -1,0 +1,49 @@
+CODE DOMAIN REGISTRY (V1)
+Purpose: classify WHAT KIND of code a patch segment represents (domain-level), independent of programming language.
+Used by: code_profile_selector (domain axis) + code_domain_deltas (domain deltas).
+
+DOMAIN PROFILES (stable IDs)
+- UI_APP
+  UI-layer code: screens, components, view models, controllers that drive user interaction, UI state, event handling.
+  Typical cues: UI framework usage, templates, view rendering, UI state hooks, component trees.
+
+- SERVICE_APP
+  Application/service logic: request handling, business logic services, controllers, orchestration, domain services (non-UI).
+  Typical cues: handlers, controllers, services, business rules, request/response mapping.
+
+- DATA_QUERY
+  Query logic: SQL or query-builder-like blocks where the core operation is a query/update against data stores.
+  Typical cues: SELECT/INSERT/UPDATE/DELETE, CTEs, GraphQL query/mutation, repository query blocks.
+
+- CONFIG_STRUCTURED
+  Structured config manifests: JSON/YAML/TOML/INI-like configuration, build/lint/project config.
+  Typical cues: key-value config, manifest structure, schema-driven config.
+
+- INFRA_DEVOPS
+  Infra / deployment / ops: Docker, k8s, CI pipelines, IaC, runtime manifests.
+  Typical cues: Dockerfile, docker-compose, k8s apiVersion/kind, terraform resources, workflow jobs.
+
+- TESTS_QA
+  Tests and QA harness: unit/integration/e2e tests, fixtures, test helpers.
+  Typical cues: test frameworks, describe/it, assertions, e2e steps, snapshot tests.
+
+- SCRIPTS_AUTOMATION
+  Tooling and scripts: CLI scripts, automation tasks, file processing, build scripts.
+  Typical cues: shebangs, filesystem loops, task runners, CLI argument parsing.
+
+- DEFAULT_APP_CODE
+  Fallback when domain cannot be confidently inferred.
+
+PRIORITY ORDER (tie-breaker when multiple domains match)
+INFRA_DEVOPS
+> CONFIG_STRUCTURED
+> DATA_QUERY
+> TESTS_QA
+> UI_APP
+> SERVICE_APP
+> SCRIPTS_AUTOMATION
+> DEFAULT_APP_CODE
+
+NOTES
+- Domain selection is per patch segment (not per action). One run can produce multiple segments with different domains.
+- Domain is chosen primarily from Packets evidence (file extensions, snippet structure, keywords).

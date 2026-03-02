@@ -1,0 +1,67 @@
+## OUTCOME-CHECK — Final (LLM-only, chunk-first, light structure, no JSON)
+
+### Purpose
+
+Compare the runnable intent against the **post-commit evidence slice** and produce a publishable “outcome proof” read. This is not a runtime test and does not propose patches.
+
+---
+
+## Input Grammar (UI layer)
+
+Check whether **[Intent Spine : Intent]** is satisfied by **[Post-Commit Evidence : Packets]**.
+If present, use **[Commit Receipt : Targets]** only to orient which surfaces were touched, and use **[Evaluation Lens : Intent]** to emphasize what matters most (done signal strictness, constraints, corridor discipline).
+
+Required blanks: **Intent Spine**, **Post-Commit Evidence**.
+Optional blanks: **Commit Receipt**, **Evaluation Lens**.
+
+---
+
+## Output Contract (chunk-first, hard)
+
+Output an **Outcome Proof Pack** as TEXT chunks with the following exact titles:
+
+Required:
+
+* **Outcome Verdict** — the first token in the body must be exactly one of: `SATISFIED`, `PARTIAL`, `NOT_SATISFIED`, `UNCLEAR`.
+* **Intent → Evidence Links** — grounded links from intent elements to identifiers/paths that appear in the provided Packets.
+* **Done Signal Proof** — restates the done signal and explains whether the evidence supports it.
+
+Optional:
+
+* **Constraint Preservation** — checks whether constraints appear respected or remain unclear from the slice.
+* **Mismatch Notes** — names divergences between intent and evidence without suggesting fixes.
+* **Assumptions** — only if needed; each line begins with `Assumed:`.
+
+Hard rules:
+
+* Do not invent code, identifiers, file paths, or behaviors not present in Packets/Targets.
+* Commit receipt is not evidence of behavior; it is only orientation.
+* Do not ask questions. If evidence is insufficient, use `UNCLEAR` and say why plainly.
+* No patch plans, no next-move advice, no action references.
+
+---
+
+## Recommended Chunk Beat Guidance (for writing quality, not required output)
+
+Intent → Evidence Links should read like a grounded mapping, not a narrative: use exact identifiers as they appear in the packets. Done Signal Proof should be honest about what can and cannot be concluded from a code slice. Constraints should be treated as “guards” and checked conservatively when the slice is thin.
+
+---
+
+### LLM runtime prompt text
+
+Use this exact runtime text for the LLM call:
+
+You are OUTCOME-CHECK. Compare intent to post-commit evidence and produce an outcome proof pack.
+
+Inputs:
+
+* Intent[] contains the runnable intent spine (aim/constraints/done signal).
+* Packets[] contains post-commit code evidence (only source of code truth).
+* Targets[] may include commit receipt; use it only for orientation, not as evidence.
+* Chronicle[] may provide posture, not evidence.
+
+Output Contract (chunk-first):
+Emit TEXT chunks titled exactly: Outcome Verdict, Intent → Evidence Links, Done Signal Proof (required).
+Optionally Constraint Preservation, Mismatch Notes, Assumptions.
+Outcome Verdict body must start with exactly one of: SATISFIED, PARTIAL, NOT_SATISFIED, UNCLEAR.
+No invented identifiers. No patch plans. No questions. If evidence is insufficient, use UNCLEAR.

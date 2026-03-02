@@ -1,0 +1,260 @@
+## JOURNAL-APPEND — Final (deterministic, chunk-first, minimal rigid result)
+
+### Purpose
+
+Persist the run’s keystone into canon and append a chronicle entry that references it. This makes the journey memory **real, replayable, and queryable**, without relying on the LLM for the fact of insertion.
+
+This action is **deterministic**. It does not generate meaning; it records meaning that already exists in the provided keystone pack.
+
+---
+
+## Input Grammar (UI layer)
+
+Record **[Keystone Pack : Targets]** into the chronicle as **[School Label : Intent]**.
+Optionally, bias anchor selection using **[Anchor Clues : Targets]**.
+
+Required blanks: **Keystone Pack**, **School Label**.
+Optional blanks: **Anchor Clues**.
+
+---
+
+## Output Contract (chunk-first, hard)
+
+Output a **Journal Append Receipt Pack** as TEXT chunks with the following exact titles:
+
+Required:
+
+* **JournalAppendResult** — machine-friendly key-value lines (strict format below).
+* **Keystone Stored** — human-readable confirmation.
+* **Chronicle Entry Added** — human-readable confirmation (journal line + anchors).
+
+Optional:
+
+* **Notes** — only if something was partially missing or clamped (e.g., “anchors trimmed to 3”).
+
+If the keystone pack is missing/empty, output a single TEXT chunk titled **Journal append failed** and do not mutate canon.
+
+### JournalAppendResult strict body format
+
+The body must be exactly these lines (in any order is fine, but each must appear once):
+
+* `run_id: ...`
+* `school: ...` (FI/FU/FPR/FA/FS/FP)
+* `keystone_id: ...`
+* `entry_id: ...`
+
+This is the only “rigid” part: it lets the harness chain follow-up actions without guesswork.
+
+---
+
+## Execution Semantics (deterministic)
+
+* Determine `school` from the School Label intent (FI/FU/FPR/FA/FS/FP). If unclear, default to `FI`.
+* Store keystone chunks into `KeystoneStore` → `keystone_id`.
+* Derive `journal_line` from the **Keystone Body** chunk if present; otherwise fall back to first TEXT chunk body. Use the first sentence, clamp length.
+* Derive `anchors`:
+
+  * If the keystone pack contains an **Anchors** chunk, use up to 3 anchors from it.
+  * Else, if Anchor Clues are provided, keep up to 3 that appear in keystone text.
+  * Else extract up to 3 identifier-like tokens from keystone text.
+* Append chronicle entry into `ChronicleStore` → `entry_id`.
+
+No LLM calls, no invention.
+
+---
+
+# Deterministic action script (callable like an action, includes Input Grammar)
+
+```ts
+// action_journal_append.ts — JOURNAL-APPEND (deterministic) V1
+// Depends on: types.ts, run_container.ts, chronicle_store.ts
+
+import type { Chunk, SchoolId } from "./types";
+import type { RunContainer, RunOutputs } from "./run_container";
+import { KeystoneStore, ChronicleStore } from "./chronicle_store";
+
+export type JournalAppendCtx = {
+  keystones: KeystoneStore;
+  chronicle: ChronicleStore;
+};
+
+export const JOURNAL_APPEND_INPUT_GRAMMAR = {
+  simple: `Record [Keystone Pack : Targets] into the chronicle as [School Label : Intent].`,
+  pro: `Record [Keystone Pack : Targets] into the chronicle as [School Label : Intent], biasing anchors with [Anchor Clues : Targets].`,
+};
+
+function schoolFromIntent(intent: Chunk[]): SchoolId {
+  const text = intent.map((c) => `${c.title}\n${c.body}`).join("\n").toUpperCase();
+  if (text.includes("FPR")) return "FPR";
+  if (text.includes("FU")) return "FU";
+  if (text.includes("FA")) return "FA";
+  if (text.includes("FS")) return "FS";
+  if (text.includes("FP")) return "FP";
+  if (text.includes("FI")) return "FI";
+  return "FI";
+}
+
+function clamp(s: string, max: number): string {
+  return s.length <= max ? s : s.slice(0, max - 1).trimEnd() + "…";
+}
+
+function firstSentence(text: string): string {
+  const t = text.trim();
+  if (!t) return "";
+  const s = t.split(/(?<=[.!?])\s+/)[0] ?? t;
+  return s.trim();
+}
+
+function getKeystoneBodyText(keystoneChunks: Chunk[]): string {
+  const bodyChunk = keystoneChunks.find((c) => c.kind === "TEXT" && c.title.trim() === "Keystone Body");
+  if (bodyChunk?.body?.trim()) return bodyChunk.body;
+  const anyText = keystoneChunks.find((c) => c.kind === "TEXT" && c.body.trim());
+  return anyText?.body ?? "";
+}
+
+function parseAnchorsChunk(keystoneChunks: Chunk[]): string[] {
+  const c = keystoneChunks.find((x) => x.kind === "TEXT" && x.title.trim() === "Anchors");
+  if (!c) return [];
+  // one per line preferred; also accept comma-separated
+  return c.body
+    .split(/[\n,]/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function parseAnchorClues(targets: Chunk[]): string[] {
+  // Optional convention: TEXT chunk titled exactly "Anchor Clues"
+  const c = targets.find((x) => x.kind === "TEXT" && x.title.trim() === "Anchor Clues");
+  if (!c) return [];
+  return c.body
+    .split(/[\n,]/)
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function deriveAnchors(args: { keystoneChunks: Chunk[]; anchorClues: string[] }): string[] {
+  const { keystoneChunks, anchorClues } = args;
+
+  const keystoneText = keystoneChunks
+    .filter((c) => c.kind === "TEXT")
+    .map((c) => `${c.title}\n${c.body}`)
+    .join("\n");
+
+  // 1) Keystone-provided Anchors chunk wins
+  const fromAnchorsChunk = parseAnchorsChunk(keystoneChunks)
+    .map((a) => a.trim())
+    .filter(Boolean)
+    .slice(0, 3);
+
+  if (fromAnchorsChunk.length) return dedupe(fromAnchorsChunk).slice(0, 3);
+
+  // 2) Anchor clues next, but only if they appear in keystone text
+  const fromClues: string[] = [];
+  for (const clue of anchorClues) {
+    if (keystoneText.includes(clue) && !fromClues.includes(clue)) fromClues.push(clue);
+    if (fromClues.length >= 3) break;
+  }
+  if (fromClues.length) return fromClues;
+
+  // 3) Fallback: identifier-like token harvest
+  const candidates = new Set<string>();
+  const re = /(#\w+|[A-Z][a-zA-Z0-9]+|[a-z]+[A-Z][a-zA-Z0-9]*|[a-z0-9_]{3,})\b/g;
+
+  let m: RegExpExecArray | null;
+  while ((m = re.exec(keystoneText))) {
+    const tok = m[0];
+    if (tok.length < 3) continue;
+    candidates.add(tok);
+    if (candidates.size >= 24) break;
+  }
+
+  return [...candidates].slice(0, 3);
+}
+
+function dedupe(xs: string[]): string[] {
+  return [...new Set(xs.map((x) => x.trim()).filter(Boolean))];
+}
+
+export function run_JOURNAL_APPEND(args: { rc: RunContainer; ctx: JournalAppendCtx }): RunContainer {
+  const { rc, ctx } = args;
+
+  // Keystone pack must be present in Targets
+  const keystonePack = rc.inputs.Targets.filter((c) => c.kind === "TEXT" || c.kind === "CODE");
+  if (keystonePack.length === 0) {
+    const outputs: RunOutputs = {
+      chunks: [
+        {
+          id: `ja_${Date.now()}_${Math.random()}`,
+          title: "Journal append failed",
+          body: "No keystone chunks were provided in Targets, so nothing was recorded.",
+          kind: "TEXT",
+        },
+      ],
+      patch_segments: [],
+      seals: [],
+    };
+    return { ...rc, outputs };
+  }
+
+  const school = schoolFromIntent(rc.inputs.Intent);
+
+  // Store keystone
+  const keystone = ctx.keystones.putKeystone({
+    run_id: rc.run_id,
+    school,
+    chunks: keystonePack,
+  });
+
+  // Derive journal_line + anchors deterministically
+  const kb = getKeystoneBodyText(keystonePack);
+  const journal_line = clamp(firstSentence(kb) || "Recorded keystone.", 160);
+
+  const anchorClues = parseAnchorClues(rc.inputs.Targets);
+  const anchors = deriveAnchors({ keystoneChunks: keystonePack, anchorClues });
+
+  // Append chronicle entry
+  const entry = ctx.chronicle.appendEntry({
+    run_id: rc.run_id,
+    school,
+    keystone_id: keystone.keystone_id,
+    journal_line,
+    anchors,
+  });
+
+  const resultKv =
+    `run_id: ${rc.run_id}\n` +
+    `school: ${school}\n` +
+    `keystone_id: ${keystone.keystone_id}\n` +
+    `entry_id: ${entry.entry_id}`;
+
+  const outputs: RunOutputs = {
+    chunks: [
+      {
+        id: `ja_${Date.now()}_${Math.random()}`,
+        title: "JournalAppendResult",
+        body: resultKv,
+        kind: "TEXT",
+      },
+      {
+        id: `ja_${Date.now()}_${Math.random()}`,
+        title: "Keystone Stored",
+        body: `Stored keystone ${keystone.keystone_id} for run ${rc.run_id} as ${school}.`,
+        kind: "TEXT",
+      },
+      {
+        id: `ja_${Date.now()}_${Math.random()}`,
+        title: "Chronicle Entry Added",
+        body:
+          `Added chronicle entry ${entry.entry_id} referencing keystone ${keystone.keystone_id}.\n` +
+          `Journal line: ${entry.journal_line}\n` +
+          `Anchors: ${entry.anchors.join(", ") || "∅"}`,
+        kind: "TEXT",
+      },
+    ],
+    patch_segments: [],
+    seals: [],
+  };
+
+  return { ...rc, outputs };
+}
+```

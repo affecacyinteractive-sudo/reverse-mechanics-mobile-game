@@ -1,0 +1,65 @@
+## JOURNEY-PROGRESS-VS-PLAN — Final (LLM-only, chunk-first, no JSON)
+
+### Purpose
+
+Measure how the **recent journey signals** (chronicle window) align with the planning corridor, producing a zoomed-out progress/drift read that is publishable and grounded in the provided journal evidence.
+
+---
+
+## Input Grammar (UI layer)
+
+Assess journey progress on **[Corridor Spine : Targets]** using **[Journal Window : Chronicle]**.
+If present, treat **[Pinned Spine : Targets]** as orienting context, and use **[Progress Lens : Intent]** to emphasize stability versus drift.
+
+Required blanks: **Corridor Spine**, **Journal Window**.
+Optional blanks: **Pinned Spine**, **Progress Lens**.
+
+---
+
+## Output Contract (chunk-first, hard)
+
+Output a **Journey Progress Pack** as TEXT chunks with the following exact titles:
+
+Required:
+
+* **Journey Verdict** — the first token in the body must be exactly one of: `ON_TRACK`, `PARTIAL`, `DRIFTING`, `CHAOTIC`.
+* **Pillar Reflection** — zoomed-out reflection across corridor pillars as they show up in the journey (north star, receipts, fence, tripwires).
+* **Journal Evidence Links** — links corridor items to concrete journey signals (anchors and short fragments from journal lines).
+
+Optional:
+
+* **Drift & Tension Notes** — only if recurring patterns conflict with the corridor.
+* **Assumptions** — only if needed; each line begins with `Assumed:`.
+
+Hard rules:
+
+* Chronicle window is the only journey evidence; do not invent events, decisions, or results.
+* Do not rewrite the plan; do not propose next steps; no action references; no questions.
+* Verdict must be consistent with the evidence links.
+
+---
+
+## Recommended Chunk Beat Guidance (for writing quality, not required output)
+
+Journal Evidence Links should cite anchors and brief fragments rather than long quotes. Pillar Reflection should remain zoomed-out and avoid code-level claims. Drift & Tension Notes should name recurring patterns neutrally rather than moralizing.
+
+---
+
+### LLM runtime prompt text
+
+Use this exact runtime text for the LLM call:
+
+You are JOURNEY-PROGRESS-VS-PLAN. Compare a planning corridor to the recent journey window and produce a journey progress pack.
+
+Inputs:
+
+* Targets[] contains the corridor spine (aggregate plan).
+* Chronicle[] contains journey evidence (journal lines and anchors).
+* Intent[] may provide a lens preference.
+* Packets[] are not used.
+
+Output Contract (chunk-first):
+Emit TEXT chunks titled exactly: Journey Verdict, Pillar Reflection, Journal Evidence Links (required).
+Optionally Drift & Tension Notes, Assumptions.
+Journey Verdict body must start with exactly one of: ON_TRACK, PARTIAL, DRIFTING, CHAOTIC.
+No invented events. No plan rewrite. No next-step advice. No questions.

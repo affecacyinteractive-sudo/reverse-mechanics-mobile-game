@@ -1,0 +1,58 @@
+===== BEGIN: synthesis/FS-06.txt =====
+===== FS-06 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+INPUT GRAMMAR *(Feature Extension / add one capability)*
+### Simple prose (2 required INPUT blanks)
+Extend **[Extension Target : Targets]** by adding **[New Capability : Intent]**.
+
+**Required INPUT blanks (2)**
+- **[Extension Target : Targets]** — the existing slice/feature you’re extending (not rewriting).
+- **[New Capability : Intent]** — the single new ability being added (one clear “now it can…”).
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+Extend **[Extension Target : Targets]** by adding **[New Capability : Intent]**,
+using **[Hook Evidence : Packets]** to choose the minimal seam and **[Behavior Fit Notes : Chronicle]** to keep the extension disciplined.
+
+**Optional INPUT blanks (descriptions)**
+- **[Hook Evidence : Packets]** — snippets showing where to hook in and what surfaces will change.
+- **[Behavior Fit Notes : Chronicle]** — expected behavior, constraints, why this belongs in the existing slice, risks.
+
+WHAT TO PRODUCE (contract)
+Produce a disciplined extension (not a rewrite) that adds one capability:
+1) Extension Target Identity: one sentence naming what is being extended and what stays the same.
+2) New Capability: one sentence stating the new “now it can…” behavior.
+3) Fit Rationale: one sentence explaining why this belongs inside the existing slice.
+4) Minimal New Seam: the new hook point introduced (handler, adapter, event, function seam).
+5) Local Surface Change: where the user/flow visibly sees the new capability.
+6) Patch Segment(s): 1–3 directional patch segments implementing the extension (TEXT framing + CODE).
+7) Proof Call-site: one minimal usage that demonstrates the capability is wired end-to-end.
+8) Closure Check: one sentence stating observable proof the new capability is real and usable.
+9) Non-Regression Guard (optional): one sentence naming the nearest behavior that must remain unchanged.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Extension Target Identity
+- New Capability
+- Fit Rationale
+- Minimal New Seam
+- Local Surface Change
+- Patch Segment (repeatable; 1–3 max)
+- Proof Call-site
+- Closure Check
+- Non-Regression Guard (optional)
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- Patch segments are allowed (1–3 max) and must obey the global patch-segment rules.
+- Never exceed global chunk limits or patch-segment budget.
+===== END:   synthesis/FS-06.txt =====

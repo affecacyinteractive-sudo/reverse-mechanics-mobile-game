@@ -1,0 +1,60 @@
+===== BEGIN: understanding/FU-03.txt =====
+===== FU-03 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+Input Grammar *(Behavior Trace / watch it run)*
+
+### Simple prose (2 required INPUT blanks)
+
+Trace **[One Flow : Targets]** when **[Trigger : Chronicle]** happens.
+
+**Required INPUT blanks (2)**
+
+* **[One Flow : Targets]** — the specific flow you’re tracing (one end-to-end behavior, not a whole subsystem).
+* **[Trigger : Chronicle]** — the event/action that starts the flow (click, request, state change), as observed or described.
+
+---
+
+### Pro prose (same core + action-specific optional INPUT blanks)
+
+Trace **[One Flow : Targets]** when **[Trigger : Chronicle]** happens,
+using **[Path Landmarks : Packets]** to stay on the real execution path and **[Run Conditions : Chronicle]** to pin down the situation.
+
+**Optional INPUT blanks (descriptions)**
+
+* **[Path Landmarks : Packets]** — code surfaces that mark the path (entry points, handlers, key branches, state writes).
+* **[Run Conditions : Chronicle]** — the conditions that shape the trace (user state, flags, data presence, environment assumptions).
+
+WHAT TO PRODUCE (contract)
+1) Surface Identity: the single surface being observed (file/entity/region and what it is), grounded in PRIMARY when present, otherwise grounded in mounted packets.
+2) Trigger: what demonstrably triggers this surface (event/call/user action), grounded in evidence.
+3) State Snapshot: the minimum “before → after” state that matters (inputs/props/state/output), grounded in evidence.
+4) Outcome Trace: the short step-by-step sequence from trigger to outcome, grounded in evidence (no invented steps).
+5) Observed Guards / Constraints (optional): an enforced condition/rule directly implied by evidence; include only if directly evidenced; otherwise omit entirely.
+6) Variants (optional): an evidenced alternate path under a named condition; include only if directly evidenced; otherwise omit entirely.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Surface Identity: what surface is being observed and what it is in the system (grounded).
+- Trigger: what demonstrably triggers the surface (event/call/user action).
+- State Snapshot: the minimum before → after state that matters (inputs/props/state/output).
+- Outcome Trace: the short step-by-step sequence from trigger to outcome (no invented steps).
+- Continuity (optional): one sentence on what this surface connects to or why it matters, derived from the observed behavior.
+- Mental Model (optional): one sentence summarizing the surface’s job in plain language, grounded in the trace.
+- Observed Guards / Constraints (optional): an evidenced gating condition that blocks/permits the behavior. Omit if not evidenced.
+- Variants (optional): an evidenced alternate path under a named condition. Omit if not evidenced.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   understanding/FU-03.txt =====

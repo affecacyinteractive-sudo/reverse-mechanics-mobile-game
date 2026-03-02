@@ -1,0 +1,63 @@
+CODE DOMAIN DELTAS (V1)
+Purpose: domain-specific constraints applied ON TOP OF the global baseline for patch_segments.code.
+No baseline repetition here (line limits, no fences, pairing rules, etc. live in global-generative-actions-prompt).
+
+──────────────────────────────────────────────────────────────────────────────
+DOMAIN: DEFAULT_APP_CODE (delta)
+- Prefer plain, readable control flow; avoid framework-specific patterns unless grounded by Packets/Targets.
+- Keep boundaries tight: one function OR one small branch OR one cohesive block.
+- If naming is unclear, use neutral placeholder names that won’t conflict (e.g., nextState, result, input) and keep them consistent within the snippet.
+- Avoid introducing new dependencies/imports unless required by the patch.
+
+──────────────────────────────────────────────────────────────────────────────
+DOMAIN: UI_APP (delta)
+- Snippet must be a UI-layer fragment: view/component/controller/viewmodel fragment, event handler, state binding, or minimal render/template change.
+- Prefer minimal state wiring: bind one state value, one event, one derived value, or one conditional branch (no big rewrites).
+- Touch only the necessary markup/render lines to reflect the change.
+- Don’t introduce new UI frameworks/libraries unless already evidenced in Packets/Targets.
+- Prefer seam changes that are local and composable (props/callbacks/events/interfaces) over global shared state.
+
+──────────────────────────────────────────────────────────────────────────────
+DOMAIN: SERVICE_APP (delta)
+- Snippet must be service-layer logic: handler/controller fragment, service method fragment, orchestration step, or domain-rule function.
+- Prefer explicit input parsing/validation + early return patterns over deep nesting.
+- Keep error handling consistent with project evidence; if none, use a minimal local error return/throw pattern.
+- Avoid adding new endpoints/routes/handlers unless explicitly required by the action’s contract.
+
+──────────────────────────────────────────────────────────────────────────────
+DOMAIN: DATA_QUERY (delta)
+- The code fragment should be query-centric: one cohesive query/update block or a small repository/query function whose core is the query.
+- Prefer explicit column lists when possible; avoid SELECT * unless required to keep snippet coherent.
+- Keep aliasing consistent and short; avoid long alias chains.
+- If schema/table names are unclear, use neutral placeholders (table_name, user_id) and keep consistent in the snippet.
+
+──────────────────────────────────────────────────────────────────────────────
+DOMAIN: CONFIG_STRUCTURED (delta)
+- The code fragment must be valid structured config in the format implied by Packets evidence.
+  - If format is unclear, default to JSON.
+- Touch the smallest possible section; do not paste full files.
+- Preserve existing ordering/style if visible; otherwise keep conventional top-level ordering.
+- Avoid comments in JSON. Only use YAML comments if already evidenced in Packets.
+
+──────────────────────────────────────────────────────────────────────────────
+DOMAIN: INFRA_DEVOPS (delta)
+- Keep to the smallest deployable fragment:
+  - Dockerfile: one stage/command/env change
+  - k8s YAML: one resource fragment (env/ports/resources/probes)
+  - CI workflow: one job/step fragment
+  - IaC: one resource/attribute fragment
+- Must be syntactically valid for the file type implied by Packets.
+- Avoid introducing entirely new resources/services unless explicitly required.
+- Prefer additive low-risk changes over restructuring.
+
+──────────────────────────────────────────────────────────────────────────────
+DOMAIN: SCRIPTS_AUTOMATION (delta)
+- Snippet must be one cohesive script fragment: IO loop, CLI arg handling, task step, or small helper function.
+- Prefer deterministic behavior: explicit paths, explicit exit codes, no interactive prompts.
+- Keep logging minimal but useful (1–2 lines max).
+
+──────────────────────────────────────────────────────────────────────────────
+DOMAIN: TESTS_QA (delta)
+- Snippet must be one test case or one small helper/fixture fragment.
+- Assertions must be specific to the behavior claimed by the action’s output (not generic “truthy” checks).
+- Avoid flaky waits; prefer deterministic signals (selectors/events/responses) when present in Packets evidence.

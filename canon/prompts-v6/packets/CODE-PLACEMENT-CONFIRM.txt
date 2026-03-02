@@ -1,0 +1,177 @@
+## CODE-PLACEMENT-CONFIRM — Final (deterministic, chunk-first, minimal rigid result)
+
+### Purpose
+
+Confirm where a commit actually landed in the canon codebase, using canonical artifacts (commit receipt, post-commit slice). This is a proof-of-placement instrument for gameplay and publishability.
+
+---
+
+## Input Grammar (UI layer)
+
+Confirm where **[Commit Receipt : Targets]** landed using **[Post-Commit Slice : Packets]**.
+Optionally emphasize proof style using **[Confirmation Focus : Intent]**.
+
+Required blanks: **Commit Receipt**, **Post-Commit Slice**.
+Optional blanks: **Confirmation Focus**.
+
+---
+
+## Output Contract (chunk-first, hard)
+
+Output a **Placement Confirm Pack** as chunks with the following exact titles:
+
+Required:
+
+* **PlacementConfirmResult** (TEXT) — machine-friendly key-value lines:
+
+  * `run_id: ...`
+  * `touched: ...` (comma-separated file paths or `∅`)
+* **Placement Summary** (TEXT) — human-readable confirmation of touched paths.
+
+Optional:
+
+* **Proof Excerpts** (TEXT) — a short explanation of what proof is included and how it was derived.
+* One CODE chunk per touched file, where:
+
+  * `title` is `Proof: <file_path>`
+  * `body` is a small excerpt from the post-commit slice for that file path
+
+Failure case:
+
+* If touched paths cannot be derived from either commit receipt or post-commit slice, output a single TEXT chunk titled **Placement unknown**.
+
+Hard rules:
+
+* No guessing. Only use receipt/packets evidence.
+* No invented file paths or identifiers.
+
+---
+
+## Execution Semantics (deterministic)
+
+Deterministic touched-path derivation:
+
+1. Prefer parsing `Touched:` line from a commit receipt chunk in Targets.
+2. Else infer touched files from Packets CODE chunk titles that look like file paths.
+
+Proof excerpts:
+
+* Only taken from the provided Packets slice (not from codebase store in this action).
+* Excerpt cap is deterministic.
+
+---
+
+# Deterministic action script (callable like an action, includes Input Grammar)
+
+```ts
+// action_code_placement_confirm.ts — CODE-PLACEMENT-CONFIRM (deterministic) V1
+// Depends on: types.ts, run_container.ts
+
+import type { Chunk } from "./types";
+import type { RunContainer, RunOutputs } from "./run_container";
+
+export const CODE_PLACEMENT_CONFIRM_INPUT_GRAMMAR = {
+  simple: `Confirm where [Commit Receipt : Targets] landed using [Post-Commit Slice : Packets].`,
+  pro: `Confirm where [Commit Receipt : Targets] landed using [Post-Commit Slice : Packets], emphasizing [Confirmation Focus : Intent].`,
+};
+
+function parseTouchedFromReceipt(targets: Chunk[]): string[] {
+  const receipt = targets.find(
+    (c) => c.kind === "TEXT" && c.title.toLowerCase().includes("commit receipt")
+  );
+  if (!receipt) return [];
+
+  const m = /Touched:\s*(.*)/.exec(receipt.body);
+  if (!m) return [];
+
+  return m[1]
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function looksLikeFilePath(s: string): boolean {
+  const t = s.trim();
+  return /\.[A-Za-z0-9]+$/.test(t) && (t.includes("/") || t.includes("\\") || t.startsWith("src") || t.startsWith("app"));
+}
+
+function inferTouchedFromPackets(packets: Chunk[]): string[] {
+  const out: string[] = [];
+  for (const c of packets) {
+    if (c.kind !== "CODE") continue;
+    if (looksLikeFilePath(c.title)) out.push(c.title.trim().replaceAll("\\", "/"));
+  }
+  return [...new Set(out)];
+}
+
+function pickProofChunks(args: { packets: Chunk[]; touched: string[] }): Chunk[] {
+  const { packets, touched } = args;
+
+  const MAX_LINES = 60;
+  const proof: Chunk[] = [];
+
+  for (const fp of touched) {
+    const src = packets.find((c) => c.kind === "CODE" && c.title.trim().replaceAll("\\", "/") === fp);
+    if (!src) continue;
+
+    const excerpt = src.body.split("\n").slice(0, MAX_LINES).join("\n").trimEnd();
+
+    proof.push({
+      id: `pc_${Date.now()}_${Math.random()}`,
+      title: `Proof: ${fp}`,
+      body: excerpt,
+      kind: "CODE",
+    });
+  }
+
+  return proof;
+}
+
+export function run_CODE_PLACEMENT_CONFIRM(args: { rc: RunContainer }): RunContainer {
+  const { rc } = args;
+
+  const touched = parseTouchedFromReceipt(rc.inputs.Targets);
+  const finalTouched = touched.length ? touched : inferTouchedFromPackets(rc.inputs.Packets);
+
+  if (!finalTouched.length) {
+    const outputs: RunOutputs = {
+      chunks: [
+        {
+          id: `pc_${Date.now()}_${Math.random()}`,
+          title: "Placement unknown",
+          body: "Could not confirm touched file paths from commit receipt or post-commit packet slice.",
+          kind: "TEXT",
+        },
+      ],
+      patch_segments: [],
+      seals: [],
+    };
+    return { ...rc, outputs };
+  }
+
+  const resultKv =
+    `run_id: ${rc.run_id}\n` +
+    `touched: ${finalTouched.join(", ")}`;
+
+  const summary = `Confirmed placement for run ${rc.run_id}.\nTouched: ${finalTouched.join(", ")}`;
+
+  const chunks: Chunk[] = [
+    { id: `pc_${Date.now()}_${Math.random()}`, title: "PlacementConfirmResult", body: resultKv, kind: "TEXT" },
+    { id: `pc_${Date.now()}_${Math.random()}`, title: "Placement Summary", body: summary, kind: "TEXT" },
+  ];
+
+  const proof = pickProofChunks({ packets: rc.inputs.Packets, touched: finalTouched });
+  if (proof.length) {
+    chunks.push({
+      id: `pc_${Date.now()}_${Math.random()}`,
+      title: "Proof Excerpts",
+      body: "Included proof excerpts from the post-commit slice for the touched files.",
+      kind: "TEXT",
+    });
+    chunks.push(...proof);
+  }
+
+  const outputs: RunOutputs = { chunks, patch_segments: [], seals: [] };
+  return { ...rc, outputs };
+}
+```

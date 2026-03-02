@@ -1,0 +1,186 @@
+## JOURNAL-PLACEMENT-CONFIRM — Final (deterministic, chunk-first, minimal rigid result)
+
+### Purpose
+
+Confirm where a keystone appears in the canon chronicle and show its local neighborhood. This is the chronicle-side “where did it land” proof instrument.
+
+---
+
+## Input Grammar (UI layer)
+
+Confirm where **[Keystone Identity : Targets]** appears in the chronicle, and show neighborhood based on **[Neighborhood Preference : Intent]**.
+
+Required blanks: **Keystone Identity**, **Neighborhood Preference**.
+Optional blanks: **Anchor Clues**.
+
+---
+
+## Output Contract (chunk-first, hard)
+
+Output a **Chronicle Placement Pack** as TEXT chunks with the following exact titles:
+
+Required:
+
+* **ChroniclePlacementResult** (TEXT) — machine-friendly key-value lines:
+
+  * `run_id: ...`
+  * `keystone_id: ...`
+  * `found: true|false`
+  * `entry_id: ...` (or `∅`)
+* **Matched Entry** (TEXT) — the matched chronicle line (school + journal_line + anchors) if found, otherwise a short “not found” message.
+
+Optional (only if found):
+
+* **Neighborhood** (TEXT) — surrounding entries (previous/next) in the local window.
+* **Match Basis** (TEXT) — one short statement: “matched by keystone_id reference”.
+
+Failure case:
+
+* If no `keystone_id` can be parsed from Targets, output a single TEXT chunk titled **Placement not found**.
+
+No invention: lookup is by exact keystone_id match only.
+
+---
+
+## Execution Semantics (deterministic)
+
+* Parse `keystone_id` from Targets deterministically.
+* Query `ChronicleStore` for the most recent entry with that `keystone_id`.
+* Render result KV + matched entry + neighborhood window (span default 1; can be adjusted deterministically from intent).
+
+---
+
+# Deterministic action script (callable like an action, includes Input Grammar)
+
+```ts id="4coozh"
+// action_journal_placement_confirm.ts — JOURNAL-PLACEMENT-CONFIRM (deterministic) V1
+// Depends on: types.ts, run_container.ts, chronicle_store.ts
+
+import type { Chunk } from "./types";
+import type { RunContainer, RunOutputs } from "./run_container";
+import { ChronicleStore } from "./chronicle_store";
+
+export type JournalPlacementCtx = {
+  chronicle: ChronicleStore;
+};
+
+export const JOURNAL_PLACEMENT_CONFIRM_INPUT_GRAMMAR = {
+  simple: `Confirm where [Keystone Identity : Targets] appears in the chronicle, using [Neighborhood Preference : Intent].`,
+  pro: `Confirm where [Keystone Identity : Targets] appears in the chronicle, using [Neighborhood Preference : Intent], sanity-checking with [Anchor Clues : Targets].`,
+};
+
+function parseKeystoneIdFromTargets(targets: Chunk[]): string | null {
+  const labeled = targets.find((c) => c.kind === "TEXT" && c.body.toLowerCase().includes("keystone_id"));
+  if (labeled) {
+    const m = /keystone_id\s*:\s*([A-Za-z0-9_\-]+)/i.exec(labeled.body);
+    if (m) return m[1].trim();
+  }
+
+  const bare = targets.find((c) => c.kind === "TEXT" && /^k_[A-Za-z0-9]+/i.test(c.body.trim()));
+  if (bare) return bare.body.trim();
+
+  return null;
+}
+
+function neighborSpanFromIntent(intent: Chunk[], fallback: number): number {
+  const text = intent.map((c) => `${c.title}\n${c.body}`).join("\n");
+  const m = /(neighbors|span|window)\s+(\d+)/i.exec(text);
+  if (!m) return fallback;
+  const n = Number(m[2]);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(0, Math.min(5, n));
+}
+
+export function run_JOURNAL_PLACEMENT_CONFIRM(args: {
+  rc: RunContainer;
+  ctx: JournalPlacementCtx;
+}): RunContainer {
+  const { rc, ctx } = args;
+
+  const keystone_id = parseKeystoneIdFromTargets(rc.inputs.Targets);
+  if (!keystone_id) {
+    const outputs: RunOutputs = {
+      chunks: [
+        {
+          id: `jp_${Date.now()}_${Math.random()}`,
+          title: "Placement not found",
+          body: "No keystone_id was provided in Targets, so placement could not be confirmed.",
+          kind: "TEXT",
+        },
+      ],
+      patch_segments: [],
+      seals: [],
+    };
+    return { ...rc, outputs };
+  }
+
+  const all = ctx.chronicle.listAll();
+  const idxFromEnd = [...all].reverse().findIndex((e) => e.keystone_id === keystone_id);
+
+  const found = idxFromEnd >= 0;
+
+  if (!found) {
+    const resultKv =
+      `run_id: ${rc.run_id}\n` +
+      `keystone_id: ${keystone_id}\n` +
+      `found: false\n` +
+      `entry_id: ∅`;
+
+    const outputs: RunOutputs = {
+      chunks: [
+        { id: `jp_${Date.now()}_${Math.random()}`, title: "ChroniclePlacementResult", body: resultKv, kind: "TEXT" },
+        {
+          id: `jp_${Date.now()}_${Math.random()}`,
+          title: "Matched Entry",
+          body: `No chronicle entry exists for keystone_id ${keystone_id}.`,
+          kind: "TEXT",
+        },
+      ],
+      patch_segments: [],
+      seals: [],
+    };
+    return { ...rc, outputs };
+  }
+
+  const idx = all.length - 1 - idxFromEnd;
+  const entry = all[idx];
+
+  const span = neighborSpanFromIntent(rc.inputs.Intent, 1);
+  const start = Math.max(0, idx - span);
+  const end = Math.min(all.length, idx + span + 1);
+
+  const matchedLine =
+    `[${entry.school}] ${entry.journal_line}` +
+    (entry.anchors.length ? ` — ${entry.anchors.join(", ")}` : "");
+
+  const neighborhood = all
+    .slice(start, end)
+    .map(
+      (e) =>
+        `[${e.school}] ${e.journal_line}` +
+        (e.anchors.length ? ` — ${e.anchors.join(", ")}` : "")
+    )
+    .join("\n");
+
+  const resultKv =
+    `run_id: ${rc.run_id}\n` +
+    `keystone_id: ${keystone_id}\n` +
+    `found: true\n` +
+    `entry_id: ${entry.entry_id}`;
+
+  const chunks: Chunk[] = [
+    { id: `jp_${Date.now()}_${Math.random()}`, title: "ChroniclePlacementResult", body: resultKv, kind: "TEXT" },
+    { id: `jp_${Date.now()}_${Math.random()}`, title: "Matched Entry", body: matchedLine, kind: "TEXT" },
+    { id: `jp_${Date.now()}_${Math.random()}`, title: "Neighborhood", body: neighborhood, kind: "TEXT" },
+    {
+      id: `jp_${Date.now()}_${Math.random()}`,
+      title: "Match Basis",
+      body: `Matched by keystone_id reference: ${keystone_id}.`,
+      kind: "TEXT",
+    },
+  ];
+
+  const outputs: RunOutputs = { chunks, patch_segments: [], seals: [] };
+  return { ...rc, outputs };
+}
+```

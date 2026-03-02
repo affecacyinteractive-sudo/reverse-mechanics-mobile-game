@@ -1,0 +1,129 @@
+## JOURNEY-VIEW — Final (deterministic, chunk-first, high reliability)
+
+### Purpose
+
+Render a readable “story so far” view from the canon chronicle store. This is a pure read/render action: it never invents events and does not depend on LLM output.
+
+---
+
+## Input Grammar (UI layer)
+
+Render the recent journey for **[View Purpose : Intent]** using **[Chronicle Window : Chronicle]**.
+Optionally apply **[Filter Hint : Intent]** (e.g., “last 5”, “FP only”) and highlight **[Pinned Keystone(s) : Targets]** (V1 may ignore pin highlighting but must not break).
+
+Required blanks: **View Purpose**, **Chronicle Window**.
+Optional blanks: **Filter Hint**, **Pinned Keystone(s)**.
+
+---
+
+## Output Contract (chunk-first, hard)
+
+Output a **Journey View Pack** as TEXT chunks with the following exact titles:
+
+Required:
+
+* **JourneyViewResult** (TEXT) — machine-friendly key-value lines:
+
+  * `run_id: ...`
+  * `window: ...` (e.g., `last 8`)
+  * `count: ...`
+* **View Header** (TEXT) — human-readable purpose + what window was used.
+* **Entry Strip** (TEXT) — one entry per line:
+
+  * `[School] journal_line — anchors` (omit anchors segment if empty)
+
+Optional:
+
+* **Notes** — only if filters were requested but not applied (e.g., “FP-only filter not implemented in V1”).
+
+If there are no chronicle entries, output **Empty Journey** (TEXT) only.
+
+---
+
+## Execution Semantics (deterministic)
+
+* Choose window size deterministically:
+
+  * default `last 8`
+  * if Intent contains “last N”, use N clamped to [1..30]
+* Fetch entries from `ChronicleStore.listRecent(limit)`.
+* Render lines from stored fields only.
+
+---
+
+# Deterministic action script (callable like an action, includes Input Grammar)
+
+```ts
+// action_journey_view.ts — JOURNEY-VIEW (deterministic) V1
+// Depends on: types.ts, run_container.ts, chronicle_store.ts
+
+import type { Chunk } from "./types";
+import type { RunContainer, RunOutputs } from "./run_container";
+import { ChronicleStore } from "./chronicle_store";
+
+export type JourneyViewCtx = {
+  chronicle: ChronicleStore;
+};
+
+export const JOURNEY_VIEW_INPUT_GRAMMAR = {
+  simple: `Render the recent journey for [View Purpose : Intent] using [Chronicle Window : Chronicle].`,
+  pro: `Render the recent journey for [View Purpose : Intent] using [Chronicle Window : Chronicle], applying [Filter Hint : Intent] and highlighting [Pinned Keystone(s) : Targets].`,
+};
+
+function deriveLimitFromIntent(intent: Chunk[], fallback: number): number {
+  const text = intent.map((c) => `${c.title}\n${c.body}`).join("\n");
+  const m = /last\s+(\d+)/i.exec(text);
+  if (!m) return fallback;
+  const n = Number(m[1]);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(1, Math.min(30, n));
+}
+
+export function run_JOURNEY_VIEW(args: { rc: RunContainer; ctx: JourneyViewCtx }): RunContainer {
+  const { rc, ctx } = args;
+
+  const purpose = rc.inputs.Intent[0]?.body?.trim() || "Story so far";
+  const limit = deriveLimitFromIntent(rc.inputs.Intent, 8);
+
+  const entries = ctx.chronicle.listRecent({ limit });
+
+  if (entries.length === 0) {
+    const outputs: RunOutputs = {
+      chunks: [
+        {
+          id: `jv_${Date.now()}_${Math.random()}`,
+          title: "Empty Journey",
+          body: "No chronicle entries exist yet for this project.",
+          kind: "TEXT",
+        },
+      ],
+      patch_segments: [],
+      seals: [],
+    };
+    return { ...rc, outputs };
+  }
+
+  const resultKv =
+    `run_id: ${rc.run_id}\n` +
+    `window: last ${entries.length}\n` +
+    `count: ${entries.length}`;
+
+  const headerText = `Purpose: ${purpose}\nWindow: last ${entries.length}`;
+
+  const strip = entries
+    .map((e) => {
+      const a = e.anchors.length ? ` — ${e.anchors.join(", ")}` : "";
+      return `[${e.school}] ${e.journal_line}${a}`;
+    })
+    .join("\n");
+
+  const chunks: Chunk[] = [
+    { id: `jv_${Date.now()}_${Math.random()}`, title: "JourneyViewResult", body: resultKv, kind: "TEXT" },
+    { id: `jv_${Date.now()}_${Math.random()}`, title: "View Header", body: headerText, kind: "TEXT" },
+    { id: `jv_${Date.now()}_${Math.random()}`, title: "Entry Strip", body: strip, kind: "TEXT" },
+  ];
+
+  const outputs: RunOutputs = { chunks, patch_segments: [], seals: [] };
+  return { ...rc, outputs };
+}
+```

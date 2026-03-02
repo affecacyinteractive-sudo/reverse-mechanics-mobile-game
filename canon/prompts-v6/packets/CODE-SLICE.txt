@@ -1,0 +1,183 @@
+## CODE-SLICE — Final (deterministic, chunk-first, high reliability)
+
+### Purpose
+
+Construct **Packets[]** by extracting real code from the canon `CodebaseStore` at the current run state. This is grounding, not generation.
+
+---
+
+## Input Grammar (UI layer)
+
+Extract a grounding slice for **[Slice Mission : Intent]** from **[Extraction Target : Targets]**.
+Optionally prioritize **[Primary File Hints : Targets]** and apply **[Slice Preference : Intent]** (e.g., “keep it small”, “single file”).
+
+Required blanks: **Slice Mission**, **Extraction Target**.
+Optional blanks: **Primary File Hints**, **Slice Preference**.
+
+---
+
+## Output Contract (chunk-first, hard)
+
+Output a **Packet Slice Pack** as chunks with the following exact titles:
+
+Required:
+
+* **SliceResult** (TEXT) — machine-friendly key-value lines:
+
+  * `run_id: ...`
+  * `included: ...` (comma-separated file paths or `∅`)
+  * `missing: ...` (comma-separated or `∅`)
+  * `deleted: ...` (comma-separated or `∅`)
+* **Slice Header** (TEXT) — human-readable summary of what was extracted and why.
+
+Then, for each included file, output one **CODE** chunk where:
+
+* `title` is exactly the file path
+* `body` is the extracted code text (V1: excerpt cap)
+
+If nothing can be resolved or nothing exists at that run, output **Slice failed** (TEXT) and do not emit any CODE chunks.
+
+No invention: only canon content.
+
+---
+
+## Execution Semantics (deterministic)
+
+* Resolve candidate file paths deterministically from Targets (and optional Primary File Hints): scan for path-like tokens.
+* For each candidate file path, read the latest file version at `run_id` (inclusive).
+* Classify each as included/missing/deleted.
+* Emit SliceResult + Slice Header + CODE chunks for included files.
+
+---
+
+# Deterministic action script (callable like an action, includes Input Grammar)
+
+```ts
+// action_code_slice.ts — CODE-SLICE (deterministic) V1
+// Depends on: types.ts, run_container.ts, codebase_store.ts
+
+import type { Chunk } from "./types";
+import type { RunContainer, RunOutputs } from "./run_container";
+import { CodebaseStore } from "./codebase_store";
+
+export type CodeSliceCtx = {
+  codebase: CodebaseStore;
+};
+
+export const CODE_SLICE_INPUT_GRAMMAR = {
+  simple: `Extract a grounding slice for [Slice Mission : Intent] from [Extraction Target : Targets].`,
+  pro: `Extract a grounding slice for [Slice Mission : Intent] from [Extraction Target : Targets], prioritizing [Primary File Hints : Targets] and applying [Slice Preference : Intent].`,
+};
+
+function extractFilePathsFromChunks(chunks: Chunk[]): string[] {
+  const out = new Set<string>();
+  const re =
+    /([A-Za-z0-9_\-./\\]+?\.(ts|tsx|js|jsx|py|java|cs|go|rs|sql|json|yaml|yml|toml|md|txt))(::[A-Za-z0-9_\-./#]+)?/g;
+
+  for (const c of chunks) {
+    if (c.kind !== "TEXT") continue;
+    let m: RegExpExecArray | null;
+    while ((m = re.exec(c.body))) out.add(m[1].replaceAll("\\", "/"));
+  }
+  return [...out];
+}
+
+function dedupe(xs: string[]): string[] {
+  return [...new Set(xs.map((x) => x.trim()).filter(Boolean))];
+}
+
+export function run_CODE_SLICE(args: { rc: RunContainer; ctx: CodeSliceCtx }): RunContainer {
+  const { rc, ctx } = args;
+
+  const candidates = dedupe(extractFilePathsFromChunks(rc.inputs.Targets));
+  if (candidates.length === 0) {
+    const outputs: RunOutputs = {
+      chunks: [
+        {
+          id: `sl_${Date.now()}_${Math.random()}`,
+          title: "Slice failed",
+          body: "No resolvable file paths were found in Targets, so no code could be extracted.",
+          kind: "TEXT",
+        },
+      ],
+      patch_segments: [],
+      seals: [],
+    };
+    return { ...rc, outputs };
+  }
+
+  const included: string[] = [];
+  const missing: string[] = [];
+  const deleted: string[] = [];
+
+  const codeChunks: Chunk[] = [];
+  const MAX_LINES_PER_FILE = 120;
+
+  for (const fp of candidates) {
+    const v = ctx.codebase.getVersionAtRun({ file_path: fp, run_id: rc.run_id, inclusive: true });
+
+    if (!v) {
+      missing.push(fp);
+      continue;
+    }
+    if (v.is_deleted) {
+      deleted.push(fp);
+      continue;
+    }
+
+    included.push(fp);
+
+    const excerpt = v.body.split("\n").slice(0, MAX_LINES_PER_FILE).join("\n").trimEnd();
+    codeChunks.push({
+      id: `sl_${Date.now()}_${Math.random()}`,
+      title: fp,
+      body: excerpt,
+      kind: "CODE",
+    });
+  }
+
+  if (included.length === 0) {
+    const outputs: RunOutputs = {
+      chunks: [
+        {
+          id: `sl_${Date.now()}_${Math.random()}`,
+          title: "Slice failed",
+          body:
+            `No files could be extracted at run ${rc.run_id}.\n` +
+            `Missing: ${missing.join(", ") || "∅"}\n` +
+            `Deleted: ${deleted.join(", ") || "∅"}`,
+          kind: "TEXT",
+        },
+      ],
+      patch_segments: [],
+      seals: [],
+    };
+    return { ...rc, outputs };
+  }
+
+  const resultKv =
+    `run_id: ${rc.run_id}\n` +
+    `included: ${included.join(", ")}\n` +
+    `missing: ${missing.join(", ") || "∅"}\n` +
+    `deleted: ${deleted.join(", ") || "∅"}`;
+
+  const mission = rc.inputs.Intent[0]?.body?.trim() || "Grounding slice";
+  const headerText =
+    `Mission: ${mission}\n` +
+    `Included: ${included.join(", ")}\n` +
+    (missing.length ? `Missing: ${missing.join(", ")}\n` : "") +
+    (deleted.length ? `Deleted: ${deleted.join(", ")}\n` : "");
+
+  const outputs: RunOutputs = {
+    chunks: [
+      { id: `sl_${Date.now()}_${Math.random()}`, title: "SliceResult", body: resultKv, kind: "TEXT" },
+      { id: `sl_${Date.now()}_${Math.random()}`, title: "Slice Header", body: headerText.trimEnd(), kind: "TEXT" },
+      ...codeChunks,
+    ],
+    patch_segments: [],
+    seals: [],
+  };
+
+  return { ...rc, outputs };
+}
+```

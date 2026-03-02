@@ -1,0 +1,241 @@
+# Action Composition Manifesto V1
+
+*A standardized section system for every action prompt in the game, spanning LLM, deterministic, and hybrid behaviors.*
+
+## Core Thesis
+
+An action is not “a prompt.” An action is a **composition contract** that binds input packs into an intended meaning (Input Binding), then produces output packs under an explicit contract (Output Contract), optionally using deterministic canon systems (codebase/chronicle). The standardized section system exists to keep a large catalog coherent while allowing both loose, human-facing generation and rigid, machine-followable execution.
+
+---
+
+## The Two-Axis Model (use this to design every section)
+
+Every section in an action spec has two independent attributes:
+
+### Axis 1: Shape of the artifact
+
+* **STRUCTURED** — schema/fields/slots; parseable, deterministic-friendly
+* **PROSE** — natural language; legible, flexible, not strictly parseable
+
+### Axis 2: Who fills it
+
+* **HUMAN** — user/UI selects or fills values
+* **MODEL** — LLM produces it
+* **SYSTEM** — deterministic code produces it
+
+This yields all meaningful combinations:
+
+* **STRUCTURED + HUMAN**: user-selected bundles, explicit fields, curated targets
+* **STRUCTURED + MODEL**: CommitPlan JSON, any machine-applied plan
+* **STRUCTURED + SYSTEM**: receipts, KV results, canonical placement proofs
+* **PROSE + HUMAN**: the binding sentence with blanks (UI assembly)
+* **PROSE + MODEL**: keystones, progress reads, narrative proof packs
+
+---
+
+## Standard Section System (stable headings across all actions)
+
+Every action spec uses the same headings. Do not rename per action; vary the **shape/filler tags** inside each section.
+
+### 1) Input Payload
+
+**What inputs exist and what they contain.**
+
+* Usually: `shape: STRUCTURED`, `filler: HUMAN`
+* Sometimes: upstream generators produce payload packs: `shape: STRUCTURED`, `filler: MODEL`
+
+This section is not about meaning; it’s about what data the action receives (Intent/Targets/Packets/Chronicle) and any additional structured objects required (e.g., CommitPlan for hybrids).
+
+**Prompt engineer rule:** keep this short, enumerated, factual.
+
+---
+
+### 2) Input Binding
+
+**The “Meal Kit recipe.”**
+This is the core: it tells the player **and the LLM** how the payload is combined *before* producing outputs.
+
+* Always present.
+* Always includes a blanked binding statement (Simple and optionally Pro).
+* `shape: PROSE`, `filler: HUMAN` at authoring time (UI fills blanks).
+* Also fed to the LLM so it knows how to interpret the packs.
+
+**Why it matters:**
+Even with structured payloads, the biggest failure mode is “right inputs, wrong role.” Binding prevents that by declaring roles and usage (e.g., “Packets are grounding; Targets are destination identity; Chronicle is posture”).
+
+**Prompt engineer rule:**
+
+* 2 required blanks (minimum friction).
+* Optional blanks should be meaningful and action-specific (not cookie-cutter).
+* Blanks are labeled by role and category: `[ROLE : INPUT CATEGORY]`.
+
+---
+
+### 3) Output Contract
+
+**What must be produced, non-negotiably.**
+This is where you decide whether an action is low-stakes prose or machine-followable.
+
+Possible modes:
+
+* `shape: PROSE`, `filler: MODEL` — chunk-first with fixed chunk titles (most LLM actions)
+* `shape: STRUCTURED`, `filler: MODEL` — strict JSON / strict KV (CommitPlan, any plan applied mechanically)
+* `shape: STRUCTURED`, `filler: SYSTEM` — deterministic receipts/KV results from canon writes or reads
+
+**Rule of thumb (critical):**
+Rigid field/key-level contracts are only required when:
+
+* the computer must **apply** the output (canon mutation), or
+* downstream code must **validate/branch** on specific values.
+
+Otherwise, chunk-first contracts are preferred.
+
+**Prompt engineer rule:**
+
+* Prefer **fixed chunk titles** over JSON unless machine execution requires structured output.
+* When structured output is required: enforce “raw JSON only / no fences” or strict KV line format.
+
+---
+
+### 4) Output Composition Guide
+
+**How to shape outputs so they’re high quality.**
+This is the evolved form of “Recommended Chunk Beat Categories.”
+
+It is *not* an output list. It is guidance for how the model composes the required contract chunks.
+
+* For low-stakes generation: directional beats, coverage prompts
+* For high-stakes checks: required proof patterns and mapping discipline (still prose guidance)
+
+`shape: PROSE`, `filler: MODEL`
+
+**Prompt engineer rule:**
+
+* Keep it short, but specific.
+* Don’t restate the contract; explain how to satisfy it well.
+* No generic filler like “be clear”; use concrete composition constraints.
+
+---
+
+### 5) Output Format
+
+**The global envelope and chunk schema.**
+Usually global, not repeated per action.
+
+* `shape: STRUCTURED`, `filler: SYSTEM`
+* Defines the chunk schema and the outer container the harness expects.
+
+At minimum: chunks are `{id, title, body, kind}` with kind in `{TEXT, CODE, MULTIMEDIA}`. Seals can be represented as chunks.
+
+**Prompt engineer rule:**
+
+* Keep it global and stable.
+* Only change it deliberately because it impacts everything.
+
+---
+
+## How “What to Produce” and “Beat Categories” evolve in this system
+
+Old model:
+
+* “What to Produce” = contract
+* “Beat Categories” = coverage plan
+
+New model:
+
+* **Output Contract** subsumes “What to Produce.”
+* **Output Composition Guide** subsumes “Beat Categories.”
+
+For certain actions, “beat categories” stop being broad prompts and become **required non-negotiable blocks**. That’s okay: the guide becomes more specific when stakes are higher.
+
+---
+
+## The Responsibility Duality (and why it’s a spectrum)
+
+You observed a duality on both sides; you’re correct, and it’s a spectrum.
+
+### Input side spectrum
+
+* Loose: payload is generic, binding carries the meaning
+* Tight: payload is structured and specific, binding still clarifies roles
+
+### Output side spectrum
+
+* Loose: prose chunks for humans
+* Tight: structured plans/receipts for machines
+* Hybrid: model produces structured plan; system applies and emits deterministic receipts
+
+**Design rule:**
+Don’t force every action to the tight end. Tightness is expensive. Only tighten where the harness needs it.
+
+---
+
+## Action Types and their recommended section shapes
+
+### A) Chunk-first LLM actions (human-facing generators)
+
+Examples: INT-TRANSFORM, KEYSTONE-BUILD, PLAN-AGGREGATE, progress/outcome reads
+
+* Input Payload: STRUCTURED/HUMAN
+* Input Binding: PROSE/HUMAN (fed to model)
+* Output Contract: PROSE/MODEL (fixed chunk titles)
+* Output Composition Guide: PROSE/MODEL
+* Output Format: global
+
+### B) Deterministic canon actions (truth-bearing reads/writes)
+
+Examples: CODE-SLICE, JOURNEY-VIEW, placement confirms, JOURNAL-APPEND (record)
+
+* Input Payload: STRUCTURED/HUMAN
+* Input Binding: PROSE/HUMAN (UX + consistent action spec)
+* Output Contract: STRUCTURED/SYSTEM (KV result chunk) + PROSE/SYSTEM (human receipt chunks)
+* Output Composition Guide: minimal or omitted (system does formatting deterministically)
+* Output Format: global
+
+### C) Hybrid canon actions (LLM plan + deterministic apply)
+
+Example: CODE-COMMIT
+
+* Input Payload: STRUCTURED/HUMAN
+* Input Binding: PROSE/HUMAN
+* Output Contract:
+
+  * STRUCTURED/MODEL for **CommitPlan** (strict)
+  * STRUCTURED/SYSTEM for canon receipt + post-commit slice
+* Output Composition Guide: minimal, focused on producing a mechanically appliable plan
+* Output Format: global
+
+---
+
+## Practical rules for prompt engineers
+
+1. **Never omit Input Binding.**
+   It is not just UX; it is the semantic binding layer for the LLM (“meal kit recipe”).
+
+2. **Use rigid structure only when the computer must act.**
+   CommitPlan needs rigid JSON. Keystone does not.
+
+3. **Prefer fixed chunk titles over JSON for human artifacts.**
+   It’s simpler, more legible, and robust for publishing.
+
+4. **When you require structured output, enforce a strict transport rule.**
+   “Raw JSON only, no fences, no extra text” (or strict KV lines).
+
+5. **Keep required blanks to 2.**
+   Everything else optional. Complexity is opt-in, not mandatory.
+
+6. **Output Composition Guide is guidance, not an output list.**
+   Don’t confuse “how to compose” with “fields to emit.”
+
+7. **Deterministic actions still get Input Binding.**
+   Even if code doesn’t need it, players do, and the catalog stays consistent.
+
+---
+
+## The mental model to teach your team
+
+Every action is:
+
+**Payload (ingredients) → Binding (recipe) → Contract (what must be served) → Composition (how to plate it) → Format (what the plate looks like).**
+
+If prompt engineers stick to that, you’ll scale catalogs without devolving into chaos.

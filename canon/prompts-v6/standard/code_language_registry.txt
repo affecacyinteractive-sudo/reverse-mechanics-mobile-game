@@ -1,0 +1,42 @@
+CODE LANGUAGE REGISTRY (V1)
+Purpose: classify the PROGRAMMING LANGUAGE / SYNTAX family used in a patch segment’s CODE chunk.
+Used by: code_profile_selector (language axis) + code_language_deltas (language deltas).
+
+LANGUAGE PROFILES (stable IDs)
+- PYTHON      (.py)
+- JAVASCRIPT  (.js, .mjs, .cjs)
+- TYPESCRIPT  (.ts, .tsx)
+- JAVA        (.java)
+- CSHARP      (.cs)
+- GO          (.go)
+- RUST        (.rs)
+- CPP         (.cpp, .cc, .cxx, .hpp, .hh, .hxx)
+- C           (.c, .h)
+- PHP         (.php)
+- KOTLIN      (.kt, .kts)
+- SWIFT       (.swift)
+- RUBY        (.rb)
+- SQL         (.sql)
+- SHELL       (.sh, .bash, .zsh)
+
+PRIMARY IDENTIFICATION (hard preference)
+1) File extension in Packets.title (best signal)
+2) Language-specific token cues in the snippet body (fallback)
+3) If still unknown:
+   - default_language = TYPESCRIPT (recommended if your product’s common examples skew TS/JS)
+   - OR default_language = DEFAULT (if you prefer “unknown” explicit handling)
+
+TOKEN CUE FALLBACKS (examples)
+- PYTHON: "def ", "import ", "from ", ":" indentation patterns
+- JAVA: "package ", "public class", "implements", "extends"
+- CSHARP: "using ", "namespace ", "public class", "Task<"
+- GO: "package ", "func ", ":=", "err != nil"
+- RUST: "fn ", "let ", "Result<", "match "
+- PHP: "<?php", "function ", "$"
+- RUBY: "def ", "end", "require "
+- SQL: "SELECT", "WITH", "INSERT", "UPDATE", "DELETE"
+- SHELL: "#!/bin/", "set -e", pipes, env var expansions like "$VAR"
+
+NOTES
+- Language selection is per patch segment (not per action).
+- JSON/YAML/TOML are treated as CONFIG_STRUCTURED domain. If you later want them as language IDs, add YAML/JSON/TOML here.
