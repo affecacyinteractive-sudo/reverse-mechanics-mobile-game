@@ -1,0 +1,51 @@
+===== BEGIN: abstraction/FA-12.txt =====
+===== FA-12 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+INPUT GRAMMAR *(Pattern Lineage / where it sits)*
+### Pro prose (same core + action-specific INPUT blanks)
+
+
+**Required INPUT blanks (4)**
+- **[Primary Pattern : Targets]** — the pattern you’re placing (the one you want to make choosable).
+- **[Placement Intent : Intent]** — why you’re placing it (choose correctly, compare options, teach the pattern family).
+- **[Sibling Evidence : Packets]** — snippets that show how this pattern and its near-siblings manifest (seams, shapes, costs).
+- **[Tradeoff Notes : Chronicle]** — observed wins/losses, confusions, “this works when…” and “this fails when…” notes.
+
+
+WHAT TO PRODUCE (contract)
+Produce ONE Pattern Lineage placement that makes the pattern choosable:
+- **Parent Frame:** 1 sentence describing the broader family it belongs to.
+- **Sibling Alternatives:** 2–3 nearby patterns that solve the same problem differently.
+- **Tradeoff Axis:** the single dimension that separates the primary from siblings.
+- **Contrast Note (optional):** one sentence sharpening the distinction.
+- **Selection Heuristic:** “pick this when…” guidance (1–2 sentences).
+- **Misfit Warning:** “avoid when…” guidance (1 sentence).
+- **Child Specializations (optional):** 1–2 specializations tied to the same tradeoff axis.
+- **Closure Check:** one sentence confirming you picked the right pattern vs siblings.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Parent Frame
+- Sibling Alternatives
+- Tradeoff Axis
+- Contrast Note (optional)
+- Selection Heuristic
+- Misfit Warning
+- Child Specializations (optional)
+- Closure Check
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   abstraction/FA-12.txt =====

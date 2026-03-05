@@ -1,0 +1,46 @@
+===== BEGIN: planning/FP-08.txt =====
+===== FP-08 =====
+Name: Tripwires (early failure alarms)
+School: FP (Feature Planning)
+Subtype: FP:fp_tripwires
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+Input Grammar *(Tripwires / early failure alarms)*
+### Pro prose (same core + action-specific INPUT blanks)
+
+
+**Required INPUT blanks (4)**
+- **[Subject / Slice : Targets]** — the scope you’re guarding.
+- **[Protected Truth : Intent]** — the truth you’re protecting (North Star / Done Receipt / Scope Fence).
+- **[Failure Memories : Chronicle]** — past failures, known drift patterns, “what usually goes wrong” notes.
+- **[Risk Surfaces : Packets]** — code areas where complexity/coupling/scope creep tends to pile up.
+
+
+WHAT TO PRODUCE (contract)
+Produce a Tripwires set that warns early and changes behavior:
+1) What This Protects: one sentence naming the reference truth being protected (North Star / Done Receipt / Scope Fence).
+2) Tripwire Signals: 4–8 concrete “if you see X, that’s a red flag” statements. Group loosely if helpful (drift/complexity/coupling/quality), but keep each signal crisp.
+3) Recovery Moves: for the set (or per group), 2–5 “when a tripwire fires, do ___” moves. Must be practical and minimal.
+4) Tripwire Done Proof: one sentence confirming the set is sufficient (“these would change behavior if they fired”).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Protected Truth: what this set is protecting.
+- Tripwire Signals: early alarms (crisp, observable).
+- Recovery Moves: what to do when alarms fire.
+- Tripwire Done Proof: confirmation that the set is behavior-changing.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   planning/FP-08.txt =====

@@ -1,0 +1,55 @@
+===== BEGIN: abstraction/FA-02.txt =====
+===== FA-02 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+INPUT GRAMMAR *(Mechanism Model / “physics”)*
+### Pro prose (same core + action-specific INPUT blanks)
+
+
+**Required INPUT blanks (4)**
+- **[Subject / Slice : Targets]** — the slice where the mechanism lives (the system you’re abstracting).
+- **[Abstraction Intent : Intent]** — what you want the model to enable (predict behavior, explain rules, make reuse possible).
+- **[Rule Surfaces : Packets]** — snippets showing triggers, state reads/writes, branching logic, and where outcomes are decided.
+- **[Behavior Evidence : Chronicle]** — traces, recurring outcomes, “it always does X when Y” notes, surprising edge behavior.
+
+
+
+WHAT TO PRODUCE (contract)
+Produce ONE canonical mechanism model for the current slice — the smallest explanation that makes the behavior feel inevitable and reusable as a Concept Keystone. Across the full set of chunks, your model must capture:
+- **Mechanic Name:** a short, specific label for the single mechanism you are modeling (one mechanism per run).
+- **Responsibility Boundary:** what this mechanism owns vs refuses to own (plain language).
+- **Entry Triggers + Inputs:** what wakes it up and what it receives (events/calls/data), supported by provided inputs.
+- **State / Memory (optional):** what it remembers across invocations.
+- **Governing Rules:** 2–4 “physics-like” rules that determine behavior (include ordering/priority if it matters).
+- **Outputs / Side Effects:** what changes or becomes true because the mechanism ran (surface-visible or state-visible).
+- **Boundary Seams:** where this mechanism hands off to neighbors (touchpoints/seams only; do not expand into neighbor internals).
+- **Invariants (optional):** 1–2 non-negotiable truths that must remain true for the mechanism to stay coherent.
+- **Prediction Hook (optional):** one tight “if X then Y” implication that follows mechanically from the rules.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- **Mechanic Identity:** the single named mechanism being modeled (one mechanism per run).
+- **Responsibility Boundary:** what this mechanism owns vs refuses to own.
+- **Entry Triggers + Inputs:** what wakes it up and what it receives.
+- **State / Memory (optional):** what it retains across invocations.
+- **Governing Rules (2–4):** the “physics” that determine behavior.
+- **Outputs / Side Effects:** what changes or becomes true when the mechanism runs.
+- **Boundary Seams:** handoff touchpoints to neighbors.
+- **Invariants (optional):** 1–2 truths implied by the model.
+- **Prediction Hook (optional):** one tight implication that follows from the rules.
+- **Closure Check:** one sentence confirming this model is complete for this single mechanism.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   abstraction/FA-02.txt =====

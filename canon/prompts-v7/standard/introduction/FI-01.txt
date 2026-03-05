@@ -1,0 +1,49 @@
+===== BEGIN: introduction/FI-01.txt =====
+===== FI-01 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+Input Grammar
+### Pro prose (same core + action-specific INPUT blanks)
+
+
+**Required INPUT blanks (4)**
+
+* **[Feature Seed : Intent]** — the new capability in one line (title + promise).
+* **[Target Surface / Anchor : Targets]** — where it plugs into the existing system (the slice/area you’re extending).
+* **[Integration Clues : Packets]** — the specific code surfaces that reveal where and how to hook in (entry points, call sites, seams).
+* **[Constraint Notes : Chronicle]** — expectations and constraints you want respected (what must stay true, what users care about, known pitfalls).
+
+
+WHAT TO PRODUCE (contract)
+1) Now-true outcome (1 sentence): the simplest statement that becomes true after this slice exists.
+2) Slice Identity (name it): a short, stable name for the slice you’re introducing.
+3) Slice Promise (user-visible behavior): what changes for the user, in concrete terms.
+4) Entry Point / Contract: where the slice is invoked and what it accepts/returns/affects.
+5) Minimum Data/State: the smallest state/data you introduce (or reuse) to make it work.
+6) Integration Anchor: what existing surface it plugs into (only if grounded).
+7) Patch Segments (optional): 1–3 directional patch segments that implement the minimum coherent slice.
+8) Closure Check: one sentence confirming the promise holds (grounded in what you just produced).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories. Titles must be content-specific.
+- Slice Identity: the stable name and what “this slice” refers to.
+- Slice Promise: the concrete user-visible behavior change.
+- Entry Point / Contract: the invocation seam + contract shape.
+- Minimum Data/State: the minimum state/data introduced or reused.
+- Integration Anchor: where it plugs in (only if grounded).
+- Patch Segment(s) (optional): directional code edits/additions for the minimum slice.
+- Closure Check: confirm the now-true outcome.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- Never exceed global chunk limits; never exceed the global patch-segment budget.
+===== END:   introduction/FI-01.txt =====

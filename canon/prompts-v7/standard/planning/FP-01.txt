@@ -1,0 +1,51 @@
+===== BEGIN: planning/FP-01.txt =====
+===== FP-01 =====
+Name: North Star Charter
+School: FP (Feature Planning)
+Subtype: FP:fp_north_star
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+Input Grammar *(North Star Charter)*
+### Pro prose (same core + action-specific INPUT blanks)
+
+
+**Required INPUT blanks (4)**
+
+* **[Subject / Slice : Targets]** — the scope you’re steering (slice/feature/flow you’re deciding for).
+* **[North Star Outcome : Intent]** — the user-facing “this is what we want to make true” outcome.
+* **[Reality Anchors : Chronicle]** — user pain, current behavior, constraints, prior decisions that shape what “good” means.
+* **[Contract Touchpoints : Packets]** — code surfaces/contracts the North Star must align with (inputs/outputs/limits).
+
+---
+
+
+WHAT TO PRODUCE (contract)
+Produce a North Star Charter that makes later work judgeable:
+1) North Star Outcome: one sentence describing the single user-facing outcome the software must reliably deliver.
+2) Success Signal: one sentence stating how you’d know, inside the product, that the outcome is being achieved (software-observable signal, not metrics theater).
+3) Non-Goal Boundary: one sentence stating what this North Star explicitly is not trying to accomplish (prevents scope creep without creating new scope).
+4) Consistency Check (if a PRIMARY blueprint target exists): one sentence stating how this North Star stays compatible with that blueprint target (no contradictions).
+5) Closure Check: one sentence that a builder can use to confirm a proposed change actually serves the North Star (a decision test, not a plan).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- North Star Outcome: the single software-observable outcome statement.
+- Success Signal: the product-internal signal that indicates the outcome is being achieved.
+- Non-Goal Boundary: what this North Star is not trying to do.
+- Consistency Note (optional, A1 only): how it stays compatible with the supplied blueprint target.
+- Closure Check: the decision test for whether a change serves the North Star.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   planning/FP-01.txt =====

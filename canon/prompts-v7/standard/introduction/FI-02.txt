@@ -1,0 +1,47 @@
+===== BEGIN: introduction/FI-02.txt =====
+===== FI-02 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+Input Grammar
+### Pro prose (same core + action-specific INPUT blanks)
+
+
+**Required INPUT blanks (4)**
+
+* **[Defect : Intent]** — the problem stated plainly (what’s failing / what feels wrong).
+* **[Expected vs Actual : Chronicle]** — the observed mismatch (what happened vs what should’ve happened), captured from notes/logs/observations.
+* **[Trigger / Scenario : Chronicle]** — the smallest reproduction setup (“when I do X after Y…”).
+* **[Suspect Surfaces : Packets]** — the code slices that likely contain the cause (stack trace frames, conditional gates, handlers, recent diff region).
+* **[Symptom Trail : Chronicle]** — the breadcrumbs that explain why those surfaces are suspected (error text, logs, timing notes, “only happens when…” clues).
+
+
+WHAT TO PRODUCE (contract)
+1) Broken Symptom (trigger + mismatch): one sentence describing what action triggers the issue and what happens vs what should happen.
+2) Grounded Local Surface: identify the specific file/entity/region where the fix will occur (must be grounded).
+3) Minimal Cause Candidate: the smallest grounded explanation connecting the symptom to that surface (no invented traces; no multi-cause story).
+4) Patch Segment(s): 1–3 tiny, directional, local edits nearest to the symptom (paired TEXT framing + CODE); no refactor/redesign.
+5) Non-Regression Guard (optional): one sentence naming the closest coupled behavior that must not change.
+6) Closure Check: one short statement of what is now restored AND how to confirm it (mirror the symptom trigger; no blueprint progress).
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Symptom Snapshot: the broken behavior as trigger + expected vs actual.
+- Local Surface (grounded): where the fix will occur (file/entity/region).
+- Minimal Cause Candidate: the smallest grounded explanation for the symptom at that surface.
+- Patch Segment (repeatable): a small TEXT framing chunk + a paired CODE chunk implementing one local change; repeat only as needed (1–3 max).
+- Non-Regression Guard (optional): the nearest sibling behavior that must remain unchanged.
+- Closure Check: the now-restored behavior + minimal confirmation step (mirror the symptom trigger; no blueprint progress).
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- Never exceed global chunk limits; never exceed the global patch-segment budget.
+===== END:   introduction/FI-02.txt =====

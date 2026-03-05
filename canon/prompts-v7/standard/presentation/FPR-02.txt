@@ -1,0 +1,52 @@
+===== BEGIN: presentation/FPR-02.txt =====
+===== FPR-02 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+INPUT GRAMMAR *(Developer Walkthrough / how it works)*
+### Pro prose (same core + action-specific INPUT blanks)
+
+**Required INPUT blanks (4)**
+- **[Subject / Slice : Targets]** — the feature/flow you’re explaining to a developer.
+- **[Walkthrough Intent : Intent]** — what the walkthrough should accomplish (onboard, debug, extend safely, understand the seam).
+- **[Trail Markers : Packets]** — snippets showing where it lives and the key path (entry points, branches, state writes).
+- **[Confusion Notes : Chronicle]** — what confuses people, common mistakes, constraints, why it matters.
+
+
+WHAT TO PRODUCE (contract)
+Produce a developer walkthrough that makes the slice navigable and extendable:
+1) Highlight Frame: 1 sentence naming the one lever/idea that makes the slice make sense.
+2) Slice Identity: 1 sentence naming what the slice is for (plain language).
+3) Where It Lives / Boundary: 1 sentence pointing to where it lives (file/region/system surface) and what it owns vs doesn’t.
+4) Walkthrough Path: a short path (entry → key hop(s) → outcome) that a dev can follow.
+5) Key Touchpoints: 2–4 concrete “knobs” a dev would edit to extend behavior (surfaces, not vibes).
+6) Why These Knobs: 1 sentence explaining why those touchpoints are the right extension points.
+7) Safety Rail: 1 sentence stating what must not be casually broken (invariant/seam).
+8) Extension Hook (optional): 1 sentence naming one safe extension hook if it naturally exists.
+9) Closure Check: 1 sentence stating what a dev can now reliably predict/modify after reading.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Highlight Frame
+- Slice Identity
+- Where It Lives / Boundary
+- Walkthrough Path
+- Key Touchpoints
+- Why These Knobs
+- Safety Rail
+- Extension Hook (optional)
+- Closure Check
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   presentation/FPR-02.txt =====

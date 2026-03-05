@@ -1,0 +1,117 @@
+CODE LANGUAGE DELTAS (V1)
+Purpose: language-specific idioms/syntax constraints applied ON TOP OF:
+(1) global baseline, and (2) the selected DOMAIN delta.
+No baseline repetition here.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: PYTHON (delta)
+- Use 4-space indentation; keep blocks shallow.
+- Prefer explicit return values; avoid implicit “magic.”
+- Use snake_case for variables/functions.
+- If typing is visible in Packets, follow it; otherwise keep types minimal (don’t invent heavy typing).
+- Prefer f-strings for formatting.
+- Error handling: small try/except only when necessary; avoid broad except without reason.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: JAVASCRIPT (delta)
+- Use modern JS: const/let, arrow functions where appropriate, async/await over promise chains.
+- Do not add TypeScript types.
+- Prefer optional chaining / nullish coalescing when it reduces branching.
+- Follow module style implied by Packets (ESM vs CJS); if unknown, prefer ESM-style imports.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: TYPESCRIPT (delta)
+- Use modern TS: const/let, async/await.
+- Prefer explicit param/return types when it improves clarity; avoid `any`.
+- If a type is unknown, prefer narrow `unknown` + a small guard rather than inventing a complex type.
+- Follow existing project typing style if visible (interfaces vs type aliases).
+- Avoid adding new type-level abstractions unless the patch requires it.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: JAVA (delta)
+- Prefer a small method fragment or a minimal class fragment; avoid full class boilerplate.
+- Use explicit types (avoid “var” unless project style shows it).
+- Null handling: prefer simple guard checks; avoid introducing Optional unless already used.
+- Exceptions: throw/propagate minimally; don’t invent custom exception hierarchies.
+- Follow naming: lowerCamelCase methods/vars; UpperCamelCase classes.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: CSHARP (delta)
+- Prefer small method fragment; avoid full class/namespace boilerplate unless required.
+- Use `var` only if Packets show that style; otherwise explicit types for clarity.
+- Async: use async/await + Task when applicable; don’t invent complex pipelines.
+- Nullability: follow evidence; use simple guard clauses.
+- Exceptions: throw/return minimally; avoid new custom exception types.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: GO (delta)
+- Idiomatic error handling: `if err != nil { ... }` with early returns.
+- Keep functions small; avoid deep nesting.
+- Use short declarations `:=` where appropriate.
+- Prefer explicit structs/types only if needed; don’t add new packages/modules unless required.
+- Keep naming idiomatic (short but clear).
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: RUST (delta)
+- Prefer Result-based flow; use `?` for propagation when it reduces noise.
+- Avoid `unwrap()` / `expect()` unless Packets show that practice.
+- Keep ownership simple: borrow where possible; avoid introducing lifetimes explicitly unless required.
+- Use `match` / `if let` for enum handling when needed, but keep it compact.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: CPP (delta)
+- Prefer RAII; avoid raw new/delete in patches unless unavoidable.
+- Use `const` for values that shouldn’t mutate.
+- Prefer `std::` facilities over custom utilities unless Packets show otherwise.
+- Avoid template-heavy additions; keep the patch local and readable.
+- Minimize includes; only add if required by the change.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: C (delta)
+- Be explicit with memory and return codes; check failure paths when relevant.
+- Keep to C syntax (no C++ constructs).
+- Prefer small functions / local blocks; avoid macro-heavy changes.
+- If allocating, show the corresponding free only if the snippet naturally contains that scope.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: PHP (delta)
+- Use idiomatic PHP syntax; keep the fragment local (function/method block).
+- Prefer strict comparisons where reasonable (`===`).
+- Use null coalescing (`??`) for defaults when it reduces branching.
+- Avoid introducing frameworks/libraries unless evidenced.
+- Keep arrays/objects style consistent with Packets evidence.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: KOTLIN (delta)
+- Prefer `val` over `var` unless mutation is required.
+- Use Kotlin null-safety idioms (`?.`, `?:`, `let`) but keep it readable.
+- Prefer expression-style when concise; avoid nested chains that reduce clarity.
+- Don’t invent coroutine structure unless already used; if async exists, follow existing pattern.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: SWIFT (delta)
+- Prefer `let` over `var` unless mutation is required.
+- Use `guard` for early exits when it simplifies flow.
+- Handle optionals explicitly (`if let` / `guard let`) without over-chaining.
+- Avoid introducing new protocols/architectures unless evidenced.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: RUBY (delta)
+- Keep Ruby idioms: blocks, symbols, concise conditionals when readable.
+- Prefer guard clauses over deep nesting.
+- Avoid metaprogramming; keep patch explicit.
+- Follow existing style (Rails-y vs plain Ruby) if Packets evidence it.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: SQL (delta)
+- Use clear indentation; keep keywords consistent (prefer uppercase if no project style shown).
+- Prefer explicit column lists where possible.
+- Parameter placeholders: follow evidence; if unknown, use `?` placeholders.
+- Keep to one cohesive query/update block; avoid multi-query scripts in one snippet.
+
+──────────────────────────────────────────────────────────────────────────────
+LANGUAGE: SHELL (delta)
+- Prefer POSIX/Bash-safe patterns; quote variables (`"$VAR"`) unless deliberate word-splitting is required.
+- Use explicit exit behavior; avoid interactive prompts.
+- Keep commands simple and composable; avoid complex one-liners when readability suffers.
+- Follow evidence for bash vs sh; if unknown, write bash-compatible but minimal.

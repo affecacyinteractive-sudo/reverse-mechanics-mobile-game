@@ -1,0 +1,47 @@
+===== BEGIN: understanding/FU-06.txt =====
+===== FU-06 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+Input Grammar *(Map the Current Mechanics)*
+### Pro prose (same core + action-specific INPUT blanks)
+
+
+**Required INPUT blanks (4)**
+
+* **[Surface / Flow : Targets]** — the specific thing you’re mapping (a flow, handler, component, endpoint).
+* **[Mechanics Intent : Intent]** — what you’re trying to understand (“what happens?”, “what must be true?”, “why does step 2 run?”, etc.).
+* **[Mechanics Evidence Slice : Packets]** — code surfaces that reveal dependencies, ordering, gates, and outputs.
+* **[Behavior Notes : Chronicle]** — observed behavior/logs/surprises that the map should explain (or reconcile).
+
+
+WHAT TO PRODUCE (contract)
+1) Surface Identity: the single surface/flow being explained (grounded) and what it is.
+2) Dependencies (inputs): the minimum upstream inputs it relies on (props/state/data/events), grounded.
+3) Priority Order (required): the order of operations that must happen for the flow to work, grounded in evidence.
+4) Effects (outputs): the minimum downstream effects it causes (state changes, UI changes, emitted events), grounded.
+5) Continuity (required): one sentence stating what this flow connects to (upstream trigger or downstream consumer), grounded.
+6) Invariant (optional): one rule that appears consistently true for this flow, only if directly evidenced.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Surface Identity: what surface/flow is being mapped (grounded).
+- Dependencies (inputs): what it relies on (minimum upstream inputs).
+- Priority Order: the sequence of steps that happen (mechanical, test-like).
+- Effects (outputs): what changes as a result (minimum downstream effects).
+- Continuity: what it connects to (upstream trigger and/or downstream consumer).
+- Invariant (optional): one consistent rule implied by evidence.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   understanding/FU-06.txt =====

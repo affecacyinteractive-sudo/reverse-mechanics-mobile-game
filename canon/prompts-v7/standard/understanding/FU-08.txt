@@ -1,0 +1,46 @@
+===== BEGIN: understanding/FU-08.txt =====
+===== FU-08 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+Input Grammar *(Find the Hidden Couplings)*
+### Pro prose (same core + action-specific INPUT blanks)
+
+
+**Required INPUT blanks (4)**
+
+* **[Surface A : Targets]** — the first surface in the pair (often the one you’re changing/investigating).
+* **[Surface B : Targets]** — the second surface that gets affected (often unexpectedly).
+* **[Wire Evidence : Packets]** — snippets showing shared state/events/selectors/config/assumptions (the “wire”).
+* **[Coupling Stories : Chronicle]** — “when I changed A, B broke” notes, regressions, observed break scenarios.
+
+WHAT TO PRODUCE (contract)
+1) Coupling Pair: name the two surfaces (or surface + dependency) that are coupled, grounded.
+2) Shared Hook (the coupling): the concrete shared thing that causes coupling (state field, selector, event, DOM handle, config key), grounded.
+3) Coupling Direction (optional): who depends on whom, only if evidenced (otherwise omit).
+4) Break Scenario: one sentence describing what breaks or changes unexpectedly if the shared hook is modified.
+5) Guard / Tripwire (optional): one observable signal that indicates the coupling has been violated, only if evidenced or directly implied by behavior.
+6) Closure Check: one short statement of how to confirm the coupling is real in practice (e.g., “change X → Y also changes”), grounded.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Coupling Pair: which two surfaces/dependencies are coupled (grounded).
+- Shared Hook: the concrete shared dependency that creates the coupling.
+- Break Scenario: what changes unexpectedly if the hook changes.
+- Coupling Direction (optional): who depends on whom (evidenced only).
+- Guard / Tripwire (optional): the signal that the coupling is violated (evidenced/strongly implied only).
+- Closure Check: a minimal way to validate the coupling in practice.
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   understanding/FU-08.txt =====

@@ -1,0 +1,51 @@
+===== BEGIN: abstraction/FA-03.txt =====
+===== FA-03 =====
+
+INPUTS (common schema + grammar-fill)
+- You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
+- You also receive input_grammar_fill for this action:
+  - which role blanks were filled,
+  - which input category each filled card came from,
+  - and the ids of the chosen items.
+- Use the filled roles as the primary run inputs.
+  - Required roles must dominate.
+  - Optional roles are quality boosters only (especially in Pro runs).
+
+INPUT GRAMMAR *(Interface Law Set / contract)*
+### Pro prose (same core + action-specific INPUT blanks)
+
+
+**Required INPUT blanks (4)**
+- **[Surface : Targets]** — the single interface/surface you’re contracting (endpoint, function, component API, service boundary).
+- **[Contract Intent : Intent]** — what you want the contract to achieve (stability, clarity, safe extension, interoperability).
+- **[Shape Evidence : Packets]** — snippets showing call sites, input/output shapes, edge handling, seam interactions.
+- **[Violation Notes : Chronicle]** — misuse patterns, common violations, regressions, “people expect X but it does Y” notes.
+
+
+WHAT TO PRODUCE (contract)
+Produce ONE Interface Law Set for the chosen surface. It must include:
+- **Surface Identity:** what this surface is (name + role in the system).
+- **Call Shape:** what it accepts (inputs/required fields/constraints).
+- **Receipt / Output Shape:** what it returns/emits (outputs/guarantees).
+- **Law Set:** 3–7 “must / must not / guarantees / requires” laws that define the contract.
+- **Failure Modes (optional):** 1–3 ways the contract breaks (error modes/misuse patterns), include only if useful.
+- **Boundary & Non-Goals:** what this surface explicitly does not promise or handle.
+- **Seam Touchpoints:** where this surface hands off to neighbors (2–4 touchpoints).
+- **Closure Check:** one sentence stating how you can tell the contract is being respected in practice.
+
+RECOMMENDED CHUNK BEAT CATEGORIES (guidance; not rigid slots)
+Your chunk set should broadly cover most of these categories (some can be merged if still clear and small). Titles must be content-specific.
+- Surface Identity
+- Call Shape
+- Receipt / Output Shape
+- Law Set
+- Failure Modes (optional)
+- Boundary & Non-Goals
+- Seam Touchpoints
+- Closure Check
+
+OUTPUT FORMAT (hard)
+- Emit JSON ONLY in the global output format (global-generative-actions-prompt).
+- This action is TEXT-only: patch_segments must be empty.
+- Never exceed global chunk limits.
+===== END:   abstraction/FA-03.txt =====
