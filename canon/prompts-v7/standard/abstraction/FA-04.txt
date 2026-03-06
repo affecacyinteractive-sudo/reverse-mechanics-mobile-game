@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(Pattern Boundary & Variants)*
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Define the boundary of **[Pattern Candidate : Targets]** for **[Boundary Intent : Intent]**, with **[Axis Evidence : Packets]** as the measuring stick and **[Variant Stories : Chronicle]** as the reality check.
 
 **Required INPUT blanks (4)**
 - **[Pattern Candidate : Targets]** — the pattern/mechanism you’re trying to define (the reusable “shape”).

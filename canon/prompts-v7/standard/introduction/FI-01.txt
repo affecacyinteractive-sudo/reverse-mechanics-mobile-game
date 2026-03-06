@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 Input Grammar
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Anchor [Feature Seed : Intent] onto [Target Surface / Anchor : Targets], selecting the smallest workable seam from [Integration Clues : Packets] and [Constraint Notes : Chronicle].
 
 **Required INPUT blanks (4)**
 

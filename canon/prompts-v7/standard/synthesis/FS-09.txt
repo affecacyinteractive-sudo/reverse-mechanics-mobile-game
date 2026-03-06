@@ -13,6 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(Missing Sibling / complete a family)*
 ### Pro prose (same core + action-specific INPUT blanks)
+Add the missing sibling to **[Family : Targets]** for **[Family Gap Intent : Intent]**, using **[Sibling Shape Evidence : Packets]** as shape truth and **[Gap Stories : Chronicle]** as motivation.
 
 **Required INPUT blanks (4)**
 - **[Family : Targets]** — the existing family you’re completing (the group the sibling should belong to).

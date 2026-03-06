@@ -13,6 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(Naming & Vocabulary Map)*
 ### Pro prose (same core + action-specific INPUT blanks)
+Unify vocabulary in **[Subject / Slice : Targets]** for **[Naming Intent : Intent]**, using **[Name Evidence : Packets]** as the canon source and **[Confusion Stories : Chronicle]** as the “why now” proof.
 
 **Required INPUT blanks (4)**
 - **[Subject / Slice : Targets]** — the area whose naming you’re standardizing.

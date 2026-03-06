@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 Input Grammar *(Edge / Boundary Probe)*
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Probe [Boundary Target : Targets] using [Probe Set : Intent], locating enforcement with [Boundary Clues : Packets] and holding conditions steady via [Setup Notes : Chronicle].
 
 **Required INPUT blanks (4)**
 

@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(Interface Law Set / contract)*
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Define the contract for **[Surface : Targets]** toward **[Contract Intent : Intent]**, pinning shapes with **[Shape Evidence : Packets]** and failure cases with **[Violation Notes : Chronicle]**.
 
 **Required INPUT blanks (4)**
 - **[Surface : Targets]** — the single interface/surface you’re contracting (endpoint, function, component API, service boundary).

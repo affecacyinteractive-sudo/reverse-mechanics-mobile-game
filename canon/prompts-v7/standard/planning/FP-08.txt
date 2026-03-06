@@ -16,7 +16,7 @@ INPUTS (common schema + grammar-fill)
 
 Input Grammar *(Tripwires / early failure alarms)*
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Install alarms for **[Subject / Slice : Targets]** guarding **[Protected Truth : Intent]**, grounded by **[Failure Memories : Chronicle]** and mapped onto **[Risk Surfaces : Packets]**.
 
 **Required INPUT blanks (4)**
 - **[Subject / Slice : Targets]** — the scope you’re guarding.

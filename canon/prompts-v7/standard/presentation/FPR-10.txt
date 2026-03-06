@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(User Journey Story / what it feels like)*
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Tell the story of using **[Subject / Slice : Targets]** toward **[Journey Intent : Intent]**, grounded by **[Touchpoint Evidence : Packets]** and validated by **[User Feel Notes : Chronicle]**.
 
 **Required INPUT blanks (4)**
 - **[Subject / Slice : Targets]** — the feature/flow the user is experiencing.

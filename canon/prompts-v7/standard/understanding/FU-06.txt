@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 Input Grammar *(Map the Current Mechanics)*
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Map dependencies inside [Surface / Flow : Targets] for [Mechanics Intent : Intent], citing [Mechanics Evidence Slice : Packets] and [Behavior Notes : Chronicle].
 
 **Required INPUT blanks (4)**
 

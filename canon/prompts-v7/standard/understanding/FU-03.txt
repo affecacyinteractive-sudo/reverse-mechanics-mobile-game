@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 Input Grammar *(Behavior Trace / watch it run)*
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Trace [One Flow : Targets] on [Trigger : Chronicle], using [Path Landmarks : Packets] to stay exact and [Run Conditions : Chronicle] to stay honest.
 
 **Required INPUT blanks (4)**
 

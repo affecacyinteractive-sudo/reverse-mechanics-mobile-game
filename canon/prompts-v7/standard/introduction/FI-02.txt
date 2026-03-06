@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 Input Grammar
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Fix [Defect : Intent] by locking the mismatch [Expected vs Actual : Chronicle], staging [Trigger / Scenario : Chronicle], then applying the smallest change near [Suspect Surfaces : Packets] verified by [Symptom Trail : Chronicle].
 
 **Required INPUT blanks (4)**
 

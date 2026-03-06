@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 Input Grammar *(Find the Hidden Couplings)*
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Find the coupling between [Surface A : Targets] and [Surface B : Targets], using [Wire Evidence : Packets] to locate the hook and [Coupling Stories : Chronicle] to prove impact.
 
 **Required INPUT blanks (4)**
 

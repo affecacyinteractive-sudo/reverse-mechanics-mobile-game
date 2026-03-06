@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(Pattern Lineage / where it sits)*
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Map where **[Primary Pattern : Targets]** fits for **[Placement Intent : Intent]**, anchored by **[Sibling Evidence : Packets]** and validated by **[Tradeoff Notes : Chronicle]**.
 
 **Required INPUT blanks (4)**
 - **[Primary Pattern : Targets]** — the pattern you’re placing (the one you want to make choosable).

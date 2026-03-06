@@ -13,6 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(Feature Extension / add one capability)*
 ### Pro prose (same core + action-specific INPUT blanks)
+Extend **[Extension Target : Targets]** by adding **[New Capability : Intent]**, using **[Hook Evidence : Packets]** to pick the seam and **[Behavior Fit Notes : Chronicle]** to keep it disciplined.
 
 **Required INPUT blanks (4)**
 - **[Extension Target : Targets]** — the existing slice/feature you’re extending (not rewriting).

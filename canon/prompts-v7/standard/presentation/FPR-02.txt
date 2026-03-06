@@ -13,6 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(Developer Walkthrough / how it works)*
 ### Pro prose (same core + action-specific INPUT blanks)
+Explain [Subject / Slice : Targets] for [Walkthrough Intent : Intent], using [Trail Markers : Packets] as the path and [Confusion Notes : Chronicle] as the “what trips people” filter.
 
 **Required INPUT blanks (4)**
 - **[Subject / Slice : Targets]** — the feature/flow you’re explaining to a developer.

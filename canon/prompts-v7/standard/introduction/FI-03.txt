@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 Input Grammar *(Rule Shift / Before → After)*
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Change the IF/THEN at [Decision Surface : Targets] to [After Rule : Intent], using [Rule Evidence Slice : Packets] as proof and [Case Notes : Chronicle] as real-world anchor.
 
 **Required INPUT blanks (4)**
 

@@ -13,6 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(Slice Boundary Card / what it owns)*
 ### Pro prose (same core + action-specific INPUT blanks)
+Define the boundary of **[Slice : Targets]** for **[Boundary Intent : Intent]**, grounding ownership in **[Ownership Evidence : Packets]** and motivation in **[Sprawl Stories : Chronicle]**.
 
 **Required INPUT blanks (4)**
 - **[Slice : Targets]** — the slice/feature boundary you’re defining.

@@ -13,6 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(Pattern Instance / instantiation)*
 ### Pro prose (same core + action-specific INPUT blanks)
+Instantiate the minimal workable instance of **[Source Pattern : Targets]** inside **[Destination Slice : Targets]**, anchored by **[Landing Evidence : Packets]** and **[Fit Notes : Chronicle]**.
 
 **Required INPUT blanks (4)**
 - **[Source Pattern : Targets]** — the abstraction/keystone you’re turning into something concrete.

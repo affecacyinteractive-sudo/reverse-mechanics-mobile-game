@@ -13,6 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(Seam Stitch / two-endpoint glue)*
 ### Pro prose (same core + action-specific INPUT blanks)
+Reconcile **[Primary Endpoint : Targets]** with **[Counterpart Endpoint : Targets]** by reading **[Endpoint Shape Evidence : Packets]** and enforcing **[Seam Behavior Notes : Chronicle]**.
 
 **Required INPUT blanks (4)**
 - **[Primary Endpoint : Targets]** — the first surface/flow in the seam (the one you’re extending or relying on).

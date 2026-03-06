@@ -13,7 +13,7 @@ INPUTS (common schema + grammar-fill)
 
 INPUT GRAMMAR *(Mechanism Model / “physics”)*
 ### Pro prose (same core + action-specific INPUT blanks)
-
+Model the mechanism in **[Subject / Slice : Targets]** for **[Abstraction Intent : Intent]**, grounded by **[Rule Surfaces : Packets]** and confirmed by **[Behavior Evidence : Chronicle]**.
 
 **Required INPUT blanks (4)**
 - **[Subject / Slice : Targets]** — the slice where the mechanism lives (the system you’re abstracting).
