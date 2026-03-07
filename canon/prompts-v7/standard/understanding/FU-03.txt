@@ -1,5 +1,4 @@
-===== BEGIN: understanding/FU-03.txt =====
-===== FU-03 =====
+
 
 INPUTS (common schema + grammar-fill)
 - You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
@@ -45,4 +44,3 @@ OUTPUT FORMAT (hard)
 - Emit JSON ONLY in the global output format (global-generative-actions-prompt).
 - This action is TEXT-only: patch_segments must be empty.
 - Never exceed global chunk limits.
-===== END:   understanding/FU-03.txt =====

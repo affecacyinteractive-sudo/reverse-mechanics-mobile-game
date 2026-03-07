@@ -1,8 +1,4 @@
-===== BEGIN: planning/FP-08.txt =====
-===== FP-08 =====
-Name: Tripwires (early failure alarms)
-School: FP (Feature Planning)
-Subtype: FP:fp_tripwires
+
 
 INPUTS (common schema + grammar-fill)
 - You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
@@ -43,4 +39,3 @@ OUTPUT FORMAT (hard)
 - Emit JSON ONLY in the global output format (global-generative-actions-prompt).
 - This action is TEXT-only: patch_segments must be empty.
 - Never exceed global chunk limits.
-===== END:   planning/FP-08.txt =====

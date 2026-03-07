@@ -1,5 +1,4 @@
-===== BEGIN: introduction/FI-02.txt =====
-===== FI-02 =====
+
 
 INPUTS (common schema + grammar-fill)
 - You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
@@ -44,4 +43,3 @@ Your chunk set should broadly cover most of these categories (some can be merged
 OUTPUT FORMAT (hard)
 - Emit JSON ONLY in the global output format (global-generative-actions-prompt).
 - Never exceed global chunk limits; never exceed the global patch-segment budget.
-===== END:   introduction/FI-02.txt =====

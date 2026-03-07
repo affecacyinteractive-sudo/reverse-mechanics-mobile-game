@@ -1,5 +1,4 @@
-===== BEGIN: abstraction/FA-04.txt =====
-===== FA-04 =====
+
 
 INPUTS (common schema + grammar-fill)
 - You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
@@ -20,9 +19,6 @@ Define the boundary of **[Pattern Candidate : Targets]** for **[Boundary Intent 
 - **[Boundary Intent : Intent]** — why you’re drawing the boundary (reuse, classification, variant planning, choosing the right tool).
 - **[Axis Evidence : Packets]** — snippets showing where the pattern’s axes show up (storage choice, ordering logic, sync/async, policy gates).
 - **[Variant Stories : Chronicle]** — “when we changed axis X, this broke/worked” notes that reveal the real boundary.
-
-
-
 
 WHAT TO PRODUCE (contract)
 Produce ONE Pattern Boundary & Variants map that lets a builder classify “still the same pattern” vs “not this pattern”:
@@ -48,4 +44,3 @@ OUTPUT FORMAT (hard)
 - Emit JSON ONLY in the global output format (global-generative-actions-prompt).
 - This action is TEXT-only: patch_segments must be empty.
 - Never exceed global chunk limits.
-===== END:   abstraction/FA-04.txt =====

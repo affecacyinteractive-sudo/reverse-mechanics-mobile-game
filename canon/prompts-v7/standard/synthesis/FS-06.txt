@@ -1,5 +1,4 @@
-===== BEGIN: synthesis/FS-06.txt =====
-===== FS-06 =====
+
 
 INPUTS (common schema + grammar-fill)
 - You receive four input arrays: Intent[], Targets[], Packets[], Chronicle[] (common global schema).
@@ -50,4 +49,3 @@ OUTPUT FORMAT (hard)
 - Emit JSON ONLY in the global output format (global-generative-actions-prompt).
 - Patch segments are allowed (1–3 max) and must obey the global patch-segment rules.
 - Never exceed global chunk limits or patch-segment budget.
-===== END:   synthesis/FS-06.txt =====
